@@ -8,14 +8,14 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>Swift函数式编程 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Functional Programming in Swift函数式编程介绍。版本：Swift 4.2, iOS 12, Xcode 10 在本部分中，您将介绍FP中的一些关键概念。许多讨论FP的论文都将不变状态和缺乏副作用视为FP的最重要方面，因此您将从这里开始。   不变性和副作用无论您首先学习哪种编程语言，您可能要学习的最初概念之一就是变量代表数据或状态。如果您退一步考虑一下这个想法，变量似">
+  <meta name="description" content="Functional Programming in Swift函数式编程介绍。版本：Swift 4.2, iOS 12, Xcode 10 在本部分中，您将介绍FP中的一些关键概念。许多讨论FP的论文都将不变状态和缺乏副作用视为FP的最重要方面，因此您将从这里开始。 不变性和副作用无论您首先学习哪种编程语言，您可能要学习的最初概念之一就是变量代表数据或状态。如果您退一步考虑一下这个想法，变量似乎很">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Swift函数式编程">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;06&#x2F;Swift%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Functional Programming in Swift函数式编程介绍。版本：Swift 4.2, iOS 12, Xcode 10 在本部分中，您将介绍FP中的一些关键概念。许多讨论FP的论文都将不变状态和缺乏副作用视为FP的最重要方面，因此您将从这里开始。   不变性和副作用无论您首先学习哪种编程语言，您可能要学习的最初概念之一就是变量代表数据或状态。如果您退一步考虑一下这个想法，变量似">
+<meta property="og:description" content="Functional Programming in Swift函数式编程介绍。版本：Swift 4.2, iOS 12, Xcode 10 在本部分中，您将介绍FP中的一些关键概念。许多讨论FP的论文都将不变状态和缺乏副作用视为FP的最重要方面，因此您将从这里开始。 不变性和副作用无论您首先学习哪种编程语言，您可能要学习的最初概念之一就是变量代表数据或状态。如果您退一步考虑一下这个想法，变量似乎很">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-12-07T04:54:58.577Z">
+<meta property="og:updated_time" content="2019-12-07T06:44:10.671Z">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -83,6 +83,8 @@
 				
 					<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
 		        
+					<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
+		        
 					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
 		        
 			</div>
@@ -121,6 +123,8 @@
 				<div class="social">
 					
 						<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
+			        
+						<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
 			        
 						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
 			        
@@ -172,8 +176,6 @@
       
         <h1 id="Functional-Programming-in-Swift"><a href="#Functional-Programming-in-Swift" class="headerlink" title="Functional Programming in Swift"></a>Functional Programming in Swift</h1><p>函数式编程介绍。版本：Swift 4.2, iOS 12, Xcode 10</p>
 <p>在本部分中，您将介绍FP中的一些关键概念。许多讨论FP的论文都将不变状态和缺乏副作用视为FP的最重要方面，因此您将从这里开始。</p>
-<!--全文-->
-
 <h2 id="不变性和副作用"><a href="#不变性和副作用" class="headerlink" title="不变性和副作用"></a>不变性和副作用</h2><p>无论您首先学习哪种编程语言，您可能要学习的最初概念之一就是变量代表数据或状态。如果您退一步考虑一下这个想法，变量似乎很奇怪。</p>
 <p>术语“变量”表示随程序运行而变化的数量。从数学角度考虑数量问题，您已将时间作为软件行为的关键参数。通过更改变量，可以创建可变状态。</p>
 <p>为了进行演示，请将以下代码添加到playground：</p>

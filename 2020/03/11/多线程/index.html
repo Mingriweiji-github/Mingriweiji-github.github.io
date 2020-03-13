@@ -5,10 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
 
   <meta name="description" content="1、你理解的多线程？并发和串行，同步和异步
-同步和异步的区别是否开辟新的线程，同步只能在当前线程执行任务，异步可以再新的线程执行任务
+同步和异步的区别: 是否开辟新的线程，同步只能在当前线程执行任务，异步可以再新的线程执行任务
 串行和并发的区别是任务执行的顺序，串行任务只能顺序执行，并发可以多个任务同时执行。
 
-‌
 2、iOS多线程有哪些？常用哪个？
 NSThread、GCD/NSOpera">
 
@@ -43,18 +42,15 @@ NSThread、GCD/NSOpera">
     </header>
 </article>
 <section id="post-body"><h2 id="1、你理解的多线程？并发和串行，同步和异步"><a href="#1、你理解的多线程？并发和串行，同步和异步" class="headerlink" title="1、你理解的多线程？并发和串行，同步和异步"></a>1、<strong>你理解的多线程？并发和串行，同步和异步</strong></h2><ul>
-<li><strong>同步和异步的区别是否开辟新的线程</strong>，同步只能在当前线程执行任务，异步可以再新的线程执行任务</li>
-<li><strong>串行和并发的区别是任务执行的顺序</strong>，串行任务只能顺序执行，并发可以多个任务同时执行。</li>
+<li>同步和异步的区别: 是否开辟新的线程，同步只能在当前线程执行任务，异步可以再新的线程执行任务</li>
+<li>串行和并发的区别是任务执行的顺序，串行任务只能顺序执行，并发可以多个任务同时执行。</li>
 </ul>
-<p>‌</p>
 <h2 id="2、iOS多线程有哪些？常用哪个？"><a href="#2、iOS多线程有哪些？常用哪个？" class="headerlink" title="2、iOS多线程有哪些？常用哪个？"></a>2、iOS多线程有哪些？常用哪个？</h2><ul>
 <li>NSThread、GCD/NSOperationQueue</li>
 <li>常用GCD/NSOperation</li>
 </ul>
 <p><img src="https://user-gold-cdn.xitu.io/2020/3/11/170c93945fd31377?w=1534&h=764&f=png&s=169325" alt="img"></p>
 <p>pthread NSThread GCD NSoperationEnter a caption for this image (optional)</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/1132062-5a455391ba12d4cf.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="img"></p>
-<p>image.pngEnter a caption for this image (optional)</p>
 <h2 id="GCD-的队列类型有哪些？"><a href="#GCD-的队列类型有哪些？" class="headerlink" title="GCD 的队列类型有哪些？"></a><strong>GCD 的队列类型有哪些？</strong></h2><h2 id="OperationQueue-和-GCD-的区别？"><a href="#OperationQueue-和-GCD-的区别？" class="headerlink" title="OperationQueue 和 GCD 的区别？"></a><strong>OperationQueue 和 GCD 的区别？</strong></h2><ol>
 <li>GCD是底层的C语言构成的API，而NSOperationQueue及相关对象是Objc的对象。在GCD中，在队列中执行的是由block构成的任务，这是一个轻量级的数据结构；而Operation作为一个对象，为我们提供了更多的选择；</li>
 <li>在NSOperationQueue中，我们可以随时取消已经设定要准备执行的任务(当然，已经开始的任务就无法阻止了)，而GCD没法停止已经加入queue的block(其实是有的，但需要许多复杂的代码)；</li>
@@ -110,103 +106,33 @@ NSThread、GCD/NSOpera">
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">os_unfair_lock</span></pre></td></tr></table></figure>
 
 
-
-
-
-
-
-<p>‌</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">OSSpinLock</span></pre></td></tr></table></figure>
 
-
-
-
-
-
-
-<p>‌</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">dispatch_semaphore</span></pre></td></tr></table></figure>
 
 
-
-
-
-
-
-<p>‌</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">pthread_mutex</span></pre></td></tr></table></figure>
 
-
-
-
-
-
-
-<p>‌</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">dispatch_queue(DISPATCH_QUEUE_SERIAL)</span></pre></td></tr></table></figure>
 
 
-
-
-
-
-
-<p>‌</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">NSLock</span></pre></td></tr></table></figure>
 
 
-
-
-
-
-
-<p>‌</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">NSCondition</span></pre></td></tr></table></figure>
 
 
-
-
-
-
-
-<p>‌</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">pthread_mutex(recursive)</span></pre></td></tr></table></figure>
 
 
-
-
-
-
-
-<p>‌</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">NSRecursiveLock</span></pre></td></tr></table></figure>
 
-
-
-
-
-
-
-<p>‌</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">NSConditionLock</span></pre></td></tr></table></figure>
 
-
-
-
-
-
-
-<p>‌</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">@synchronized</span></pre></td></tr></table></figure>
 
 
-
-
-
-
-
-<p>‌</p>
-<h2 id="如何实现多度单写？"><a href="#如何实现多度单写？" class="headerlink" title="如何实现多度单写？"></a><code>如何实现多度单写？</code></h2><p><strong>1、</strong><code>**pthread_rwlock**</code><strong>读写锁-等待锁的线程进入休眠</strong></p>
+<h2 id="如何实现多度单写？"><a href="#如何实现多度单写？" class="headerlink" title="如何实现多度单写？"></a><code>如何实现多度单写？</code></h2><p><strong>1、</strong><code>pthread_rwlock</code><strong>读写锁-等待锁的线程进入休眠</strong></p>
 <p><img src="https://user-gold-cdn.xitu.io/2020/3/6/170ab7a1980f8f16?w=830&h=956&f=png&s=318721" alt="img"></p>
 <p>pthread_rwlockEnter a caption for this image (optional)</p>
 <p>‌</p>
@@ -216,7 +142,6 @@ NSThread、GCD/NSOpera">
 <li>如果传入的是一个串行或是一个全局的并发队列，那这个函数便等同于dispatch_async函数的效果</li>
 </ul>
 <p><img src="https://user-gold-cdn.xitu.io/2020/3/6/170ab7b55ae20eaf?w=1966&h=674&f=png&s=176023" alt="img"></p>
-<p>dispatch_barrier_asyncEnter a caption for this image (optional)</p>
 </section>
     
 

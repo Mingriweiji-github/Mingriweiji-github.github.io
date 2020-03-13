@@ -29,8 +29,7 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
     
-<link rel="stylesheet" href="/css/prism.css" type="text/css">
-<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -466,7 +465,7 @@
 <h2 id="不变性和副作用"><a href="#不变性和副作用" class="headerlink" title="不变性和副作用"></a>不变性和副作用</h2><p>无论您首先学习哪种编程语言，您可能要学习的最初概念之一就是变量代表数据或状态。如果您退一步考虑一下这个想法，变量似乎很奇怪。</p>
 <p>术语“变量”表示随程序运行而变化的数量。从数学角度考虑数量问题，您已将时间作为软件行为的关键参数。通过更改变量，可以创建可变状态。</p>
 <p>为了进行演示，请将以下代码添加到playground：</p>
-<pre class="line-numbers language-Swift"><code class="language-Swift">var thing = 3
+<pre class=" language-Swift"><code class="language-Swift">var thing = 3
 //some stuff
 thing = 4
 
@@ -477,14 +476,14 @@ func superHero() {
 
 print("original state = \(thing)")
 superHero()
-print("mutated state = \(thing)")<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+print("mutated state = \(thing)")</code></pre>
 <p>神圣的神秘变化！为什么现在是5？这种变化称为副作用。函数superHero（）更改了一个甚至没有定义自己的变量。</p>
 <p>单独或在简单系统中，可变状态不一定是问题。将许多对象连接在一起时（例如在大型的面向对象的系统中）会出现问题。可变状态会使人难以理解变量具有什么值以及该值随时间的变化而产生头痛。</p>
 <p>例如，在为多线程系统编写代码时，如果两个或多个线程<strong>同时访问同一变量</strong>，则它们可能会<strong>无序地修改或访问它</strong>。这会导致意外的行为。<strong>这种意外行为包括竞态条件，死锁和许多其他问题。</strong></p>
 <p>试想一下，如果您可以编写状态永远不变的代码。并发系统中发生的所有问题都将消失。像这样工作的系统具有<strong>不变的状态</strong>，这意味着不允许状态在程序过程中进行更改。</p>
 <p>使用不可变数据的主要好处是，使用不可变数据的代码单元没有副作用。代码中的函数不会更改其自身之外的元素，并且在发生函数调用时不会出现怪异的效果。您的程序可以正常运行，因为没有副作用，您可以轻松重现其预期的效果。</p>
 <p>本教程从较高的层次介绍了FP，因此在实际情况下考虑这些概念会很有帮助。在这种情况下，假设您正在为游乐园构建应用程序，并且该游乐园的后端服务器通过REST API提供了行程数据。</p>
-<h2 id="创建Model"><a href="#创建Model" class="headerlink" title="创建Model"></a>创建Model</h2><pre class="line-numbers language-Swift"><code class="language-Swift">enum RideCategory: String {
+<h2 id="创建Model"><a href="#创建Model" class="headerlink" title="创建Model"></a>创建Model</h2><pre class=" language-Swift"><code class="language-Swift">enum RideCategory: String {
   case family
   case kids
   case thrill
@@ -499,8 +498,8 @@ struct Ride {
   let categories: Set<RideCategory>
   let waitTime: Minutes
 }
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="Create-some-data-using-that-model"><a href="#Create-some-data-using-that-model" class="headerlink" title="Create some data using that model"></a>Create some data using that model</h2><pre class="line-numbers language-Swift"><code class="language-Swift">let parkRides = [
+</code></pre>
+<h2 id="Create-some-data-using-that-model"><a href="#Create-some-data-using-that-model" class="headerlink" title="Create some data using that model"></a>Create some data using that model</h2><pre class=" language-Swift"><code class="language-Swift">let parkRides = [
           Ride(name: "R45",
                categories: [.family, .thrill, .water],
                waitTime: 45.0),
@@ -515,67 +514,67 @@ struct Ride {
           Ride(name: "R0",
                categories: [.family, .relaxing],
                waitTime: 0.0)
-        ]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+        ]</code></pre>
 <h2 id="FP-Filter-Map-Reduce"><a href="#FP-Filter-Map-Reduce" class="headerlink" title="FP: Filter Map Reduce"></a>FP: Filter Map Reduce</h2><p><strong>Most languages that support FP will have the functions filter, map &amp; reduce.</strong></p>
 <h3 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h3><blockquote>
 <p>Map是将输入Collection中的每个Element转换为新Element。</p>
 <p>使用map遍历一个集合，并对集合中的每个元素应用相同的操作。</p>
 <p> map函数返回一个数组，其中包含对每个元素的映射或转换函数的结果。</p>
 </blockquote>
-<h4 id="Map-on-array"><a href="#Map-on-array" class="headerlink" title="Map on array:"></a>Map on array:</h4><pre class="line-numbers language-Swift"><code class="language-Swift">let arrayOfInt = [1,2,3,4,5]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="Map-on-array"><a href="#Map-on-array" class="headerlink" title="Map on array:"></a>Map on array:</h4><pre class=" language-Swift"><code class="language-Swift">let arrayOfInt = [1,2,3,4,5]</code></pre>
 <p>如果我们要对每个元素乘上10呢？我们以前可能要这样</p>
-<pre class="line-numbers language-Swift"><code class="language-Swift">var newArr: [Int] = []
+<pre class=" language-Swift"><code class="language-Swift">var newArr: [Int] = []
 for value in arrayOfInt {
     newArr.append(value * 10)
 }
-print(newArr)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+print(newArr)</code></pre>
 <p>现在有map()后我们可以这样：</p>
-<pre class="line-numbers language-Swift"><code class="language-Swift">let mapArr = arrayOfInt.map { $0 * 10 }
-print(mapArr)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<pre class=" language-Swift"><code class="language-Swift">let mapArr = arrayOfInt.map { $0 * 10 }
+print(mapArr)</code></pre>
 <blockquote>
 <p>Working of map: The map function has a single argument which is a closure (a function) that it calls as it loops over the collection. This closure takes the element from the collection as an argument and returns a result. The map function returns these results in an array.</p>
 </blockquote>
-<h4 id="Map-on-Dictionary"><a href="#Map-on-Dictionary" class="headerlink" title="Map on Dictionary"></a>Map on Dictionary</h4><pre class="line-numbers language-Swift"><code class="language-Swift">let book = ["A": 100, "B": 80, "C": 90]
+<h4 id="Map-on-Dictionary"><a href="#Map-on-Dictionary" class="headerlink" title="Map on Dictionary"></a>Map on Dictionary</h4><pre class=" language-Swift"><code class="language-Swift">let book = ["A": 100, "B": 80, "C": 90]
 let mapedBook = book.map { (key, value) in
     key.capitalized
 }
 print(mapedBook) //["C", "B", "A"]
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="Map-on-Set"><a href="#Map-on-Set" class="headerlink" title="Map on Set"></a>Map on Set</h4><pre class="line-numbers language-Swift"><code class="language-Swift">let lengthInmeter: Set = [1,3,5]
+</code></pre>
+<h4 id="Map-on-Set"><a href="#Map-on-Set" class="headerlink" title="Map on Set"></a>Map on Set</h4><pre class=" language-Swift"><code class="language-Swift">let lengthInmeter: Set = [1,3,5]
 let km  = lengthInmeter.map { meter in meter * 1000 }
 print(km) // [1000, 5000, 3000]
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<h4 id="Map同时获取array-Index"><a href="#Map同时获取array-Index" class="headerlink" title="Map同时获取array.Index??"></a>Map同时获取array.Index??</h4><pre class="line-numbers language-Swift"><code class="language-Swift">let nums = [1,2,3,4,5]
+</code></pre>
+<h4 id="Map同时获取array-Index"><a href="#Map同时获取array-Index" class="headerlink" title="Map同时获取array.Index??"></a>Map同时获取array.Index??</h4><pre class=" language-Swift"><code class="language-Swift">let nums = [1,2,3,4,5]
 let newNums = nums.enumerated().map { (index, num) in
     return num * 10
 }
 print("newNums:\(newNums)")
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</code></pre>
 <h3 id="Filter"><a href="#Filter" class="headerlink" title="Filter"></a>Filter</h3><p>Filter函数的作用是过滤集合，返回符合条件的集合。</p>
-<h4 id="Filter-on-Array"><a href="#Filter-on-Array" class="headerlink" title="Filter on Array"></a>Filter on Array</h4><pre class="line-numbers language-Swift"><code class="language-Swift">let filterArray = [2,4,6,1,5,7]
+<h4 id="Filter-on-Array"><a href="#Filter-on-Array" class="headerlink" title="Filter on Array"></a>Filter on Array</h4><pre class=" language-Swift"><code class="language-Swift">let filterArray = [2,4,6,1,5,7]
 let newFilterArray = filterArray.filter { num -> Bool in
     num % 2 == 0
 }
-print(newFilterArray)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="Filter-on-Dictionary"><a href="#Filter-on-Dictionary" class="headerlink" title="Filter on Dictionary"></a>Filter on Dictionary</h4><pre class="line-numbers language-Swift"><code class="language-Swift">let book = ["A": 100, "B": 80, "C": 90]
+print(newFilterArray)</code></pre>
+<h4 id="Filter-on-Dictionary"><a href="#Filter-on-Dictionary" class="headerlink" title="Filter on Dictionary"></a>Filter on Dictionary</h4><pre class=" language-Swift"><code class="language-Swift">let book = ["A": 100, "B": 80, "C": 90]
 let bookFilter = book.filter { (key, value) in
     value > 80
 }
-print(bookFilter)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+print(bookFilter)</code></pre>
 <p><strong>简化</strong></p>
-<pre class="line-numbers language-Swift"><code class="language-Swift">let book = ["A": 100, "B": 80, "C": 90]
+<pre class=" language-Swift"><code class="language-Swift">let book = ["A": 100, "B": 80, "C": 90]
 let bookFilter = book.filter {
     $1 > 80
-}<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+}</code></pre>
 <blockquote>
 <p>$0是key</p>
 <p>$1是value</p>
 </blockquote>
-<h4 id="Filter-on-Set"><a href="#Filter-on-Set" class="headerlink" title="Filter on Set"></a>Filter on Set</h4><pre class="line-numbers language-Swift"><code class="language-Swift">let setNums = [4.9,5.5,8.6]
+<h4 id="Filter-on-Set"><a href="#Filter-on-Set" class="headerlink" title="Filter on Set"></a>Filter on Set</h4><pre class=" language-Swift"><code class="language-Swift">let setNums = [4.9,5.5,8.6]
 let newSet = setNums.filter {
     $0 > 5.0
 }
-print(newSet)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+print(newSet)</code></pre>
 <p><strong>重要：返回类型是数组</strong></p>
 <h3 id="Reduce"><a href="#Reduce" class="headerlink" title="Reduce"></a>Reduce</h3><blockquote>
 <p>Use <code>reduce</code> to combine all items in a collection to create a single new value.</p>
@@ -584,37 +583,37 @@ print(newSet)<span aria-hidden="true" class="line-numbers-rows"><span></span><sp
 <p>使用<em>reduce</em>可以合并集合中的所有元素来创建一个新的value</p>
 </blockquote>
 <p>Apple文档声明reduce()</p>
-<pre class="line-numbers language-Swift"><code class="language-Swift">func reduce<Result>(_ initialResult: Result, _ nextPartialResult: (Result, Element) throws -> Result) rethrows -> Result<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class=" language-Swift"><code class="language-Swift">func reduce<Result>(_ initialResult: Result, _ nextPartialResult: (Result, Element) throws -> Result) rethrows -> Result</code></pre>
 <p><strong>reduce</strong>函数有两个参数：</p>
 <ul>
 <li>第一个参数 <strong>initial value</strong>用来存储初始值或者结果（每次迭代器的结果）</li>
 <li>第二个是带有两个参数的闭包，Result是初始值或迭代器的结果，Element是集合中的下一个元素。</li>
 </ul>
-<h4 id="Reduce-on-Array"><a href="#Reduce-on-Array" class="headerlink" title="Reduce on Array"></a>Reduce on Array</h4><pre class="line-numbers language-Swift"><code class="language-Swift">let numbers = [1,2,3,4,5,6]
+<h4 id="Reduce-on-Array"><a href="#Reduce-on-Array" class="headerlink" title="Reduce on Array"></a>Reduce on Array</h4><pre class=" language-Swift"><code class="language-Swift">let numbers = [1,2,3,4,5,6]
 let sum = numbers.reduce(0) { x, y in
     x + y
 }
-print(sum)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+print(sum)</code></pre>
 <p>简化版本：使用$0代表result</p>
-<pre class="line-numbers language-Swift"><code class="language-Swift">let reducedSum = numbers.reduce(0) { $0 + $1 }
+<pre class=" language-Swift"><code class="language-Swift">let reducedSum = numbers.reduce(0) { $0 + $1 }
 print(reducedSum)
 ///等价
 let reducedSum = numbers.reduce(0, +)
 print(reducedSum)
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</code></pre>
 <p>乘法</p>
-<pre class="line-numbers language-Swift"><code class="language-Swift">let produceNum = numbers.reduce(1) { x, y in
+<pre class=" language-Swift"><code class="language-Swift">let produceNum = numbers.reduce(1) { x, y in
     x * y
 }
 print(produceNum)
 ///等价
 let produceNum = numbers.reduce(1, *)
 print(produceNum)
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="Reduce-连接字符串"><a href="#Reduce-连接字符串" class="headerlink" title="Reduce + 连接字符串"></a>Reduce + 连接字符串</h4><pre class="line-numbers language-Swift"><code class="language-Swift">let charactors = ["abc","def","hijk"]
+</code></pre>
+<h4 id="Reduce-连接字符串"><a href="#Reduce-连接字符串" class="headerlink" title="Reduce + 连接字符串"></a>Reduce + 连接字符串</h4><pre class=" language-Swift"><code class="language-Swift">let charactors = ["abc","def","hijk"]
 let newCharactor = charactors.reduce("", +)
-print(newCharactor) // abcdefhijk<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<h4 id="Reduce-on-Dictionary"><a href="#Reduce-on-Dictionary" class="headerlink" title="Reduce on Dictionary"></a>Reduce on Dictionary</h4><pre class="line-numbers language-Swift"><code class="language-Swift">
+print(newCharactor) // abcdefhijk</code></pre>
+<h4 id="Reduce-on-Dictionary"><a href="#Reduce-on-Dictionary" class="headerlink" title="Reduce on Dictionary"></a>Reduce on Dictionary</h4><pre class=" language-Swift"><code class="language-Swift">
 let dict = ["A": 20, "B": 100]
 
 // Reduce on value
@@ -630,23 +629,23 @@ let reducedName = dict.reduce("Charactor are ") { (result, dic) in
 }
 print("reduce on key is <\(reducedName)>") 
 //reduce on key is <Charactor are A B >
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</code></pre>
 <p>简化</p>
-<pre class="line-numbers language-Swift"><code class="language-Swift">
+<pre class=" language-Swift"><code class="language-Swift">
 let reducedNameOnDic = dict.reduce("Charater are ") { $0 + $1.key + " "}
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<h4 id="Reduce-on-Set"><a href="#Reduce-on-Set" class="headerlink" title="Reduce on Set"></a>Reduce on Set</h4><pre class="line-numbers language-Swift"><code class="language-Swift">// Reduce on Set
+</code></pre>
+<h4 id="Reduce-on-Set"><a href="#Reduce-on-Set" class="headerlink" title="Reduce on Set"></a>Reduce on Set</h4><pre class=" language-Swift"><code class="language-Swift">// Reduce on Set
 let lengthMeters = [3.4,1.6]
 let reducedMeters = lengthMeters.reduce(0.0) {
     $0 + $1
 }
-print("reduced meters :\(reducedMeters)") // 5.0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+print("reduced meters :\(reducedMeters)") // 5.0</code></pre>
 <h2 id="FlatMap"><a href="#FlatMap" class="headerlink" title="FlatMap"></a>FlatMap</h2><p>Flatmap is used to flatten a collection of collections . But before flattening the collection, we can apply map to each elements.</p>
 <blockquote>
 <p><strong>Apple docs says</strong>: Returns an array containing the concatenated results of calling the given transformation with each element of this sequence.</p>
 </blockquote>
 <p>Flatmap用于展平集合的集合。 但是在展平集合之前，我们可以将map应用于每个集合元素。</p>
-<pre class="line-numbers language-Swift"><code class="language-Swift">let charaters = ["abc","def","ghi"]
+<pre class=" language-Swift"><code class="language-Swift">let charaters = ["abc","def","ghi"]
 let newCharaters = charaters.flatMap { $0 }
 print(newCharaters)
 //["a", "b", "c", "d", "e", "f", "g", "h", "i"]
@@ -655,11 +654,11 @@ let codes = [["abc","def","ghi"], ["jkl","mno","pqr"],["stu","vwx","yz"] ]
 let newCodes = codes.flatMap {$0.map { $0 } }
 print(newCodes)
 // ["abc", "def", "ghi", "jkl", "mno", "pqr", "stu", "vwx", "yz"]
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="nil"><a href="#nil" class="headerlink" title="nil"></a>nil</h4><pre class="line-numbers language-Swift"><code class="language-Swift">let nilArray = [2,3,nil]
+</code></pre>
+<h4 id="nil"><a href="#nil" class="headerlink" title="nil"></a>nil</h4><pre class=" language-Swift"><code class="language-Swift">let nilArray = [2,3,nil]
 print(nilArray.flatMap { $0 }) // [2,3]
 // warning: 'flatMap' is deprecated: Please use compactMap(_:) for the case where closure returns an optional value
-print(nilArray.compactMap { $0 }) // [2,3]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+print(nilArray.compactMap { $0 }) // [2,3]</code></pre>
 
             </div>
             <hr/>

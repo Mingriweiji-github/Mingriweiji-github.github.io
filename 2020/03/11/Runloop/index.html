@@ -68,13 +68,13 @@ GCD、AutoreleasePool
 <li><strong>observers: 监听runloop的状态/autoreleasePool的创建和释放、UI的刷新</strong></li>
 </ul>
 <p><img src="https://user-gold-cdn.xitu.io/2020/3/5/170a9f4968fe6f59?w=1012&h=858&f=png&s=146946" alt="img"></p>
-<h2 id="23-runloop和线程的关系？"><a href="#23-runloop和线程的关系？" class="headerlink" title="23.runloop和线程的关系？"></a>23.runloop和线程的关系？</h2><ul>
+<h2 id="3-runloop和线程的关系？"><a href="#3-runloop和线程的关系？" class="headerlink" title="3.runloop和线程的关系？"></a>3.runloop和线程的关系？</h2><ul>
 <li>一一对应</li>
 <li>保存在一个全局字典中，线程是key, runloop是value</li>
 <li>子线程默认没有runloop，在第一次获取runloop时才会创建。</li>
 <li>runloop在线程结束时销毁</li>
 </ul>
-<h2 id="24-timer-与-runloop-的关系？"><a href="#24-timer-与-runloop-的关系？" class="headerlink" title="24.timer 与 runloop 的关系？"></a>24.timer 与 runloop 的关系？</h2><h2 id="程序中添加每3秒响应一次的NSTimer，当拖动tableview时timer可能无法响应要怎么解决？"><a href="#程序中添加每3秒响应一次的NSTimer，当拖动tableview时timer可能无法响应要怎么解决？" class="headerlink" title="程序中添加每3秒响应一次的NSTimer，当拖动tableview时timer可能无法响应要怎么解决？"></a>程序中添加每3秒响应一次的NSTimer，当拖动tableview时timer可能无法响应要怎么解决？</h2><h2 id="25-runloop-是怎么响应用户操作的，-具体流程是什么样的？"><a href="#25-runloop-是怎么响应用户操作的，-具体流程是什么样的？" class="headerlink" title="25.runloop 是怎么响应用户操作的， 具体流程是什么样的？"></a>25.runloop 是怎么响应用户操作的， 具体流程是什么样的？</h2><h2 id="26-说说runLoop的几种状态"><a href="#26-说说runLoop的几种状态" class="headerlink" title="26.说说runLoop的几种状态"></a>26.说说runLoop的几种状态</h2><h2 id="27-runloop的mode作用是什么？"><a href="#27-runloop的mode作用是什么？" class="headerlink" title="27.runloop的mode作用是什么？"></a>27.runloop的mode作用是什么？</h2><ul>
+<h2 id="4-timer-与-runloop-的关系？"><a href="#4-timer-与-runloop-的关系？" class="headerlink" title="4.timer 与 runloop 的关系？"></a>4.timer 与 runloop 的关系？</h2><h2 id="程序中添加每3秒响应一次的NSTimer，当拖动tableview时timer可能无法响应要怎么解决？"><a href="#程序中添加每3秒响应一次的NSTimer，当拖动tableview时timer可能无法响应要怎么解决？" class="headerlink" title="程序中添加每3秒响应一次的NSTimer，当拖动tableview时timer可能无法响应要怎么解决？"></a>程序中添加每3秒响应一次的NSTimer，当拖动tableview时timer可能无法响应要怎么解决？</h2><h2 id="5-runloop-是怎么响应用户操作的，-具体流程是什么样的？"><a href="#5-runloop-是怎么响应用户操作的，-具体流程是什么样的？" class="headerlink" title="5.runloop 是怎么响应用户操作的， 具体流程是什么样的？"></a>5.runloop 是怎么响应用户操作的， 具体流程是什么样的？</h2><h2 id="6-说说runLoop的几种状态"><a href="#6-说说runLoop的几种状态" class="headerlink" title="6.说说runLoop的几种状态"></a>6.说说runLoop的几种状态</h2><h2 id="7-runloop的mode作用是什么？"><a href="#7-runloop的mode作用是什么？" class="headerlink" title="7.runloop的mode作用是什么？"></a>7.runloop的mode作用是什么？</h2><ul>
 <li><p>CFRunLoopModeRef代表<strong>RunLoop的运行模式</strong></p>
 </li>
 <li><p>一个RunLoop包含若干个Mode，每个Mode又包含若干个Source0/Source1/Timer/Observer</p>
@@ -88,7 +88,7 @@ GCD、AutoreleasePool
 <li><p><strong>如果Mode里没有任何Source0/Source1/Timer/Observer，RunLoop会立马退出</strong></p>
 </li>
 </ul>
-<h2 id="28-KVO实现原理-哪些情况下使用kvo会崩溃，怎么防护崩溃"><a href="#28-KVO实现原理-哪些情况下使用kvo会崩溃，怎么防护崩溃" class="headerlink" title="28.KVO实现原理?哪些情况下使用kvo会崩溃，怎么防护崩溃?"></a>28.KVO实现原理?哪些情况下使用kvo会崩溃，怎么防护崩溃?</h2><h2 id="29-如何手动关闭KVO-如何手动自己实现KVO说说思路"><a href="#29-如何手动关闭KVO-如何手动自己实现KVO说说思路" class="headerlink" title="29.如何手动关闭KVO?如何手动自己实现KVO说说思路"></a>29.如何手动关闭KVO?如何手动自己实现KVO说说思路</h2><h2 id="30-通过KVC修改属性会触发KVO么"><a href="#30-通过KVC修改属性会触发KVO么" class="headerlink" title="30.通过KVC修改属性会触发KVO么"></a>30.通过KVC修改属性会触发KVO么</h2></section>
+<h2 id="8-KVO实现原理-哪些情况下使用kvo会崩溃，怎么防护崩溃"><a href="#8-KVO实现原理-哪些情况下使用kvo会崩溃，怎么防护崩溃" class="headerlink" title="8.KVO实现原理?哪些情况下使用kvo会崩溃，怎么防护崩溃?"></a>8.KVO实现原理?哪些情况下使用kvo会崩溃，怎么防护崩溃?</h2><h2 id="9-如何手动关闭KVO-如何手动自己实现KVO说说思路"><a href="#9-如何手动关闭KVO-如何手动自己实现KVO说说思路" class="headerlink" title="9.如何手动关闭KVO?如何手动自己实现KVO说说思路"></a>9.如何手动关闭KVO?如何手动自己实现KVO说说思路</h2><h2 id="10-通过KVC修改属性会触发KVO么"><a href="#10-通过KVC修改属性会触发KVO么" class="headerlink" title="10.通过KVC修改属性会触发KVO么"></a>10.通过KVC修改属性会触发KVO么</h2></section>
     
 
     <footer id="post-meta" class="clearfix">

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Mingriweiji-github</title>
+  
+  <subtitle>iOS &amp; Swifter</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://mingriweiji-github.github.io/"/>
+  <updated>2020-03-13T17:26:08.484Z</updated>
+  <id>https://mingriweiji-github.github.io/</id>
+  
+  <author>
+    <name>KM</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Runloop</title>
+    <link href="https://mingriweiji-github.github.io/2020/03/11/Runloop/"/>
+    <id>https://mingriweiji-github.github.io/2020/03/11/Runloop/</id>
+    <published>2020-03-11T13:16:28.012Z</published>
+    <updated>2020-03-13T17:26:08.484Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;Runloop&quot;&gt;&lt;a href=&quot;#Runloop&quot; class=&quot;headerlink&quot; title=&quot;Runloop&quot;&gt;&lt;/a&gt;Runloop&lt;/h1&gt;&lt;h2 id=&quot;1-讲讲-RunLoop，项目中有用到吗？&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>多线程</title>
+    <link href="https://mingriweiji-github.github.io/2020/03/11/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+    <id>https://mingriweiji-github.github.io/2020/03/11/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</id>
+    <published>2020-03-11T12:34:15.299Z</published>
+    <updated>2020-03-13T16:52:21.755Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;1、你理解的多线程？并发和串行，同步和异步&quot;&gt;&lt;a href=&quot;#1、你理解的多线程？并发和串行，同步和异步&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Swift备忘录</title>
+    <link href="https://mingriweiji-github.github.io/2019/12/07/Swift%E5%A4%87%E5%BF%98%E5%BD%95/"/>
+    <id>https://mingriweiji-github.github.io/2019/12/07/Swift%E5%A4%87%E5%BF%98%E5%BD%95/</id>
+    <published>2019-12-07T04:48:29.505Z</published>
+    <updated>2020-03-13T19:45:23.130Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;SwiftTip&quot;&gt;&lt;a href=&quot;#SwiftTip&quot; class=&quot;headerlink&quot; title=&quot;SwiftTip&quot;&gt;&lt;/a&gt;SwiftTip&lt;/h1&gt;
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Swift函数式编程</title>
+    <link href="https://mingriweiji-github.github.io/2019/12/06/Swift%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/"/>
+    <id>https://mingriweiji-github.github.io/2019/12/06/Swift%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/</id>
+    <published>2019-12-06T01:36:47.815Z</published>
+    <updated>2019-12-07T06:45:58.692Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Functional-Programming-in-Swift&quot;&gt;&lt;a href=&quot;#Functional-Programming-in-Swift&quot; class=&quot;headerlink&quot; title=&quot;Functional Programming in Swift&quot;&gt;&lt;/a&gt;Functional Programming in Swift&lt;/h1&gt;&lt;p&gt;函数式编程介绍。版本：Swift 4.2, iOS 12, Xcode 10&lt;/p&gt;
+&lt;p&gt;在本部分中，您将介绍FP中的一些关键概念。许多讨论FP的论文都将不变状态和缺乏副作用视为FP的最重要方面，因此您将从这里开始。&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+</feed>

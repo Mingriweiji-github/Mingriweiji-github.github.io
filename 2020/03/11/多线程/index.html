@@ -466,8 +466,7 @@
 <li>NSThread、GCD/NSOperationQueue</li>
 <li>常用GCD/NSOperation</li>
 </ul>
-<p><img src="https://user-gold-cdn.xitu.io/2020/3/11/170c93945fd31377?w=1534&h=764&f=png&s=169325" alt="img"></p>
-<p>pthread NSThread GCD NSoperationEnter a caption for this image (optional)</p>
+<p><img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200314043637.png" alt="pthread NSThread GCD NSoperatio"></p>
 <h2 id="GCD-的队列类型有哪些？"><a href="#GCD-的队列类型有哪些？" class="headerlink" title="GCD 的队列类型有哪些？"></a><strong>GCD 的队列类型有哪些？</strong></h2><h2 id="OperationQueue-和-GCD-的区别？"><a href="#OperationQueue-和-GCD-的区别？" class="headerlink" title="OperationQueue 和 GCD 的区别？"></a><strong>OperationQueue 和 GCD 的区别？</strong></h2><ol>
 <li>GCD是底层的C语言构成的API，而NSOperationQueue及相关对象是Objc的对象。在GCD中，在队列中执行的是由block构成的任务，这是一个轻量级的数据结构；而Operation作为一个对象，为我们提供了更多的选择；</li>
 <li>在NSOperationQueue中，我们可以随时取消已经设定要准备执行的任务(当然，已经开始的任务就无法阻止了)，而GCD没法停止已经加入queue的block(其实是有的，但需要许多复杂的代码)；</li>

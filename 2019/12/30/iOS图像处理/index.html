@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Swift备忘录, 明日危机">
+    <meta name="keywords" content="iOS图像处理, 明日危机">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Swift备忘录 | 明日危机</title>
+    <title>iOS图像处理 | 明日危机</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -307,12 +307,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Swift备忘录</h1>
+                    <h1 class="description center-align post-title">iOS图像处理</h1>
                 </div>
             </div>
         </div>
@@ -441,7 +441,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-12-07
+                    2019-12-30
                 </div>
                 
 
@@ -458,175 +458,145 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="SwiftTip"><a href="#SwiftTip" class="headerlink" title="SwiftTip"></a>SwiftTip</h1><a id="more"></a>
+                <h1 id="iOS图像优化技巧"><a href="#iOS图像优化技巧" class="headerlink" title="iOS图像优化技巧"></a><a href="https://swift.gg/2019/11/01/image-resizing/" target="_blank" rel="noopener">iOS图像优化技巧</a></h1><h2 id="图像渲染优化的时机和理由"><a href="#图像渲染优化的时机和理由" class="headerlink" title="图像渲染优化的时机和理由"></a>图像渲染优化的时机和理由</h2><p>在开始之前，让我们先讨论一下<em>为什么</em>需要对图像进行渲染优化。毕竟，<code>UIImageView</code> 会自动根据 <a href="https://developer.apple.com/documentation/uikit/uiview/1622619-contentmode" target="_blank" rel="noopener"><code>contentmode</code> 属性</a> 规定的行为缩放和裁剪图像。在绝大多数情况下，<code>.scaleAspectFit</code>、<code>.scaleAspectFill</code> 或 <code>.scaleToFill</code> 已经完全满足你的所需。</p>
+<pre><code>imageView.contentMode = .scaleAspectFit
+imageView.image = image</code></pre><hr>
+<p>那么，什么时候对图像进行渲染优化才有意义呢？</p>
+<p><strong>当它明显大于</strong> <strong><code>UIImageView</code></strong> <strong>显示尺寸的时候</strong></p>
+<p>想要完整渲染这张宽高为 12,000 px 的图片，需要高达 20 MB 的空间。对于当今的硬件来说，你可能不会在意这么少兆字节的占用。但那只是它压缩后的尺寸。要展示它，<code>UIImageView</code> 首先需要把 JPEG 数据解码成位图（bitmap），如果要在一个 <code>UIImageView</code> 上按原样设置这张全尺寸图片，你的应用内存占用将会激增到<strong>几百兆</strong>，对用户明显没有什么好处（毕竟，屏幕能显示的像素有限）。但只要在设置 <code>UIImageView</code> 的 <code>image</code> 属性之前，将图像渲染的尺寸调整成 <code>UIImageView</code> 的大小，你用到的内存就会少一个数量级：</p>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="left">内存消耗 <em>(MB)</em></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">无下采样</td>
+<td align="left">220.2</td>
+</tr>
+<tr>
+<td align="left">下采样</td>
+<td align="left">23.7</td>
+</tr>
+</tbody></table>
+<p>这个技巧就是众所周知的<em>下采样（downsampling）</em>，在这些情况下，它可以有效地优化你应用的性能表现。如果你想了解更多关于下采样的知识或者其它图形图像的最佳实践，请参照 <a href="https://developer.apple.com/videos/play/wwdc2018/219/" target="_blank" rel="noopener">来自 WWDC 2018 的精彩课程</a>。</p>
+<p>而现在，很少有应用程序会尝试一次性加载这么大的图像了，但是也跟我从设计师那里拿到的图片资源不会差<em>太</em>多。<em>（认真的吗？一张颜色渐变的</em> <em>PNG</em> <em>图片要</em> <em>3</em> <em>MB?）</em> 考虑到这一点，让我们来看看有什么不同的方法，可以让你用来对图像进行优化或者下采样。</p>
+<blockquote>
+<p>不用说，这里所有从 URL 加载的示例图像都是针对<strong>本地</strong>文件。记住，在应用的主线程同步使用网络请求图像<strong>绝不</strong>是什么好主意。</p>
+</blockquote>
+<hr>
+<h2 id="图像渲染优化技巧"><a href="#图像渲染优化技巧" class="headerlink" title="图像渲染优化技巧"></a>图像渲染优化技巧</h2><p>优化图像渲染的方法有很多种，每种都有不同的功能和性能特性。我们在本文看到的这些例子，架构层次跨度上从底层的 Core Graphics、vImage、Image I/O 到上层的 Core Image 和 UIKit 都有。</p>
+<ol>
+<li><a href="https://swift.gg/2019/11/01/image-resizing/#technique-1-drawing-to-a-uigraphicsimagerenderer" target="_blank" rel="noopener">绘制到 UIGraphicsImageRenderer 上</a></li>
+<li><a href="https://swift.gg/2019/11/01/image-resizing/#technique-2-drawing-to-a-core-graphics-context" target="_blank" rel="noopener">绘制到 Core Graphics Context 上</a></li>
+<li><a href="https://swift.gg/2019/11/01/image-resizing/#technique-3-creating-a-thumbnail-with-image-io" target="_blank" rel="noopener">使用 Image I/O 创建缩略图像</a></li>
+<li><a href="https://swift.gg/2019/11/01/image-resizing/#technique-4-lanczos-resampling-with-core-image" target="_blank" rel="noopener">使用 Core Image 进行 Lanczos 重采样</a></li>
+<li><a href="https://swift.gg/2019/11/01/image-resizing/#technique-5-image-scaling-with-vimage" target="_blank" rel="noopener">使用 vImage 优化图片渲染</a></li>
+</ol>
+<p>下面的这些数字是多次迭代加载、优化、渲染之前那张 <a href="https://visibleearth.nasa.gov/view.php?id=78314" target="_blank" rel="noopener">超大地球图片</a> 的平均时间：</p>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="left">耗时 <em>(seconds)</em></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">技巧 #1: <code>UIKit</code></td>
+<td align="left">0.1420</td>
+</tr>
+<tr>
+<td align="left">技巧 #2: <code>Core Graphics</code> 1</td>
+<td align="left">0.1722</td>
+</tr>
+<tr>
+<td align="left">技巧 #3: <code>Image I/O</code></td>
+<td align="left">0.1616</td>
+</tr>
+<tr>
+<td align="left">技巧 #4: <code>Core Image</code> 2</td>
+<td align="left">2.4983</td>
+</tr>
+<tr>
+<td align="left">技巧 #5: <code>vImage</code></td>
+<td align="left">2.3126</td>
+</tr>
+</tbody></table>
+<p>1<br>设置不同的 <code>CGInterpolationQuality</code> 值出来的结果是一致的，在性能上的差异可以忽略不计。</p>
+<p>2<br>若在 <code>CIContext</code> 创建时设置 <code>kCIContextUseSoftwareRenderer</code> 的值为 <code>true</code>，会导致耗时相比基础结果慢一个数量级。</p>
+<h3 id="技巧-1-绘制到-UIGraphicsImageRenderer-上"><a href="#技巧-1-绘制到-UIGraphicsImageRenderer-上" class="headerlink" title="技巧 #1: 绘制到 UIGraphicsImageRenderer 上"></a>技巧 #1: 绘制到 UIGraphicsImageRenderer 上</h3><p>图像渲染优化的最上层 API 位于 UIKit 框架中。给定一个 <code>UIImage</code>，你可以绘制到 <code>UIGraphicsImageRenderer</code> 的上下文（context）中以渲染缩小版本的图像：</p>
+<pre><code>import UIKit
 
-<p>##1、@autoclosure作用：将表达式自动封装成一个闭包</p>
-<p>()-&gt;Void</p>
-<p>1.2 ??的底层实现是用的enum</p>
-<p>1.3 “闭包和循环引用”</p>
-<p><strong>weak解决循环引用的正确写法：</strong></p>
-<pre class=" language-swift"><code class="language-swift">
-<span class="token keyword">var</span> name<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+// 技巧 #1
+func resizedImage(at url: URL, for size: CGSize) -&gt; UIImage? {
+    guard let image = UIImage(contentsOfFile: url.path) else {
+        return nil
+    }
 
-<span class="token punctuation">[</span><span class="token keyword">weak</span> <span class="token keyword">self</span><span class="token punctuation">]</span> <span class="token keyword">in</span>
+    let renderer = UIGraphicsImageRenderer(size: size)
+    return renderer.image { (context) in
+        image.draw(in: CGRect(origin: .zero, size: size))
+    }
+}</code></pre><p><a href="https://developer.apple.com/documentation/uikit/uigraphicsimagerenderer" target="_blank" rel="noopener"><code>UIGraphicsImageRenderer</code></a> 是一项相对较新的技术，在 iOS 10 中被引入，用以取代旧版本的 <code>UIGraphicsBeginImageContextWithOptions</code> / <code>UIGraphicsEndImageContext</code> API。你通过指定以 <code>point</code> 计量的 <code>size</code> 创建了一个 <code>UIGraphicsImageRenderer</code>。<code>image</code> 方法带有一个闭包参数，返回的是一个经过闭包处理后的位图。最终，原始图像便会在缩小到指定的范围内绘制。</p>
+<h3 id="技巧-2：绘制到-Core-Graphics-Context-中"><a href="#技巧-2：绘制到-Core-Graphics-Context-中" class="headerlink" title="技巧 #2：绘制到 Core Graphics Context 中"></a>技巧 #2：绘制到 Core Graphics Context 中</h3><p>Core Graphics / Quartz 2D 提供了一系列底层 API 让我们可以进行更多高级的配置。</p>
+<p>给定一个 <code>CGImage</code> 作为暂时的位图上下文，使用 <code>draw(_:in:)</code> 方法来绘制缩放后的图像：</p>
+<pre><code>import UIKit
+import CoreGraphics
 
-<span class="token keyword">if</span> <span class="token keyword">let</span> strongSelf <span class="token operator">=</span> <span class="token keyword">self</span> <span class="token punctuation">{</span>
+// 技巧 #2
+func resizedImage(at url: URL, for size: CGSize) -&gt; UIImage? {
+    guard let imageSource = CGImageSourceCreateWithURL(url as NSURL, nil),
+        let image = CGImageSourceCreateImageAtIndex(imageSource, 0, nil)
+    else {
+        return nil
+    }
 
-<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"The name is (strongSelf.name)"</span><span class="token punctuation">)</span>
+    let context = CGContext(data: nil,
+                            width: Int(size.width),
+                            height: Int(size.height),
+                            bitsPerComponent: image.bitsPerComponent,
+                            bytesPerRow: image.bytesPerRow,
+                            space: image.colorSpace ?? CGColorSpace(name: CGColorSpace.sRGB)!,
+                            bitmapInfo: image.bitmapInfo.rawValue)
+    context?.interpolationQuality = .high
+    context?.draw(image, in: CGRect(origin: .zero, size: size))
 
-<span class="token punctuation">}</span>
+    guard let scaledImage = context?.makeImage() else { return nil }
 
-<span class="token punctuation">}</span>
-</code></pre>
-<h2 id="2、值类型和引用类型的选择"><a href="#2、值类型和引用类型的选择" class="headerlink" title="2、值类型和引用类型的选择"></a>2、值类型和引用类型的选择</h2><ul>
-<li><p>数组和字典设计为值类型最大的考虑是为了线程安全.</p>
-</li>
-<li><p>另一个优点，那就是非常高效，因为 “一旦赋值就不太会变化” 这种使用情景在 Cocoa 框架中是占有绝大多数的，这有效减少了内存的分配和回收。</p>
-</li>
+    return UIImage(cgImage: scaledImage)
+}</code></pre><p>这个 <code>CGContext</code> 初始化方法接收了几个参数来构造一个上下文，包括了必要的宽高参数，还有在给出的色域范围内每个颜色通道所需要的内存大小。在这个例子中，这些参数都是通过 <code>CGImage</code> 这个对象获取的。下一步，设置 <code>interpolationQuality</code> 属性为 <code>.high</code> 指示上下文在保证一定的精度上填充像素。<code>draw(_:in:)</code> 方法则是在给定的宽高和位置绘制图像，可以让图片在特定的边距下裁剪，也可以适用于一些像是人脸识别之类的图像特性。最后 <code>makeImage()</code> 从上下文获取信息并且渲染到一个 <code>CGImage</code> 值上（之后会用来构造 <code>UIImage</code> 对象）。</p>
+<h3 id="技巧-3：使用-Image-I-O-创建缩略图像"><a href="#技巧-3：使用-Image-I-O-创建缩略图像" class="headerlink" title="技巧 #3：使用 Image I/O 创建缩略图像"></a>技巧 #3：使用 Image I/O 创建缩略图像</h3><p>Image I/O 是一个强大（却鲜有人知）的图像处理框架。抛开 Core Graphics 不说，它可以读写许多不同图像格式，访问图像的元数据，还有执行常规的图像处理操作。这个框架通过先进的缓存机制，提供了平台上最快的图片编码器和解码器，甚至可以增量加载图片。</p>
+<p>这个重要的 <code>CGImageSourceCreateThumbnailAtIndex</code> 提供了一个带有许多不同配置选项的 API，比起在 Core Graphics 中等价的处理操作要简洁得多：</p>
+<pre><code>import ImageIO
+
+// 技巧 #3
+func resizedImage(at url: URL, for size: CGSize) -&gt; UIImage? {
+    let options: [CFString: Any] = [
+        kCGImageSourceCreateThumbnailFromImageIfAbsent: true,
+        kCGImageSourceCreateThumbnailWithTransform: true,
+        kCGImageSourceShouldCacheImmediately: true,
+        kCGImageSourceThumbnailMaxPixelSize: max(size.width, size.height)
+    ]
+
+    guard let imageSource = CGImageSourceCreateWithURL(url as NSURL, nil),
+        let image = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, options as CFDictionary)
+    else {
+        return nil
+    }
+
+    return UIImage(cgImage: image)
+}</code></pre><p>给定一个 <code>CGImageSource</code> 和一系列配置选项，<code>CGImageSourceCreateThumbnailAtIndex(_:_:_:)</code> 函数创建了一个图像的缩略图。优化尺寸大小的操作是通过 <code>kCGImageSourceThumbnailMaxPixelSize</code> 完成的，它根据图像原始宽高比指定的最大尺寸来缩放图像。通过设定 <code>kCGImageSourceCreateThumbnailFromImageIfAbsent</code> 或 <code>kCGImageSourceCreateThumbnailFromImageAlways</code> 选项，Image I/O 可以自动缓存优化后的结果以便后续调用。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><strong>UIKit</strong>, <strong>Core</strong> <strong>Graphics</strong>, 和 <strong>Image</strong> <strong>I/O</strong> 都能很好地用于大部分图片的优化操作。</li>
+<li>如果（在 iOS 平台，至少）要选择一个的话，<code>UIGraphicsImageRenderer</code> 是你最佳的选择。</li>
+<li><strong>Core</strong> <strong>Image</strong> 在图像优化渲染操作方面性能表现优越。实际上，根据 Apple 官方 <a href="https://developer.apple.com/library/mac/documentation/graphicsimaging/Conceptual/CoreImaging/ci_performance/ci_performance.html#//apple_ref/doc/uid/TP30001185-CH10-SW1" target="_blank" rel="noopener"><em>Core</em> <em>Image</em> <em>编程规范中的性能最佳实践单元</em></a>，你应该使用 Core Graphics 或 Image I/O 对图像进行裁剪和下采样，而不是用 Core Image。</li>
+<li>除非你已经在使用 <strong><code>vImage</code></strong>，否则在大多数情况下用到底层的 Accelerate API 所需的额外工作可能是不合理的。</li>
 </ul>
-<p>但是在少数情况下，我们显然也可能会在数组或者字典中存储非常多的东西，并且还要对其中的内容进行添加或者删除。”</p>
-<ul>
-<li><p>在需要处理大量数据并且频繁操作 (增减) 其中元素时，选择 NSMutableArray 和 NSMutableDictionary 会更好，</p>
-</li>
-<li><p>对于容器内条目小而容器本身数目多的情况，应该使用 Swift 语言内建的 Array 和 Dictionary</p>
-</li>
-</ul>
-<h2 id="3、-escaping的作用？"><a href="#3、-escaping的作用？" class="headerlink" title="3、@escaping的作用？"></a>3、@escaping的作用？</h2><pre class=" language-swift"><code class="language-swift">
-<span class="token keyword">class</span> <span class="token class-name">func</span> <span class="token function">animate</span><span class="token punctuation">(</span>withDuration duration<span class="token punctuation">:</span> <span class="token builtin">TimeInterval</span><span class="token punctuation">,</span> animations<span class="token punctuation">:</span> @<span class="token function">escaping</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">&amp;</span>gt<span class="token punctuation">;</span> <span class="token builtin">Void</span><span class="token punctuation">,</span> completion<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token builtin">Bool</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Void</span><span class="token punctuation">)</span><span class="token operator">?</span> <span class="token operator">=</span> <span class="token constant">nil</span><span class="token punctuation">)</span>
-</code></pre>
-<img src="/Users/mac/Downloads/图像 2019-12-5，下午6.41.jpg" alt="图像 2019-12-5，下午6.41" style="zoom:50%;" />
-
-<h2 id="4、defer的使用注意点"><a href="#4、defer的使用注意点" class="headerlink" title="4、defer的使用注意点"></a>4、defer的使用注意点</h2><h4 id="defer的作用域"><a href="#defer的作用域" class="headerlink" title="defer的作用域"></a>defer的作用域</h4><p><strong>以前很单纯地认为 defer 是在函数退出的时候调用，并没有注意其实是当前 scope 退出的时候调用这个事实，造成了这个错误。在 if，guard，for，try 这些语句中使用 defer 时，应该要特别注意这一点。</strong></p>
-<img src="/Users/mac/Downloads/图像 2019-12-5，下午6.41-1.jpg" alt="图像 2019-12-5，下午6.41-1" style="zoom:150%;" />
-
-
-
-<h2 id="5、-discardableResult"><a href="#5、-discardableResult" class="headerlink" title="5、@discardableResult"></a>5、@discardableResult</h2><h2 id="6、Result"><a href="#6、Result" class="headerlink" title="6、Result"></a>6、Result<T></h2><p><a href="https://onevcat.com/2018/10/swift-result-error/" target="_blank" rel="noopener">Result&lt;T, E: Error&gt; 和 Result<T></a></p>
-<h2 id="7、Lazy的使用"><a href="#7、Lazy的使用" class="headerlink" title="7、Lazy的使用"></a>7、Lazy的使用</h2><pre class=" language-swift"><code class="language-swift">
-<span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token number">3</span>
-
-<span class="token keyword">let</span> result <span class="token operator">=</span> data<span class="token punctuation">.</span><span class="token keyword">lazy</span><span class="token punctuation">.</span><span class="token builtin">map</span> <span class="token punctuation">{</span> <span class="token punctuation">(</span>i<span class="token punctuation">:</span> <span class="token builtin">Int</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Int</span> <span class="token keyword">in</span>
-
-<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"准备处理(i)"</span><span class="token punctuation">)</span>
-
-<span class="token keyword">return</span> i <span class="token operator">*</span> <span class="token number">2</span>
-
-<span class="token punctuation">}</span>
-
-<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"准备访问结果"</span><span class="token punctuation">)</span>
-
-<span class="token keyword">for</span> i <span class="token keyword">in</span> result <span class="token punctuation">{</span>
-
-<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"处理后的结果:(i)"</span><span class="token punctuation">)</span>
-
-<span class="token punctuation">}</span>
-
-<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"done"</span><span class="token punctuation">)</span>
-</code></pre>
-<p>打印结果：</p>
 <blockquote>
-<p>准备访问结果</p>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg/" target="_blank" rel="noopener">http://swift.gg</a>。</p>
 </blockquote>
-<p>准备处理1</p>
-<p>处理后的结果:2</p>
-<p>准备处理2</p>
-<p>处理后的结果:4</p>
-<p>准备处理3</p>
-<p>处理后的结果:6</p>
-<p>done</p>
-<h2 id="8、Swift反射机制Mirror"><a href="#8、Swift反射机制Mirror" class="headerlink" title="8、Swift反射机制Mirror"></a>8、Swift反射机制Mirror</h2><blockquote>
-<p>“通过 Mirror 初始化得到的结果中包含的元素的描述都被集合在 children 属性下，如果你有心可以到 Swift 标准库中查找它的定义，它实际上是一个 Child 的集合，而 Child 则是一对键值的多元组：</p>
-</blockquote>
-<h3 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h3><pre class=" language-swift"><code class="language-swift">
-<span class="token keyword">struct</span> <span class="token builtin">Car</span> <span class="token punctuation">{</span>
 
-<span class="token keyword">let</span> logo<span class="token punctuation">:</span> <span class="token builtin">String</span>
-
-<span class="token keyword">var</span> wheel<span class="token punctuation">:</span> <span class="token builtin">Int</span>
-
-<span class="token keyword">let</span> door<span class="token punctuation">:</span> <span class="token builtin">Int</span>
-
-<span class="token punctuation">}</span>
-
-<span class="token keyword">let</span> baoM <span class="token operator">=</span> <span class="token function">Car</span><span class="token punctuation">(</span>logo<span class="token punctuation">:</span> <span class="token string">"BMW"</span><span class="token punctuation">,</span> wheel<span class="token punctuation">:</span> <span class="token number">4</span><span class="token punctuation">,</span> door<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">)</span>
-
-<span class="token keyword">let</span> mirror <span class="token operator">=</span> <span class="token function">Mirror</span><span class="token punctuation">(</span>reflecting<span class="token punctuation">:</span> baoM<span class="token punctuation">)</span>
-
-<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"类型:(String(describing: mirror.displayStyle))"</span><span class="token punctuation">)</span>
-
-<span class="token comment" spellcheck="true">///1、通过Mirror的children获取属性信息</span>
-
-<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"属性个数:(mirror.children.count)"</span><span class="token punctuation">)</span>
-
-mirror<span class="token punctuation">.</span>children<span class="token punctuation">.</span><span class="token builtin">map</span> <span class="token punctuation">{</span> <span class="token punctuation">(</span>child<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Any</span> <span class="token keyword">in</span>
-
-<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"label: (String(describing: child.label)), value: (child.value)"</span><span class="token punctuation">)</span>
-
-<span class="token punctuation">}</span>
-
-<span class="token comment" spellcheck="true">///2、通过Refletion的dump(Any)方法获取属性信息</span>
-
-<span class="token function">dump</span><span class="token punctuation">(</span>baoM<span class="token punctuation">)</span>
-</code></pre>
-<h3 id="示例2-获取property"><a href="#示例2-获取property" class="headerlink" title="示例2 获取property"></a>示例2 获取property</h3><pre class=" language-swift"><code class="language-swift">
-<span class="token keyword">let</span> homeProperty <span class="token operator">=</span> <span class="token function">Mirror</span><span class="token punctuation">(</span>reflecting<span class="token punctuation">:</span> <span class="token keyword">self</span><span class="token punctuation">)</span>
-
-homeProperty<span class="token punctuation">.</span>children<span class="token punctuation">.</span><span class="token builtin">map</span> <span class="token punctuation">{</span>
-
-<span class="token constant">LOG</span><span class="token punctuation">.</span><span class="token function">D</span><span class="token punctuation">(</span><span class="token string">"home property:($0)"</span><span class="token punctuation">)</span>
-
-<span class="token punctuation">}</span>
-</code></pre>
-<h2 id="9、iOS初始化核心原则"><a href="#9、iOS初始化核心原则" class="headerlink" title="9、iOS初始化核心原则"></a>9、iOS初始化核心原则</h2><blockquote>
-<p>iOS 的初始化最核心两条的规则：</p>
-</blockquote>
-<blockquote>
-<p>• 必须至少有一个指定初始化器，在指定初始化器里保证所有非可选类型属性都得到正确的初始化（有值）</p>
-</blockquote>
-<blockquote>
-<p>• 便利初始化器必须调用其他初始化器，使得最后肯定会调用指定初始化器</p>
-</blockquote>
-<p>在Swift中千万不要用String的count方法计算文本长度。否则当文本中有emoji时，会计算出错。应当转成NSString再去求length。</p>
-<h2 id="10、"><a href="#10、" class="headerlink" title="10、"></a>10、</h2><h2 id="Swift备忘录001-Array-for-in使用"><a href="#Swift备忘录001-Array-for-in使用" class="headerlink" title="Swift备忘录001 Array for-in使用"></a>Swift备忘录001 Array for-in使用</h2><img src="/Users/mac/Library/Application Support/typora-user-images/image-20191205151814435.png" alt="image-20191205151814435" style="zoom:50%;" />
-
-<h4 id="1-for-in获取索引-index"><a href="#1-for-in获取索引-index" class="headerlink" title="1.for in获取索引 index"></a>1.for in获取索引 index</h4><pre class=" language-swift"><code class="language-swift">                <span class="token keyword">let</span> array <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"Apple"</span><span class="token punctuation">,</span> <span class="token string">"Google"</span><span class="token punctuation">,</span> <span class="token string">"Amazon"</span><span class="token punctuation">]</span>
-        <span class="token keyword">for</span> item <span class="token keyword">in</span> array <span class="token punctuation">{</span>
-          <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"company name is :(item)"</span><span class="token punctuation">)</span>
-        <span class="token punctuation">}</span>
-        <span class="token comment" spellcheck="true">///配合array.enumerated()使用</span>
-        <span class="token keyword">for</span> <span class="token punctuation">(</span>index<span class="token punctuation">,</span> item<span class="token punctuation">)</span> <span class="token keyword">in</span> array<span class="token punctuation">.</span><span class="token function">enumerated</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"index:(index), item:(item)"</span><span class="token punctuation">)</span>
-        <span class="token punctuation">}</span></code></pre>
-<h4 id="2-array-firstIndex-of-获取index"><a href="#2-array-firstIndex-of-获取index" class="headerlink" title="2.array.firstIndex(of:)获取index"></a>2.array.firstIndex(of:)获取index</h4><pre class=" language-swift"><code class="language-swift">                <span class="token comment" spellcheck="true">///配合array.firstIndex(of:)使用</span>
-        <span class="token keyword">let</span> googleIndex <span class="token operator">=</span> array<span class="token punctuation">.</span><span class="token function">firstIndex</span><span class="token punctuation">(</span>of<span class="token punctuation">:</span> <span class="token string">"Google"</span><span class="token punctuation">)</span>
-        <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"googleIndex is : (googleIndex ?? 0)"</span><span class="token punctuation">)</span>
-                <span class="token comment" spellcheck="true">///配合array.firstIndex(where:)使用</span>
-        <span class="token keyword">if</span> <span class="token keyword">let</span> index <span class="token operator">=</span> array<span class="token punctuation">.</span><span class="token function">firstIndex</span><span class="token punctuation">(</span><span class="token keyword">where</span><span class="token punctuation">:</span> <span class="token punctuation">{</span> $<span class="token number">0</span><span class="token punctuation">.</span><span class="token function">hasPrefix</span><span class="token punctuation">(</span><span class="token string">"A"</span><span class="token punctuation">)</span> <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"array.firstIndex is (index)"</span><span class="token punctuation">)</span>
-        <span class="token punctuation">}</span>
-        <span class="token keyword">if</span> <span class="token keyword">let</span> item <span class="token operator">=</span> array<span class="token punctuation">.</span><span class="token function">first</span><span class="token punctuation">(</span><span class="token keyword">where</span><span class="token punctuation">:</span> <span class="token punctuation">{</span> $<span class="token number">0</span><span class="token punctuation">.</span><span class="token function">hasPrefix</span><span class="token punctuation">(</span><span class="token string">"A"</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token punctuation">{</span>
-            <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"array.first is :(item)"</span><span class="token punctuation">)</span>
-        <span class="token punctuation">}</span></code></pre>
-<h2 id="Swift备忘录002-Array-forEach"><a href="#Swift备忘录002-Array-forEach" class="headerlink" title="Swift备忘录002 Array.forEach()"></a>Swift备忘录002 Array.forEach()</h2><h4 id="2-1forEach-和函数式编程结合使用"><a href="#2-1forEach-和函数式编程结合使用" class="headerlink" title="2.1forEach()和函数式编程结合使用"></a>2.1forEach()和函数式编程结合使用</h4><pre class=" language-swift"><code class="language-swift">                <span class="token keyword">let</span> array <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"1"</span><span class="token punctuation">,</span> <span class="token string">"2"</span><span class="token punctuation">,</span> <span class="token string">"3"</span><span class="token punctuation">,</span> <span class="token string">"4"</span><span class="token punctuation">,</span> <span class="token string">"5"</span><span class="token punctuation">,</span> <span class="token string">"6"</span><span class="token punctuation">]</span>
-        <span class="token comment" spellcheck="true">///使用forEach</span>
-        array<span class="token punctuation">.</span><span class="token builtin">map</span> <span class="token punctuation">{</span> <span class="token function">Int</span><span class="token punctuation">(</span>$<span class="token number">0</span><span class="token punctuation">)</span><span class="token operator">!</span> <span class="token punctuation">}</span><span class="token punctuation">.</span>forEach <span class="token punctuation">{</span> num <span class="token keyword">in</span>
-            <span class="token function">print</span><span class="token punctuation">(</span>num<span class="token punctuation">)</span>
-        <span class="token punctuation">}</span>
-        <span class="token comment" spellcheck="true">//不使用forEach</span>
-        <span class="token keyword">let</span> <span class="token builtin">map</span> <span class="token operator">=</span> array<span class="token punctuation">.</span><span class="token builtin">map</span> <span class="token punctuation">{</span> <span class="token function">Int</span><span class="token punctuation">(</span>$<span class="token number">0</span><span class="token punctuation">)</span><span class="token operator">!</span> <span class="token punctuation">}</span>
-        <span class="token builtin">map</span><span class="token punctuation">.</span>forEach <span class="token punctuation">{</span>
-            <span class="token function">print</span><span class="token punctuation">(</span>$<span class="token number">0</span><span class="token punctuation">)</span>
-        <span class="token punctuation">}</span></code></pre>
-<h4 id="2-2forEach-遍历optional集合会自动过滤nil"><a href="#2-2forEach-遍历optional集合会自动过滤nil" class="headerlink" title="2.2forEach()遍历optional集合会自动过滤nil"></a>2.2forEach()遍历optional集合会自动过滤nil</h4><pre class=" language-swift"><code class="language-swift">                <span class="token keyword">let</span> optionalString<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token builtin">String</span><span class="token punctuation">]</span><span class="token operator">?</span> <span class="token operator">=</span> <span class="token constant">nil</span>
-        <span class="token comment" spellcheck="true">//使用forEach强制解包option，会过滤</span>
-        optionalString<span class="token operator">?</span><span class="token punctuation">.</span>forEach <span class="token punctuation">{</span> str <span class="token keyword">in</span>
-            <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"str is (str)"</span><span class="token punctuation">)</span>
-        <span class="token punctuation">}</span>
-        <span class="token comment" spellcheck="true">///使用for-in强制解包optional，会crash</span>
-        <span class="token keyword">for</span> str <span class="token keyword">in</span> optionalString<span class="token operator">!</span> <span class="token punctuation">{</span>
-            <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"str is (str)"</span><span class="token punctuation">)</span>
-        <span class="token punctuation">}</span></code></pre>
-<h2 id="Swift备忘录003-Array-index"><a href="#Swift备忘录003-Array-index" class="headerlink" title="Swift备忘录003 Array index"></a>Swift备忘录003 Array index</h2><h4 id="3-1"><a href="#3-1" class="headerlink" title="3.1"></a>3.1</h4>
             </div>
             <hr/>
 
@@ -651,7 +621,7 @@ homeProperty<span class="token punctuation">.</span>children<span class="token p
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://mingriweiji-github.github.io/2019/12/07/Swift%E5%A4%87%E5%BF%98%E5%BD%95/">https://mingriweiji-github.github.io/2019/12/07/Swift%E5%A4%87%E5%BF%98%E5%BD%95/</a>
+                    <a href="https://mingriweiji-github.github.io/2019/12/30/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">https://mingriweiji-github.github.io/2019/12/30/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -856,24 +826,28 @@ homeProperty<span class="token punctuation">.</span>children<span class="token p
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/12/30/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">
+                <a href="/2020/03/11/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="iOS图像处理">
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="多线程">
                         
-                        <span class="card-title">iOS图像处理</span>
+                        <span class="card-title">多线程</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            iOS图像优化技巧图像渲染优化的时机和理由在开始之前，让我们先讨论一下为什么需要对图像进行渲染优化。毕竟，UIImageView 会自动根据 contentmode 属性 规定的行为缩放和裁剪图像。在绝大多数情况下，.scaleAspect
+                            1、你理解的多线程？并发和串行，同步和异步
+同步和异步的区别: 是否开辟新的线程，同步只能在当前线程执行任务，异步可以再新的线程执行任务
+串行和并发的区别是任务执行的顺序，串行任务只能顺序执行，并发可以多个任务同时执行。
+
+2、iOS多线程
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2019-12-30
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-11
                         </span>
                         <span class="publish-author">
                             
@@ -893,25 +867,32 @@ homeProperty<span class="token punctuation">.</span>children<span class="token p
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/12/06/Swift%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/">
+                <a href="/2019/12/07/Swift%E5%A4%87%E5%BF%98%E5%BD%95/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="Swift函数式编程">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="Swift备忘录">
                         
-                        <span class="card-title">Swift函数式编程</span>
+                        <span class="card-title">Swift备忘录</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Functional Programming in Swift函数式编程介绍。版本：swift 4.2, iOS 12, Xcode 10
-在本部分中，您将介绍FP中的一些关键概念。许多讨论FP的论文都将不变状态和缺乏副作用视为FP的最重要
+                            SwiftTip
+
+##1、@autoclosure作用：将表达式自动封装成一个闭包
+()-&gt;Void
+1.2 ??的底层实现是用的enum
+1.3 “闭包和循环引用”
+weak解决循环引用的正确写法：
+
+var name: ()->
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-12-06
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-12-07
                             </span>
                         <span class="publish-author">
                             

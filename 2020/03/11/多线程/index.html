@@ -29,7 +29,8 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
     
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+<link rel="stylesheet" href="/css/prism.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
 
 
 <body>
@@ -519,36 +520,7 @@
 <li><strong>追问三：用C/OC/C++，任选其一，实现自旋或互斥？口述即可！</strong></li>
 </ul>
 <h2 id="iOS线程同步方案性能比较"><a href="#iOS线程同步方案性能比较" class="headerlink" title="iOS线程同步方案性能比较"></a>iOS线程同步方案<strong>性能</strong>比较</h2><p><strong>性能从高到低排序:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">os_unfair_lock</span></pre></td></tr></table></figure>
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">OSSpinLock</span></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">dispatch_semaphore</span></pre></td></tr></table></figure>
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">pthread_mutex</span></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">dispatch_queue(DISPATCH_QUEUE_SERIAL)</span></pre></td></tr></table></figure>
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">NSLock</span></pre></td></tr></table></figure>
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">NSCondition</span></pre></td></tr></table></figure>
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">pthread_mutex(recursive)</span></pre></td></tr></table></figure>
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">NSRecursiveLock</span></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">NSConditionLock</span></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">@synchronized</span></pre></td></tr></table></figure>
-
-
-<h2 id="如何实现多度单写？"><a href="#如何实现多度单写？" class="headerlink" title="如何实现多度单写？"></a><code>如何实现多度单写？</code></h2><p><strong>1、</strong><code>pthread_rwlock</code><strong>读写锁-等待锁的线程进入休眠</strong></p>
+<pre><code>os_unfair_lock</code></pre><pre><code>OSSpinLock</code></pre><pre><code>dispatch_semaphore</code></pre><pre><code>pthread_mutex</code></pre><pre><code>dispatch_queue(DISPATCH_QUEUE_SERIAL)</code></pre><pre><code>NSLock</code></pre><pre><code>NSCondition</code></pre><pre><code>pthread_mutex(recursive)</code></pre><pre><code>NSRecursiveLock</code></pre><pre><code>NSConditionLock</code></pre><pre><code>@synchronized</code></pre><h2 id="如何实现多度单写？"><a href="#如何实现多度单写？" class="headerlink" title="如何实现多度单写？"></a><code>如何实现多度单写？</code></h2><p><strong>1、</strong><code>pthread_rwlock</code><strong>读写锁-等待锁的线程进入休眠</strong></p>
 <p><img src="https://user-gold-cdn.xitu.io/2020/3/6/170ab7a1980f8f16?w=830&h=956&f=png&s=318721" alt="img"></p>
 <p>pthread_rwlockEnter a caption for this image (optional)</p>
 <p>‌</p>
@@ -842,14 +814,15 @@ Timer、performSelect
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            toc = true
-SwiftTip
+                            SwiftTip
 
 ##1、@autoclosure作用：将表达式自动封装成一个闭包
 ()-&gt;Void
-####1.2 ??的底层实现是用的enum
-####1.3 “闭包和循环引用”
-weak解决循环引用的正确
+1.2 ??的底层实现是用的enum
+1.3 “闭包和循环引用”
+weak解决循环引用的正确写法：
+
+var name: ()->
                         
                     </div>
                     <div class="publish-info">

@@ -29,8 +29,8 @@
 
     <script src="/libs/jquery/jquery.min.js"></script>
     
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"><link rel="alternate" href="/atom.xml" title="Mingriweiji-github" type="application/atom+xml">
-</head>
+<link rel="alternate" href="/atom.xml" title="Mingriweiji-github" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 
 <body>
@@ -521,15 +521,13 @@
 </ul>
 <h2 id="iOS线程同步方案性能比较"><a href="#iOS线程同步方案性能比较" class="headerlink" title="iOS线程同步方案性能比较"></a>iOS线程同步方案<strong>性能</strong>比较</h2><p><strong>性能从高到低排序:</strong></p>
 <pre><code>os_unfair_lock</code></pre><pre><code>OSSpinLock</code></pre><pre><code>dispatch_semaphore</code></pre><pre><code>pthread_mutex</code></pre><pre><code>dispatch_queue(DISPATCH_QUEUE_SERIAL)</code></pre><pre><code>NSLock</code></pre><pre><code>NSCondition</code></pre><pre><code>pthread_mutex(recursive)</code></pre><pre><code>NSRecursiveLock</code></pre><pre><code>NSConditionLock</code></pre><pre><code>@synchronized</code></pre><h2 id="如何实现多度单写？"><a href="#如何实现多度单写？" class="headerlink" title="如何实现多度单写？"></a><code>如何实现多度单写？</code></h2><p><strong>1、</strong><code>pthread_rwlock</code><strong>读写锁-等待锁的线程进入休眠</strong></p>
-<p><img src="https://user-gold-cdn.xitu.io/2020/3/6/170ab7a1980f8f16?w=830&h=956&f=png&s=318721" alt="img"></p>
-<p>pthread_rwlockEnter a caption for this image (optional)</p>
+<p><img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/1.png" alt="pthread_rwlock"></p>
 <p>‌</p>
 <p><strong>2、dispatch_barrier_async</strong></p>
 <ul>
 <li>这个函数传入的并发队列必须是自己通过dispatch_queue_cretate创建的 </li>
 <li>如果传入的是一个串行或是一个全局的并发队列，那这个函数便等同于dispatch_async函数的效果</li>
 </ul>
-<p><img src="https://user-gold-cdn.xitu.io/2020/3/6/170ab7b55ae20eaf?w=1966&h=674&f=png&s=176023" alt="img"></p>
 
             </div>
             <hr/>

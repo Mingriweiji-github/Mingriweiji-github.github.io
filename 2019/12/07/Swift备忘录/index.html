@@ -464,18 +464,18 @@
 <p>1.2 ??的底层实现是用的enum</p>
 <p>1.3 “闭包和循环引用”</p>
 <p><strong>weak解决循环引用的正确写法：</strong></p>
-<pre class=" language-Swift"><code class="language-Swift">
-var name: ()->() = {
+<pre class=" language-swift"><code class="language-swift">
+<span class="token keyword">var</span> name<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
 
-[weak self] in
+<span class="token punctuation">[</span><span class="token keyword">weak</span> <span class="token keyword">self</span><span class="token punctuation">]</span> <span class="token keyword">in</span>
 
-if let strongSelf = self {
+<span class="token keyword">if</span> <span class="token keyword">let</span> strongSelf <span class="token operator">=</span> <span class="token keyword">self</span> <span class="token punctuation">{</span>
 
-print("The name is (strongSelf.name)")
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"The name is (strongSelf.name)"</span><span class="token punctuation">)</span>
 
-}
+<span class="token punctuation">}</span>
 
-}
+<span class="token punctuation">}</span>
 </code></pre>
 <h2 id="2、值类型和引用类型的选择"><a href="#2、值类型和引用类型的选择" class="headerlink" title="2、值类型和引用类型的选择"></a>2、值类型和引用类型的选择</h2><ul>
 <li><p>数组和字典设计为值类型最大的考虑是为了线程安全.</p>
@@ -501,26 +501,26 @@ class func animate(withDuration duration: TimeInterval, animations: @escaping ()
 
 
 <h2 id="5、-discardableResult"><a href="#5、-discardableResult" class="headerlink" title="5、@discardableResult"></a>5、@discardableResult</h2><h2 id="6、Result"><a href="#6、Result" class="headerlink" title="6、Result"></a>6、Result<T></h2><p><a href="https://onevcat.com/2018/10/swift-result-error/" target="_blank" rel="noopener">Result&lt;T, E: Error&gt; 和 Result<T></a></p>
-<h2 id="7、Lazy的使用"><a href="#7、Lazy的使用" class="headerlink" title="7、Lazy的使用"></a>7、Lazy的使用</h2><pre class=" language-Swift"><code class="language-Swift">
-let data = 1...3
+<h2 id="7、Lazy的使用"><a href="#7、Lazy的使用" class="headerlink" title="7、Lazy的使用"></a>7、Lazy的使用</h2><pre class=" language-swift"><code class="language-swift">
+<span class="token keyword">let</span> data <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token number">3</span>
 
-let result = data.lazy.map { (i: Int) -> Int in
+<span class="token keyword">let</span> result <span class="token operator">=</span> data<span class="token punctuation">.</span><span class="token keyword">lazy</span><span class="token punctuation">.</span><span class="token builtin">map</span> <span class="token punctuation">{</span> <span class="token punctuation">(</span>i<span class="token punctuation">:</span> <span class="token builtin">Int</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Int</span> <span class="token keyword">in</span>
 
-print("准备处理(i)")
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"准备处理(i)"</span><span class="token punctuation">)</span>
 
-return i * 2
+<span class="token keyword">return</span> i <span class="token operator">*</span> <span class="token number">2</span>
 
-}
+<span class="token punctuation">}</span>
 
-print("准备访问结果")
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"准备访问结果"</span><span class="token punctuation">)</span>
 
-for i in result {
+<span class="token keyword">for</span> i <span class="token keyword">in</span> result <span class="token punctuation">{</span>
 
-print("处理后的结果:(i)")
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"处理后的结果:(i)"</span><span class="token punctuation">)</span>
 
-}
+<span class="token punctuation">}</span>
 
-print("done")
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"done"</span><span class="token punctuation">)</span>
 </code></pre>
 <p>打印结果：</p>
 <blockquote>
@@ -536,45 +536,45 @@ print("done")
 <h2 id="8、Swift反射机制Mirror"><a href="#8、Swift反射机制Mirror" class="headerlink" title="8、Swift反射机制Mirror"></a>8、Swift反射机制Mirror</h2><blockquote>
 <p>“通过 Mirror 初始化得到的结果中包含的元素的描述都被集合在 children 属性下，如果你有心可以到 Swift 标准库中查找它的定义，它实际上是一个 Child 的集合，而 Child 则是一对键值的多元组：</p>
 </blockquote>
-<h3 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h3><pre class=" language-Swift"><code class="language-Swift">
-struct Car {
+<h3 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h3><pre class=" language-swift"><code class="language-swift">
+<span class="token keyword">struct</span> <span class="token builtin">Car</span> <span class="token punctuation">{</span>
 
-let logo: String
+<span class="token keyword">let</span> logo<span class="token punctuation">:</span> <span class="token builtin">String</span>
 
-var wheel: Int
+<span class="token keyword">var</span> wheel<span class="token punctuation">:</span> <span class="token builtin">Int</span>
 
-let door: Int
+<span class="token keyword">let</span> door<span class="token punctuation">:</span> <span class="token builtin">Int</span>
 
-}
+<span class="token punctuation">}</span>
 
-let baoM = Car(logo: "BMW", wheel: 4, door: 2)
+<span class="token keyword">let</span> baoM <span class="token operator">=</span> <span class="token function">Car</span><span class="token punctuation">(</span>logo<span class="token punctuation">:</span> <span class="token string">"BMW"</span><span class="token punctuation">,</span> wheel<span class="token punctuation">:</span> <span class="token number">4</span><span class="token punctuation">,</span> door<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">)</span>
 
-let mirror = Mirror(reflecting: baoM)
+<span class="token keyword">let</span> mirror <span class="token operator">=</span> <span class="token function">Mirror</span><span class="token punctuation">(</span>reflecting<span class="token punctuation">:</span> baoM<span class="token punctuation">)</span>
 
-print("类型:(String(describing: mirror.displayStyle))")
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"类型:(String(describing: mirror.displayStyle))"</span><span class="token punctuation">)</span>
 
-///1、通过Mirror的children获取属性信息
+<span class="token comment" spellcheck="true">///1、通过Mirror的children获取属性信息</span>
 
-print("属性个数:(mirror.children.count)")
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"属性个数:(mirror.children.count)"</span><span class="token punctuation">)</span>
 
-mirror.children.map { (child) -> Any in
+mirror<span class="token punctuation">.</span>children<span class="token punctuation">.</span><span class="token builtin">map</span> <span class="token punctuation">{</span> <span class="token punctuation">(</span>child<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Any</span> <span class="token keyword">in</span>
 
-print("label: (String(describing: child.label)), value: (child.value)")
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"label: (String(describing: child.label)), value: (child.value)"</span><span class="token punctuation">)</span>
 
-}
+<span class="token punctuation">}</span>
 
-///2、通过Refletion的dump(Any)方法获取属性信息
+<span class="token comment" spellcheck="true">///2、通过Refletion的dump(Any)方法获取属性信息</span>
 
-dump(baoM)
+<span class="token function">dump</span><span class="token punctuation">(</span>baoM<span class="token punctuation">)</span>
 </code></pre>
-<h3 id="示例2-获取property"><a href="#示例2-获取property" class="headerlink" title="示例2 获取property"></a>示例2 获取property</h3><pre class=" language-Swift"><code class="language-Swift">
-let homeProperty = Mirror(reflecting: self)
+<h3 id="示例2-获取property"><a href="#示例2-获取property" class="headerlink" title="示例2 获取property"></a>示例2 获取property</h3><pre class=" language-swift"><code class="language-swift">
+<span class="token keyword">let</span> homeProperty <span class="token operator">=</span> <span class="token function">Mirror</span><span class="token punctuation">(</span>reflecting<span class="token punctuation">:</span> <span class="token keyword">self</span><span class="token punctuation">)</span>
 
-homeProperty.children.map {
+homeProperty<span class="token punctuation">.</span>children<span class="token punctuation">.</span><span class="token builtin">map</span> <span class="token punctuation">{</span>
 
-LOG.D("home property:($0)")
+<span class="token constant">LOG</span><span class="token punctuation">.</span><span class="token function">D</span><span class="token punctuation">(</span><span class="token string">"home property:($0)"</span><span class="token punctuation">)</span>
 
-}
+<span class="token punctuation">}</span>
 </code></pre>
 <h2 id="9、iOS初始化核心原则"><a href="#9、iOS初始化核心原则" class="headerlink" title="9、iOS初始化核心原则"></a>9、iOS初始化核心原则</h2><blockquote>
 <p>iOS 的初始化最核心两条的规则：</p>
@@ -588,24 +588,24 @@ LOG.D("home property:($0)")
 <p>在Swift中千万不要用String的count方法计算文本长度。否则当文本中有emoji时，会计算出错。应当转成NSString再去求length。</p>
 <h2 id="10、"><a href="#10、" class="headerlink" title="10、"></a>10、</h2><h2 id="Swift备忘录001-Array-for-in使用"><a href="#Swift备忘录001-Array-for-in使用" class="headerlink" title="Swift备忘录001 Array for-in使用"></a>Swift备忘录001 Array for-in使用</h2><img src="/Users/mac/Library/Application Support/typora-user-images/image-20191205151814435.png" alt="image-20191205151814435" style="zoom:50%;" />
 
-<h4 id="1-for-in获取索引-index"><a href="#1-for-in获取索引-index" class="headerlink" title="1.for in获取索引 index"></a>1.for in获取索引 index</h4><pre class=" language-Swift"><code class="language-Swift">                let array = ["Apple", "Google", "Amazon"]
-        for item in array {
-          print("company name is :(item)")
-        }
-        ///配合array.enumerated()使用
-        for (index, item) in array.enumerated() {
-            print("index:(index), item:(item)")
-        }</code></pre>
-<h4 id="2-array-firstIndex-of-获取index"><a href="#2-array-firstIndex-of-获取index" class="headerlink" title="2.array.firstIndex(of:)获取index"></a>2.array.firstIndex(of:)获取index</h4><pre class=" language-Swift"><code class="language-Swift">                ///配合array.firstIndex(of:)使用
-        let googleIndex = array.firstIndex(of: "Google")
-        print("googleIndex is : (googleIndex ?? 0)")
-                ///配合array.firstIndex(where:)使用
-        if let index = array.firstIndex(where: { $0.hasPrefix("A") }) {
-            print("array.firstIndex is (index)")
-        }
-        if let item = array.first(where: { $0.hasPrefix("A")}{
-            print("array.first is :(item)")
-        }</code></pre>
+<h4 id="1-for-in获取索引-index"><a href="#1-for-in获取索引-index" class="headerlink" title="1.for in获取索引 index"></a>1.for in获取索引 index</h4><pre class=" language-swift"><code class="language-swift">                <span class="token keyword">let</span> array <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"Apple"</span><span class="token punctuation">,</span> <span class="token string">"Google"</span><span class="token punctuation">,</span> <span class="token string">"Amazon"</span><span class="token punctuation">]</span>
+        <span class="token keyword">for</span> item <span class="token keyword">in</span> array <span class="token punctuation">{</span>
+          <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"company name is :(item)"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">///配合array.enumerated()使用</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span>index<span class="token punctuation">,</span> item<span class="token punctuation">)</span> <span class="token keyword">in</span> array<span class="token punctuation">.</span><span class="token function">enumerated</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"index:(index), item:(item)"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span></code></pre>
+<h4 id="2-array-firstIndex-of-获取index"><a href="#2-array-firstIndex-of-获取index" class="headerlink" title="2.array.firstIndex(of:)获取index"></a>2.array.firstIndex(of:)获取index</h4><pre class=" language-swift"><code class="language-swift">                <span class="token comment" spellcheck="true">///配合array.firstIndex(of:)使用</span>
+        <span class="token keyword">let</span> googleIndex <span class="token operator">=</span> array<span class="token punctuation">.</span><span class="token function">firstIndex</span><span class="token punctuation">(</span>of<span class="token punctuation">:</span> <span class="token string">"Google"</span><span class="token punctuation">)</span>
+        <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"googleIndex is : (googleIndex ?? 0)"</span><span class="token punctuation">)</span>
+                <span class="token comment" spellcheck="true">///配合array.firstIndex(where:)使用</span>
+        <span class="token keyword">if</span> <span class="token keyword">let</span> index <span class="token operator">=</span> array<span class="token punctuation">.</span><span class="token function">firstIndex</span><span class="token punctuation">(</span><span class="token keyword">where</span><span class="token punctuation">:</span> <span class="token punctuation">{</span> $<span class="token number">0</span><span class="token punctuation">.</span><span class="token function">hasPrefix</span><span class="token punctuation">(</span><span class="token string">"A"</span><span class="token punctuation">)</span> <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"array.firstIndex is (index)"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">if</span> <span class="token keyword">let</span> item <span class="token operator">=</span> array<span class="token punctuation">.</span><span class="token function">first</span><span class="token punctuation">(</span><span class="token keyword">where</span><span class="token punctuation">:</span> <span class="token punctuation">{</span> $<span class="token number">0</span><span class="token punctuation">.</span><span class="token function">hasPrefix</span><span class="token punctuation">(</span><span class="token string">"A"</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token punctuation">{</span>
+            <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"array.first is :(item)"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span></code></pre>
 <h2 id="Swift备忘录002-Array-forEach"><a href="#Swift备忘录002-Array-forEach" class="headerlink" title="Swift备忘录002 Array.forEach()"></a>Swift备忘录002 Array.forEach()</h2><h4 id="2-1forEach-和函数式编程结合使用"><a href="#2-1forEach-和函数式编程结合使用" class="headerlink" title="2.1forEach()和函数式编程结合使用"></a>2.1forEach()和函数式编程结合使用</h4><pre class=" language-swift"><code class="language-swift">                <span class="token keyword">let</span> array <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"1"</span><span class="token punctuation">,</span> <span class="token string">"2"</span><span class="token punctuation">,</span> <span class="token string">"3"</span><span class="token punctuation">,</span> <span class="token string">"4"</span><span class="token punctuation">,</span> <span class="token string">"5"</span><span class="token punctuation">,</span> <span class="token string">"6"</span><span class="token punctuation">]</span>
         <span class="token comment" spellcheck="true">///使用forEach</span>
         array<span class="token punctuation">.</span><span class="token builtin">map</span> <span class="token punctuation">{</span> <span class="token function">Int</span><span class="token punctuation">(</span>$<span class="token number">0</span><span class="token punctuation">)</span><span class="token operator">!</span> <span class="token punctuation">}</span><span class="token punctuation">.</span>forEach <span class="token punctuation">{</span> num <span class="token keyword">in</span>
@@ -616,15 +616,15 @@ LOG.D("home property:($0)")
         <span class="token builtin">map</span><span class="token punctuation">.</span>forEach <span class="token punctuation">{</span>
             <span class="token function">print</span><span class="token punctuation">(</span>$<span class="token number">0</span><span class="token punctuation">)</span>
         <span class="token punctuation">}</span></code></pre>
-<h4 id="2-2forEach-遍历optional集合会自动过滤nil"><a href="#2-2forEach-遍历optional集合会自动过滤nil" class="headerlink" title="2.2forEach()遍历optional集合会自动过滤nil"></a>2.2forEach()遍历optional集合会自动过滤nil</h4><pre class=" language-Swift"><code class="language-Swift">                let optionalString: [String]? = nil
-        //使用forEach强制解包option，会过滤
-        optionalString?.forEach { str in
-            print("str is (str)")
-        }
-        ///使用for-in强制解包optional，会crash
-        for str in optionalString! {
-            print("str is (str)")
-        }</code></pre>
+<h4 id="2-2forEach-遍历optional集合会自动过滤nil"><a href="#2-2forEach-遍历optional集合会自动过滤nil" class="headerlink" title="2.2forEach()遍历optional集合会自动过滤nil"></a>2.2forEach()遍历optional集合会自动过滤nil</h4><pre class=" language-swift"><code class="language-swift">                <span class="token keyword">let</span> optionalString<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token builtin">String</span><span class="token punctuation">]</span><span class="token operator">?</span> <span class="token operator">=</span> <span class="token constant">nil</span>
+        <span class="token comment" spellcheck="true">//使用forEach强制解包option，会过滤</span>
+        optionalString<span class="token operator">?</span><span class="token punctuation">.</span>forEach <span class="token punctuation">{</span> str <span class="token keyword">in</span>
+            <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"str is (str)"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">///使用for-in强制解包optional，会crash</span>
+        <span class="token keyword">for</span> str <span class="token keyword">in</span> optionalString<span class="token operator">!</span> <span class="token punctuation">{</span>
+            <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"str is (str)"</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span></code></pre>
 <h2 id="Swift备忘录003-Array-index"><a href="#Swift备忘录003-Array-index" class="headerlink" title="Swift备忘录003 Array index"></a>Swift备忘录003 Array index</h2><h4 id="3-1"><a href="#3-1" class="headerlink" title="3.1"></a>3.1</h4>
             </div>
             <hr/>

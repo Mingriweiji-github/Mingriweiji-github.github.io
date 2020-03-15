@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="多线程, 明日危机">
+    <meta name="keywords" content="2020二叉树今生, 明日危机">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>多线程 | 明日危机</title>
+    <title>2020二叉树今生 | 明日危机</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -307,12 +307,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">多线程</h1>
+                    <h1 class="description center-align post-title">2020二叉树今生</h1>
                 </div>
             </div>
         </div>
@@ -441,7 +441,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-03-11
+                    2019-12-30
                 </div>
                 
 
@@ -458,75 +458,118 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="1、你理解的多线程？并发和串行，同步和异步"><a href="#1、你理解的多线程？并发和串行，同步和异步" class="headerlink" title="1、你理解的多线程？并发和串行，同步和异步"></a>1、<strong>你理解的多线程？并发和串行，同步和异步</strong></h2><ul>
-<li>同步和异步的区别: 是否开辟新的线程，同步只能在当前线程执行任务，异步可以再新的线程执行任务</li>
-<li>串行和并发的区别是任务执行的顺序，串行任务只能顺序执行，并发可以多个任务同时执行。</li>
-</ul>
-<h2 id="2、iOS多线程有哪些？常用哪个？"><a href="#2、iOS多线程有哪些？常用哪个？" class="headerlink" title="2、iOS多线程有哪些？常用哪个？"></a>2、iOS多线程有哪些？常用哪个？</h2><ul>
-<li>NSThread、GCD/NSOperationQueue</li>
-<li>常用GCD/NSOperation</li>
-</ul>
-<p><img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200314043637.png" alt="pthread NSThread GCD NSoperatio"></p>
-<h2 id="GCD-的队列类型有哪些？"><a href="#GCD-的队列类型有哪些？" class="headerlink" title="GCD 的队列类型有哪些？"></a><strong>GCD 的队列类型有哪些？</strong></h2><h2 id="OperationQueue-和-GCD-的区别？"><a href="#OperationQueue-和-GCD-的区别？" class="headerlink" title="OperationQueue 和 GCD 的区别？"></a><strong>OperationQueue 和 GCD 的区别？</strong></h2><ol>
-<li>GCD是底层的C语言构成的API，而NSOperationQueue及相关对象是Objc的对象。在GCD中，在队列中执行的是由block构成的任务，这是一个轻量级的数据结构；而Operation作为一个对象，为我们提供了更多的选择；</li>
-<li>在NSOperationQueue中，我们可以随时取消已经设定要准备执行的任务(当然，已经开始的任务就无法阻止了)，而GCD没法停止已经加入queue的block(其实是有的，但需要许多复杂的代码)；</li>
-<li>NSOperation能够方便地设置依赖关系，我们可以让一个Operation依赖于另一个Operation，这样的话尽管两个Operation处于同一个并行队列中，但前者会直到后者执行完毕后再执行；</li>
-<li>我们能将KVO应用在NSOperation中，可以监听一个Operation是否完成或取消，这样子能比GCD更加有效地掌控我们执行的后台任务；</li>
-<li>在NSOperation中，我们能够设置NSOperation的priority优先级，能够使同一个并行队列中的任务区分先后地执行，而在GCD中，我们只能区分不同任务队列的优先级，如果要区分block任务的优先级，也需要大量的复杂代码；</li>
-<li>我们能够对NSOperation进行继承，在这之上添加成员变量与成员方法，提高整个代码的复用度，这比简单地将block任务排入执行队列更有自由度，能够在其之上添加更多自定制的功能。</li>
+                <h1 id="二叉树今生"><a href="#二叉树今生" class="headerlink" title="二叉树今生"></a>二叉树今生</h1><p>为什么会有二叉树这种数据结构？</p>
+<p>思考一个问题：如果一个集合中有42亿个元素，让你从这42亿个元素中搜索某一个元素，你需要多少次操作？</p>
+<p><strong>如果使用数组链表的话最多可能需要42亿次比较，而如果使用二叉树我们只需要32次比较即可，这就是二叉树存在的价值。Java中的HashSet使用的就是二叉树</strong></p>
+<h2 id="前驱与后继"><a href="#前驱与后继" class="headerlink" title="前驱与后继"></a>前驱与后继</h2><h3 id="前驱节点"><a href="#前驱节点" class="headerlink" title="前驱节点"></a>前驱节点</h3><ol>
+<li><p>若一个节点有左子树，那么该节点的前驱节点是其左子树中val值最大的节点（也就是左子树中所谓的rightMostNode）</p>
+</li>
+<li><p>若一个节点没有左子树，那么判断该节点和其父节点的关系 </p>
+<p>2.1 若该节点是其父节点的右边孩子，那么该节点的前驱结点即为其父节点。 </p>
+<p>2.2 若该节点是其父节点的左边孩子，那么需要沿着其父亲节点一直向树的顶端寻找，直到找到一个节点P，P节点是其父节点Q的右边孩子（可参考例子2的前驱结点是1），那么Q就是该节点的后继节点</p>
+</li>
 </ol>
-<p><strong>总的来说，Operation queue 提供了更多你在编写多线程程序时需要的功能，并隐藏了许多线程调度，线程取消与线程优先级的复杂代码，为我们提供简单的API入口。</strong></p>
-<p><strong>从编程原则来说，一般我们需要尽可能的使用高等级、封装完美的API，在必须时才使用底层API。但是我认为当我们的需求能够以更简单的底层代码完成的时候，简洁的GCD或许是个更好的选择，而Operation queue 为我们提供能更多的选择。</strong></p>
-<h2 id="如何用gcd实现以下功能？"><a href="#如何用gcd实现以下功能？" class="headerlink" title="如何用gcd实现以下功能？"></a><strong>如何用gcd实现以下功能？</strong></h2><ul>
-<li><strong>异步并发执行任务1、任务2</strong> </li>
-<li><strong>等任务1、任务2都执行完毕后，再回到主线程执行任务3</strong></li>
-</ul>
-<h2 id="线程安全是什么？如何处理线程安全的问题？"><a href="#线程安全是什么？如何处理线程安全的问题？" class="headerlink" title="线程安全是什么？如何处理线程安全的问题？"></a><strong>线程安全是什么？如何处理线程安全的问题？</strong></h2><blockquote>
-<p>我们一般通过线程同步方案如加锁的方式来实现线程的安全</p>
-<p><a href="https://bestswifter.com/ios-lock/" target="_blank" rel="noopener">iOS锁的原理</a> |   <a href="https://www.jianshu.com/p/e56c3d28e77d" target="_blank" rel="noopener">深入浅出iOS系统内核-同步机制</a></p>
-</blockquote>
-<ul>
-<li><strong>os_unfair_lock：iOS10开始os_unfair_lock来替代OSSpinLock, 等待锁的线程会进入休眠不占用CPU资源， 这个os_unfair_lock解决了优先级翻转问题。</strong></li>
-<li><strong>OSSpinLock: 自旋锁，线程忙等一直占用CUP资源，不安全因为可能出现优先级翻转的可能</strong></li>
-<li><strong>dispatch_semaphore：信号量为1的semaphore也可以看做是锁</strong></li>
-<li><strong>pthread_mutex：mutex是互斥锁，等待锁的线程处于休眠状态，pthread_mutex是递归锁，可以递归调用。</strong></li>
-<li><strong>使用GCD的串行队列也可以实现锁的功能</strong></li>
-<li><strong>NSLock是对metex互斥锁的封装，NSRecurisiveLock也是对metex的递归封装，API和NSLock一直。</strong></li>
-<li>NSCondition</li>
-<li>NSConditionLock</li>
-<li><strong>@synchorized也是mutex的递归封装，@synchronized(obj)内部会生成obj对应的递归锁，然后进行加锁、解锁操作。</strong></li>
-</ul>
-<h2 id="自旋锁和互斥锁如何选择？"><a href="#自旋锁和互斥锁如何选择？" class="headerlink" title="自旋锁和互斥锁如何选择？"></a><strong>自旋锁和互斥锁如何选择？</strong></h2><p><strong>自旋锁OSSpinLock：当线程获取锁，其他等待锁的线程会忙等一直占用CPU,自旋锁有优先级翻转的可能性，所以苹果已经弃用自旋锁OSSpinLock改用os_unfair_lock.</strong></p>
-<p><strong>互斥锁mutext：阻塞线程并休眠，其他线程才能正常访问，用互斥的方式来保证线程的安全。</strong></p>
-<p><strong>递归锁：顾名思义，可以被一个线程多次获得，而不会引起死锁。它记录了成功获得锁的次数，每一次成功的获得锁，必须有一个配套的释放锁和其对应，这样才不会引起死锁。NSRecursiveLock 会记录上锁和解锁的次数，当二者平衡的时候，才会释放锁，其它线程才可以上锁成功。</strong></p>
-<ul>
-<li><strong>什么情况使用自旋锁比较划算？</strong> <ul>
-<li>预计线程等待锁的时间很短 </li>
-<li>加锁的代码（临界区）经常被调用，但竞争情况很少发生 </li>
-<li>CPU资源不紧张 多核处理器</li>
-</ul>
-</li>
-<li><strong>什么情况使用互斥锁比较划算？</strong> <ul>
-<li>预计线程等待锁的时间较长 </li>
-<li>单核处理器 临界区有IO操作 </li>
-<li>临界区代码复杂或者循环量大 </li>
-<li>临界区竞争非常激烈 </li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><strong>追问二：使用以上锁需要注意哪些？</strong> </li>
-<li><strong>追问三：用C/OC/C++，任选其一，实现自旋或互斥？口述即可！</strong></li>
-</ul>
-<h2 id="iOS线程同步方案性能比较"><a href="#iOS线程同步方案性能比较" class="headerlink" title="iOS线程同步方案性能比较"></a>iOS线程同步方案<strong>性能</strong>比较</h2><p><strong>性能从高到低排序:</strong></p>
-<pre><code>os_unfair_lock &gt; OSSpinLock &gt; dispatch_semaphore &gt; pthread_mutex &gt; dispatch_queue(DISPATCH_QUEUE_SERIAL) &gt; NSLock &gt; NSCondition &gt; pthread_mutex(recursive) &gt; NSRecursiveLock &gt; NSConditionLock &gt; @synchronized</code></pre><h2 id="如何实现多度单写？"><a href="#如何实现多度单写？" class="headerlink" title="如何实现多度单写？"></a><code>如何实现多度单写？</code></h2><p><strong>dispatch_barrier_async</strong></p>
-<ul>
-<li>这个函数传入的并发队列必须是自己通过dispatch_queue_cretate创建的 </li>
-<li>如果传入的是一个串行或是一个全局的并发队列，那这个函数便等同于dispatch_async函数的效果</li>
-</ul>
-<p><strong><code>pthread_rwlock</code>读写锁-等待锁的线程进入休眠</strong></p>
-<p><img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/1.png" alt="pthread_rwlock"></p>
-<p>‌</p>
+<h3 id="后继节点"><a href="#后继节点" class="headerlink" title="后继节点"></a>后继节点</h3><ol>
+<li>若一个节点有右子树，那么该节点的后继节点是其右子树中val值最小的节点（也就是右子树中所谓的leftMostNode）</li>
+<li>若一个节点没有右子树，那么判断该节点和其父节点的关系<br>2.1 若该节点是其父节点的左边孩子，那么该节点的后继结点即为其父节点<br>2.2 若该节点是其父节点的右边孩子，那么需要沿着其父亲节点一直向树的顶端寻找，直到找到一个节点P，P节点是其父节点Q的左边孩子（可参考例子2的前驱结点是1），那么Q就是该节点的后继节点</li>
+</ol>
+<p>如何判断两个二叉树是否相同？</p>
+<p><strong>递归法</strong></p>
+<pre class=" language-Java"><code class="language-Java">static public bool IsSameTree(TreeNode root1, TreeNode root2) {
+    if (root1 == null && root2 == null) {
+        return true;
+    }
+    if ((root1 == null && root2 != null) || (root1 != null && root2 == null)) {
+        return false;
+    }
+    if (root1.val != root2.val) {//判断每个节点的值是否相等，如果去除此判断，则判断两个二叉树是否结构相等
+        return false;
+    }
+    return IsSameTree(root1.left, root2.left) && IsSameTree(root1.right, root2.right);
+}</code></pre>
+<p><strong>非递归法</strong></p>
+<pre class=" language-Java"><code class="language-Java">bool  BTreeCompare（BTreeNode_t *pRoot1, BTreeNode_t *pRoot2)  
+{  
+    if( pRoot1 == NULL && pRoot2 == NULL )  
+        return false;  
+
+
+    queue <BTreeNode_t *> que1;  
+    queue <BTreeNode_t *> que2;  
+
+
+    que1.push(pRoot1);  
+    que2.push(pRoot2);  
+
+
+    int curLevelNodeTotal1 = 0;  
+    int curLevelNodeTotal2 = 0;  
+
+
+    bool flag = true; //作为比较不一致时跳出标识  
+    while( ( !que1.empty()) && ( !que2.empty())) //当两个队列均不为空时，才进行比较  
+    {  
+        curLevelNodeTotal1 = que1.size();  //获取树1的当前层节点总数  
+        curLevelNodeTotal2 = que2.size(); //获取树2的当前层节点总数  
+        if( curLevelNodeTotal1 != curLevelNodeTotal2){  
+            flag = false;//当前层节点总数都不一致，不需要比较了，直接跳出  
+            break;  
+        }  
+        int cnt1 = 0;//遍历本层节点时的计数器  
+        int cnt2 = 0;  
+        while( cnt1 < curLevelNodeTotal1  && cnt2 < curLevelNodeTotal2){  
+            ++cnt1;  
+            ++cnt2;  
+            pRoot1 = que1.front();  
+            que1.pop();  
+            pRoot2 = que2.front();  
+            que2.pop();  
+
+            //比较当前节点中数据是否一致  
+            if( pRoot1->m_pElemt != pRoot2->m_pElemt ){  
+                flag = false;  
+                break;  
+            }  
+            //判断pRoot1和pRoot2左右节点结构是否相同  
+            if( ( pRoot1->m_pLeft != NULL && pRoot2->m_pLeft == NULL )    ||  
+                ( pRoot1->m_pLeft == NULL && pRoot2->m_pLeft != NULL )    ||  
+                ( pRoot1->m_pRight != NULL && pRoot2->m_pRight == NULL )    ||  
+                ( pRoot1->m_pRight == NULL && pRoot2->m_pRight != NULL )  
+            ){  
+                flag = false;  
+                break;  
+            }  
+
+            //将左右节点入队  
+            if( pRoot1->m_pLeft != NULL )  
+                que1.push( pRoot1->m_pLeft);  
+            if( pRoot1->m_pRight != NULL )  
+                que1.push( pRoot1->m_pRight);  
+            if( pRoot2->m_pLeft != NULL )  
+                que2.push( pRoot2->m_pLeft);  
+            if( pRoot2->m_pRight != NULL )  
+                que2.push( pRoot2->m_pRight);  
+        }  
+
+
+        if( flag == false )  
+            break;  
+    }  
+
+    //如果比较标志为false，则不相同  
+    if( flag == false ){  
+        while( !que1.empty() )  
+            que1.pop();  
+        while( !que2.empty())  
+            que2.pop();  
+
+
+        return false;  
+    }  
+
+
+    return true;  
+}</code></pre>
 
             </div>
             <hr/>
@@ -552,7 +595,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://mingriweiji-github.github.io/2020/03/11/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">https://mingriweiji-github.github.io/2020/03/11/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</a>
+                    <a href="https://mingriweiji-github.github.io/2019/12/30/2020%E4%BA%8C%E5%8F%89%E6%A0%91%E4%BB%8A%E7%94%9F/">https://mingriweiji-github.github.io/2019/12/30/2020%E4%BA%8C%E5%8F%89%E6%A0%91%E4%BB%8A%E7%94%9F/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -757,29 +800,27 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/03/11/Runloop/">
+                <a href="/2019/12/30/2020%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="Runloop">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="2020红黑树前世今生">
                         
-                        <span class="card-title">Runloop</span>
+                        <span class="card-title">2020红黑树前世今生</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Runloop1.讲讲 RunLoop，项目中有用到吗？
-事件循环，在程序运行中循环做一些事情
-没有消息mach_msg()切换用户态到内核态线程休眠，有消息内核态切换到用户态
-
-runloop相关：
-Timer、performSelect
+                            红黑树前世今生关键词：二叉搜索树、前驱节点、后继节点、B树、红黑树
+什么是B树前世B树是一种相对于来说特殊二叉搜索树，多用于数据库和文件搜索系统中。
+n阶B树的性质
+B树是一种平衡的多路搜索树，拥有平衡二叉树的一些特性，与平衡二叉树的最大区
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-11
+                            <i class="far fa-clock fa-fw icon-date"></i>2019-12-30
                         </span>
                         <span class="publish-author">
                             
@@ -799,22 +840,19 @@ Timer、performSelect
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/12/30/2020%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">
+                <a href="/2019/12/30/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="2020红黑树前世今生">
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="iOS图像处理">
                         
-                        <span class="card-title">2020红黑树前世今生</span>
+                        <span class="card-title">iOS图像处理</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            红黑树前世今生关键词：二叉搜索树、前驱节点、后继节点、B树、红黑树
-什么是B树前世B树是一种相对于来说特殊二叉搜索树，多用于数据库和文件搜索系统中。
-n阶B树的性质
-B树是一种平衡的多路搜索树，拥有平衡二叉树的一些特性，与平衡二叉树的最大区
+                            iOS图像优化技巧图像渲染优化的时机和理由在开始之前，让我们先讨论一下为什么需要对图像进行渲染优化。毕竟，UIImageView 会自动根据 contentmode 属性 规定的行为缩放和裁剪图像。在绝大多数情况下，.scaleAspect
                         
                     </div>
                     <div class="publish-info">

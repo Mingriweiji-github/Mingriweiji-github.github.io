@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="多线程, 明日危机">
+    <meta name="keywords" content="2020红黑树前世今生, 明日危机">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>多线程 | 明日危机</title>
+    <title>2020红黑树前世今生 | 明日危机</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -307,12 +307,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">多线程</h1>
+                    <h1 class="description center-align post-title">2020红黑树前世今生</h1>
                 </div>
             </div>
         </div>
@@ -441,7 +441,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-03-11
+                    2019-12-30
                 </div>
                 
 
@@ -458,75 +458,76 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="1、你理解的多线程？并发和串行，同步和异步"><a href="#1、你理解的多线程？并发和串行，同步和异步" class="headerlink" title="1、你理解的多线程？并发和串行，同步和异步"></a>1、<strong>你理解的多线程？并发和串行，同步和异步</strong></h2><ul>
-<li>同步和异步的区别: 是否开辟新的线程，同步只能在当前线程执行任务，异步可以再新的线程执行任务</li>
-<li>串行和并发的区别是任务执行的顺序，串行任务只能顺序执行，并发可以多个任务同时执行。</li>
-</ul>
-<h2 id="2、iOS多线程有哪些？常用哪个？"><a href="#2、iOS多线程有哪些？常用哪个？" class="headerlink" title="2、iOS多线程有哪些？常用哪个？"></a>2、iOS多线程有哪些？常用哪个？</h2><ul>
-<li>NSThread、GCD/NSOperationQueue</li>
-<li>常用GCD/NSOperation</li>
-</ul>
-<p><img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200314043637.png" alt="pthread NSThread GCD NSoperatio"></p>
-<h2 id="GCD-的队列类型有哪些？"><a href="#GCD-的队列类型有哪些？" class="headerlink" title="GCD 的队列类型有哪些？"></a><strong>GCD 的队列类型有哪些？</strong></h2><h2 id="OperationQueue-和-GCD-的区别？"><a href="#OperationQueue-和-GCD-的区别？" class="headerlink" title="OperationQueue 和 GCD 的区别？"></a><strong>OperationQueue 和 GCD 的区别？</strong></h2><ol>
-<li>GCD是底层的C语言构成的API，而NSOperationQueue及相关对象是Objc的对象。在GCD中，在队列中执行的是由block构成的任务，这是一个轻量级的数据结构；而Operation作为一个对象，为我们提供了更多的选择；</li>
-<li>在NSOperationQueue中，我们可以随时取消已经设定要准备执行的任务(当然，已经开始的任务就无法阻止了)，而GCD没法停止已经加入queue的block(其实是有的，但需要许多复杂的代码)；</li>
-<li>NSOperation能够方便地设置依赖关系，我们可以让一个Operation依赖于另一个Operation，这样的话尽管两个Operation处于同一个并行队列中，但前者会直到后者执行完毕后再执行；</li>
-<li>我们能将KVO应用在NSOperation中，可以监听一个Operation是否完成或取消，这样子能比GCD更加有效地掌控我们执行的后台任务；</li>
-<li>在NSOperation中，我们能够设置NSOperation的priority优先级，能够使同一个并行队列中的任务区分先后地执行，而在GCD中，我们只能区分不同任务队列的优先级，如果要区分block任务的优先级，也需要大量的复杂代码；</li>
-<li>我们能够对NSOperation进行继承，在这之上添加成员变量与成员方法，提高整个代码的复用度，这比简单地将block任务排入执行队列更有自由度，能够在其之上添加更多自定制的功能。</li>
-</ol>
-<p><strong>总的来说，Operation queue 提供了更多你在编写多线程程序时需要的功能，并隐藏了许多线程调度，线程取消与线程优先级的复杂代码，为我们提供简单的API入口。</strong></p>
-<p><strong>从编程原则来说，一般我们需要尽可能的使用高等级、封装完美的API，在必须时才使用底层API。但是我认为当我们的需求能够以更简单的底层代码完成的时候，简洁的GCD或许是个更好的选择，而Operation queue 为我们提供能更多的选择。</strong></p>
-<h2 id="如何用gcd实现以下功能？"><a href="#如何用gcd实现以下功能？" class="headerlink" title="如何用gcd实现以下功能？"></a><strong>如何用gcd实现以下功能？</strong></h2><ul>
-<li><strong>异步并发执行任务1、任务2</strong> </li>
-<li><strong>等任务1、任务2都执行完毕后，再回到主线程执行任务3</strong></li>
-</ul>
-<h2 id="线程安全是什么？如何处理线程安全的问题？"><a href="#线程安全是什么？如何处理线程安全的问题？" class="headerlink" title="线程安全是什么？如何处理线程安全的问题？"></a><strong>线程安全是什么？如何处理线程安全的问题？</strong></h2><blockquote>
-<p>我们一般通过线程同步方案如加锁的方式来实现线程的安全</p>
-<p><a href="https://bestswifter.com/ios-lock/" target="_blank" rel="noopener">iOS锁的原理</a> |   <a href="https://www.jianshu.com/p/e56c3d28e77d" target="_blank" rel="noopener">深入浅出iOS系统内核-同步机制</a></p>
+                <h1 id="红黑树前世今生"><a href="#红黑树前世今生" class="headerlink" title="红黑树前世今生"></a>红黑树前世今生</h1><p>关键词：二叉搜索树、前驱节点、后继节点、B树、红黑树</p>
+<h2 id="什么是B树"><a href="#什么是B树" class="headerlink" title="什么是B树"></a>什么是B树</h2><h3 id="前世"><a href="#前世" class="headerlink" title="前世"></a>前世</h3><p>B树是一种相对于来说特殊二叉搜索树，多用于数据库和文件搜索系统中。</p>
+<h3 id="n阶B树的性质"><a href="#n阶B树的性质" class="headerlink" title="n阶B树的性质"></a>n阶B树的性质</h3><blockquote>
+<p>B树是一种平衡的多路搜索树，拥有平衡二叉树的一些特性，与平衡二叉树的最大区别在于每个节点不再是只能存储一个元素，而且每个节点可以拥有多个子节点而像二叉平衡树只能拥有两个。</p>
 </blockquote>
-<ul>
-<li><strong>os_unfair_lock：iOS10开始os_unfair_lock来替代OSSpinLock, 等待锁的线程会进入休眠不占用CPU资源， 这个os_unfair_lock解决了优先级翻转问题。</strong></li>
-<li><strong>OSSpinLock: 自旋锁，线程忙等一直占用CUP资源，不安全因为可能出现优先级翻转的可能</strong></li>
-<li><strong>dispatch_semaphore：信号量为1的semaphore也可以看做是锁</strong></li>
-<li><strong>pthread_mutex：mutex是互斥锁，等待锁的线程处于休眠状态，pthread_mutex是递归锁，可以递归调用。</strong></li>
-<li><strong>使用GCD的串行队列也可以实现锁的功能</strong></li>
-<li><strong>NSLock是对metex互斥锁的封装，NSRecurisiveLock也是对metex的递归封装，API和NSLock一直。</strong></li>
-<li>NSCondition</li>
-<li>NSConditionLock</li>
-<li><strong>@synchorized也是mutex的递归封装，@synchronized(obj)内部会生成obj对应的递归锁，然后进行加锁、解锁操作。</strong></li>
-</ul>
-<h2 id="自旋锁和互斥锁如何选择？"><a href="#自旋锁和互斥锁如何选择？" class="headerlink" title="自旋锁和互斥锁如何选择？"></a><strong>自旋锁和互斥锁如何选择？</strong></h2><p><strong>自旋锁OSSpinLock：当线程获取锁，其他等待锁的线程会忙等一直占用CPU,自旋锁有优先级翻转的可能性，所以苹果已经弃用自旋锁OSSpinLock改用os_unfair_lock.</strong></p>
-<p><strong>互斥锁mutext：阻塞线程并休眠，其他线程才能正常访问，用互斥的方式来保证线程的安全。</strong></p>
-<p><strong>递归锁：顾名思义，可以被一个线程多次获得，而不会引起死锁。它记录了成功获得锁的次数，每一次成功的获得锁，必须有一个配套的释放锁和其对应，这样才不会引起死锁。NSRecursiveLock 会记录上锁和解锁的次数，当二者平衡的时候，才会释放锁，其它线程才可以上锁成功。</strong></p>
-<ul>
-<li><strong>什么情况使用自旋锁比较划算？</strong> <ul>
-<li>预计线程等待锁的时间很短 </li>
-<li>加锁的代码（临界区）经常被调用，但竞争情况很少发生 </li>
-<li>CPU资源不紧张 多核处理器</li>
-</ul>
-</li>
-<li><strong>什么情况使用互斥锁比较划算？</strong> <ul>
-<li>预计线程等待锁的时间较长 </li>
-<li>单核处理器 临界区有IO操作 </li>
-<li>临界区代码复杂或者循环量大 </li>
-<li>临界区竞争非常激烈 </li>
+<ol>
+<li>B树每个节点最多可以存储超过2个元素，可以拥有超过2个子节点</li>
+<li>B树每个子节点的子树高度一致</li>
+<li>B树和二叉搜索树一样，左子树&lt;根节点&lt;右子树</li>
+<li>根节点元素个数:   1≤ X ≤ n - 1</li>
+<li>非根节点元素个数:  n/2 - 1 ≤ x ≤ n - 1 (n/2 向上取整)</li>
+<li>如果有子节点，子节点个数 y = x + 1,</li>
+<li>根节点 2 ≤ y ≤ n<br><strong>非根节点 n / 2 ≤ y ≤ n</strong> (n/2 向上取整)</li>
+</ol>
+<blockquote>
+<p>数据库中一般使用的是200-300阶B树</p>
+<p>4阶B树元素个数为(2-3-4)，所以4阶B树也叫2-4树或者2-3-4树</p>
+<p>5阶B树元素个数为 3-4-5 所以5阶B树叫（3，5）树</p>
+<p>6阶B树元素个数3-4-5-6，所以6阶B树叫（3，6）树</p>
+<p>7阶B树元素个数为4-5-6-7，所以7阶B树叫（4，7）树</p>
+</blockquote>
+<h3 id="B树-VS-二叉搜索树"><a href="#B树-VS-二叉搜索树" class="headerlink" title="B树 VS 二叉搜索树"></a>B树 VS 二叉搜索树</h3><ol>
+<li>B树与二叉搜索树逻辑上等价</li>
+<li>n阶B树最多需要log2 N代合并</li>
+<li>多代节点合并可以获得超节点<ul>
+<li>2代合并最多拥有4个子节点</li>
+<li>3代合并最多拥有8个子节点</li>
+<li>n代合并最多拥有2^n个子节点（至少是2^n阶B树）</li>
 </ul>
 </li>
+</ol>
+<h3 id="B树的添加与上溢"><a href="#B树的添加与上溢" class="headerlink" title="B树的添加与上溢"></a>B树的添加与上溢</h3><p><strong>上溢出（overflow）:添加元素到子节点后，该节点元素个数大于N时，我们称之为上溢出</strong></p>
+<p>B树的元素添加的位置一定是叶子节点</p>
+<p>B树添加导致上溢</p>
+<p>B树上溢最极端的情况是一直分裂到根节点</p>
+<h3 id="B树的删除与下溢"><a href="#B树的删除与下溢" class="headerlink" title="B树的删除与下溢"></a>B树的删除与下溢</h3><h4 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h4><ul>
+<li><p>删除叶子节点的话直接删除</p>
+<p><img src="B%E6%A0%91%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F.assets/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202019-12-15%20%E4%B8%8A%E5%8D%889.49.17.png" alt="屏幕快照 2019-12-15 上午9.49.17"></p>
+</li>
+<li><p>删除的非叶子节点的话：1、先找到前驱或后继节点元素，覆盖需要删除的值，2、把前驱或后继元素删除（说明：一个树的前驱在左子树的最后边，后驱在右子树的最左边。）</p>
+</li>
 </ul>
+<p><img src="B%E6%A0%91%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F.assets/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202019-12-15%20%E4%B8%8A%E5%8D%889.48.06.png" alt="屏幕快照 2019-12-15 上午9.48.06"></p>
 <ul>
-<li><strong>追问二：使用以上锁需要注意哪些？</strong> </li>
-<li><strong>追问三：用C/OC/C++，任选其一，实现自旋或互斥？口述即可！</strong></li>
+<li>非叶子节点前驱或后继元素，必然是在叶子节点中，所以真正删除的元素都是叶子节点</li>
 </ul>
-<h2 id="iOS线程同步方案性能比较"><a href="#iOS线程同步方案性能比较" class="headerlink" title="iOS线程同步方案性能比较"></a>iOS线程同步方案<strong>性能</strong>比较</h2><p><strong>性能从高到低排序:</strong></p>
-<pre><code>os_unfair_lock &gt; OSSpinLock &gt; dispatch_semaphore &gt; pthread_mutex &gt; dispatch_queue(DISPATCH_QUEUE_SERIAL) &gt; NSLock &gt; NSCondition &gt; pthread_mutex(recursive) &gt; NSRecursiveLock &gt; NSConditionLock &gt; @synchronized</code></pre><h2 id="如何实现多度单写？"><a href="#如何实现多度单写？" class="headerlink" title="如何实现多度单写？"></a><code>如何实现多度单写？</code></h2><p><strong>dispatch_barrier_async</strong></p>
-<ul>
-<li>这个函数传入的并发队列必须是自己通过dispatch_queue_cretate创建的 </li>
-<li>如果传入的是一个串行或是一个全局的并发队列，那这个函数便等同于dispatch_async函数的效果</li>
+<p><img src="B%E6%A0%91%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F.assets/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202019-12-15%20%E4%B8%8A%E5%8D%889.50.50.png" alt="屏幕快照 2019-12-15 上午9.50.50"></p>
+<p><strong>下溢出（underflow）：叶子节点被删除一个元素后，元素个数可能会低于最低限制 （n/2 - 1 向上取整）</strong></p>
+<p><strong>下溢出的解决方案是旋转</strong>，总体元素是哪个方向失衡往哪个方向转，子树大小顺序不能乱</p>
+<h2 id="4阶B树"><a href="#4阶B树" class="headerlink" title="4阶B树"></a>4阶B树</h2><ul>
+<li>4阶B树所有节点都能储存的元素个数x: 1 ≤ x ≤ 3</li>
+<li>4阶B树非叶子节点的子节点个数：2 ≤ y ≤ 4</li>
 </ul>
-<p><strong><code>pthread_rwlock</code>读写锁-等待锁的线程进入休眠</strong></p>
-<p><img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/1.png" alt="pthread_rwlock"></p>
-<p>‌</p>
+<h2 id="为什么需要红黑树"><a href="#为什么需要红黑树" class="headerlink" title="为什么需要红黑树?"></a>为什么需要红黑树?</h2><p>红黑树是在二叉搜索树的基础上对AVL树的改进，二叉搜索树顾名思义是对搜索算法的一种优化，能够大大减少我们元素对比的次数。红黑树在Java中的应用如HashSet(底层是数组单链表和红黑树)、数据库搜索也有应用。</p>
+<h2 id="什么是红黑树？"><a href="#什么是红黑树？" class="headerlink" title="什么是红黑树？"></a>什么是红黑树？</h2><p><strong>红黑树是一种自平衡的二叉搜索树也叫平衡二叉B树</strong></p>
+<h3 id="红黑树5个性质"><a href="#红黑树5个性质" class="headerlink" title="红黑树5个性质"></a>红黑树5个性质</h3><ol>
+<li>节点分为红色与黑色</li>
+<li>根节点是黑色</li>
+<li>叶子节点是黑色</li>
+<li><strong>不能有两个连续的红色节点</strong></li>
+<li>从任意节点到叶子节点上所有路径的<strong>黑色节点数目必须相等</strong></li>
+</ol>
+<h3 id="红黑树等价变换"><a href="#红黑树等价变换" class="headerlink" title="红黑树等价变换"></a>红黑树等价变换</h3><p>红黑树等价于4阶B树</p>
+<h3 id="红黑树添加失衡如何解决？"><a href="#红黑树添加失衡如何解决？" class="headerlink" title="红黑树添加失衡如何解决？"></a>红黑树添加失衡如何解决？</h3><h4 id="添加失衡"><a href="#添加失衡" class="headerlink" title="添加失衡"></a>添加失衡</h4><ul>
+<li>Parrent节点为黑色时不需要处理</li>
+<li>Parrent节点为红色（Double Red）</li>
+<li>Uncle节点不是red:  <strong>LL/RR    LR/RL</strong></li>
+<li>Uncle节点是red:  </li>
+</ul>
+<h3 id="红黑树删除节点失衡如何解决？"><a href="#红黑树删除节点失衡如何解决？" class="headerlink" title="红黑树删除节点失衡如何解决？"></a>红黑树删除节点失衡如何解决？</h3><h2 id="红黑树-VS-AVL树"><a href="#红黑树-VS-AVL树" class="headerlink" title="红黑树 VS AVL树"></a>红黑树 VS AVL树</h2><h3 id="搜索性能"><a href="#搜索性能" class="headerlink" title="搜索性能"></a>搜索性能</h3><h3 id="添加"><a href="#添加" class="headerlink" title="添加"></a>添加</h3><h3 id="删除-1"><a href="#删除-1" class="headerlink" title="删除"></a>删除</h3><h3 id="实际应用"><a href="#实际应用" class="headerlink" title="实际应用"></a>实际应用</h3><p>Java8中的hashMap是使用数组+链表实现的，在解决哈希碰撞时使用了红黑树。</p>
 
             </div>
             <hr/>
@@ -552,7 +553,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://mingriweiji-github.github.io/2020/03/11/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">https://mingriweiji-github.github.io/2020/03/11/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</a>
+                    <a href="https://mingriweiji-github.github.io/2019/12/30/2020%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">https://mingriweiji-github.github.io/2019/12/30/2020%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -757,24 +758,23 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/03/11/Runloop/">
+                <a href="/2020/03/11/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="Runloop">
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="多线程">
                         
-                        <span class="card-title">Runloop</span>
+                        <span class="card-title">多线程</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Runloop1.讲讲 RunLoop，项目中有用到吗？
-事件循环，在程序运行中循环做一些事情
-没有消息mach_msg()切换用户态到内核态线程休眠，有消息内核态切换到用户态
+                            1、你理解的多线程？并发和串行，同步和异步
+同步和异步的区别: 是否开辟新的线程，同步只能在当前线程执行任务，异步可以再新的线程执行任务
+串行和并发的区别是任务执行的顺序，串行任务只能顺序执行，并发可以多个任务同时执行。
 
-runloop相关：
-Timer、performSelect
+2、iOS多线程
                         
                     </div>
                     <div class="publish-info">
@@ -799,22 +799,21 @@ Timer、performSelect
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/12/30/2020%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">
+                <a href="/2019/12/30/2020%E4%BA%8C%E5%8F%89%E6%A0%91%E4%BB%8A%E7%94%9F/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="2020红黑树前世今生">
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="2020二叉树今生">
                         
-                        <span class="card-title">2020红黑树前世今生</span>
+                        <span class="card-title">2020二叉树今生</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            红黑树前世今生关键词：二叉搜索树、前驱节点、后继节点、B树、红黑树
-什么是B树前世B树是一种相对于来说特殊二叉搜索树，多用于数据库和文件搜索系统中。
-n阶B树的性质
-B树是一种平衡的多路搜索树，拥有平衡二叉树的一些特性，与平衡二叉树的最大区
+                            二叉树今生为什么会有二叉树这种数据结构？
+思考一个问题：如果一个集合中有42亿个元素，让你从这42亿个元素中搜索某一个元素，你需要多少次操作？
+如果使用数组链表的话最多可能需要42亿次比较，而如果使用二叉树我们只需要32次比较即可，这就是二
                         
                     </div>
                     <div class="publish-info">

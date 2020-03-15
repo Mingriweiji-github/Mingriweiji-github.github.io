@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="多线程, 明日危机">
+    <meta name="keywords" content="反转问题, 明日危机">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>多线程 | 明日危机</title>
+    <title>反转问题 | 明日危机</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -307,12 +307,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">多线程</h1>
+                    <h1 class="description center-align post-title">反转问题</h1>
                 </div>
             </div>
         </div>
@@ -441,7 +441,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-03-11
+                    2020-03-15
                 </div>
                 
 
@@ -458,75 +458,117 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="1、你理解的多线程？并发和串行，同步和异步"><a href="#1、你理解的多线程？并发和串行，同步和异步" class="headerlink" title="1、你理解的多线程？并发和串行，同步和异步"></a>1、<strong>你理解的多线程？并发和串行，同步和异步</strong></h2><ul>
-<li>同步和异步的区别: 是否开辟新的线程，同步只能在当前线程执行任务，异步可以再新的线程执行任务</li>
-<li>串行和并发的区别是任务执行的顺序，串行任务只能顺序执行，并发可以多个任务同时执行。</li>
-</ul>
-<h2 id="2、iOS多线程有哪些？常用哪个？"><a href="#2、iOS多线程有哪些？常用哪个？" class="headerlink" title="2、iOS多线程有哪些？常用哪个？"></a>2、iOS多线程有哪些？常用哪个？</h2><ul>
-<li>NSThread、GCD/NSOperationQueue</li>
-<li>常用GCD/NSOperation</li>
-</ul>
-<p><img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200314043637.png" alt="pthread NSThread GCD NSoperatio"></p>
-<h2 id="GCD-的队列类型有哪些？"><a href="#GCD-的队列类型有哪些？" class="headerlink" title="GCD 的队列类型有哪些？"></a><strong>GCD 的队列类型有哪些？</strong></h2><h2 id="OperationQueue-和-GCD-的区别？"><a href="#OperationQueue-和-GCD-的区别？" class="headerlink" title="OperationQueue 和 GCD 的区别？"></a><strong>OperationQueue 和 GCD 的区别？</strong></h2><ol>
-<li>GCD是底层的C语言构成的API，而NSOperationQueue及相关对象是Objc的对象。在GCD中，在队列中执行的是由block构成的任务，这是一个轻量级的数据结构；而Operation作为一个对象，为我们提供了更多的选择；</li>
-<li>在NSOperationQueue中，我们可以随时取消已经设定要准备执行的任务(当然，已经开始的任务就无法阻止了)，而GCD没法停止已经加入queue的block(其实是有的，但需要许多复杂的代码)；</li>
-<li>NSOperation能够方便地设置依赖关系，我们可以让一个Operation依赖于另一个Operation，这样的话尽管两个Operation处于同一个并行队列中，但前者会直到后者执行完毕后再执行；</li>
-<li>我们能将KVO应用在NSOperation中，可以监听一个Operation是否完成或取消，这样子能比GCD更加有效地掌控我们执行的后台任务；</li>
-<li>在NSOperation中，我们能够设置NSOperation的priority优先级，能够使同一个并行队列中的任务区分先后地执行，而在GCD中，我们只能区分不同任务队列的优先级，如果要区分block任务的优先级，也需要大量的复杂代码；</li>
-<li>我们能够对NSOperation进行继承，在这之上添加成员变量与成员方法，提高整个代码的复用度，这比简单地将block任务排入执行队列更有自由度，能够在其之上添加更多自定制的功能。</li>
-</ol>
-<p><strong>总的来说，Operation queue 提供了更多你在编写多线程程序时需要的功能，并隐藏了许多线程调度，线程取消与线程优先级的复杂代码，为我们提供简单的API入口。</strong></p>
-<p><strong>从编程原则来说，一般我们需要尽可能的使用高等级、封装完美的API，在必须时才使用底层API。但是我认为当我们的需求能够以更简单的底层代码完成的时候，简洁的GCD或许是个更好的选择，而Operation queue 为我们提供能更多的选择。</strong></p>
-<h2 id="如何用gcd实现以下功能？"><a href="#如何用gcd实现以下功能？" class="headerlink" title="如何用gcd实现以下功能？"></a><strong>如何用gcd实现以下功能？</strong></h2><ul>
-<li><strong>异步并发执行任务1、任务2</strong> </li>
-<li><strong>等任务1、任务2都执行完毕后，再回到主线程执行任务3</strong></li>
-</ul>
-<h2 id="线程安全是什么？如何处理线程安全的问题？"><a href="#线程安全是什么？如何处理线程安全的问题？" class="headerlink" title="线程安全是什么？如何处理线程安全的问题？"></a><strong>线程安全是什么？如何处理线程安全的问题？</strong></h2><blockquote>
-<p>我们一般通过线程同步方案如加锁的方式来实现线程的安全</p>
-<p><a href="https://bestswifter.com/ios-lock/" target="_blank" rel="noopener">iOS锁的原理</a> |   <a href="https://www.jianshu.com/p/e56c3d28e77d" target="_blank" rel="noopener">深入浅出iOS系统内核-同步机制</a></p>
+                <h2 id="字符串反转"><a href="#字符串反转" class="headerlink" title="字符串反转"></a>字符串反转</h2><h3 id="方法一：递归"><a href="#方法一：递归" class="headerlink" title="方法一：递归"></a>方法一：递归</h3><blockquote>
+<p>原地反转字符串是否代表了空间复杂度为常数？<br>不，原地反转字符串是一种不使用辅助数据结构的算法。</p>
 </blockquote>
-<ul>
-<li><strong>os_unfair_lock：iOS10开始os_unfair_lock来替代OSSpinLock, 等待锁的线程会进入休眠不占用CPU资源， 这个os_unfair_lock解决了优先级翻转问题。</strong></li>
-<li><strong>OSSpinLock: 自旋锁，线程忙等一直占用CUP资源，不安全因为可能出现优先级翻转的可能</strong></li>
-<li><strong>dispatch_semaphore：信号量为1的semaphore也可以看做是锁</strong></li>
-<li><strong>pthread_mutex：mutex是互斥锁，等待锁的线程处于休眠状态，pthread_mutex是递归锁，可以递归调用。</strong></li>
-<li><strong>使用GCD的串行队列也可以实现锁的功能</strong></li>
-<li><strong>NSLock是对metex互斥锁的封装，NSRecurisiveLock也是对metex的递归封装，API和NSLock一直。</strong></li>
-<li>NSCondition</li>
-<li>NSConditionLock</li>
-<li><strong>@synchorized也是mutex的递归封装，@synchronized(obj)内部会生成obj对应的递归锁，然后进行加锁、解锁操作。</strong></li>
-</ul>
-<h2 id="自旋锁和互斥锁如何选择？"><a href="#自旋锁和互斥锁如何选择？" class="headerlink" title="自旋锁和互斥锁如何选择？"></a><strong>自旋锁和互斥锁如何选择？</strong></h2><p><strong>自旋锁OSSpinLock：当线程获取锁，其他等待锁的线程会忙等一直占用CPU,自旋锁有优先级翻转的可能性，所以苹果已经弃用自旋锁OSSpinLock改用os_unfair_lock.</strong></p>
-<p><strong>互斥锁mutext：阻塞线程并休眠，其他线程才能正常访问，用互斥的方式来保证线程的安全。</strong></p>
-<p><strong>递归锁：顾名思义，可以被一个线程多次获得，而不会引起死锁。它记录了成功获得锁的次数，每一次成功的获得锁，必须有一个配套的释放锁和其对应，这样才不会引起死锁。NSRecursiveLock 会记录上锁和解锁的次数，当二者平衡的时候，才会释放锁，其它线程才可以上锁成功。</strong></p>
-<ul>
-<li><strong>什么情况使用自旋锁比较划算？</strong> <ul>
-<li>预计线程等待锁的时间很短 </li>
-<li>加锁的代码（临界区）经常被调用，但竞争情况很少发生 </li>
-<li>CPU资源不紧张 多核处理器</li>
-</ul>
+<blockquote>
+<p>我们使用递归的方法去反转字符串，它是原地反转，但是空间复杂度却不是常数级空间，因为递归过程中使用了堆栈空间。</p>
+</blockquote>
+<h4 id="算法过程"><a href="#算法过程" class="headerlink" title="算法过程"></a>算法过程</h4><ul>
+<li><p>我们实现递归函数 helper，它接受两个参数：left 左指针和 right 右指针。</p>
 </li>
-<li><strong>什么情况使用互斥锁比较划算？</strong> <ul>
-<li>预计线程等待锁的时间较长 </li>
-<li>单核处理器 临界区有IO操作 </li>
-<li>临界区代码复杂或者循环量大 </li>
-<li>临界区竞争非常激烈 </li>
-</ul>
+<li><p>如果 left&gt;=right，不做任何操作。</p>
+</li>
+<li><p>否则交换 s[left] 和 s[right] 和调用 helper(left + 1, right - 1)。</p>
+</li>
+<li><p>首次调用函数我们传递首尾指针反转整个字符串 return helper(0, len(s) - 1)。</p>
+<pre class=" language-java"><code class="language-java">
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">helper</span><span class="token punctuation">(</span><span class="token keyword">char</span><span class="token punctuation">[</span><span class="token punctuation">]</span> s<span class="token punctuation">,</span> <span class="token keyword">int</span> left<span class="token punctuation">,</span> <span class="token keyword">int</span> right<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>left <span class="token operator">>=</span> right<span class="token punctuation">)</span> <span class="token keyword">return</span><span class="token punctuation">;</span>
+  <span class="token keyword">char</span> tmp <span class="token operator">=</span> s<span class="token punctuation">[</span>left<span class="token punctuation">]</span><span class="token punctuation">;</span>
+  s<span class="token punctuation">[</span>left<span class="token operator">++</span><span class="token punctuation">]</span> <span class="token operator">=</span> s<span class="token punctuation">[</span>right<span class="token punctuation">]</span><span class="token punctuation">;</span>
+  s<span class="token punctuation">[</span>right<span class="token operator">--</span><span class="token punctuation">]</span> <span class="token operator">=</span> tmp<span class="token punctuation">;</span>
+  <span class="token function">helper</span><span class="token punctuation">(</span>s<span class="token punctuation">,</span> left<span class="token punctuation">,</span> right<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">reverseString</span><span class="token punctuation">(</span><span class="token keyword">char</span><span class="token punctuation">[</span><span class="token punctuation">]</span> s<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">helper</span><span class="token punctuation">(</span>s<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> s<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
 </li>
 </ul>
-<ul>
-<li><strong>追问二：使用以上锁需要注意哪些？</strong> </li>
-<li><strong>追问三：用C/OC/C++，任选其一，实现自旋或互斥？口述即可！</strong></li>
+<h4 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h4><p><strong>时间复杂度：\mathcal{O}(N)O(N)。执行了 N/2N/2 次的交换。</strong></p>
+<p><strong>空间复杂度：\mathcal{O}(N)O(N)，递归过程中使用的堆栈空间。</strong></p>
+<h3 id="方法二：双指针法"><a href="#方法二：双指针法" class="headerlink" title="方法二：双指针法"></a>方法二：双指针法</h3><p><strong>双指针法是使用两个指针，一个左指针 left，右指针 right，开始工作时 left 指向首元素，right 指向尾元素。交换两个指针指向的元素，并向中间移动，直到两个指针相遇。</strong></p>
+<h4 id="算法过程-1"><a href="#算法过程-1" class="headerlink" title="算法过程"></a>算法过程</h4><ul>
+<li>将 left 指向首元素，right 指向尾元素。</li>
+<li>当 left&lt;right：</li>
+<li>交换 s[left] 和 s[right]。</li>
+<li>left++</li>
+<li>right++</li>
 </ul>
-<h2 id="iOS线程同步方案性能比较"><a href="#iOS线程同步方案性能比较" class="headerlink" title="iOS线程同步方案性能比较"></a>iOS线程同步方案<strong>性能</strong>比较</h2><p><strong>性能从高到低排序:</strong></p>
-<pre><code>os_unfair_lock &gt; OSSpinLock &gt; dispatch_semaphore &gt; pthread_mutex &gt; dispatch_queue(DISPATCH_QUEUE_SERIAL) &gt; NSLock &gt; NSCondition &gt; pthread_mutex(recursive) &gt; NSRecursiveLock &gt; NSConditionLock &gt; @synchronized</code></pre><h2 id="如何实现多度单写？"><a href="#如何实现多度单写？" class="headerlink" title="如何实现多度单写？"></a><code>如何实现多度单写？</code></h2><p><strong>dispatch_barrier_async</strong></p>
-<ul>
-<li>这个函数传入的并发队列必须是自己通过dispatch_queue_cretate创建的 </li>
-<li>如果传入的是一个串行或是一个全局的并发队列，那这个函数便等同于dispatch_async函数的效果</li>
+<pre class=" language-swift"><code class="language-swift"><span class="token comment" spellcheck="true">// 双指针</span>
+<span class="token keyword">func</span> <span class="token function">reverseStr</span><span class="token punctuation">(</span><span class="token number">_</span> s<span class="token punctuation">:</span> <span class="token keyword">inout</span> <span class="token punctuation">[</span><span class="token builtin">Character</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">[</span><span class="token builtin">Character</span><span class="token punctuation">]</span><span class="token punctuation">{</span>
+    <span class="token keyword">var</span> <span class="token keyword">left</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token keyword">right</span> <span class="token operator">=</span> s<span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token operator">-</span> <span class="token number">1</span>
+    <span class="token keyword">while</span> <span class="token keyword">left</span> <span class="token operator">&lt;</span> <span class="token keyword">right</span> <span class="token punctuation">{</span>
+        <span class="token punctuation">(</span>s<span class="token punctuation">[</span><span class="token keyword">left</span><span class="token punctuation">]</span><span class="token punctuation">,</span>s<span class="token punctuation">[</span><span class="token keyword">right</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token punctuation">(</span>s<span class="token punctuation">[</span><span class="token keyword">right</span><span class="token punctuation">]</span><span class="token punctuation">,</span>s<span class="token punctuation">[</span><span class="token keyword">left</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        <span class="token keyword">left</span> <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">1</span>
+        <span class="token keyword">right</span> <span class="token operator">-</span><span class="token operator">=</span> <span class="token number">1</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> s
+<span class="token punctuation">}</span></code></pre>
+<h4 id="测试用例"><a href="#测试用例" class="headerlink" title="测试用例"></a>测试用例</h4><pre class=" language-swift"><code class="language-swift"><span class="token keyword">let</span> str <span class="token operator">=</span> <span class="token string">"123456abcdef"</span>
+<span class="token keyword">var</span> characters <span class="token operator">=</span> <span class="token function">Array</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span>
+
+<span class="token function">print</span><span class="token punctuation">(</span>characters<span class="token punctuation">)</span><span class="token comment" spellcheck="true">//["1", "2", "3", "4", "5", "6", "a", "b", "c", "d", "e", "f"]</span>
+
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token function">reverseStr</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>characters<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//["f", "e", "d", "c", "b", "a", "6", "5", "4", "3", "2", "1"]</span>
+</code></pre>
+<h4 id="复杂度分析-1"><a href="#复杂度分析-1" class="headerlink" title="复杂度分析"></a>复杂度分析</h4><p><strong>时间复杂度：\mathcal{O}(N)O(N)。执行了 N/2N/2 次的交换。</strong><br><strong>空间复杂度：\mathcal{O}(1)O(1)，只使用了常数级空间。</strong></p>
+<h2 id="反转链表"><a href="#反转链表" class="headerlink" title="反转链表"></a>反转链表</h2><h4 id="双指针法"><a href="#双指针法" class="headerlink" title="双指针法"></a>双指针法</h4><ul>
+<li>定义两个指针pre cur : pre在前 cur 在后</li>
+<li>如果cur节点不为空，设置pre.next = cur 实现一次翻转</li>
+<li>翻转后pre 、cur同步向前一步</li>
+<li>当pre为空终止循环</li>
 </ul>
-<p><strong><code>pthread_rwlock</code>读写锁-等待锁的线程进入休眠</strong></p>
-<p><img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/1.png" alt="pthread_rwlock"></p>
-<p>‌</p>
+<pre class=" language-swift"><code class="language-swift"><span class="token keyword">func</span> <span class="token function">reverseList</span><span class="token punctuation">(</span><span class="token number">_</span> head<span class="token punctuation">:</span> <span class="token builtin">ListNode</span><span class="token operator">?</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">ListNode</span><span class="token operator">?</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> head <span class="token operator">==</span> <span class="token constant">nil</span> <span class="token operator">||</span> head<span class="token operator">?</span><span class="token punctuation">.</span>next <span class="token operator">==</span> <span class="token constant">nil</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> head <span class="token punctuation">}</span>
+    <span class="token keyword">var</span> pre <span class="token operator">=</span> head<span class="token punctuation">,</span> cur<span class="token punctuation">:</span> <span class="token builtin">ListNode</span><span class="token operator">?</span>
+    <span class="token keyword">while</span> pre <span class="token operator">!=</span> <span class="token constant">nil</span> <span class="token punctuation">{</span>
+        <span class="token keyword">let</span> temp <span class="token operator">=</span> pre<span class="token operator">?</span><span class="token punctuation">.</span>next
+        pre<span class="token operator">?</span><span class="token punctuation">.</span>next <span class="token operator">=</span> cur
+        cur <span class="token operator">=</span> pre<span class="token operator">!</span>
+        pre <span class="token operator">=</span> temp
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> cur
+<span class="token punctuation">}</span></code></pre>
+<pre class=" language-swift"><code class="language-swift"> 递归法核心：<span class="token function">reversList</span><span class="token punctuation">(</span>head<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token function">reverseList</span><span class="token punctuation">(</span>head<span class="token punctuation">.</span>next<span class="token punctuation">)</span>
+<span class="token keyword">func</span> <span class="token function">reverseList2</span><span class="token punctuation">(</span><span class="token number">_</span> head<span class="token punctuation">:</span> <span class="token builtin">ListNode</span><span class="token operator">?</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">ListNode</span><span class="token operator">?</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> head <span class="token operator">==</span> <span class="token constant">nil</span> <span class="token operator">||</span> head<span class="token operator">?</span><span class="token punctuation">.</span>next <span class="token operator">==</span> <span class="token constant">nil</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token constant">nil</span> <span class="token punctuation">}</span>
+    <span class="token keyword">let</span> newHead <span class="token operator">=</span> <span class="token function">reverseList2</span><span class="token punctuation">(</span>head<span class="token operator">?</span><span class="token punctuation">.</span>next<span class="token punctuation">)</span>
+    head<span class="token operator">?</span><span class="token punctuation">.</span>next<span class="token operator">?</span><span class="token punctuation">.</span>next <span class="token operator">=</span> head
+    head<span class="token operator">?</span><span class="token punctuation">.</span>next <span class="token operator">=</span> <span class="token constant">nil</span>
+    <span class="token keyword">return</span> newHead
+<span class="token punctuation">}</span></code></pre>
+<h2 id="反转链表-II"><a href="#反转链表-II" class="headerlink" title="反转链表 II"></a>反转链表 II</h2><h4 id="题目描述：反转从位置-m-到-n-的链表。请使用一趟扫描完成反转。说明-1-≤-m-≤-n-≤-链表长度"><a href="#题目描述：反转从位置-m-到-n-的链表。请使用一趟扫描完成反转。说明-1-≤-m-≤-n-≤-链表长度" class="headerlink" title="题目描述：反转从位置 m 到 n 的链表。请使用一趟扫描完成反转。说明:1 ≤ m ≤ n ≤ 链表长度"></a>题目描述：反转从位置 m 到 n 的链表。请使用一趟扫描完成反转。说明:1 ≤ m ≤ n ≤ 链表长度</h4><ul>
+<li>输入: 1-&gt;2-&gt;3-&gt;4-&gt;5-&gt;NULL, m = 2, n = 4</li>
+<li>输出: 1-&gt;4-&gt;3-&gt;2-&gt;5-&gt;NULL<h4 id="题解思路"><a href="#题解思路" class="headerlink" title="题解思路"></a>题解思路</h4></li>
+</ul>
+<p>第一步：找到待反转节点的前一个节点。<br>第二步：反转m到n这部分。<br>第三步：将反转的起点的next指向反转的后面一部分。<br>第四步：将第一步找到的节点指向反转以后的头节点。</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> ListNode <span class="token function">reverseBetween</span><span class="token punctuation">(</span>ListNode head<span class="token punctuation">,</span> <span class="token keyword">int</span> m<span class="token punctuation">,</span> <span class="token keyword">int</span> n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        ListNode res <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ListNode</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        res<span class="token punctuation">.</span>next <span class="token operator">=</span> head<span class="token punctuation">;</span>
+        ListNode node <span class="token operator">=</span> res<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//找到需要反转的那一段的上一个节点。</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> m<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            node <span class="token operator">=</span> node<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">//node.next就是需要反转的这段的起点。</span>
+        ListNode nextHead <span class="token operator">=</span> node<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+        ListNode next <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        ListNode pre <span class="token operator">=</span> null<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//反转m到n这一段</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> m<span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            next <span class="token operator">=</span> nextHead<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+            nextHead<span class="token punctuation">.</span>next <span class="token operator">=</span> pre<span class="token punctuation">;</span>
+            pre <span class="token operator">=</span> nextHead<span class="token punctuation">;</span>
+            nextHead <span class="token operator">=</span> next<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">//将反转的起点的next指向next。</span>
+        node<span class="token punctuation">.</span>next<span class="token punctuation">.</span>next <span class="token operator">=</span> next<span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">//需要反转的那一段的上一个节点的next节点指向反转后链表的头结点</span>
+        node<span class="token punctuation">.</span>next <span class="token operator">=</span> pre<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> res<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
 
             </div>
             <hr/>
@@ -552,7 +594,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://mingriweiji-github.github.io/2020/03/11/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">https://mingriweiji-github.github.io/2020/03/11/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</a>
+                    <a href="https://mingriweiji-github.github.io/2020/03/15/%E5%8F%8D%E8%BD%AC%E9%97%AE%E9%A2%98/">https://mingriweiji-github.github.io/2020/03/15/%E5%8F%8D%E8%BD%AC%E9%97%AE%E9%A2%98/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -757,29 +799,24 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/03/11/Runloop/">
+                <a href="/2020/03/15/%E6%8E%92%E5%BA%8F/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="Runloop">
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="排序">
                         
-                        <span class="card-title">Runloop</span>
+                        <span class="card-title">排序</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Runloop1.讲讲 RunLoop，项目中有用到吗？
-事件循环，在程序运行中循环做一些事情
-没有消息mach_msg()切换用户态到内核态线程休眠，有消息内核态切换到用户态
-
-runloop相关：
-Timer、performSelect
+                            冒泡排序插入排序选择排序归并排序快速排序
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-11
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-15
                         </span>
                         <span class="publish-author">
                             
@@ -799,27 +836,24 @@ Timer、performSelect
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/12/30/2020%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">
+                <a href="/2020/03/15/%E6%99%BA%E5%8A%9B%E9%A2%98/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="2020红黑树前世今生">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="智力题">
                         
-                        <span class="card-title">2020红黑树前世今生</span>
+                        <span class="card-title">智力题</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            红黑树前世今生关键词：二叉搜索树、前驱节点、后继节点、B树、红黑树
-什么是B树前世B树是一种相对于来说特殊二叉搜索树，多用于数据库和文件搜索系统中。
-n阶B树的性质
-B树是一种平衡的多路搜索树，拥有平衡二叉树的一些特性，与平衡二叉树的最大区
+                            智力题1、有两个水桶， 一个装 3L 的水， 一个可装 5L 的水， 问:如何利用这两个桶， 量出 4L 的水来？解法一加法：操作两次3L的桶，得到1L的水，然后倒入5L的桶里面，此时5L桶里有1L的水，再次用3L的桶倒入5L桶，1L+ 3
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-12-30
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-15
                             </span>
                         <span class="publish-author">
                             

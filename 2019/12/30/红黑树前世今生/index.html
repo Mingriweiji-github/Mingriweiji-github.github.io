@@ -1,45 +1,139 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
 
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>
+        
+        红黑树前世今生 - undefined
+        
+    </title>
 
-  <meta name="description" content="红黑树前世今生关键词：二叉搜索树、前驱节点、后继节点、B树、红黑树
-什么是B树前世B树是一种相对于来说特殊二叉搜索树，多用于数据库和文件搜索系统中。
-n阶B树的性质
-B树是一种平衡的多路搜索树，拥有平衡二叉树的一些特性，与平衡二叉树的最大区别在于每个节点不再是只能存储一个元素，而且每个节点可以拥有多">
-
-
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/aircloud.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <!--<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">-->
+    <link href="//at.alicdn.com/t/font_620856_pl6z7sid89qkt9.css" rel="stylesheet" type="text/css">
+    <!-- ga & ba script hoook -->
+    <script></script>
 <link rel="alternate" href="/atom.xml" title="明日危机" type="application/atom+xml">
-<meta name="theme-color" content="#a1d0f6">
-<title>红黑树前世今生 - 明日危机</title>
-<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-<link rel="shortcut icon" href="/favicon.png">
-<link rel="stylesheet" href="/css/style.css">
-<nav class="main-nav">
-	
-	    <a href="/">← 主页</a>
-	
-	
-	    <a href="/about/">About</a>
-	
-	    <a href="/archives/">Archives</a>
-	
-	<a class="cta" href="/atom.xml" data-no-instant>订阅</a>
-</nav>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
-<section id="wrapper">
-    <article class="post">
-    <header>
+<body>
+
+<div class="site-nav-toggle" id="site-nav-toggle">
+    <button>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+        <span class="btn-bar"></span>
+    </button>
+</div>
+
+<div class="index-about">
+    <i> iOS &amp; Swifter </i>
+</div>
+
+<div class="index-container">
+    
+    <div class="index-left">
         
-            <h1>红黑树前世今生</h1>
+<div class="nav" id="nav">
+    <div class="avatar-name">
+        <div class="avatar ">
+            <img src="/" />
+        </div>
+        <div class="name">
+            <i>KM</i>
+        </div>
+    </div>
+    <div class="contents" id="nav-content">
+        <ul>
+            <li >
+                <a href="/">
+                    <i class="iconfont icon-shouye1"></i>
+                    <span>主页</span>
+                </a>
+            </li>
+            <li >
+                <a href="/tags">
+                    <i class="iconfont icon-biaoqian1"></i>
+                    <span>标签</span>
+                </a>
+            </li>
+            <li >
+                <a href="/archives">
+                    <i class="iconfont icon-guidang2"></i>
+                    <span>存档</span>
+                </a>
+            </li>
+            <li >
+                <a href="/about/">
+                    <i class="iconfont icon-guanyu2"></i>
+                    <span>关于</span>
+                </a>
+            </li>
+            
+            <li>
+                <a id="search">
+                    <i class="iconfont icon-sousuo1"></i>
+                    <span>搜索</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    
+        <div id="toc" class="toc-article">
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#红黑树前世今生"><span class="toc-text">红黑树前世今生</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是B树"><span class="toc-text">什么是B树</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#前世"><span class="toc-text">前世</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#n阶B树的性质"><span class="toc-text">n阶B树的性质</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B树-VS-二叉搜索树"><span class="toc-text">B树 VS 二叉搜索树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B树的添加与上溢"><span class="toc-text">B树的添加与上溢</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#B树的删除与下溢"><span class="toc-text">B树的删除与下溢</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#删除"><span class="toc-text">删除</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4阶B树"><span class="toc-text">4阶B树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么需要红黑树"><span class="toc-text">为什么需要红黑树?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是红黑树？"><span class="toc-text">什么是红黑树？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#红黑树5个性质"><span class="toc-text">红黑树5个性质</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#红黑树等价变换"><span class="toc-text">红黑树等价变换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#红黑树添加失衡如何解决？"><span class="toc-text">红黑树添加失衡如何解决？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#添加失衡"><span class="toc-text">添加失衡</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#红黑树删除节点失衡如何解决？"><span class="toc-text">红黑树删除节点失衡如何解决？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#红黑树-VS-AVL树"><span class="toc-text">红黑树 VS AVL树</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#搜索性能"><span class="toc-text">搜索性能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加"><span class="toc-text">添加</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除-1"><span class="toc-text">删除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实际应用"><span class="toc-text">实际应用</span></a></li></ol></li></ol></li></ol>
+</div>
+    
+</div>
+
+
+<div class="search-field" id="search-field">
+    <div class="search-container">
+        <div class="search-input">
+            <span id="esc-search"> <i class="icon-fanhui iconfont"></i></span>
+            <input id="search-input"/>
+            <span id="begin-search">搜索</span>
+        </div>
+        <div class="search-result-container" id="search-result-container">
+
+        </div>
+    </div>
+</div>
+
+        <div class="index-about-mobile">
+            <i> iOS &amp; Swifter </i>
+        </div>
+    </div>
+    
+    <div class="index-middle">
+        <!-- Main Content -->
         
-        <h2 class="headline">Dec 30 2019
+
+
+<div class="post-container">
+    <div class="post-title">
+        红黑树前世今生
+    </div>
+
+    <div class="post-meta">
+        <span class="attr">发布于：<span>2019-12-30 15:28:54</span></span>
         
-        </h2>
-    </header>
-</article>
-<section id="post-body"><h1 id="红黑树前世今生"><a href="#红黑树前世今生" class="headerlink" title="红黑树前世今生"></a>红黑树前世今生</h1><p>关键词：二叉搜索树、前驱节点、后继节点、B树、红黑树</p>
+        </span>
+        <span class="attr">访问：<span id="busuanzi_value_page_pv"></span>
+</span>
+</span>
+    </div>
+    <div class="post-content ">
+        <h1 id="红黑树前世今生"><a href="#红黑树前世今生" class="headerlink" title="红黑树前世今生"></a>红黑树前世今生</h1><p>关键词：二叉搜索树、前驱节点、后继节点、B树、红黑树</p>
 <h2 id="什么是B树"><a href="#什么是B树" class="headerlink" title="什么是B树"></a>什么是B树</h2><h3 id="前世"><a href="#前世" class="headerlink" title="前世"></a>前世</h3><p>B树是一种相对于来说特殊二叉搜索树，多用于数据库和文件搜索系统中。</p>
 <h3 id="n阶B树的性质"><a href="#n阶B树的性质" class="headerlink" title="n阶B树的性质"></a>n阶B树的性质</h3><blockquote>
 <p>B树是一种平衡的多路搜索树，拥有平衡二叉树的一些特性，与平衡二叉树的最大区别在于每个节点不再是只能存储一个元素，而且每个节点可以拥有多个子节点而像二叉平衡树只能拥有两个。</p>
@@ -109,74 +203,64 @@ B树是一种平衡的多路搜索树，拥有平衡二叉树的一些特性，�
 <li>Uncle节点是red:  </li>
 </ul>
 <h3 id="红黑树删除节点失衡如何解决？"><a href="#红黑树删除节点失衡如何解决？" class="headerlink" title="红黑树删除节点失衡如何解决？"></a>红黑树删除节点失衡如何解决？</h3><h2 id="红黑树-VS-AVL树"><a href="#红黑树-VS-AVL树" class="headerlink" title="红黑树 VS AVL树"></a>红黑树 VS AVL树</h2><h3 id="搜索性能"><a href="#搜索性能" class="headerlink" title="搜索性能"></a>搜索性能</h3><h3 id="添加"><a href="#添加" class="headerlink" title="添加"></a>添加</h3><h3 id="删除-1"><a href="#删除-1" class="headerlink" title="删除"></a>删除</h3><h3 id="实际应用"><a href="#实际应用" class="headerlink" title="实际应用"></a>实际应用</h3><p>Java8中的hashMap是使用数组+链表实现的，在解决哈希碰撞时使用了红黑树。</p>
-</section>
-    
 
-    <footer id="post-meta" class="clearfix">
-        <a href="/about/">
-        <img class="avatar" src="/images/avatar.png">
-        <div>
-            <span class="dark">明日危机</span>
-            <span>iOS &amp; Swifter</span>
+        
+        <br />
+        <div id="comment-container">
         </div>
-        </a>
-        <section id="sharing">
-            <a title="Share to Twitter" class="twitter" href="https://twitter.com/intent/tweet?text=https://mingriweiji-github.github.io/2019/12/30/%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/ - 红黑树前世今生 @" target="_blank" rel="noopener"><span class="icon-twitter">tweet</span></a>
-            <a title="Share to Facebook" class="facebook" href="#" onclick="
-                window.open(
-                  'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
-                  'facebook-share-dialog',
-                  'width=626,height=436');
-                return false;"><span class="icon-facebook-sign">Share</span>
-            </a>
-        </section>
-    </footer>
+        <div id="disqus_thread"></div>
+
+        <div id="lv-container">
+        </div>
+
+    </div>
+</div>
+
+    </div>
+</div>
 
 
-  <section id="comment">
-    <button class="btn" id="loadcmts" onclick="cmts.load();">加载评论</button>
-    <div id="gitment"></div>
-    <script src='/js/gitment.browser.js'></script>
-    <link rel="stylesheet" href=''>
-    <script>
-      var cmts={
-        load:function cmts(){
-          var gitment = new Gitment({
-          
-            id: "红黑树前世今生",
-          
-            owner: "",
-            repo: "",
-            oauth: {
-              client_id: "",
-              client_secret: "",
-            },
-          })
-          gitment.render('gitment');
-          var loadcmt = document.getElementById("loadcmts");
-          var imyourfather = loadcmt.parentNode;
-          imyourfather.removeChild(loadcmts)
-        }
-      }
-    </script>
-  </section>
+<footer class="footer">
+    <ul class="list-inline text-center">
+        
+        
 
+        
 
-	<footer id="footer">
-	<div id="social">
-		<p class="small">©  KM| Powered by Hexo & 
-			<a href="https://github.com/F0r3at/Lights" target="_blank" rel="noopener"> Lights</a>
-		</p>
-	</div>
+        
+
+        
+
+        
+
+    </ul>
+    
+    <p>
+        <span id="busuanzi_container_site_pv">
+            <span id="busuanzi_value_site_pv"></span>PV
+        </span>
+        <span id="busuanzi_container_site_uv">
+            <span id="busuanzi_value_site_uv"></span>UV
+        </span>
+        Created By <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>  Theme <a href="https://github.com/aircloud/hexo-theme-aircloud" target="_blank" rel="noopener">AirCloud</a></p>
 </footer>
 
-</section>
-
-	<script src="//cdnjs.loli.net/ajax/libs/instantclick/3.0.1/instantclick.min.js" data-no-instant></script>
-	<script data-no-instant>
-		
-		InstantClick.init('mousedown');
-	</script>
 
 
 
+</body>
+
+<script>
+    // We expose some of the variables needed by the front end
+    window.hexo_search_path = "search.xml"
+    window.hexo_root = "/"
+    window.isPost = true
+</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+</html>

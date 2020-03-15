@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Runloop, 明日危机">
+    <meta name="keywords" content="智力题, 明日危机">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Runloop | 明日危机</title>
+    <title>智力题 | 明日危机</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -307,12 +307,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Runloop</h1>
+                    <h1 class="description center-align post-title">智力题</h1>
                 </div>
             </div>
         </div>
@@ -441,7 +441,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-03-11
+                    2020-03-15
                 </div>
                 
 
@@ -458,58 +458,13 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="Runloop"><a href="#Runloop" class="headerlink" title="Runloop"></a>Runloop</h1><h2 id="1-讲讲-RunLoop，项目中有用到吗？"><a href="#1-讲讲-RunLoop，项目中有用到吗？" class="headerlink" title="1.讲讲 RunLoop，项目中有用到吗？"></a>1.讲讲 RunLoop，项目中有用到吗？</h2><ul>
-<li>事件循环，在程序运行中循环做一些事情</li>
-<li>没有消息mach_msg()切换用户态到内核态线程休眠，有消息内核态切换到用户态</li>
-</ul>
-<h3 id="runloop相关："><a href="#runloop相关：" class="headerlink" title="runloop相关："></a>runloop相关：</h3><ul>
-<li>Timer、performSelector</li>
-<li>GCD、AutoreleasePool</li>
-<li>事件响应、收拾识别、网络请求</li>
-</ul>
-<h3 id="runloop的应用："><a href="#runloop的应用：" class="headerlink" title="runloop的应用："></a>runloop的应用：</h3><ul>
-<li>线程包活</li>
-<li>解决timer滑动停止问题</li>
-<li>监听主线程卡顿</li>
-<li>性能优化</li>
-</ul>
-<h2 id="2-runloop的6种状态和runloop内部实现逻辑？"><a href="#2-runloop的6种状态和runloop内部实现逻辑？" class="headerlink" title="2.runloop的6种状态和runloop内部实现逻辑？"></a>2.runloop的6种状态和runloop内部实现逻辑？</h2><pre><code>/* Run Loop Observer Activities */
-typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
-    kCFRunLoopEntry = (1UL &lt;&lt; 0),           // 即将进入Loop
-    kCFRunLoopBeforeTimers = (1UL &lt;&lt; 1),    //即将处理Timer
-    kCFRunLoopBeforeSources = (1UL &lt;&lt; 2),   //即将处理Source
-    kCFRunLoopBeforeWaiting = (1UL &lt;&lt; 5),   //即将进入休眠
-    kCFRunLoopAfterWaiting = (1UL &lt;&lt; 6),    //刚从休眠中唤醒
-    kCFRunLoopExit = (1UL &lt;&lt; 7),            //即将退出Loop
-    kCFRunLoopAllActivities = 0x0FFFFFFFU
-};</code></pre><ul>
-<li><strong>source0 : 触摸事件、performSelectorOnThread:</strong></li>
-<li><strong>source1: 基于Port的线程间通讯，捕获到的系统事件</strong></li>
-<li><strong>timers: NSTimer + performSelector:afterDelay:</strong></li>
-<li><strong>observers: 监听runloop的状态/autoreleasePool的创建和释放、UI的刷新</strong></li>
-</ul>
-<p><img src="https://user-gold-cdn.xitu.io/2020/3/5/170a9f4968fe6f59?w=1012&h=858&f=png&s=146946" alt="img"></p>
-<h2 id="3-runloop和线程的关系？"><a href="#3-runloop和线程的关系？" class="headerlink" title="3.runloop和线程的关系？"></a>3.runloop和线程的关系？</h2><ul>
-<li>一一对应</li>
-<li>保存在一个全局字典中，线程是key, runloop是value</li>
-<li>子线程默认没有runloop，在第一次获取runloop时才会创建。</li>
-<li>runloop在线程结束时销毁</li>
-</ul>
-<h2 id="4-timer-与-runloop-的关系？"><a href="#4-timer-与-runloop-的关系？" class="headerlink" title="4.timer 与 runloop 的关系？"></a>4.timer 与 runloop 的关系？</h2><h2 id="程序中添加每3秒响应一次的NSTimer，当拖动tableview时timer可能无法响应要怎么解决？"><a href="#程序中添加每3秒响应一次的NSTimer，当拖动tableview时timer可能无法响应要怎么解决？" class="headerlink" title="程序中添加每3秒响应一次的NSTimer，当拖动tableview时timer可能无法响应要怎么解决？"></a>程序中添加每3秒响应一次的NSTimer，当拖动tableview时timer可能无法响应要怎么解决？</h2><h2 id="5-runloop-是怎么响应用户操作的，-具体流程是什么样的？"><a href="#5-runloop-是怎么响应用户操作的，-具体流程是什么样的？" class="headerlink" title="5.runloop 是怎么响应用户操作的， 具体流程是什么样的？"></a>5.runloop 是怎么响应用户操作的， 具体流程是什么样的？</h2><h2 id="6-说说runLoop的几种状态"><a href="#6-说说runLoop的几种状态" class="headerlink" title="6.说说runLoop的几种状态"></a>6.说说runLoop的几种状态</h2><h2 id="7-runloop的mode作用是什么？"><a href="#7-runloop的mode作用是什么？" class="headerlink" title="7.runloop的mode作用是什么？"></a>7.runloop的mode作用是什么？</h2><ul>
-<li><p>CFRunLoopModeRef代表<strong>RunLoop的运行模式</strong></p>
-</li>
-<li><p>一个RunLoop包含若干个Mode，每个Mode又包含若干个Source0/Source1/Timer/Observer</p>
-</li>
-<li><p>RunLoop启动时只能选择其中一个Mode，作为<strong>currentMode</strong></p>
-</li>
-<li><p>如果需要切换Mode，只能退出当前Loop，再重新选择一个Mode进入</p>
-</li>
-<li><p><strong>不同组的Source0/Source1/Timer/Observer能分隔开来，互不影响</strong></p>
-</li>
-<li><p><strong>如果Mode里没有任何Source0/Source1/Timer/Observer，RunLoop会立马退出</strong></p>
-</li>
-</ul>
-<h2 id="8-KVO实现原理-哪些情况下使用kvo会崩溃，怎么防护崩溃"><a href="#8-KVO实现原理-哪些情况下使用kvo会崩溃，怎么防护崩溃" class="headerlink" title="8.KVO实现原理?哪些情况下使用kvo会崩溃，怎么防护崩溃?"></a>8.KVO实现原理?哪些情况下使用kvo会崩溃，怎么防护崩溃?</h2><h2 id="9-如何手动关闭KVO-如何手动自己实现KVO说说思路"><a href="#9-如何手动关闭KVO-如何手动自己实现KVO说说思路" class="headerlink" title="9.如何手动关闭KVO?如何手动自己实现KVO说说思路"></a>9.如何手动关闭KVO?如何手动自己实现KVO说说思路</h2><h2 id="10-通过KVC修改属性会触发KVO么"><a href="#10-通过KVC修改属性会触发KVO么" class="headerlink" title="10.通过KVC修改属性会触发KVO么"></a>10.通过KVC修改属性会触发KVO么</h2>
+                <h2 id="智力题"><a href="#智力题" class="headerlink" title="智力题"></a>智力题</h2><h4 id="1、有两个水桶，-一个装-3L-的水，-一个可装-5L-的水，-问-如何利用这两个桶，-量出-4L-的水来？"><a href="#1、有两个水桶，-一个装-3L-的水，-一个可装-5L-的水，-问-如何利用这两个桶，-量出-4L-的水来？" class="headerlink" title="1、有两个水桶， 一个装 3L 的水， 一个可装 5L 的水， 问:如何利用这两个桶， 量出 4L 的水来？"></a>1、有两个水桶， 一个装 3L 的水， 一个可装 5L 的水， 问:如何利用这两个桶， 量出 4L 的水来？</h4><p><img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/plus.jpg" alt=""></p>
+<p>解法一加法：操作两次3L的桶，得到1L的水，然后倒入5L的桶里面，此时5L桶里有1L的水，再次用3L的桶倒入5L桶，1L+ 3L = 4L,一共操作3次3L桶</p>
+<p><img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/%E5%87%8F%E6%B3%95.jpg" alt=""></p>
+<p>解法二减法：5L满水的桶倒入3L的桶，剩余2L，5L桶剩余的2L再次倒入3L桶，此时3L桶还有1L集满，5L桶再次装满后倒出来1L给3L桶里面，5L - 1L = 4L,连续操作3次5L桶</p>
+<h4 id="2、1000个瓶子，里面有1瓶毒药，只有10只老鼠，老鼠吃了之后一星期会死亡，怎么测试？"><a href="#2、1000个瓶子，里面有1瓶毒药，只有10只老鼠，老鼠吃了之后一星期会死亡，怎么测试？" class="headerlink" title="2、1000个瓶子，里面有1瓶毒药，只有10只老鼠，老鼠吃了之后一星期会死亡，怎么测试？"></a>2、1000个瓶子，里面有1瓶毒药，只有10只老鼠，老鼠吃了之后一星期会死亡，怎么测试？</h4><p>首先2的10次方1024<br>所以我们可以用10位的二进制给1000个瓶子编号，10只老鼠对应10位二进制，如果瓶子编号出现1，老鼠喝毒药，最后统计出被毒死老鼠的二进制数，转换为10进制就是有毒瓶子的编号。</p>
+<p><img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/%E8%80%81%E9%BC%A0%E9%97%AE%E9%A2%98.JPG" alt=""></p>
+
             </div>
             <hr/>
 
@@ -534,7 +489,7 @@ typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://mingriweiji-github.github.io/2020/03/11/Runloop/">https://mingriweiji-github.github.io/2020/03/11/Runloop/</a>
+                    <a href="https://mingriweiji-github.github.io/2020/03/15/%E6%99%BA%E5%8A%9B%E9%A2%98/">https://mingriweiji-github.github.io/2020/03/15/%E6%99%BA%E5%8A%9B%E9%A2%98/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -735,9 +690,10 @@ typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2020/03/15/%E6%99%BA%E5%8A%9B%E9%A2%98/">
                     <div class="card-image">
@@ -756,9 +712,9 @@ typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-15
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-15
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -767,6 +723,7 @@ typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -777,23 +734,24 @@ typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/11/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+                <a href="/2020/03/11/Runloop/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="多线程">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="Runloop">
                         
-                        <span class="card-title">多线程</span>
+                        <span class="card-title">Runloop</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1、你理解的多线程？并发和串行，同步和异步
-同步和异步的区别: 是否开辟新的线程，同步只能在当前线程执行任务，异步可以再新的线程执行任务
-串行和并发的区别是任务执行的顺序，串行任务只能顺序执行，并发可以多个任务同时执行。
+                            Runloop1.讲讲 RunLoop，项目中有用到吗？
+事件循环，在程序运行中循环做一些事情
+没有消息mach_msg()切换用户态到内核态线程休眠，有消息内核态切换到用户态
 
-2、iOS多线程
+runloop相关：
+Timer、performSelect
                         
                     </div>
                     <div class="publish-info">

@@ -459,7 +459,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>带着问题去学习，是最有效的学习方法。所以按照惯例，我还是先给你出一个思考题：</p>
-<h3 id="为什么插入排序比冒泡排序更受欢迎？"><a href="#为什么插入排序比冒泡排序更受欢迎？" class="headerlink" title="为什么插入排序比冒泡排序更受欢迎？"></a>为什么插入排序比冒泡排序更受欢迎？</h3><h2 id="如何分析一个“排序算法”？"><a href="#如何分析一个“排序算法”？" class="headerlink" title="如何分析一个“排序算法”？"></a>如何分析一个“排序算法”？</h2><hr>
+<h3 id="问题一：为什么插入排序比冒泡排序更受欢迎？"><a href="#问题一：为什么插入排序比冒泡排序更受欢迎？" class="headerlink" title="问题一：为什么插入排序比冒泡排序更受欢迎？"></a>问题一：为什么插入排序比冒泡排序更受欢迎？</h3><h2 id="如何分析一个“排序算法”？"><a href="#如何分析一个“排序算法”？" class="headerlink" title="如何分析一个“排序算法”？"></a>如何分析一个“排序算法”？</h2><hr>
 <ul>
 <li><p>最好情况、最坏情况、平均情况时间复杂度</p>
 </li>
@@ -563,8 +563,7 @@
 <p><img src="https://static001.geekbang.org/resource/image/34/50/348604caaf0a1b1d7fee0512822f0e50.jpg" alt=""></p>
 <hr>
 <hr>
-<p><strong>现在思考一个问题：如何在 O(n) 的时间复杂度内查找一个无序数组中的第 K 大元素？</strong></p>
-<h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><blockquote>
+<h4 id="问题二：如何在-O-n-的时间复杂度内查找一个无序数组中的第-K-大元素"><a href="#问题二：如何在-O-n-的时间复杂度内查找一个无序数组中的第-K-大元素" class="headerlink" title="问题二：如何在 O(n) 的时间复杂度内查找一个无序数组中的第 K 大元素?"></a>问题二：如何在 O(n) 的时间复杂度内查找一个无序数组中的第 K 大元素?</h4><h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><blockquote>
 <p>归并排序的核心思想还是蛮简单的。如果要排序一个数组，我们先把数组从中间分成前后两部分，然后对前后两部分分别排序，再将排好序的两部分合并在一起，这样整个数组就都有序了。</p>
 </blockquote>
 <p><strong>归并排序的核心是合并：依次合并N个堆得数据</strong></p>
@@ -716,6 +715,15 @@ p &gt;= r 不用再继续分解
     <span class="token punctuation">}</span>
     <span class="token keyword">return</span> <span class="token punctuation">(</span>begin<span class="token punctuation">,</span> end<span class="token punctuation">)</span>
 <span class="token punctuation">}</span></code></pre>
+<p>解答问题二：</p>
+<ul>
+<li><p>快排核心思想就是分治和分区，我们可以利用分区的思想，来解答开这个问题：O(n) 时间复杂度内求无序数组中的第 K 大元素。比如，4， 2， 5， 12， 3 这样一组数据，第 3 大元素就是 4。</p>
+</li>
+<li><p>我们选择数组区间 A[0…n-1]的最后一个元素 A[n-1]作为 pivot，对数组 A[0…n-1]原地分区，这样数组就分成了三部分，A[0…p-1]、A[p]、A[p+1…n-1]。</p>
+</li>
+<li><p>如果 p+1=K，那 A[p]就是要求解的元素；如果 K&gt;p+1, 说明第 K 大元素出现在 A[p+1…n-1]区间，我们再按照上面的思路递归地在 A[p+1…n-1]这个区间内查找。同理，如果 K&lt;p+1，那我们就在 A[0…p-1]区间查找。</p>
+</li>
+</ul>
 <p>本文参考：<a href="https://time.geekbang.org/column/article/41913" target="_blank" rel="noopener">王争-数据结构与算法之美</a></p>
 
             </div>
@@ -961,16 +969,13 @@ p &gt;= r 不用再继续分解
                     <div class="summary block-with-text">
                         
                             带着问题去学习，是最有效的学习方法。所以按照惯例，我还是先给你出一个思考题：
-为什么插入排序比冒泡排序更受欢迎？如何分析一个“排序算法”？
+问题一：为什么插入排序比冒泡排序更受欢迎？如何分析一个“排序算法”？
 
 最好情况、最坏情况、平均情况时间复杂度
 
 时间复杂度的系数、常数、低阶
 
-比较次数和交换次数
-
-
-
+比较次数和交换次
                         
                     </div>
                     <div class="publish-info">

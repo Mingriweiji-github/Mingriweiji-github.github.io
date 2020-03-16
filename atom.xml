@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mingriweiji-github.github.io/"/>
-  <updated>2020-03-16T10:14:05.536Z</updated>
+  <updated>2020-03-16T10:36:46.164Z</updated>
   <id>https://mingriweiji-github.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>2020数据结构</title>
+    <link href="https://mingriweiji-github.github.io/2020/03/16/2020%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    <id>https://mingriweiji-github.github.io/2020/03/16/2020%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</id>
+    <published>2020-03-16T10:34:26.943Z</published>
+    <updated>2020-03-16T10:36:46.164Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;&lt;img src=&quot;https://static001.geekbang.org/resource/image/4f/68/4f63e92598ec2551069a0eef69db7168.jpg&quot; alt=&quot;数组和链表对比&quot;&gt;&lt;/p&gt;
+&lt;h4
+        
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>排序问题</title>

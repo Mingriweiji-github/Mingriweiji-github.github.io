@@ -459,7 +459,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <p>带着问题去学习，是最有效的学习方法。所以按照惯例，我还是先给你出一个思考题：</p>
-<h3 id="问题一：为什么插入排序比冒泡排序更受欢迎？"><a href="#问题一：为什么插入排序比冒泡排序更受欢迎？" class="headerlink" title="问题一：为什么插入排序比冒泡排序更受欢迎？"></a>问题一：为什么插入排序比冒泡排序更受欢迎？</h3><h2 id="如何分析一个“排序算法”？"><a href="#如何分析一个“排序算法”？" class="headerlink" title="如何分析一个“排序算法”？"></a>如何分析一个“排序算法”？</h2><hr>
+<h3 id="问题一：为什么插入排序比冒泡排序更受欢迎？"><a href="#问题一：为什么插入排序比冒泡排序更受欢迎？" class="headerlink" title="问题一：为什么插入排序比冒泡排序更受欢迎？"></a>问题一：为什么插入排序比冒泡排序更受欢迎？</h3><h4 id="如何分析一个“排序算法”？"><a href="#如何分析一个“排序算法”？" class="headerlink" title="如何分析一个“排序算法”？"></a>如何分析一个“排序算法”？</h4><hr>
 <ul>
 <li><p>最好情况、最坏情况、平均情况时间复杂度</p>
 </li>
@@ -468,13 +468,13 @@
 <li><p>比较次数和交换次数</p>
 </li>
 </ul>
-<h3 id="2、内存消耗"><a href="#2、内存消耗" class="headerlink" title="2、内存消耗"></a>2、内存消耗</h3><hr>
+<h4 id="内存消耗"><a href="#内存消耗" class="headerlink" title="内存消耗"></a>内存消耗</h4><hr>
 <p>原地排序算法，就是特指空间复杂度是 O(1) 的排序算法。(冒泡排序、插入排序)</p>
-<h3 id="3、稳定性"><a href="#3、稳定性" class="headerlink" title="3、稳定性"></a>3、稳定性</h3><ul>
+<h4 id="稳定性"><a href="#稳定性" class="headerlink" title="稳定性"></a>稳定性</h4><ul>
 <li>经过某种排序算法排序之后，如果两个相同数值的前后顺序没有改变，那我们就把这种排序算法叫作<strong>稳定的排序算法</strong>；</li>
 <li>如果前后顺序发生变化，那对应的排序算法就叫作不稳定的<strong>排序算法</strong>。</li>
 </ul>
-<h2 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h2><ul>
+<h2 id="1、冒泡排序"><a href="#1、冒泡排序" class="headerlink" title="1、冒泡排序"></a>1、冒泡排序</h2><ul>
 <li>冒泡排序只会操作相邻元素的两个数据</li>
 <li>每次都是对相邻的两个元素比较大小，前面的元素大于后面的元素，交换前后元素，一轮循环后最后元素就是最大元素</li>
 <li>第二轮循环后，倒数第二个元素就是第二大元素</li>
@@ -508,7 +508,7 @@
 <h4 id="第一，冒泡排序是原地排序算法吗？"><a href="#第一，冒泡排序是原地排序算法吗？" class="headerlink" title="第一，冒泡排序是原地排序算法吗？"></a>第一，冒泡排序是原地排序算法吗？</h4><p><strong>冒泡的过程只涉及相邻数据的交换操作，只需要常量级的临时空间，所以它的空间复杂度为 O(1)，是一个原地排序算法。</strong></p>
 <h4 id="第二，冒泡排序是稳定的排序算法吗？"><a href="#第二，冒泡排序是稳定的排序算法吗？" class="headerlink" title="第二，冒泡排序是稳定的排序算法吗？"></a>第二，冒泡排序是稳定的排序算法吗？</h4><p><strong>在冒泡排序中，只有交换才可以改变两个元素的前后顺序。为了保证冒泡排序算法的稳定性，当有相邻的两个元素大小相等的时候，我们不做交换，相同大小的数据在排序前后不会改变顺序，所以冒泡排序是稳定的排序算法。</strong></p>
 <h4 id="第三，冒泡排序的时间复杂度是多少？"><a href="#第三，冒泡排序的时间复杂度是多少？" class="headerlink" title="第三，冒泡排序的时间复杂度是多少？"></a>第三，冒泡排序的时间复杂度是多少？</h4><p><strong>最好情况下，要排序的数据已经是有序的了，我们只需要进行一次冒泡操作，就可以结束了，所以最好情况时间复杂度是 O(n)。而最坏的情况是，要排序的数据刚好是倒序排列的，我们需要进行 n 次冒泡操作，所以最坏情况时间复杂度为 O(n2)。平均时间复杂度也是O(n2)</strong></p>
-<h2 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h2><ul>
+<h2 id="2、插入排序"><a href="#2、插入排序" class="headerlink" title="2、插入排序"></a>2、插入排序</h2><ul>
 <li>插入排序是将数组分成两个部分，已排序和未排序</li>
 <li>初始化已排序部分只有一个元素就是数组第一个元素</li>
 <li><strong>插入排序的核心思想就是取出未排序部分的元素，在已排序区间中找到合适的插入位置插入，保证已排序区间的数据一直是有序的。</strong></li>
@@ -549,7 +549,7 @@
 <li>如果数组是倒序的，每次插入都相当于在数组的第一个位置插入新的数据，所以需要移动大量的数据，所以最坏情况时间复杂度为 O(n2)。</li>
 <li>还记得我们在数组中插入一个数据的平均时间复杂度是多少吗？没错，是 O(n)。所以，对于插入排序来说，每次插入操作都相当于在数组中插入一个数据，循环执行 n 次插入操作，所以平均时间复杂度为 O(n2)。</li>
 </ul>
-<h2 id="选择排序（Selection-Sort）"><a href="#选择排序（Selection-Sort）" class="headerlink" title="选择排序（Selection Sort）"></a>选择排序（Selection Sort）</h2><p>选择排序算法的实现思路有点类似插入排序，也分已排序区间和未排序区间。但是选择排序每次会从未排序区间中找到最小的元素，将其放到已排序区间的末尾。</p>
+<h2 id="3、选择排序（Selection-Sort）"><a href="#3、选择排序（Selection-Sort）" class="headerlink" title="3、选择排序（Selection Sort）"></a>3、选择排序（Selection Sort）</h2><p>选择排序算法的实现思路有点类似插入排序，也分已排序区间和未排序区间。但是选择排序每次会从未排序区间中找到最小的元素，将其放到已排序区间的末尾。</p>
 <p><img src="https://static001.geekbang.org/resource/image/32/1d/32371475a0b08f0db9861d102474181d.jpg" alt=""></p>
 <h4 id="第一，选择排序是原地排序算法吗？"><a href="#第一，选择排序是原地排序算法吗？" class="headerlink" title="第一，选择排序是原地排序算法吗？"></a>第一，选择排序是原地排序算法吗？</h4><p>选择排序的时间复杂度是O(1)所以是原地排序</p>
 <h4 id="第二，选择排序是稳定的排序算法吗？"><a href="#第二，选择排序是稳定的排序算法吗？" class="headerlink" title="第二，选择排序是稳定的排序算法吗？"></a>第二，选择排序是稳定的排序算法吗？</h4><p><strong>不是稳定排序，对于选择排序来说每次都是从未排序序列中找到最小的插入到已排序序列的末尾处，和前面的元素交换，这样会破坏稳定性</strong></p>
@@ -563,7 +563,7 @@
 <p><img src="https://static001.geekbang.org/resource/image/34/50/348604caaf0a1b1d7fee0512822f0e50.jpg" alt=""></p>
 <hr>
 <hr>
-<h4 id="问题二：如何在-O-n-的时间复杂度内查找一个无序数组中的第-K-大元素"><a href="#问题二：如何在-O-n-的时间复杂度内查找一个无序数组中的第-K-大元素" class="headerlink" title="问题二：如何在 O(n) 的时间复杂度内查找一个无序数组中的第 K 大元素?"></a>问题二：如何在 O(n) 的时间复杂度内查找一个无序数组中的第 K 大元素?</h4><h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><blockquote>
+<h3 id="问题二：如何在-O-n-的时间复杂度内查找一个无序数组中的第-K-大元素"><a href="#问题二：如何在-O-n-的时间复杂度内查找一个无序数组中的第-K-大元素" class="headerlink" title="问题二：如何在 O(n) 的时间复杂度内查找一个无序数组中的第 K 大元素?"></a>问题二：如何在 O(n) 的时间复杂度内查找一个无序数组中的第 K 大元素?</h3><h2 id="1、归并排序"><a href="#1、归并排序" class="headerlink" title="1、归并排序"></a>1、归并排序</h2><blockquote>
 <p>归并排序的核心思想还是蛮简单的。如果要排序一个数组，我们先把数组从中间分成前后两部分，然后对前后两部分分别排序，再将排好序的两部分合并在一起，这样整个数组就都有序了。</p>
 </blockquote>
 <p><strong>归并排序的核心是合并：依次合并N个堆得数据</strong></p>
@@ -643,7 +643,7 @@ p &gt;= r 不用再继续分解
     <span class="token comment" spellcheck="true">//5</span>
     <span class="token keyword">return</span> <span class="token function">merge</span><span class="token punctuation">(</span>leftPart<span class="token punctuation">,</span> rightPart<span class="token punctuation">)</span>
 <span class="token punctuation">}</span></code></pre>
-<h2 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h2><p><a href="https://github.com/andyRon/swift-algorithm-club-cn/tree/master/Quicksort" target="_blank" rel="noopener">快速排序是原地排序，也是递归实现，但快速排序不是稳定排序</a></p>
+<h2 id="2、快速排序"><a href="#2、快速排序" class="headerlink" title="2、快速排序"></a>2、快速排序</h2><p><a href="https://github.com/andyRon/swift-algorithm-club-cn/tree/master/Quicksort" target="_blank" rel="noopener">快速排序是原地排序，也是递归实现，但快速排序不是稳定排序</a></p>
 <blockquote>
 <p>归并排序虽然是稳定的、时间复杂度为 O(nlogn) 的排序算法，但是它是非原地排序算法。<br>归并之所以是非原地排序算法，主要原因是合并函数无法在原地执行。<br> 快速排序通过设计巧妙的原地分区函数，可以实现原地排序，解决了归并排序占用太多内存的问题。</p>
 </blockquote>
@@ -679,10 +679,14 @@ p &gt;= r 不用再继续分解
         <span class="token function">quickSortDutch</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>a<span class="token punctuation">,</span> low<span class="token punctuation">:</span> q <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> high<span class="token punctuation">:</span> high<span class="token punctuation">)</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
-<h4 id="Lomuto分区-Vs-Hoare分区-Vs-荷兰国旗分区"><a href="#Lomuto分区-Vs-Hoare分区-Vs-荷兰国旗分区" class="headerlink" title="Lomuto分区 Vs Hoare分区 Vs 荷兰国旗分区"></a>Lomuto分区 Vs Hoare分区 Vs 荷兰国旗分区</h4><pre class=" language-swift"><code class="language-swift"><span class="token comment" spellcheck="true">/*
- 1 Lomuto分区法:是用数组最后一个元素作为基准元素对数组分区，区域为[low...p-1] [p+1...high]，然后递归调用quickLomutoSort分别对左右区排序，一直到数组有序
-
- 2 Hoare分区：选择数组的first元素作为基准，数组划分区域为[low...p] [p+1...high]，然后递归调用quickSortHoare分别对左右区排序，一直到数组有序
+<h4 id="Lomuto分区-Vs-Hoare分区-Vs-荷兰国旗分区"><a href="#Lomuto分区-Vs-Hoare分区-Vs-荷兰国旗分区" class="headerlink" title="Lomuto分区 Vs Hoare分区 Vs 荷兰国旗分区"></a>Lomuto分区 Vs Hoare分区 Vs 荷兰国旗分区</h4><blockquote>
+<p>Lomuto分区法:是用数组最后一个元素作为基准元素对数组分区，区域为[low…p-1] [p+1…high]，然后递归调用quickLomutoSort分别对左右区排序，一直到数组有序</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>Hoare分区：选择数组的first元素作为基准，数组划分区域为[low…p] [p+1…high]，然后递归调用quickSortHoare分别对左右区排序，一直到数组有序</p>
+</blockquote>
+<pre class=" language-swift"><code class="language-swift"><span class="token comment" spellcheck="true">/*
 
  3 荷兰国旗分区：将前部和后部各排在数组的前边和后边，中部自然就排好了,分区函数返回(p, q)
 

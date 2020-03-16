@@ -560,7 +560,164 @@
 <h2 id="总结三种时间复杂度是-O-n2-的排序算法"><a href="#总结三种时间复杂度是-O-n2-的排序算法" class="headerlink" title="总结三种时间复杂度是 O(n2) 的排序算法"></a>总结三种时间复杂度是 O(n2) 的排序算法</h2><blockquote>
 <p>这三种排序算法，实现代码都非常简单，对于小规模数据的排序，用起来非常高效。但是在大规模数据排序的时候，这个时间复杂度还是稍微有点高，所以我们更倾向于用下一节要讲的时间复杂度为 O(nlogn) 的排序算法。</p>
 </blockquote>
-<h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://static001.geekbang.org/resource/image/34/50/348604caaf0a1b1d7fee0512822f0e50.jpg" alt=""></h2><h4 id="思考一个问题：如何在-O-n-的时间复杂度内查找一个无序数组中的第-K-大元素？"><a href="#思考一个问题：如何在-O-n-的时间复杂度内查找一个无序数组中的第-K-大元素？" class="headerlink" title="思考一个问题：如何在 O(n) 的时间复杂度内查找一个无序数组中的第 K 大元素？"></a>思考一个问题：如何在 O(n) 的时间复杂度内查找一个无序数组中的第 K 大元素？</h4><h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><h2 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h2>
+<p><img src="https://static001.geekbang.org/resource/image/34/50/348604caaf0a1b1d7fee0512822f0e50.jpg" alt=""></p>
+<hr>
+<hr>
+<p><strong>现在思考一个问题：如何在 O(n) 的时间复杂度内查找一个无序数组中的第 K 大元素？</strong></p>
+<h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><blockquote>
+<p>归并排序的核心思想还是蛮简单的。如果要排序一个数组，我们先把数组从中间分成前后两部分，然后对前后两部分分别排序，再将排好序的两部分合并在一起，这样整个数组就都有序了。</p>
+</blockquote>
+<p><strong>归并排序的核心是合并：依次合并N个堆得数据</strong></p>
+<ul>
+<li>1、在合并时，您需要两个索引来跟踪两个数组的进度。</li>
+<li>2、这是合并后的数组。 它现在是空的，但是你将在下面的步骤中通过添加其他数组中的元素构建它。</li>
+<li>3、这个while循环将比较左侧和右侧的元素，并将它们添加到orderedPile，同时确保结果保持有序。</li>
+<li>4、如果前一个while循环完成，则意味着leftPile或rightPile中的一个的内容已经完全合并到orderedPile中。此时，您不再需要进行比较。只需依次添加剩下一个数组的其余内容到orderedPile。</li>
+</ul>
+<p><img src="https://static001.geekbang.org/resource/image/db/2b/db7f892d3355ef74da9cd64aa926dc2b.jpg" alt=""></p>
+<ul>
+<li>归并排序使用的就是分治思想。分治，顾名思义，就是分而治之，将一个大问题分解成小的子问题来解决。小的子问题解决了，大问题也就解决了。</li>
+<li>从我刚才的描述，你有没有感觉到，分治思想跟我们前面讲的递归思想很像。是的，分治算法一般都是用递归来实现的。<strong>分治是一种解决问题的处理思想，递归是一种编程技巧，这两者并不冲突。</strong></li>
+</ul>
+<p>所以归并排序的核心就是递归写法：</p>
+<pre><code>
+递推公式：
+merge_sort(p…r) = merge(merge_sort(p…q), merge_sort(q+1…r))
+
+终止条件：
+p &gt;= r 不用再继续分解
+</code></pre><p>有了递推公式，转化成代码就简单多了:</p>
+<pre class=" language-swift"><code class="language-swift">
+<span class="token keyword">func</span> <span class="token function">merge</span><span class="token punctuation">(</span><span class="token number">_</span> leftArray<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token builtin">Int</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">_</span> rightArray<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token builtin">Int</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">[</span><span class="token builtin">Int</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//1</span>
+    <span class="token keyword">var</span> l <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> r <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token comment" spellcheck="true">//2</span>
+    <span class="token keyword">var</span> mergeArr<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token builtin">Int</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token comment" spellcheck="true">//3</span>
+    <span class="token keyword">while</span> l <span class="token operator">&lt;</span> leftArray<span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token operator">&amp;&amp;</span> r <span class="token operator">&lt;</span> rightArray<span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> leftArray<span class="token punctuation">[</span>l<span class="token punctuation">]</span> <span class="token operator">></span> rightArray<span class="token punctuation">[</span>r<span class="token punctuation">]</span> <span class="token punctuation">{</span>
+            mergeArr<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>rightArray<span class="token punctuation">[</span>r<span class="token punctuation">]</span><span class="token punctuation">)</span>
+            r <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">1</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> leftArray<span class="token punctuation">[</span>l<span class="token punctuation">]</span> <span class="token operator">&lt;</span> rightArray<span class="token punctuation">[</span>r<span class="token punctuation">]</span> <span class="token punctuation">{</span>
+            mergeArr<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>leftArray<span class="token punctuation">[</span>l<span class="token punctuation">]</span><span class="token punctuation">)</span>
+            l <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">1</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            mergeArr<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>leftArray<span class="token punctuation">[</span>l<span class="token punctuation">]</span><span class="token punctuation">)</span>
+            l <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">1</span>
+            mergeArr<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>rightArray<span class="token punctuation">[</span>r<span class="token punctuation">]</span><span class="token punctuation">)</span>
+            r <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">1</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">//4</span>
+    <span class="token keyword">while</span> l <span class="token operator">&lt;</span> leftArray<span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token punctuation">{</span>
+        mergeArr<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>leftArray<span class="token punctuation">[</span>l<span class="token punctuation">]</span><span class="token punctuation">)</span>
+        l <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">1</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">while</span> r <span class="token operator">&lt;</span> rightArray<span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token punctuation">{</span>
+        mergeArr<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>rightArray<span class="token punctuation">[</span>r<span class="token punctuation">]</span><span class="token punctuation">)</span>
+        r <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">1</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> mergeArr
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">/*
+ 1、如果数组为空或包含单个元素，则无法将其拆分为更小的部分，返回数组就行。
+
+ 2、找到中间索引。
+
+ 3、使用上一步中的中间索引，递归地分割数组的左侧。
+
+ 4、递归地分割数组的右侧。
+
+ 5、最后，将所有值合并在一起，确保它始终排序。
+ */</span>
+<span class="token keyword">func</span> <span class="token function">mergeSort</span><span class="token punctuation">(</span><span class="token number">_</span> array<span class="token punctuation">:</span> <span class="token builtin">Array</span><span class="token operator">&lt;</span><span class="token builtin">Int</span><span class="token operator">></span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Array</span><span class="token operator">&lt;</span><span class="token builtin">Int</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//1</span>
+    <span class="token keyword">guard</span> array<span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token operator">></span> <span class="token number">1</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> array
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">//2</span>
+    <span class="token keyword">let</span> middle <span class="token operator">=</span> array<span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token operator">/</span> <span class="token number">2</span>
+    <span class="token comment" spellcheck="true">//3</span>
+    <span class="token keyword">let</span> leftPart <span class="token operator">=</span> <span class="token function">mergeSort</span><span class="token punctuation">(</span><span class="token function">Array</span><span class="token punctuation">(</span>array<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token operator">&lt;</span>middle<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true">//4</span>
+    <span class="token keyword">let</span> rightPart <span class="token operator">=</span> <span class="token function">mergeSort</span><span class="token punctuation">(</span><span class="token function">Array</span><span class="token punctuation">(</span>array<span class="token punctuation">[</span>middle<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token operator">&lt;</span>array<span class="token punctuation">.</span><span class="token builtin">count</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true">//5</span>
+    <span class="token keyword">return</span> <span class="token function">merge</span><span class="token punctuation">(</span>leftPart<span class="token punctuation">,</span> rightPart<span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<h2 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h2><p><a href="https://github.com/andyRon/swift-algorithm-club-cn/tree/master/Quicksort" target="_blank" rel="noopener">快速排序是原地排序，也是递归实现，但快速排序不是稳定排序</a></p>
+<blockquote>
+<p>归并排序虽然是稳定的、时间复杂度为 O(nlogn) 的排序算法，但是它是非原地排序算法。<br>归并之所以是非原地排序算法，主要原因是合并函数无法在原地执行。<br> 快速排序通过设计巧妙的原地分区函数，可以实现原地排序，解决了归并排序占用太多内存的问题。</p>
+</blockquote>
+<blockquote>
+<p>快排的思想是这样的：如果要排序数组中下标从 p 到 r 之间的一组数据，我们选择 p 到 r 之间的任意一个数据作为 pivot（分区点）。</p>
+</blockquote>
+<blockquote>
+<p>我们遍历 p 到 r 之间的数据，将小于 pivot 的放到左边，将大于 pivot 的放到右边，将 pivot 放到中间。经过这一步骤之后，数组 p 到 r 之间的数据就被分成了三个部分，前面 p 到 q-1 之间都是小于 pivot 的，中间是 pivot，后面的 q+1 到 r 之间是大于 pivot 的。</p>
+</blockquote>
+<p><img src="https://static001.geekbang.org/resource/image/4d/81/4d892c3a2e08a17f16097d07ea088a81.jpg" alt=""><br> 直接递归：<br> 1、设置中间位置元素为轴点元素pivot<br> 2、分区：less equal more<br> 3、递归合并分区</p>
+<pre class=" language-swift"><code class="language-swift"><span class="token keyword">func</span> quickSort<span class="token operator">&lt;</span>T<span class="token punctuation">:</span> <span class="token builtin">Comparable</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token number">_</span> array<span class="token punctuation">:</span> <span class="token punctuation">[</span>T<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">[</span>T<span class="token punctuation">]</span><span class="token punctuation">{</span>
+
+    <span class="token keyword">let</span> pivot <span class="token operator">=</span> array<span class="token punctuation">[</span>array<span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">]</span>
+
+    <span class="token keyword">let</span> less <span class="token operator">=</span> array<span class="token punctuation">.</span><span class="token builtin">filter</span> <span class="token punctuation">{</span> $<span class="token number">0</span> <span class="token operator">&lt;</span> pivot <span class="token punctuation">}</span>
+    <span class="token keyword">let</span> <span class="token builtin">equal</span> <span class="token operator">=</span> array<span class="token punctuation">.</span><span class="token builtin">filter</span> <span class="token punctuation">{</span> $<span class="token number">0</span> <span class="token operator">==</span> pivot <span class="token punctuation">}</span>
+    <span class="token keyword">let</span> more <span class="token operator">=</span> array<span class="token punctuation">.</span><span class="token builtin">filter</span> <span class="token punctuation">{</span> $<span class="token number">0</span> <span class="token operator">></span> pivot <span class="token punctuation">}</span>
+
+    <span class="token keyword">return</span> <span class="token function">quickSort</span><span class="token punctuation">(</span>less<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token builtin">equal</span> <span class="token operator">+</span> <span class="token function">quickSort</span><span class="token punctuation">(</span>more<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">/*
+ 1、从序列中选择中轴点pivot（假设选择位置为0的元素）
+ 2、利用pivot中轴点把序列分成两个子序列
+ 3、分别对左右子序列递归进行快速排序，直到元素不能分割位置
+   快速排序的本质是把每一个元素都转换成中轴点。
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">func</span> quickSortDutch<span class="token operator">&lt;</span>T<span class="token punctuation">:</span> <span class="token builtin">Comparable</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token number">_</span> a<span class="token punctuation">:</span> <span class="token keyword">inout</span> <span class="token punctuation">[</span>T<span class="token punctuation">]</span><span class="token punctuation">,</span> low<span class="token punctuation">:</span> <span class="token builtin">Int</span><span class="token punctuation">,</span> high<span class="token punctuation">:</span> <span class="token builtin">Int</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> low <span class="token operator">&lt;</span> high <span class="token punctuation">{</span>
+        <span class="token keyword">let</span> pivot <span class="token operator">=</span> <span class="token builtin">Int</span><span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token keyword">in</span><span class="token punctuation">:</span> low<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>high<span class="token punctuation">)</span>
+        <span class="token keyword">let</span> <span class="token punctuation">(</span>p<span class="token punctuation">,</span> q<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token function">partationDutch</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>a<span class="token punctuation">,</span> low<span class="token punctuation">:</span> low<span class="token punctuation">,</span> high<span class="token punctuation">:</span> high<span class="token punctuation">,</span> pivotIndex<span class="token punctuation">:</span> pivot<span class="token punctuation">)</span>
+        <span class="token function">quickSortDutch</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>a<span class="token punctuation">,</span> low<span class="token punctuation">:</span> low<span class="token punctuation">,</span> high<span class="token punctuation">:</span> p <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span>
+        <span class="token function">quickSortDutch</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>a<span class="token punctuation">,</span> low<span class="token punctuation">:</span> q <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> high<span class="token punctuation">:</span> high<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="Lomuto分区-Vs-Hoare分区-Vs-荷兰国旗分区"><a href="#Lomuto分区-Vs-Hoare分区-Vs-荷兰国旗分区" class="headerlink" title="Lomuto分区 Vs Hoare分区 Vs 荷兰国旗分区"></a>Lomuto分区 Vs Hoare分区 Vs 荷兰国旗分区</h4><pre class=" language-swift"><code class="language-swift"><span class="token comment" spellcheck="true">/*
+ 1 Lomuto分区法:是用数组最后一个元素作为基准元素对数组分区，区域为[low...p-1] [p+1...high]，然后递归调用quickLomutoSort分别对左右区排序，一直到数组有序
+
+ 2 Hoare分区：选择数组的first元素作为基准，数组划分区域为[low...p] [p+1...high]，然后递归调用quickSortHoare分别对左右区排序，一直到数组有序
+
+ 3 荷兰国旗分区：将前部和后部各排在数组的前边和后边，中部自然就排好了,分区函数返回(p, q)
+
+ 设置两个标志位begin和end分别指向这个数组的开始和末尾，然后用一个标志位current从头开始进行遍历：
+
+ 1）若遍历到的current &lt; pivot，于是就和begin位置进行交换，然后current向前进，begin也向前进（表示前边的已经都排好了）。
+
+ 2）若遍历到current == pivot，则说明它一定属于中部，根据总思路，中部的我们都不动，然后current向前进。
+
+ 3）若遍历到current > pivot，则说明它一定属于后部，于是就和end位置进行交换，
+    由于交换完毕后current指向的可能是属于前部的，若此时current前进则会导致该位置不能被交换到前部，所以此时current不前进。
+    end向后退1。
+
+ 4) 返回分区（begin, end）
+ */</span>
+<span class="token keyword">func</span> partationDutch<span class="token operator">&lt;</span>T<span class="token punctuation">:</span> <span class="token builtin">Comparable</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token number">_</span> a<span class="token punctuation">:</span> <span class="token keyword">inout</span> <span class="token punctuation">[</span>T<span class="token punctuation">]</span><span class="token punctuation">,</span> low<span class="token punctuation">:</span> <span class="token builtin">Int</span><span class="token punctuation">,</span> high<span class="token punctuation">:</span> <span class="token builtin">Int</span><span class="token punctuation">,</span> pivotIndex<span class="token punctuation">:</span> <span class="token builtin">Int</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token builtin">Int</span><span class="token punctuation">,</span> <span class="token builtin">Int</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> begin <span class="token operator">=</span> low<span class="token punctuation">,</span> end <span class="token operator">=</span> high
+    <span class="token keyword">var</span> current <span class="token operator">=</span> low<span class="token punctuation">,</span> pivot <span class="token operator">=</span> a<span class="token punctuation">[</span>pivotIndex<span class="token punctuation">]</span>
+    <span class="token keyword">while</span> current <span class="token operator">&lt;=</span> end <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> a<span class="token punctuation">[</span>current<span class="token punctuation">]</span> <span class="token operator">&lt;</span> pivot <span class="token punctuation">{</span>
+            a<span class="token punctuation">.</span><span class="token function">swapAt</span><span class="token punctuation">(</span>begin<span class="token punctuation">,</span> current<span class="token punctuation">)</span>
+            begin <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">1</span>
+            current <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">1</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> a<span class="token punctuation">[</span>current<span class="token punctuation">]</span> <span class="token operator">==</span> pivot <span class="token punctuation">{</span>
+            current <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">1</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            a<span class="token punctuation">.</span><span class="token function">swapAt</span><span class="token punctuation">(</span>current<span class="token punctuation">,</span> end<span class="token punctuation">)</span>
+            end <span class="token operator">-</span><span class="token operator">=</span> <span class="token number">1</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>begin<span class="token punctuation">,</span> end<span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p>本文参考：<a href="https://time.geekbang.org/column/article/41913" target="_blank" rel="noopener">王争-数据结构与算法之美</a></p>
+
             </div>
             <hr/>
 

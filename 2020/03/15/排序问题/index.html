@@ -511,7 +511,7 @@
 <h2 id="2、插入排序"><a href="#2、插入排序" class="headerlink" title="2、插入排序"></a>2、插入排序</h2><ul>
 <li>插入排序是将数组分成两个部分，已排序和未排序</li>
 <li>初始化已排序部分只有一个元素就是数组第一个元素</li>
-<li><strong>插入排序的核心思想就是取出未排序部分的元素，在已排序区间中找到合适的插入位置插入，保证已排序区间的数据一直是有序的。</strong></li>
+<li>插入排序的核心思想就是<strong>取出未排序部分的元素</strong>，在已排序区间中找到<strong>合适的插入位置插入，保证已排序区间的数据一直是有序的。</strong></li>
 </ul>
 <h4 id="插入排序如下图："><a href="#插入排序如下图：" class="headerlink" title="插入排序如下图："></a>插入排序如下图：</h4><p><img src="https://static001.geekbang.org/resource/image/b6/e1/b60f61ec487358ac037bf2b6974d2de1.jpg" alt=""></p>
 <pre class=" language-swift"><code class="language-swift"><span class="token comment" spellcheck="true">///插入排序</span>
@@ -549,7 +549,7 @@
 <li>如果数组是倒序的，每次插入都相当于在数组的第一个位置插入新的数据，所以需要移动大量的数据，所以最坏情况时间复杂度为 O(n2)。</li>
 <li>还记得我们在数组中插入一个数据的平均时间复杂度是多少吗？没错，是 O(n)。所以，对于插入排序来说，每次插入操作都相当于在数组中插入一个数据，循环执行 n 次插入操作，所以平均时间复杂度为 O(n2)。</li>
 </ul>
-<h2 id="3、选择排序（Selection-Sort）"><a href="#3、选择排序（Selection-Sort）" class="headerlink" title="3、选择排序（Selection Sort）"></a>3、选择排序（Selection Sort）</h2><p>选择排序算法的实现思路有点类似插入排序，也分已排序区间和未排序区间。但是选择排序每次会从未排序区间中找到最小的元素，将其放到已排序区间的末尾。</p>
+<h2 id="3、选择排序（Selection-Sort）"><a href="#3、选择排序（Selection-Sort）" class="headerlink" title="3、选择排序（Selection Sort）"></a>3、选择排序（Selection Sort）</h2><p>选择排序算法的实现思路有点类似插入排序，也分已排序区间和未排序区间。但是选择排序每次会从<strong>未排序区间中找到最小的元素，将其放到已排序区间的末尾。</strong></p>
 <p><img src="https://static001.geekbang.org/resource/image/32/1d/32371475a0b08f0db9861d102474181d.jpg" alt=""></p>
 <h4 id="第一，选择排序是原地排序算法吗？"><a href="#第一，选择排序是原地排序算法吗？" class="headerlink" title="第一，选择排序是原地排序算法吗？"></a>第一，选择排序是原地排序算法吗？</h4><p>选择排序的时间复杂度是O(1)所以是原地排序</p>
 <h4 id="第二，选择排序是稳定的排序算法吗？"><a href="#第二，选择排序是稳定的排序算法吗？" class="headerlink" title="第二，选择排序是稳定的排序算法吗？"></a>第二，选择排序是稳定的排序算法吗？</h4><p><strong>不是稳定排序，对于选择排序来说每次都是从未排序序列中找到最小的插入到已排序序列的末尾处，和前面的元素交换，这样会破坏稳定性</strong></p>

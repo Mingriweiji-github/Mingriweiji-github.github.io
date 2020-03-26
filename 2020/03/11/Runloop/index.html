@@ -776,23 +776,21 @@ typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/11/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+                <a href="/2020/03/11/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="多线程">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="iOS多线程">
                         
-                        <span class="card-title">多线程</span>
+                        <span class="card-title">iOS多线程</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1、你理解的多线程？并发和串行，同步和异步
-同步和异步的区别: 是否开辟新的线程，同步只能在当前线程执行任务，异步可以再新的线程执行任务
-串行和并发的区别:是任务执行的顺序，串行任务只能顺序执行，并发可以多个任务同时执行。
+                            深入理解GCDdispatch_async 会把任务添加到队列的一个链表中，添加完后会唤醒队列，根据 vtable 中的函数指针，调用 wakeup 方法。
 
-2、iOS多线
+在 wakeup 方法中，从线程池里取出工作线程(如果没有就新建)，然后在工作线
                         
                     </div>
                     <div class="publish-info">

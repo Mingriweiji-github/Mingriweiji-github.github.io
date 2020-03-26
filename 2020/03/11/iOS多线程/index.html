@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="多线程, 明日危机">
+    <meta name="keywords" content="iOS多线程, 明日危机">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>多线程 | 明日危机</title>
+    <title>iOS多线程 | 明日危机</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -307,12 +307,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">多线程</h1>
+                    <h1 class="description center-align post-title">iOS多线程</h1>
                 </div>
             </div>
         </div>
@@ -458,7 +458,114 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="1、你理解的多线程？并发和串行，同步和异步"><a href="#1、你理解的多线程？并发和串行，同步和异步" class="headerlink" title="1、你理解的多线程？并发和串行，同步和异步"></a>1、<strong>你理解的多线程？并发和串行，同步和异步</strong></h2><ul>
+                <h2 id="深入理解GCD"><a href="#深入理解GCD" class="headerlink" title="深入理解GCD"></a><a href="https://bestswifter.com/deep-gcd/" target="_blank" rel="noopener">深入理解GCD</a></h2><p><strong><code>dispatch_async</code> 会把任务添加到队列的一个链表中，添加完后会唤醒队列，根据 vtable 中的函数指针，调用 wakeup 方法。</strong></p>
+<ul>
+<li>在 wakeup 方法中，从线程池里取出工作线程(如果没有就新建)，然后在工作线程中取出链表头部指向的 block 并执行。</li>
+</ul>
+<p><strong><code>dispatch_sync</code> 的实现略简单一些，它不涉及线程池(因此一般都在当前线程执行)，而是利用与线程绑定的信号量来实现串行。</strong></p>
+<p>分发到不同队列时，代码进入的分支也不一样，比如 <code>dispatch_async</code> 到主队列的任务由 runloop 处理，而分发到其他队列的任务由线程池处理。</p>
+<p>在当前串行队列中执行 <code>dispatch_sync</code> 时，由于 <code>dq_running</code> 属性(表示在运行的任务数量) 为 1，所以以下判断成立:</p>
+<pre class=" language-cpp"><code class="language-cpp"><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">slowpath</span><span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">dispatch_atomic_cmpxchg2o</span><span class="token punctuation">(</span>dq<span class="token punctuation">,</span> dq_running<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+    <span class="token keyword">return</span> <span class="token function">_dispatch_barrier_sync_f_slow</span><span class="token punctuation">(</span>dq<span class="token punctuation">,</span> ctxt<span class="token punctuation">,</span> func<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>在 <code>_dispatch_barrier_sync_f_slow</code> 函数中使用了线程对应的信号量并且调用 <code>wait</code> 方法，从而导致线程死锁。</p>
+<p>如果向其它队列同步提交 block，最终进入 <code>_dispatch_barrier_sync_f_invoke</code>，它只是保证了 block 执行的原子性，但没有使用线程对应的信号量。</p>
+<p><strong>对于信号量来说，它主要使用 <code>signal</code> 和 <code>wait</code> 这两个接口，底层分别调用了内核提供的方法。</strong></p>
+<ul>
+<li>在调用 wait 方法后，先将 value 减一，如果大于零立刻返回，否则陷入等待。<code>signal</code> 方法将信号量加一，如果 value 大于零立刻返回，否则说明唤醒了某一个等待线程，此时由系统决定哪个线程的等待方法可以返回。</li>
+</ul>
+<p><strong><code>dispatch_group</code> 的本质就是一个 value 非常大的信号量，等待 group 完成实际上就是等待 value 恢复初始值。</strong>而</p>
+<ul>
+<li>notify 的作用是将所有注册的回调组装成一个链表，在 <code>dispatch_async</code> 完成时判断 value 是不是恢复初始值，如果是则调用 <code>dispatch_async</code> 异步执行所有注册的回调。</li>
+</ul>
+<p><strong><code>dispatch_once</code> 通过一个静态变量来标记 block 是否已被执行，同时使用信号量确保只有一个线程能执行，执行完 block 后会唤醒其他所有等待的线程。</strong></p>
+<p><strong><code>dispatch_barrier_async</code> 改变了 block 的 <code>vtable</code> 标记位，当它将要被取出执行时，会等待前面的 block 都执行完，然后在下一次循环中被执行。</strong></p>
+<p><strong><code>dispatch_source</code> 可以用来实现定时器。</strong></p>
+<ul>
+<li>所有的 source 会被提交到用户指定的队列，然后提交到 manager 队列中，按照触发时间排好序。</li>
+<li>随后找到最近触发的定时器，调用内核的 <code>select</code> 方法等待。</li>
+<li>等待结束后，依次唤醒 manager 队列和用户指定队列，最终触发一开始设置的回调 block。</li>
+</ul>
+<p><strong>GCD 中的对象用 <code>do_suspend_cnt</code> 来表示是否暂停。队列默认处于启动状态，而 <code>dispatch_source</code> 需要手动启动。</strong></p>
+<p><strong><code>dispatch_after</code> 函数依赖于 <code>dispatch_source</code> 定时器，它只是注册了一个定时器，然后在回调函数中执行 block。</strong></p>
+<p><a href="https://www.cnblogs.com/beckwang0912/p/7146833.html" target="_blank" rel="noopener">GCD死锁案例分析</a></p>
+<p><a href="https://juejin.im/post/5ab4a4466fb9a028d14107ff#heading-31" target="_blank" rel="noopener">NSOperation案例分析</a></p>
+<h2 id="深入理解iOS开发中的锁"><a href="#深入理解iOS开发中的锁" class="headerlink" title="深入理解iOS开发中的锁"></a><a href="https://bestswifter.com/ios-lock/" target="_blank" rel="noopener">深入理解iOS开发中的锁</a></h2><p><img src="http://images.bestswifter.com/lock_benchmark.png" alt=""></p>
+<h4 id="自旋锁的目的是为了确保临界区只有一个线程可以访问"><a href="#自旋锁的目的是为了确保临界区只有一个线程可以访问" class="headerlink" title="自旋锁的目的是为了确保临界区只有一个线程可以访问"></a>自旋锁的目的是为了确保临界区只有一个线程可以访问</h4><pre class=" language-objc"><code class="language-objc">bool lock = false; // 一开始没有锁上，任何线程都可以申请锁  
+do {  
+    while(test_and_set(&lock); // test_and_set 是一个原子操作
+        Critical section  // 临界区
+    lock = false; // 相当于释放锁，这样别的线程可以进入临界区
+        Reminder section // 不需要锁保护的代码        
+}</code></pre>
+<ul>
+<li>显然在 while 循环中，<strong>线程处于忙等状态，白白浪费 CPU 时间，最终因为超时被操作系统抢占时间片。如果临界区执行时间较长，比如是文件读写，这种忙等是毫无必要的。</strong></li>
+<li>如果临界区的执行时间过长，使用自旋锁不是个好主意</li>
+</ul>
+<h4 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h4><ul>
+<li>首先会把信号量的值减一，并判断是否大于零。</li>
+<li>如果大于零，说明不用等待，所以立刻返回。小于0等待signal唤醒线程</li>
+</ul>
+<h4 id="pthread-mutex互斥锁"><a href="#pthread-mutex互斥锁" class="headerlink" title="pthread_mutex互斥锁"></a>pthread_mutex互斥锁</h4><ul>
+<li>互斥锁的实现原理与信号量非常相似，不是使用忙等，而是<strong>阻塞线程并睡眠，需要进行上下文切换。</strong></li>
+</ul>
+<pre class=" language-objc"><code class="language-objc">pthread_mutexattr_t attr;  
+pthread_mutexattr_init(&attr);  
+pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_NORMAL);  // 定义锁的属性
+
+pthread_mutex_t mutex;  
+pthread_mutex_init(&mutex, &attr) // 创建锁
+
+pthread_mutex_lock(&mutex); // 申请锁  
+    // 临界区
+pthread_mutex_unlock(&mutex); // 释放锁 </code></pre>
+<ul>
+<li>一般情况下，一个线程只能申请一次锁，也只能在获得锁的情况下才能释放锁，多次申请锁或释放未获得的锁都会导致崩溃。</li>
+<li>假设在已经获得锁的情况下再次申请锁，线程会因为等待锁的释放而进入睡眠状态，因此就不可能再释放锁，从而导致死锁。</li>
+<li>然而这种情况经常会发生，比如某个函数申请了锁，在临界区内又递归调用了自己。辛运的是 <code>pthread_mutex</code> 支持递归锁，也就是允许一个线程递归的申请锁，只要把 attr 的类型改成 <code>PTHREAD_MUTEX_RECURSIVE</code> 即可。</li>
+</ul>
+<h4 id="NSLock"><a href="#NSLock" class="headerlink" title="NSLock"></a>NSLock</h4><ul>
+<li><p><code>NSLock</code> 只是在内部封装了一个 <code>pthread_mutex</code>，属性为 <code>PTHREAD_MUTEX_ERRORCHECK</code>，它会损失一定性能换来错误提示。</p>
+</li>
+<li><p><code>NSLock</code> 比 <code>pthread_mutex</code> 略慢的原因在于它需要经过方法调用，同时由于缓存的存在，多次方法调用不会对性能产生太大的影响。</p>
+</li>
+</ul>
+<h4 id="NSCondition"><a href="#NSCondition" class="headerlink" title="NSCondition"></a>NSCondition</h4><ul>
+<li><p><code>NSCondition</code> 的底层是通过条件变量(condition variable) <code>pthread_cond_t</code> 来实现的。</p>
+</li>
+<li><p><strong>条件变量有点像信号量，提供了线程阻塞与信号机制，因此可以用来阻塞某个线程**</strong>，并等待某个数据就绪，随后唤醒线程**，比如常见的生产者-消费者模式。</p>
+</li>
+<li><p><code>NSCondition</code> 其实是封装了一个互斥锁和条件变量， 它把前者的 <code>lock</code> 方法和后者的 <code>wait/signal</code> 统一在 <code>NSCondition</code> 对象中，暴露给使用者</p>
+</li>
+<li><p>它的加解锁过程与 <code>NSLock</code> 几乎一致，理论上来说耗时也应该一样(实际测试也是如此)。在图中显示它耗时略长，我猜测有可能是测试者在每次加解锁的前后还附带了变量的初始化和销毁操作。</p>
+</li>
+</ul>
+<h4 id="NSRecursiveLock"><a href="#NSRecursiveLock" class="headerlink" title="NSRecursiveLock"></a><a href="https://bestswifter.com/ios-lock/#nsrecursivelock" target="_blank" rel="noopener">NSRecursiveLock</a></h4><ul>
+<li><p>递归锁也是通过 <code>pthread_mutex_lock</code> 函数来实现，在函数内部会判断锁的类型，如果显示是递归锁，就允许递归调用，仅仅将一个计数器加一，锁的释放过程也是同理。</p>
+<p><strong>使用递归锁NSRecursiveLock</strong></p>
+<pre class=" language-objc"><code class="language-objc">    NSLock *lock = [[NSLock alloc] init];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        static void (^RecursiveMethod)(int);
+        RecursiveMethod = ^(int value) {
+            [lock lock];//递归调用时失败，NSLock不能被同一线程多次获取，多次获取使用NSRecursiveLock
+            if (value > 0) {
+                NSLog(@"value = %d", value);
+                sleep(2);
+                RecursiveMethod(value - 1);
+            }
+            [lock unlock];
+        };
+        RecursiveMethod(5);
+    });</code></pre>
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4></li>
+</ul>
+<h4 id="synchronized"><a href="#synchronized" class="headerlink" title="@synchronized"></a><a href="http://yulingtianxia.com/blog/2015/11/01/More-than-you-want-to-know-about-synchronized/" target="_blank" rel="noopener">@synchronized</a></h4><p>这其实是一个 OC 层面的锁， 主要是通过牺牲性能换来语法上的简洁与可读。</p>
+<ol>
+<li>你调用 <code>sychronized</code> 的每个对象，runtime 都会为其分配一个递归锁并存储在哈希表中。</li>
+<li>如果在 <code>sychronized</code> 内部对象被释放或被设为 <code>nil</code> 看起来都 OK。不过这没在文档中说明，所以我不会再生产代码中依赖这条。</li>
+<li>注意不要向你的 <code>sychronized</code> block 传入 <code>nil</code>！这将会从代码中移走线程安全。你可以通过在 <code>objc_sync_nil</code> 上加断点来查看是否发生了这样的事情。</li>
+</ol>
+<h2 id="1、你理解的多线程？并发和串行，同步和异步"><a href="#1、你理解的多线程？并发和串行，同步和异步" class="headerlink" title="1、你理解的多线程？并发和串行，同步和异步"></a>1、<strong>你理解的多线程？并发和串行，同步和异步</strong></h2><ul>
 <li>同步和异步的区别: <strong>是否开辟新的线程</strong>，同步只能在当前线程执行任务，异步可以再新的线程执行任务</li>
 <li>串行和并发的区别:是<strong>任务执行的顺序</strong>，串行任务只能顺序执行，并发可以多个任务同时执行。</li>
 </ul>
@@ -495,9 +602,9 @@
 </blockquote>
 <ul>
 <li><strong>os_unfair_lock：iOS10开始os_unfair_lock来替代OSSpinLock, 等待锁的线程会进入休眠不占用CPU资源， 这个os_unfair_lock解决了优先级翻转问题。</strong></li>
-<li><strong>OSSpinLock叫做”自旋锁”，等待锁的线程会处于忙等（busy-wait）状态，一直占用着CPU资源</strong></li>
+<li><strong>OSSpinLock叫做”自旋锁”，等待锁的线程会处于忙等一直占用着CPU资源</strong></li>
 <li><strong>dispatch_semaphore：信号量为1的semaphore也可以看做是锁</strong></li>
-<li><strong>pthread_mutex：mutex是互斥锁，等待锁的线程处于休眠状态，pthread_mutex是递归锁，可以递归调用。</strong></li>
+<li><strong>pthread_mutex：跨平台的互斥锁。互斥锁的实现原理与信号量非常相似，不是使用忙等，而是阻塞线程并睡眠，需要进行上下文切换。</strong></li>
 <li><strong>使用GCD的串行队列也可以实现锁的功能</strong></li>
 <li><strong>NSLock是对metex互斥锁的封装，NSRecurisiveLock也是对metex的递归封装，API和NSLock一直。</strong></li>
 <li>NSCondition</li>
@@ -609,9 +716,24 @@
     <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token function">NSLog</span><span class="token punctuation">(</span>@<span class="token string">"task3---"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
-<h2 id="11、案例分析"><a href="#11、案例分析" class="headerlink" title="11、案例分析"></a>11、案例分析</h2><p><a href="https://www.cnblogs.com/beckwang0912/p/7146833.html" target="_blank" rel="noopener">GCD死锁案例分析</a></p>
-<p><a href="https://juejin.im/post/5ab4a4466fb9a028d14107ff#heading-31" target="_blank" rel="noopener">NSOperation案例分析</a></p>
-<h2 id=""><a href="#" class="headerlink" title=""></a></h2>
+<h2 id="11、案例分析"><a href="#11、案例分析" class="headerlink" title="11、案例分析"></a>11、案例分析</h2><h4 id="使用-Dispatch-Source定时器"><a href="#使用-Dispatch-Source定时器" class="headerlink" title="使用 Dispatch Source定时器"></a>使用 Dispatch Source定时器</h4><h4 id="Dispatch-Source-Timer"><a href="#Dispatch-Source-Timer" class="headerlink" title="Dispatch Source Timer"></a>Dispatch Source Timer</h4><p>利用 Dispatch Source 的 DISPATCH_SOURCE_TYPE_TIMER 类型，我们可以创建一个 跨线程的 定时器（我们平时使用的 NSTimer 是基于 Run Loop 的 timer 事件，只能在对应的线程里触发）</p>
+<pre class=" language-objective-c"><code class="language-objective-c">    dispatch_queue_t queue = dispatch_get_main_queue();
+
+    //1、创建一个 timer；
+    self.timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+
+    //2、配置 timer，从现在起，每两秒在主线程触发一次，精度为0s
+    dispatch_source_set_timer(self.timer, DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC, 0 * NSEC_PER_SEC);
+
+    //3、timer 触发之后的回调 block
+    dispatch_source_set_event_handler(self.timer, ^{
+
+        NSLog(@"%ld", self.count++);
+    });
+
+    //4、启动 timer
+    dispatch_resume(self.time); </code></pre>
+
             </div>
             <hr/>
 
@@ -636,7 +758,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://mingriweiji-github.github.io/2020/03/11/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">https://mingriweiji-github.github.io/2020/03/11/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</a>
+                    <a href="https://mingriweiji-github.github.io/2020/03/11/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/">https://mingriweiji-github.github.io/2020/03/11/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/</a>
                 </span>
             </div>
             <div class="reprint__notice">

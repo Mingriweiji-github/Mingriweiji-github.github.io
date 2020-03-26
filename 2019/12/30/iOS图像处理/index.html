@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="二叉树前世今生, 明日危机">
+    <meta name="keywords" content="iOS图像处理, 明日危机">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>二叉树前世今生 | 明日危机</title>
+    <title>iOS图像处理 | 明日危机</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -307,12 +307,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">二叉树前世今生</h1>
+                    <h1 class="description center-align post-title">iOS图像处理</h1>
                 </div>
             </div>
         </div>
@@ -458,118 +458,277 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="二叉树今生"><a href="#二叉树今生" class="headerlink" title="二叉树今生"></a>二叉树今生</h1><p>为什么会有二叉树这种数据结构？</p>
-<p>思考一个问题：如果一个集合中有42亿个元素，让你从这42亿个元素中搜索某一个元素，你需要多少次操作？</p>
-<p><strong>如果使用数组链表的话最多可能需要42亿次比较，而如果使用二叉树我们只需要32次比较即可，这就是二叉树存在的价值。Java中的HashSet使用的就是二叉树</strong></p>
-<h2 id="前驱与后继"><a href="#前驱与后继" class="headerlink" title="前驱与后继"></a>前驱与后继</h2><h3 id="前驱节点"><a href="#前驱节点" class="headerlink" title="前驱节点"></a>前驱节点</h3><ol>
-<li><p>若一个节点有左子树，那么该节点的前驱节点是其左子树中val值最大的节点（也就是左子树中所谓的rightMostNode）</p>
+                <h1 id="iOS图像优化技巧"><a href="#iOS图像优化技巧" class="headerlink" title="iOS图像优化技巧"></a><a href="https://swift.gg/2019/11/01/image-resizing/" target="_blank" rel="noopener">iOS图像优化技巧</a></h1><ul>
+<li><p>1、如何处理大尺寸图片？</p>
 </li>
-<li><p>若一个节点没有左子树，那么判断该节点和其父节点的关系 </p>
-<p>2.1 若该节点是其父节点的右边孩子，那么该节点的前驱结点即为其父节点。 </p>
-<p>2.2 若该节点是其父节点的左边孩子，那么需要沿着其父亲节点一直向树的顶端寻找，直到找到一个节点P，P节点是其父节点Q的右边孩子（可参考例子2的前驱结点是1），那么Q就是该节点的后继节点</p>
+<li><p>2、如何处理瀑布流图片占用大量内存的问题？</p>
 </li>
+<li><p>3、如何处理多张图片上传和下载问题？</p>
+</li>
+</ul>
+<h1 id="1、处理大尺寸图片"><a href="#1、处理大尺寸图片" class="headerlink" title="1、处理大尺寸图片"></a>1、处理大尺寸图片</h1><p>那么，什么时候对图像进行渲染优化才有意义呢？</p>
+<p><strong>当它明显大于</strong> <strong><code>UIImageView</code></strong> <strong>显示尺寸的时候</strong></p>
+<p>想要完整渲染这张宽高为 12,000 px 的图片，需要高达 20 MB 的空间。对于当今的硬件来说，你可能不会在意这么少兆字节的占用。但那只是它压缩后的尺寸。要展示它，<code>UIImageView</code> 首先需要把 JPEG 数据解码成位图（bitmap），如果要在一个 <code>UIImageView</code> 上按原样设置这张全尺寸图片，你的应用内存占用将会激增到<strong>几百兆</strong>，对用户明显没有什么好处（毕竟，屏幕能显示的像素有限）。但只要在设置 <code>UIImageView</code> 的 <code>image</code> 属性之前，将图像渲染的尺寸调整成 <code>UIImageView</code> 的大小，你用到的内存就会少一个数量级：</p>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="left">内存消耗 <em>(MB)</em></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">无下采样</td>
+<td align="left">220.2</td>
+</tr>
+<tr>
+<td align="left">下采样</td>
+<td align="left">23.7</td>
+</tr>
+</tbody></table>
+<p>这个技巧就是众所周知的<em>下采样（downsampling）</em>，在这些情况下，它可以有效地优化你应用的性能表现。如果你想了解更多关于下采样的知识或者其它图形图像的最佳实践，请参照 <a href="https://developer.apple.com/videos/play/wwdc2018/219/" target="_blank" rel="noopener">来自 WWDC 2018 的精彩课程</a>。</p>
+<p>而现在，很少有应用程序会尝试一次性加载这么大的图像了，但是也跟我从设计师那里拿到的图片资源不会差<em>太</em>多。<em>（认真的吗？一张颜色渐变的</em> <em>PNG</em> <em>图片要</em> <em>3</em> <em>MB?）</em> 考虑到这一点，让我们来看看有什么不同的方法，可以让你用来对图像进行优化或者下采样。</p>
+<blockquote>
+<p>不用说，这里所有从 URL 加载的示例图像都是针对<strong>本地</strong>文件。记住，在应用的主线程同步使用网络请求图像<strong>绝不</strong>是什么好主意。</p>
+</blockquote>
+<h2 id="图像渲染优化技巧"><a href="#图像渲染优化技巧" class="headerlink" title="图像渲染优化技巧"></a>图像渲染优化技巧</h2><p>优化图像渲染的方法有很多种，每种都有不同的功能和性能特性。我们在本文看到的这些例子，架构层次跨度上从底层的 Core Graphics、vImage、Image I/O 到上层的 Core Image 和 UIKit 都有。</p>
+<ol>
+<li><a href="https://swift.gg/2019/11/01/image-resizing/#technique-1-drawing-to-a-uigraphicsimagerenderer" target="_blank" rel="noopener">绘制到 UIGraphicsImageRenderer 上</a></li>
+<li><a href="https://swift.gg/2019/11/01/image-resizing/#technique-2-drawing-to-a-core-graphics-context" target="_blank" rel="noopener">绘制到 Core Graphics Context 上</a></li>
+<li><a href="https://swift.gg/2019/11/01/image-resizing/#technique-3-creating-a-thumbnail-with-image-io" target="_blank" rel="noopener">使用 Image I/O 创建缩略图像</a></li>
+<li><a href="https://swift.gg/2019/11/01/image-resizing/#technique-4-lanczos-resampling-with-core-image" target="_blank" rel="noopener">使用 Core Image 进行 Lanczos 重采样</a></li>
+<li><a href="https://swift.gg/2019/11/01/image-resizing/#technique-5-image-scaling-with-vimage" target="_blank" rel="noopener">使用 vImage 优化图片渲染</a></li>
 </ol>
-<h3 id="后继节点"><a href="#后继节点" class="headerlink" title="后继节点"></a>后继节点</h3><ol>
-<li>若一个节点有右子树，那么该节点的后继节点是其右子树中val值最小的节点（也就是右子树中所谓的leftMostNode）</li>
-<li>若一个节点没有右子树，那么判断该节点和其父节点的关系<br>2.1 若该节点是其父节点的左边孩子，那么该节点的后继结点即为其父节点<br>2.2 若该节点是其父节点的右边孩子，那么需要沿着其父亲节点一直向树的顶端寻找，直到找到一个节点P，P节点是其父节点Q的左边孩子（可参考例子2的前驱结点是1），那么Q就是该节点的后继节点</li>
+<p>下面的这些数字是多次迭代加载、优化、渲染之前那张 <a href="https://visibleearth.nasa.gov/view.php?id=78314" target="_blank" rel="noopener">超大地球图片</a> 的平均时间：</p>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="left">耗时 <em>(seconds)</em></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">技巧 #1: <code>UIKit</code></td>
+<td align="left">0.1420</td>
+</tr>
+<tr>
+<td align="left">技巧 #2: <code>Core Graphics</code> 1</td>
+<td align="left">0.1722</td>
+</tr>
+<tr>
+<td align="left">技巧 #3: <code>Image I/O</code></td>
+<td align="left">0.1616</td>
+</tr>
+<tr>
+<td align="left">技巧 #4: <code>Core Image</code> 2</td>
+<td align="left">2.4983</td>
+</tr>
+<tr>
+<td align="left">技巧 #5: <code>vImage</code></td>
+<td align="left">2.3126</td>
+</tr>
+</tbody></table>
+<p>1<br>设置不同的 <code>CGInterpolationQuality</code> 值出来的结果是一致的，在性能上的差异可以忽略不计。</p>
+<p>2<br>若在 <code>CIContext</code> 创建时设置 <code>kCIContextUseSoftwareRenderer</code> 的值为 <code>true</code>，会导致耗时相比基础结果慢一个数量级。</p>
+<h2 id="使用CGContextDrawImage"><a href="#使用CGContextDrawImage" class="headerlink" title="使用CGContextDrawImage()"></a>使用CGContextDrawImage()</h2><h2 id="异步解码图片"><a href="#异步解码图片" class="headerlink" title="异步解码图片"></a>异步解码图片</h2><pre class=" language-objc"><code class="language-objc">    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        // 1、获取CGImage
+        CGImageRef cgImage = [UIImage imageNamed:@"img"].CGImage;
+
+        // alphaInfo
+        CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(cgImage) & kCGBitmapAlphaInfoMask;
+        BOOL hasAlpha = NO;
+        if (alphaInfo == kCGImageAlphaPremultipliedLast ||
+            alphaInfo == kCGImageAlphaPremultipliedFirst ||
+            alphaInfo == kCGImageAlphaLast ||
+            alphaInfo == kCGImageAlphaFirst) {
+            hasAlpha = YES;
+        }
+
+        // bitmapInfo
+        CGBitmapInfo bitmapInfo = kCGBitmapByteOrder32Host;
+        bitmapInfo |= hasAlpha ? kCGImageAlphaPremultipliedFirst : kCGImageAlphaNoneSkipFirst;
+
+        // size
+        size_t width = CGImageGetWidth(cgImage);
+        size_t height = CGImageGetHeight(cgImage);
+
+        // 2、获取context
+        CGContextRef context = CGBitmapContextCreate(NULL, width, height, 8, 0, CGColorSpaceCreateDeviceRGB(), bitmapInfo);
+
+        //3、 draw
+        CGContextDrawImage(context, CGRectMake(0, 0, width, height), cgImage);
+
+        // get CGImage
+        cgImage = CGBitmapContextCreateImage(context);
+
+        // into UIImage
+        UIImage *newImage = [UIImage imageWithCGImage:cgImage];
+
+        // release
+        CGContextRelease(context);
+        CGImageRelease(cgImage);
+
+        // back to the main thread
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.imageView.image = newImage;
+        });
+    });
+</code></pre>
+<h3 id="技巧-1-绘制到-UIGraphicsImageRenderer-上"><a href="#技巧-1-绘制到-UIGraphicsImageRenderer-上" class="headerlink" title="技巧 #1: 绘制到 UIGraphicsImageRenderer 上"></a>技巧 #1: 绘制到 UIGraphicsImageRenderer 上</h3><p>图像渲染优化的最上层 API 位于 UIKit 框架中。给定一个 <code>UIImage</code>，你可以绘制到 <code>UIGraphicsImageRenderer</code> 的上下文（context）中以渲染缩小版本的图像：</p>
+<pre><code>import UIKit
+
+// 技巧 #1
+func resizedImage(at url: URL, for size: CGSize) -&gt; UIImage? {
+    guard let image = UIImage(contentsOfFile: url.path) else {
+        return nil
+    }
+
+    let renderer = UIGraphicsImageRenderer(size: size)
+    return renderer.image { (context) in
+        image.draw(in: CGRect(origin: .zero, size: size))
+    }
+}</code></pre><p><a href="https://developer.apple.com/documentation/uikit/uigraphicsimagerenderer" target="_blank" rel="noopener"><code>UIGraphicsImageRenderer</code></a> 是一项相对较新的技术，在 iOS 10 中被引入，用以取代旧版本的 <code>UIGraphicsBeginImageContextWithOptions</code> / <code>UIGraphicsEndImageContext</code> API。你通过指定以 <code>point</code> 计量的 <code>size</code> 创建了一个 <code>UIGraphicsImageRenderer</code>。<strong><code>image</code> 方法带有一个闭包参数，返回的是一个经过闭包处理后的位图。最终，原始图像便会在缩小到指定的范围内绘制。</strong></p>
+<h3 id="技巧-2：绘制到-Core-Graphics-Context-中"><a href="#技巧-2：绘制到-Core-Graphics-Context-中" class="headerlink" title="技巧 #2：绘制到 Core Graphics Context 中"></a>技巧 #2：绘制到 Core Graphics Context 中</h3><p>Core Graphics / Quartz 2D 提供了一系列底层 API 让我们可以进行更多高级的配置。</p>
+<p>给定一个 <code>CGImage</code> 作为暂时的位图上下文，使用 <code>draw(_:in:)</code> 方法来绘制缩放后的图像：</p>
+<pre><code>import UIKit
+import CoreGraphics
+
+// 技巧 #2
+func resizedImage(at url: URL, for size: CGSize) -&gt; UIImage? {
+    guard let imageSource = CGImageSourceCreateWithURL(url as NSURL, nil),
+        let image = CGImageSourceCreateImageAtIndex(imageSource, 0, nil)
+    else {
+        return nil
+    }
+
+    let context = CGContext(data: nil,
+                            width: Int(size.width),
+                            height: Int(size.height),
+                            bitsPerComponent: image.bitsPerComponent,
+                            bytesPerRow: image.bytesPerRow,
+                            space: image.colorSpace ?? CGColorSpace(name: CGColorSpace.sRGB)!,
+                            bitmapInfo: image.bitmapInfo.rawValue)
+    context?.interpolationQuality = .high
+    context?.draw(image, in: CGRect(origin: .zero, size: size))
+
+    guard let scaledImage = context?.makeImage() else { return nil }
+
+    return UIImage(cgImage: scaledImage)
+}</code></pre><p>这个 <code>CGContext</code> 初始化方法接收了几个参数来构造一个上下文，包括了必要的宽高参数，还有在给出的色域范围内每个颜色通道所需要的内存大小。在这个例子中，这些参数都是通过 <code>CGImage</code> 这个对象获取的。下一步，设置 <code>interpolationQuality</code> 属性为 <code>.high</code> 指示上下文在保证一定的精度上填充像素。<code>draw(_:in:)</code> 方法则是在给定的宽高和位置绘制图像，可以让图片在特定的边距下裁剪，也可以适用于一些像是人脸识别之类的图像特性。最后 <code>makeImage()</code> 从上下文获取信息并且渲染到一个 <code>CGImage</code> 值上（之后会用来构造 <code>UIImage</code> 对象）。</p>
+<h3 id="技巧-3：使用-Image-I-O-创建缩略图像"><a href="#技巧-3：使用-Image-I-O-创建缩略图像" class="headerlink" title="技巧 #3：使用 Image I/O 创建缩略图像"></a>技巧 #3：使用 Image I/O 创建缩略图像</h3><p>处理大分辨率图片时，往往容易出现OOM，<strong>原因是-[UIImage drawInRect:]在绘制时，先解码图片，再生成原始分辨率大小的bitmap，这是很耗内存的。</strong></p>
+<p>解决方法是使用更低层的ImageIO接口，避免中间bitmap产生：</p>
+<p>Image I/O 是一个强大（却鲜有人知）的图像处理框架。</p>
+<p><strong>它可以读写许多不同图像格式，访问图像的元数据，还有执行常规的图像处理操作。这个框架通过先进的缓存机制，提供了平台上最快的图片编码器和解码器，甚至可以增量加载图片。</strong></p>
+<p>这个重要的 <code>CGImageSourceCreateThumbnailAtIndex</code> 提供了一个带有许多不同配置选项的 API，比起在 Core Graphics 中等价的处理操作要简洁得多：</p>
+<pre><code>import ImageIO
+
+// 技巧 #3
+func resizedImage(at url: URL, for size: CGSize) -&gt; UIImage? {
+    let options: [CFString: Any] = [
+        kCGImageSourceCreateThumbnailFromImageIfAbsent: true,
+        kCGImageSourceCreateThumbnailWithTransform: true,
+        kCGImageSourceShouldCacheImmediately: true,
+        kCGImageSourceThumbnailMaxPixelSize: max(size.width, size.height)
+    ]
+
+    guard let imageSource = CGImageSourceCreateWithURL(url as NSURL, nil),
+        let image = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, options as CFDictionary)
+    else {
+        return nil
+    }
+
+    return UIImage(cgImage: image)
+}</code></pre><p>给定一个 <code>CGImageSource</code> 和一系列配置选项，<code>CGImageSourceCreateThumbnailAtIndex(_:_:_:)</code> 函数创建了一个图像的缩略图。优化尺寸大小的操作是通过 <code>kCGImageSourceThumbnailMaxPixelSize</code> 完成的，它根据图像原始宽高比指定的最大尺寸来缩放图像。通过设定 <code>kCGImageSourceCreateThumbnailFromImageIfAbsent</code> 或 <code>kCGImageSourceCreateThumbnailFromImageAlways</code> 选项，Image I/O 可以自动缓存优化后的结果以便后续调用。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li><strong>UIKit</strong>, <strong>Core</strong> <strong>Graphics</strong>, 和 <strong>Image</strong> <strong>I/O</strong> 都能很好地用于大部分图片的优化操作。</li>
+<li>如果（在 iOS 平台，至少）要选择一个的话，<code>UIGraphicsImageRenderer</code> 是你最佳的选择。</li>
+<li><strong>Core</strong> <strong>Image</strong> 在图像优化渲染操作方面性能表现优越。实际上，根据 Apple 官方 <a href="https://developer.apple.com/library/mac/documentation/graphicsimaging/Conceptual/CoreImaging/ci_performance/ci_performance.html#//apple_ref/doc/uid/TP30001185-CH10-SW1" target="_blank" rel="noopener"><em>Core</em> <em>Image</em> <em>编程规范中的性能最佳实践单元</em></a>，你应该使用 Core Graphics 或 Image I/O 对图像进行裁剪和下采样，而不是用 Core Image。</li>
+<li>除非你已经在使用 <strong><code>vImage</code></strong>，否则在大多数情况下用到底层的 Accelerate API 所需的额外工作可能是不合理的。</li>
+</ul>
+<blockquote>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg/" target="_blank" rel="noopener">http://swift.gg</a>。</p>
+</blockquote>
+<h1 id="2、同时处理大量图片"><a href="#2、同时处理大量图片" class="headerlink" title="2、同时处理大量图片"></a>2、同时处理大量图片</h1><h3 id="UIScrollView滚动停止监测"><a href="#UIScrollView滚动停止监测" class="headerlink" title="UIScrollView滚动停止监测"></a><a href="https://www.codeleading.com/article/6664657606/" target="_blank" rel="noopener">UIScrollView滚动停止监测</a></h3><p>通过调查发现 <code>UIScrollView</code> 停止滚动的类型分为三种：</p>
+<ol>
+<li>快速滚动，自然停止</li>
+<li>快速滚动，手指按压突然停止</li>
+<li>慢速上下滑动停止</li>
 </ol>
-<p>如何判断两个二叉树是否相同？</p>
-<p><strong>递归法</strong></p>
-<pre class=" language-Java"><code class="language-Java">static public bool IsSameTree(TreeNode root1, TreeNode root2) {
-    if (root1 == null && root2 == null) {
-        return true;
+<p>第1种类型，比较简单，在 <code>UIScrollView</code> 的代理中就可以监听到。</p>
+<pre class=" language-objc"><code class="language-objc">- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView;</code></pre>
+<p>而第2种类型和第3种类型，就没有方法让我们可以直接监听到了。但是只要是滑动了，就一定会触发 <code>UIScrollView</code> 的下面代理，然后通过 <code>UIScrollView</code> 部分属性的改变，我们就可以监听到滚动停止了，后面会详细介绍方法。</p>
+<pre class=" language-objc"><code class="language-objc">- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView;
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate;</code></pre>
+<h3 id="监听UIScrollView停止滚动"><a href="#监听UIScrollView停止滚动" class="headerlink" title="监听UIScrollView停止滚动"></a>监听UIScrollView停止滚动</h3><p>通过翻阅文档，我们可以看到 <code>UIScrollView</code> 有三个属性: <strong>tracking、dragging、decelerating。</strong></p>
+<pre class=" language-objc"><code class="language-objc">// returns YES if user has touched. may not yet have started dragging
+@property(nonatomic,readonly,getter=isTracking) BOOL tracking;
+
+// returns YES if user has started scrolling. this may require some time and or distance to move to initiate dragging
+@property(nonatomic,readonly,getter=isDragging) BOOL dragging;
+
+
+// returns YES if user isn't dragging (touch up) but scroll view is still moving
+@property(nonatomic,readonly,getter=isDecelerating) BOOL decelerating;</code></pre>
+<p>在滚动和滚动结束时，这三个属性的值都不相同。我们利用这三个属性，完成对 <code>UIScrollView</code> 停止滚动的监听。</p>
+<p><strong>停止类型1：scrollViewDidEndDecelerating</strong></p>
+<pre class=" language-objc"><code class="language-objc">- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView;
+tracking:0,dragging:0,decelerating:0</code></pre>
+<p><strong>停止类型2：scrollViewDidEndDragging &amp; scrollViewDidEndDecelerating</strong></p>
+<pre><code>- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate;
+tracking:1,dragging:0,decelerating:1
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView;
+tracking:0,dragging:0,decelerating:0</code></pre><p><strong>停止类型3：scrollViewDidEndDragging</strong></p>
+<pre><code>- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate;
+tracking:1,dragging:0,decelerating:0</code></pre><p>通过上面的代码，可以发现，我们只需要对 <code>UIScrollView</code> 的这三个属性进行相应的组合，就可以监听到 <code>UIScrollView</code> 停止滚动的事件了。</p>
+<pre class=" language-objc"><code class="language-objc">- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    [self stoppedScrolling];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (!decelerate) {
+        [self stoppedScrolling];
     }
-    if ((root1 == null && root2 != null) || (root1 != null && root2 == null)) {
-        return false;
-    }
-    if (root1.val != root2.val) {//判断每个节点的值是否相等，如果去除此判断，则判断两个二叉树是否结构相等
-        return false;
-    }
-    return IsSameTree(root1.left, root2.left) && IsSameTree(root1.right, root2.right);
+}
+
+- (void)stoppedScrolling {
+    // ...
+      NSLog(@"停止滚动了！！！");
+}
+</code></pre>
+<pre class=" language-objc"><code class="language-objc">-(void)scrollViewDidScroll:(UIScrollView *)sender
+{
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    [self performSelector:@selector(scrollViewDidEndScrollingAnimation:) withObject:nil afterDelay:0.1];
+}
+
+-(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
+{
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
 }</code></pre>
-<p><strong>非递归法</strong></p>
-<pre class=" language-Java"><code class="language-Java">bool  BTreeCompare（BTreeNode_t *pRoot1, BTreeNode_t *pRoot2)  
-{  
-    if( pRoot1 == NULL && pRoot2 == NULL )  
-        return false;  
-
-
-    queue <BTreeNode_t *> que1;  
-    queue <BTreeNode_t *> que2;  
-
-
-    que1.push(pRoot1);  
-    que2.push(pRoot2);  
-
-
-    int curLevelNodeTotal1 = 0;  
-    int curLevelNodeTotal2 = 0;  
-
-
-    bool flag = true; //作为比较不一致时跳出标识  
-    while( ( !que1.empty()) && ( !que2.empty())) //当两个队列均不为空时，才进行比较  
-    {  
-        curLevelNodeTotal1 = que1.size();  //获取树1的当前层节点总数  
-        curLevelNodeTotal2 = que2.size(); //获取树2的当前层节点总数  
-        if( curLevelNodeTotal1 != curLevelNodeTotal2){  
-            flag = false;//当前层节点总数都不一致，不需要比较了，直接跳出  
-            break;  
-        }  
-        int cnt1 = 0;//遍历本层节点时的计数器  
-        int cnt2 = 0;  
-        while( cnt1 < curLevelNodeTotal1  && cnt2 < curLevelNodeTotal2){  
-            ++cnt1;  
-            ++cnt2;  
-            pRoot1 = que1.front();  
-            que1.pop();  
-            pRoot2 = que2.front();  
-            que2.pop();  
-
-            //比较当前节点中数据是否一致  
-            if( pRoot1->m_pElemt != pRoot2->m_pElemt ){  
-                flag = false;  
-                break;  
-            }  
-            //判断pRoot1和pRoot2左右节点结构是否相同  
-            if( ( pRoot1->m_pLeft != NULL && pRoot2->m_pLeft == NULL )    ||  
-                ( pRoot1->m_pLeft == NULL && pRoot2->m_pLeft != NULL )    ||  
-                ( pRoot1->m_pRight != NULL && pRoot2->m_pRight == NULL )    ||  
-                ( pRoot1->m_pRight == NULL && pRoot2->m_pRight != NULL )  
-            ){  
-                flag = false;  
-                break;  
-            }  
-
-            //将左右节点入队  
-            if( pRoot1->m_pLeft != NULL )  
-                que1.push( pRoot1->m_pLeft);  
-            if( pRoot1->m_pRight != NULL )  
-                que1.push( pRoot1->m_pRight);  
-            if( pRoot2->m_pLeft != NULL )  
-                que2.push( pRoot2->m_pLeft);  
-            if( pRoot2->m_pRight != NULL )  
-                que2.push( pRoot2->m_pRight);  
-        }  
-
-
-        if( flag == false )  
-            break;  
-    }  
-
-    //如果比较标志为false，则不相同  
-    if( flag == false ){  
-        while( !que1.empty() )  
-            que1.pop();  
-        while( !que2.empty())  
-            que2.pop();  
-
-
-        return false;  
-    }  
-
-
-    return true;  
-}</code></pre>
+<h1 id="3、处理多图上传下载问题？"><a href="#3、处理多图上传下载问题？" class="headerlink" title="3、处理多图上传下载问题？"></a>3、处理多图上传下载问题？</h1><h1 id="UI刷新问题"><a href="#UI刷新问题" class="headerlink" title="UI刷新问题"></a>UI刷新问题</h1><h4 id="layout的相关方法"><a href="#layout的相关方法" class="headerlink" title="layout的相关方法:"></a>layout的相关方法:</h4><ul>
+<li>layoutSubviews</li>
+<li>layoutIfNeeded</li>
+<li>setNeedsLayout</li>
+<li>setNeedsDisplay</li>
+<li>drawRect</li>
+<li>sizeThatFits</li>
+<li>sizeToFit</li>
+</ul>
+<h4 id="layoutSubviews"><a href="#layoutSubviews" class="headerlink" title="layoutSubviews"></a>layoutSubviews</h4><p>这个方法，默认没有做任何事情，需要子类进行重写 。 系统在很多时候会去调用这个方法：</p>
+<p>1.初始化不会触发layoutSubviews，但是如果设置了不为CGRectZero的frame的时候就会触发。<br>2.addSubview会触发layoutSubviews<br>3.设置view的Frame会触发layoutSubviews，当然前提是frame的值设置前后发生了变化<br>4.滚动一个UIScrollView会触发layoutSubviews<br>5.旋转Screen会触发父UIView上的layoutSubviews事件<br>6.改变一个UIView大小的时候也会触发父UIView上的layoutSubviews事件</p>
+<blockquote>
+<p> You should override this method only if the autoresizing behaviors of the subviews do not offer the behavior you want.layoutSubviews,</p>
+<p> 当我们在某个类的内部调整子视图位置时，需要调用。</p>
+<p> 反过来的意思就是说：<strong>如果你想要在外部设置subviews的位置，就不要重写</strong>。</p>
+</blockquote>
+<h4 id="setNeedsLayout"><a href="#setNeedsLayout" class="headerlink" title="setNeedsLayout"></a>setNeedsLayout</h4><ul>
+<li>标记为需要重新布局，不立即刷新，但layoutSubviews一定会被调用</li>
+<li>配合layoutIfNeeded立即更新</li>
+</ul>
+<h4 id="layoutIfNeeded"><a href="#layoutIfNeeded" class="headerlink" title="layoutIfNeeded"></a>layoutIfNeeded</h4><ul>
+<li><strong>如果有需要刷新的标记，立即调用layoutSubviews进行布局</strong></li>
+</ul>
 
             </div>
             <hr/>
@@ -595,7 +754,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://mingriweiji-github.github.io/2019/12/30/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">https://mingriweiji-github.github.io/2019/12/30/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/</a>
+                    <a href="https://mingriweiji-github.github.io/2019/12/30/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">https://mingriweiji-github.github.io/2019/12/30/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -800,22 +959,21 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/12/30/%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">
+                <a href="/2019/12/30/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="红黑树前世今生">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="二叉树前世今生">
                         
-                        <span class="card-title">红黑树前世今生</span>
+                        <span class="card-title">二叉树前世今生</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            红黑树前世今生关键词：二叉搜索树、前驱节点、后继节点、B树、红黑树
-什么是B树前世B树是一种相对于来说特殊二叉搜索树，多用于数据库和文件搜索系统中。
-n阶B树的性质
-B树是一种平衡的多路搜索树，拥有平衡二叉树的一些特性，与平衡二叉树的最大区
+                            二叉树今生为什么会有二叉树这种数据结构？
+思考一个问题：如果一个集合中有42亿个元素，让你从这42亿个元素中搜索某一个元素，你需要多少次操作？
+如果使用数组链表的话最多可能需要42亿次比较，而如果使用二叉树我们只需要32次比较即可，这就是二
                         
                     </div>
                     <div class="publish-info">
@@ -840,33 +998,27 @@ B树是一种平衡的多路搜索树，拥有平衡二叉树的一些特性，�
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/12/30/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">
+                <a href="/2019/12/07/Swift%E5%A4%87%E5%BF%98%E5%BD%95/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="iOS图像处理">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="Swift备忘录">
                         
-                        <span class="card-title">iOS图像处理</span>
+                        <span class="card-title">Swift备忘录</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            iOS图像优化技巧
-1、如何处理大尺寸图片？
+                            SwiftTip
 
-2、如何处理瀑布流图片占用大量内存的问题？
-
-3、如何处理多张图片上传和下载问题？
-
-
-1、处理大尺寸图片那么，什么时候对图像进行渲染优化才有意义呢？
-当它明显大于 UIImageView 显
+Swift访问控制权限Swift的访问权限管理依赖于两个概念：module和文件。module是一个完整的代码单元，
+它可以是一个或多个框架（Framework），或者是一个App Bundle，可以被import导入到
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-12-30
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-12-07
                             </span>
                         <span class="publish-author">
                             

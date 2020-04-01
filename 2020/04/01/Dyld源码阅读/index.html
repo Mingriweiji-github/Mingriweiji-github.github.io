@@ -458,7 +458,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="1-Dyld源码阅读"><a href="#1-Dyld源码阅读" class="headerlink" title="1-Dyld源码阅读"></a>1-Dyld源码阅读</h1><ul>
+                <h1 id="1、Dyld源码阅读"><a href="#1、Dyld源码阅读" class="headerlink" title="1、Dyld源码阅读"></a>1、Dyld源码阅读</h1><ul>
 <li>Version：<strong>dyld-551.4</strong></li>
 <li>Lauange：<strong>C++</strong></li>
 <li>load()：3566行</li>
@@ -577,29 +577,29 @@ $: ./dsc_extractor dyld_shared_cache_arm64 arm64_file</code></pre><img src="http
 <h2 id="0x05反汇编-Hopper-Disassembler"><a href="#0x05反汇编-Hopper-Disassembler" class="headerlink" title="0x05反汇编 Hopper Disassembler"></a>0x05反汇编 Hopper Disassembler</h2><ul>
 <li>[Xclient下载Hopper Disassembler](<a href="https://xclie" target="_blank" rel="noopener">https://xclie</a> nt.info/s/hopper-disassembler.html#versions)</li>
 </ul>
-<h4 id="反汇编分析Mach-O文件"><a href="#反汇编分析Mach-O文件" class="headerlink" title="反汇编分析Mach-O文件"></a>反汇编分析Mach-O文件</h4><h1 id="2-Mach-O文件"><a href="#2-Mach-O文件" class="headerlink" title="2-Mach-O文件"></a>2-Mach-O文件</h1><ul>
+<h4 id="反汇编分析Mach-O文件"><a href="#反汇编分析Mach-O文件" class="headerlink" title="反汇编分析Mach-O文件"></a>反汇编分析Mach-O文件</h4><h1 id="2、Mach-O文件"><a href="#2、Mach-O文件" class="headerlink" title="2、Mach-O文件"></a>2、Mach-O文件</h1><ul>
 <li><a href="https://opensource.apple.com/tarballs/xnu/" target="_blank" rel="noopener">Mac 内核源码xnu</a></li>
 <li>来源：C/OC/Swift -&gt; .O目标文件-&gt;Mach-O可执行文件</li>
 <li>EXTERNAL_HEADERS-&gt;mach-o查看源码</li>
 </ul>
-<h4 id="2-1-常见Mach-O"><a href="#2-1-常见Mach-O" class="headerlink" title="2.1 常见Mach-O"></a>2.1 常见Mach-O</h4><h6 id="MH-OBJECT"><a href="#MH-OBJECT" class="headerlink" title="MH_OBJECT"></a>MH_OBJECT</h6><ul>
+<h2 id="2-1-常见Mach-O"><a href="#2-1-常见Mach-O" class="headerlink" title="2.1 常见Mach-O"></a>2.1 常见Mach-O</h2><h4 id="MH-OBJECT"><a href="#MH-OBJECT" class="headerlink" title="MH_OBJECT"></a>MH_OBJECT</h4><ul>
 <li>目标文件(.o)</li>
 <li>静态库文件(.a)-静态库其实就是多个.o的集合</li>
 </ul>
-<h6 id="MH-EXECUTE-可执行文件"><a href="#MH-EXECUTE-可执行文件" class="headerlink" title="MH_EXECUTE:可执行文件"></a>MH_EXECUTE:可执行文件</h6><ul>
+<h4 id="MH-EXECUTE-可执行文件"><a href="#MH-EXECUTE-可执行文件" class="headerlink" title="MH_EXECUTE:可执行文件"></a>MH_EXECUTE:可执行文件</h4><ul>
 <li>.app/xxx</li>
 </ul>
-<h6 id="MH-DYLib-动态库文件"><a href="#MH-DYLib-动态库文件" class="headerlink" title="MH_DYLib:动态库文件"></a>MH_DYLib:动态库文件</h6><ul>
+<h4 id="MH-DYLib-动态库文件"><a href="#MH-DYLib-动态库文件" class="headerlink" title="MH_DYLib:动态库文件"></a>MH_DYLib:动态库文件</h4><ul>
 <li>.dylib</li>
 <li>.framework/xxx</li>
 </ul>
-<h6 id="MH-DYLIKER动态链接编辑器"><a href="#MH-DYLIKER动态链接编辑器" class="headerlink" title="MH_DYLIKER动态链接编辑器"></a>MH_DYLIKER动态链接编辑器</h6><ul>
+<h4 id="MH-DYLIKER动态链接编辑器"><a href="#MH-DYLIKER动态链接编辑器" class="headerlink" title="MH_DYLIKER动态链接编辑器"></a>MH_DYLIKER动态链接编辑器</h4><ul>
 <li>/usr/lib/dyld</li>
 </ul>
-<h6 id="MH-DSYM-存储着二进制文件符号信息"><a href="#MH-DSYM-存储着二进制文件符号信息" class="headerlink" title="MH_DSYM:存储着二进制文件符号信息"></a>MH_DSYM:存储着二进制文件符号信息</h6><ul>
+<h4 id="MH-DSYM-存储着二进制文件符号信息"><a href="#MH-DSYM-存储着二进制文件符号信息" class="headerlink" title="MH_DSYM:存储着二进制文件符号信息"></a>MH_DSYM:存储着二进制文件符号信息</h4><ul>
 <li>.dSYM/Contents/Resources/DWARF/XXX</li>
 </ul>
-<h4 id="2-2-11中mach-o格式"><a href="#2-2-11中mach-o格式" class="headerlink" title="2.2 11中mach-o格式"></a>2.2 11中mach-o格式</h4><pre class=" language-c"><code class="language-c">
+<h2 id="2-2-11中mach-o格式"><a href="#2-2-11中mach-o格式" class="headerlink" title="2.2 11中mach-o格式"></a>2.2 11中mach-o格式</h2><pre class=" language-c"><code class="language-c">
 <span class="token macro property">#<span class="token directive keyword">define</span>    MH_OBJECT    0x1        </span><span class="token comment" spellcheck="true">/* relocatable object file */</span>
 <span class="token macro property">#<span class="token directive keyword">define</span>    MH_EXECUTE    0x2        </span><span class="token comment" spellcheck="true">/* demand paged executable file */</span>
 <span class="token macro property">#<span class="token directive keyword">define</span>    MH_FVMLIB    0x3        </span><span class="token comment" spellcheck="true">/* fixed VM shared library file */</span>
@@ -699,7 +699,7 @@ public<span class="token punctuation">:</span>
     <span class="token keyword">static</span> T <span class="token function">round_down</span><span class="token punctuation">(</span>T value<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> value <span class="token operator">&amp;</span> <span class="token operator">~</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span><span class="token number">7</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 </code></pre>
-<h1 id="3-符号地址"><a href="#3-符号地址" class="headerlink" title="3-符号地址"></a>3-符号地址</h1><p>符号地址= 基地址 - 偏移地址</p>
+<h1 id="3、符号地址"><a href="#3、符号地址" class="headerlink" title="3、符号地址"></a>3、符号地址</h1><p>符号地址= 基地址 - 偏移地址</p>
 <h4 id="获取基地址"><a href="#获取基地址" class="headerlink" title="获取基地址"></a>获取基地址</h4><pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">//获取基地址</span>
 uintptr_t <span class="token function">get_load_address</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">const</span> <span class="token keyword">struct</span> mach_header <span class="token operator">*</span>exe_header <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
@@ -734,7 +734,7 @@ uintptr_t <span class="token function">get_load_address</span><span class="token
 <pre class=" language-c"><code class="language-c">atos <span class="token punctuation">[</span><span class="token operator">-</span>o executable<span class="token punctuation">]</span> <span class="token punctuation">[</span><span class="token operator">-</span>l loadAddress<span class="token punctuation">]</span> <span class="token punctuation">[</span><span class="token operator">-</span>arch architecture<span class="token punctuation">]</span> <span class="token punctuation">[</span>address <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span>
 
 #<span class="token operator">-</span>arch 选择框架arm64<span class="token operator">/</span>arm32<span class="token operator">/</span>x86_64</code></pre>
-<h1 id="4-Crash收集"><a href="#4-Crash收集" class="headerlink" title="4-Crash收集"></a>4-Crash收集</h1><h4 id="KSCrash"><a href="#KSCrash" class="headerlink" title="KSCrash"></a><a href="https://github.com/kstenerud/KSCrash" target="_blank" rel="noopener">KSCrash</a></h4><h4 id="SentryCocoa"><a href="#SentryCocoa" class="headerlink" title="SentryCocoa"></a><a href="https://github.com/getsentry/sentry-cocoa" target="_blank" rel="noopener">SentryCocoa</a></h4><ul>
+<h1 id="4、Crash收集"><a href="#4、Crash收集" class="headerlink" title="4、Crash收集"></a>4、Crash收集</h1><h4 id="KSCrash"><a href="#KSCrash" class="headerlink" title="KSCrash"></a><a href="https://github.com/kstenerud/KSCrash" target="_blank" rel="noopener">KSCrash</a></h4><h4 id="SentryCocoa"><a href="#SentryCocoa" class="headerlink" title="SentryCocoa"></a><a href="https://github.com/getsentry/sentry-cocoa" target="_blank" rel="noopener">SentryCocoa</a></h4><ul>
 <li><h5 id="SentryCrashDynamicLinker"><a href="#SentryCrashDynamicLinker" class="headerlink" title="SentryCrashDynamicLinker"></a><a href="https://github.com/getsentry/sentry-cocoa/blob/master/Sources/SentryCrash/Recording/Tools/SentryCrashDynamicLinker.c" target="_blank" rel="noopener">SentryCrashDynamicLinker</a></h5></li>
 </ul>
 
@@ -980,7 +980,7 @@ uintptr_t <span class="token function">get_load_address</span><span class="token
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1-Dyld源码阅读
+                            1、Dyld源码阅读
 Version：dyld-551.4
 Lauange：C++
 load()：3566行

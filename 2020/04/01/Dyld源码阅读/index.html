@@ -602,7 +602,7 @@ $: ./dsc_extractor dyld_shared_cache_arm64 arm64_file</code></pre><img src="http
 <h4 id="MH-DSYM-存储着二进制文件符号信息"><a href="#MH-DSYM-存储着二进制文件符号信息" class="headerlink" title="MH_DSYM:存储着二进制文件符号信息"></a>MH_DSYM:存储着二进制文件符号信息</h4><ul>
 <li>.dSYM/Contents/Resources/DWARF/XXX</li>
 </ul>
-<h4 id="2-2-11中mach-o格式"><a href="#2-2-11中mach-o格式" class="headerlink" title="2.2 11中mach-o格式"></a>2.2 11中mach-o格式</h4><pre class=" language-c"><code class="language-c">
+<h4 id="11种mach-o格式"><a href="#11种mach-o格式" class="headerlink" title="11种mach-o格式"></a>11种mach-o格式</h4><pre class=" language-c"><code class="language-c">
 <span class="token macro property">#<span class="token directive keyword">define</span>    MH_OBJECT    0x1        </span><span class="token comment" spellcheck="true">/* relocatable object file */</span>
 <span class="token macro property">#<span class="token directive keyword">define</span>    MH_EXECUTE    0x2        </span><span class="token comment" spellcheck="true">/* demand paged executable file */</span>
 <span class="token macro property">#<span class="token directive keyword">define</span>    MH_FVMLIB    0x3        </span><span class="token comment" spellcheck="true">/* fixed VM shared library file */</span>
@@ -616,29 +616,28 @@ $: ./dsc_extractor dyld_shared_cache_arm64 arm64_file</code></pre><img src="http
 <span class="token macro property">#<span class="token directive keyword">define</span>    MH_DSYM        0xa        </span><span class="token comment" spellcheck="true">/* companion file with only debug */</span>
                     <span class="token comment" spellcheck="true">/*  sections */</span>
 <span class="token macro property">#<span class="token directive keyword">define</span>    MH_KEXT_BUNDLE    0xb        </span><span class="token comment" spellcheck="true">/* x86_64 kexts */</span></code></pre>
-<pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">/*
- * The layout of the file depends on the filetype.  For all but the MH_OBJECT
- * file type the segments are padded out and aligned on a segment alignment
- * boundary for efficient demand pageing.  The MH_EXECUTE, MH_FVMLIB, MH_DYLIB,
- * MH_DYLINKER and MH_BUNDLE file types also have the headers included as part
- * of their first segment.
- * 
- * The file type MH_OBJECT is a compact format intended as output of the
- * assembler and input (and possibly output) of the link editor (the .o
- * format).  All sections are in one unnamed segment with no segment padding. 
- * This format is used as an executable format when the file is so small the
- * segment padding greatly increases its size.
- *
- * The file type MH_PRELOAD is an executable format intended for things that
- * are not executed under the kernel (proms, stand alones, kernels, etc).  The
- * format can be executed under the kernel but may demand paged it and not
- * preload it before execution.
- *
- * A core file is in MH_CORE format and can be any in an arbritray legal
- * Mach-O file.
- *
- * Constants for the filetype field of the mach_header
- */</span></code></pre>
+<h4 id="mach-o的作用"><a href="#mach-o的作用" class="headerlink" title="mach-o的作用"></a>mach-o的作用</h4><pre class=" language-c"><code class="language-c"> <span class="token operator">*</span> The layout of the file depends on the filetype<span class="token punctuation">.</span>  For all but the MH_OBJECT
+ <span class="token operator">*</span> file type the segments are padded out and aligned on a segment alignment
+ <span class="token operator">*</span> boundary <span class="token keyword">for</span> efficient demand pageing<span class="token punctuation">.</span>  The MH_EXECUTE<span class="token punctuation">,</span> MH_FVMLIB<span class="token punctuation">,</span> MH_DYLIB<span class="token punctuation">,</span>
+ <span class="token operator">*</span> MH_DYLINKER and MH_BUNDLE file types also have the headers included as part
+ <span class="token operator">*</span> of their first segment<span class="token punctuation">.</span>
+ <span class="token operator">*</span> 
+ <span class="token operator">*</span> The file type MH_OBJECT is a compact format intended as output of the
+ <span class="token operator">*</span> assembler and <span class="token function">input</span> <span class="token punctuation">(</span>and possibly output<span class="token punctuation">)</span> of the link <span class="token function">editor</span> <span class="token punctuation">(</span>the <span class="token punctuation">.</span>o
+ <span class="token operator">*</span> format<span class="token punctuation">)</span><span class="token punctuation">.</span>  All sections are in one unnamed segment with no segment padding<span class="token punctuation">.</span> 
+ <span class="token operator">*</span> This format is used as an executable format when the file is so small the
+ <span class="token operator">*</span> segment padding greatly increases its size<span class="token punctuation">.</span>
+ <span class="token operator">*</span>
+ <span class="token operator">*</span> The file type MH_PRELOAD is an executable format intended <span class="token keyword">for</span> things that
+ <span class="token operator">*</span> are not executed under the <span class="token function">kernel</span> <span class="token punctuation">(</span>proms<span class="token punctuation">,</span> stand alones<span class="token punctuation">,</span> kernels<span class="token punctuation">,</span> etc<span class="token punctuation">)</span><span class="token punctuation">.</span>  The
+ <span class="token operator">*</span> format can be executed under the kernel but may demand paged it and not
+ <span class="token operator">*</span> preload it before execution<span class="token punctuation">.</span>
+ <span class="token operator">*</span>
+ <span class="token operator">*</span> A core file is in MH_CORE format and can be any in an arbritray legal
+ <span class="token operator">*</span> Mach<span class="token operator">-</span>O file<span class="token punctuation">.</span>
+ <span class="token operator">*</span>
+ <span class="token operator">*</span> Constants <span class="token keyword">for</span> the filetype field of the mach_header
+</code></pre>
 <h2 id="Architectures-hpp"><a href="#Architectures-hpp" class="headerlink" title="Architectures.hpp"></a>Architectures.hpp</h2><pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">//</span>
 <span class="token comment" spellcheck="true">// Architectures</span>
 <span class="token comment" spellcheck="true">//</span>

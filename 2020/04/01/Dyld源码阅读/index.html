@@ -459,19 +459,18 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h1 id="1-Dyld源码阅读"><a href="#1-Dyld源码阅读" class="headerlink" title="1-Dyld源码阅读"></a>1-Dyld源码阅读</h1><ul>
-<li>版本号：dyld-551.4</li>
-<li>语言：C++</li>
+<li>Version：<strong>dyld-551.4</strong></li>
+<li>Lauange：<strong>C++</strong></li>
 <li>load()：3566行</li>
-<li><strong>load()-&gt;loadPhase0()-&gt;loadPhase1()-&gt;loadPhase2()-&gt;loadPhase4()-&gt;loadPhase5()打开或检查已经存在的动态库：dyld3::findInSharedCacheImage</strong></li>
-<li><strong>load()-&gt;loadPhase2cache()-&gt;loadPhase4()-&gt;loadPhase5()-&gt;loadPhase6()</strong></li>
+<li><code>load()-&gt;loadPhase0()-&gt;loadPhase1()-&gt;loadPhase2()-&gt;loadPhase4()-&gt;loadPhase5()打开或检查已经存在的动态库：dyld3::findInSharedCacheImage</code></li>
+<li><code>load()-&gt;loadPhase2cache()-&gt;loadPhase4()-&gt;loadPhase5()-&gt;loadPhase6()</code></li>
 </ul>
 <h2 id="动态库路径"><a href="#动态库路径" class="headerlink" title="动态库路径"></a>动态库路径</h2><h4 id="iOS越狱手机"><a href="#iOS越狱手机" class="headerlink" title="iOS越狱手机"></a>iOS越狱手机</h4><ul>
-<li><strong>在Mac\iOS中，是使用了/usr/lib/dyld程序来加载动态库</strong></li>
-<li>UIKit路径：/system/Library/Frameworks/UIKit.framework</li>
+<li><strong>在Mac\iOS中，是使用了<code>/usr/lib/dyld</code>程序来加载动态库</strong></li>
+<li>UIKit路径：<code>/system/Library/Frameworks/UIKit.framework</code></li>
 <li><strong>动态库共享缓存</strong>：<code>/System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64</code></li>
-<li></li>
 </ul>
-<h2 id="0x00-load"><a href="#0x00-load" class="headerlink" title="0x00 load()"></a>0x00 load()</h2><pre class=" language-objc"><code class="language-objc">ImageLoader* load(const char* path, const LoadContext& context, unsigned& cacheIndex)
+<h2 id="0x00-load"><a href="#0x00-load" class="headerlink" title="0x00 load()"></a>0x00 load()</h2><pre class=" language-objective-c"><code class="language-objective-c">ImageLoader* load(const char* path, const LoadContext& context, unsigned& cacheIndex)
 {
     // try all path permutations and check against existing loaded images
     ImageLoader* image = loadPhase0(path, orgPath, context, cacheIndex, NULL);
@@ -491,7 +490,7 @@
 
 }
 </code></pre>
-<h2 id="0x01-loadPhase2"><a href="#0x01-loadPhase2" class="headerlink" title="0x01 loadPhase2()"></a>0x01 loadPhase2()</h2><h2 id="0x02-loadPhase5"><a href="#0x02-loadPhase5" class="headerlink" title="0x02 loadPhase5"></a>0x02 loadPhase5</h2><h4 id="loadPhase5load（）"><a href="#loadPhase5load（）" class="headerlink" title="loadPhase5load（）"></a>loadPhase5load（）</h4><h4 id="loadPhase5check（）"><a href="#loadPhase5check（）" class="headerlink" title="loadPhase5check（）"></a>loadPhase5check（）</h4><pre class=" language-objc"><code class="language-objc">// open or check existing
+<h2 id="0x01-loadPhase2"><a href="#0x01-loadPhase2" class="headerlink" title="0x01 loadPhase2()"></a>0x01 loadPhase2()</h2><h2 id="0x02-loadPhase5"><a href="#0x02-loadPhase5" class="headerlink" title="0x02 loadPhase5"></a>0x02 loadPhase5</h2><h4 id="loadPhase5load（）"><a href="#loadPhase5load（）" class="headerlink" title="loadPhase5load（）"></a>loadPhase5load（）</h4><h4 id="loadPhase5check（）"><a href="#loadPhase5check（）" class="headerlink" title="loadPhase5check（）"></a>loadPhase5check（）</h4><pre class=" language-objective-c"><code class="language-objective-c">// open or check existing
 static ImageLoader* loadPhase5(const char* path, const char* orgPath, const LoadContext& context, unsigned& cacheIndex, std::vector<const char*>* exceptions)
 {    
     // check for specific dylib overrides
@@ -508,7 +507,7 @@ static ImageLoader* loadPhase5(const char* path, const char* orgPath, const Load
         return loadPhase5check(path, orgPath, context);
 }
 </code></pre>
-<h2 id="0x03-findInSharedCacheImage"><a href="#0x03-findInSharedCacheImage" class="headerlink" title="0x03 findInSharedCacheImage"></a>0x03 findInSharedCacheImage</h2><pre class=" language-objc"><code class="language-objc">static bool findInSharedCacheImage(const char* path, bool searchByPath, const struct stat* stat_buf, const macho_header** mh, const char** pathInCache, long* slide)
+<h2 id="0x03-findInSharedCacheImage"><a href="#0x03-findInSharedCacheImage" class="headerlink" title="0x03 findInSharedCacheImage"></a>0x03 findInSharedCacheImage</h2><pre class=" language-objective-c"><code class="language-objective-c">static bool findInSharedCacheImage(const char* path, bool searchByPath, const struct stat* stat_buf, const macho_header** mh, const char** pathInCache, long* slide)
 {
     dyld3::SharedCacheFindDylibResults results;
     if ( dyld3::findInSharedCacheImage(sSharedCacheLoadInfo, path, &results) ) {
@@ -541,39 +540,39 @@ static int imageSorter(const void* l, const void* r)
 $: ./dsc_extractor dyld_shared_cache_arm64 arm64_file</code></pre><img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/截屏2020-04-01 下午3.35.35.png" style="zoom:50%;" />
 
 <p><strong>dsc_extractor.cpp内容如下:</strong></p>
-<pre class=" language-objc"><code class="language-objc">// test program
-#include <stdio.h>
-#include <stddef.h>
-#include <dlfcn.h>
+<pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">// test program</span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stddef.h></span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;dlfcn.h></span></span>
 
 
-typedef int (*extractor_proc)(const char* shared_cache_file_path, const char* extraction_root_path,
-                                                    void (^progress)(unsigned current, unsigned total));
+<span class="token keyword">typedef</span> <span class="token keyword">int</span> <span class="token punctuation">(</span><span class="token operator">*</span>extractor_proc<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> shared_cache_file_path<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> extraction_root_path<span class="token punctuation">,</span>
+                                                    <span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span>progress<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">unsigned</span> current<span class="token punctuation">,</span> <span class="token keyword">unsigned</span> total<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-int main(int argc, const char* argv[])
-{
-    if ( argc != 3 ) {
-        fprintf(stderr, "usage: dsc_extractor <path-to-cache-file> <path-to-device-dir>\n");
-        return 1;
-    }
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span> argc <span class="token operator">!=</span> <span class="token number">3</span> <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">fprintf</span><span class="token punctuation">(</span><span class="token constant">stderr</span><span class="token punctuation">,</span> <span class="token string">"usage: dsc_extractor &lt;path-to-cache-file> &lt;path-to-device-dir>\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
-    //void* handle = dlopen("/Volumes/my/src/dyld/build/Debug/dsc_extractor.bundle", RTLD_LAZY);
-    void* handle = dlopen("/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/usr/lib/dsc_extractor.bundle", RTLD_LAZY);
-    if ( handle == NULL ) {
-        fprintf(stderr, "dsc_extractor.bundle could not be loaded\n");
-        return 1;
-    }
+    <span class="token comment" spellcheck="true">//void* handle = dlopen("/Volumes/my/src/dyld/build/Debug/dsc_extractor.bundle", RTLD_LAZY);</span>
+    <span class="token keyword">void</span><span class="token operator">*</span> handle <span class="token operator">=</span> <span class="token function">dlopen</span><span class="token punctuation">(</span><span class="token string">"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/usr/lib/dsc_extractor.bundle"</span><span class="token punctuation">,</span> RTLD_LAZY<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span> handle <span class="token operator">==</span> <span class="token constant">NULL</span> <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">fprintf</span><span class="token punctuation">(</span><span class="token constant">stderr</span><span class="token punctuation">,</span> <span class="token string">"dsc_extractor.bundle could not be loaded\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
-    extractor_proc proc = (extractor_proc)dlsym(handle, "dyld_shared_cache_extract_dylibs_progress");
-    if ( proc == NULL ) {
-        fprintf(stderr, "dsc_extractor.bundle did not have dyld_shared_cache_extract_dylibs_progress symbol\n");
-        return 1;
-    }
+    extractor_proc proc <span class="token operator">=</span> <span class="token punctuation">(</span>extractor_proc<span class="token punctuation">)</span><span class="token function">dlsym</span><span class="token punctuation">(</span>handle<span class="token punctuation">,</span> <span class="token string">"dyld_shared_cache_extract_dylibs_progress"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span> proc <span class="token operator">==</span> <span class="token constant">NULL</span> <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">fprintf</span><span class="token punctuation">(</span><span class="token constant">stderr</span><span class="token punctuation">,</span> <span class="token string">"dsc_extractor.bundle did not have dyld_shared_cache_extract_dylibs_progress symbol\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
 
-    int result = (*proc)(argv[1], argv[2], ^(unsigned c, unsigned total) { printf("%d/%d\n", c, total); } );
-    fprintf(stderr, "dyld_shared_cache_extract_dylibs_progress() => %d\n", result);
-    return 0;
-}
+    <span class="token keyword">int</span> result <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token operator">*</span>proc<span class="token punctuation">)</span><span class="token punctuation">(</span>argv<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> argv<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token operator">^</span><span class="token punctuation">(</span><span class="token keyword">unsigned</span> c<span class="token punctuation">,</span> <span class="token keyword">unsigned</span> total<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d/%d\n"</span><span class="token punctuation">,</span> c<span class="token punctuation">,</span> total<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">fprintf</span><span class="token punctuation">(</span><span class="token constant">stderr</span><span class="token punctuation">,</span> <span class="token string">"dyld_shared_cache_extract_dylibs_progress() => %d\n"</span><span class="token punctuation">,</span> result<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <h2 id="0x05反汇编-Hopper-Disassembler"><a href="#0x05反汇编-Hopper-Disassembler" class="headerlink" title="0x05反汇编 Hopper Disassembler"></a>0x05反汇编 Hopper Disassembler</h2><ul>
 <li>[Xclient下载Hopper Disassembler](<a href="https://xclie" target="_blank" rel="noopener">https://xclie</a> nt.info/s/hopper-disassembler.html#versions)</li>
@@ -637,68 +636,68 @@ int main(int argc, const char* argv[])
  *
  * Constants for the filetype field of the mach_header
  */</code></pre>
-<h2 id="Architectures-hpp"><a href="#Architectures-hpp" class="headerlink" title="Architectures.hpp"></a>Architectures.hpp</h2><pre class=" language-objc"><code class="language-objc">//
-// Architectures
-//
-struct x86
-{
-    typedef Pointer32<LittleEndian>        P;
+<h2 id="Architectures-hpp"><a href="#Architectures-hpp" class="headerlink" title="Architectures.hpp"></a>Architectures.hpp</h2><pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">//</span>
+<span class="token comment" spellcheck="true">// Architectures</span>
+<span class="token comment" spellcheck="true">//</span>
+<span class="token keyword">struct</span> x86
+<span class="token punctuation">{</span>
+    <span class="token keyword">typedef</span> Pointer32<span class="token operator">&lt;</span>LittleEndian<span class="token operator">></span>        P<span class="token punctuation">;</span>
 
-};
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-struct x86_64
-{
-    typedef Pointer64<LittleEndian>        P;
-};
+<span class="token keyword">struct</span> x86_64
+<span class="token punctuation">{</span>
+    <span class="token keyword">typedef</span> Pointer64<span class="token operator">&lt;</span>LittleEndian<span class="token operator">></span>        P<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-struct arm
-{
-    typedef Pointer32<LittleEndian>        P;
+<span class="token keyword">struct</span> arm
+<span class="token punctuation">{</span>
+    <span class="token keyword">typedef</span> Pointer32<span class="token operator">&lt;</span>LittleEndian<span class="token operator">></span>        P<span class="token punctuation">;</span>
 
-};
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 
-struct arm64
-{
-    typedef Pointer64<LittleEndian>        P;
+<span class="token keyword">struct</span> arm64
+<span class="token punctuation">{</span>
+    <span class="token keyword">typedef</span> Pointer64<span class="token operator">&lt;</span>LittleEndian<span class="token operator">></span>        P<span class="token punctuation">;</span>
 
-};
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 </code></pre>
 <h2 id="dyld-cache-format-h"><a href="#dyld-cache-format-h" class="headerlink" title="dyld_cache_format.h"></a>dyld_cache_format.h</h2><pre class=" language-objc"><code class="language-objc">#define IPHONE_DYLD_SHARED_CACHE_DIR    "/System/Library/Caches/com.apple.dyld/"
 #define DYLD_SHARED_CACHE_BASE_NAME        "dyld_shared_cache_"</code></pre>
-<h2 id="FileAbstraction-hpp"><a href="#FileAbstraction-hpp" class="headerlink" title="FileAbstraction.hpp"></a>FileAbstraction.hpp</h2><pre class=" language-c++"><code class="language-c++">template <typename _E>
+<h2 id="FileAbstraction-hpp"><a href="#FileAbstraction-hpp" class="headerlink" title="FileAbstraction.hpp"></a>FileAbstraction.hpp</h2><pre class=" language-c"><code class="language-c">template <span class="token operator">&lt;</span>typename _E<span class="token operator">></span>
 class Pointer32
-{
-public:
-    typedef uint32_t    uint_t;
-    typedef _E            E;
+<span class="token punctuation">{</span>
+public<span class="token punctuation">:</span>
+    <span class="token keyword">typedef</span> uint32_t    uint_t<span class="token punctuation">;</span>
+    <span class="token keyword">typedef</span> _E            E<span class="token punctuation">;</span>
 
-    static uint64_t    getP(const uint_t& from)                INLINE { return _E::get32(from); }
-    static void        setP(uint_t& into, uint64_t value)        INLINE { _E::set32(into, (uint32_t)value); }
+    <span class="token keyword">static</span> uint64_t    <span class="token function">getP</span><span class="token punctuation">(</span><span class="token keyword">const</span> uint_t<span class="token operator">&amp;</span> from<span class="token punctuation">)</span>                INLINE <span class="token punctuation">{</span> <span class="token keyword">return</span> _E<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">get32</span><span class="token punctuation">(</span>from<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token keyword">static</span> <span class="token keyword">void</span>        <span class="token function">setP</span><span class="token punctuation">(</span>uint_t<span class="token operator">&amp;</span> into<span class="token punctuation">,</span> uint64_t value<span class="token punctuation">)</span>        INLINE <span class="token punctuation">{</span> _E<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">set32</span><span class="token punctuation">(</span>into<span class="token punctuation">,</span> <span class="token punctuation">(</span>uint32_t<span class="token punctuation">)</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
 
-    // Round to a P-size boundary
-    template <typename T>
-    static T round_up(T value) { return (value+3) & ~(T)3; }
-    template <typename T>
-    static T round_down(T value) { return value & ~(T)3; }
-};
+    <span class="token comment" spellcheck="true">// Round to a P-size boundary</span>
+    template <span class="token operator">&lt;</span>typename T<span class="token operator">></span>
+    <span class="token keyword">static</span> T <span class="token function">round_up</span><span class="token punctuation">(</span>T value<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token punctuation">(</span>value<span class="token operator">+</span><span class="token number">3</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token operator">~</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span><span class="token number">3</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    template <span class="token operator">&lt;</span>typename T<span class="token operator">></span>
+    <span class="token keyword">static</span> T <span class="token function">round_down</span><span class="token punctuation">(</span>T value<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> value <span class="token operator">&amp;</span> <span class="token operator">~</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span><span class="token number">3</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 
 
-template <typename _E>
+template <span class="token operator">&lt;</span>typename _E<span class="token operator">></span>
 class Pointer64
-{
-public:
-    typedef uint64_t    uint_t;
-    typedef _E            E;
+<span class="token punctuation">{</span>
+public<span class="token punctuation">:</span>
+    <span class="token keyword">typedef</span> uint64_t    uint_t<span class="token punctuation">;</span>
+    <span class="token keyword">typedef</span> _E            E<span class="token punctuation">;</span>
 
-    static uint64_t    getP(const uint_t& from)                INLINE { return _E::get64(from); }
-    static void        setP(uint_t& into, uint64_t value)        INLINE { _E::set64(into, value); }
+    <span class="token keyword">static</span> uint64_t    <span class="token function">getP</span><span class="token punctuation">(</span><span class="token keyword">const</span> uint_t<span class="token operator">&amp;</span> from<span class="token punctuation">)</span>                INLINE <span class="token punctuation">{</span> <span class="token keyword">return</span> _E<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">get64</span><span class="token punctuation">(</span>from<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token keyword">static</span> <span class="token keyword">void</span>        <span class="token function">setP</span><span class="token punctuation">(</span>uint_t<span class="token operator">&amp;</span> into<span class="token punctuation">,</span> uint64_t value<span class="token punctuation">)</span>        INLINE <span class="token punctuation">{</span> _E<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">set64</span><span class="token punctuation">(</span>into<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
 
-    // Round to a P-size boundary
-    template <typename T>
-    static T round_up(T value) { return (value+7) & ~(T)7; }
-    template <typename T>
-    static T round_down(T value) { return value & ~(T)7; }
-};
+    <span class="token comment" spellcheck="true">// Round to a P-size boundary</span>
+    template <span class="token operator">&lt;</span>typename T<span class="token operator">></span>
+    <span class="token keyword">static</span> T <span class="token function">round_up</span><span class="token punctuation">(</span>T value<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token punctuation">(</span>value<span class="token operator">+</span><span class="token number">7</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token operator">~</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span><span class="token number">7</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    template <span class="token operator">&lt;</span>typename T<span class="token operator">></span>
+    <span class="token keyword">static</span> T <span class="token function">round_down</span><span class="token punctuation">(</span>T value<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> value <span class="token operator">&amp;</span> <span class="token operator">~</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span><span class="token number">7</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 </code></pre>
 <h1 id="3-符号地址"><a href="#3-符号地址" class="headerlink" title="3-符号地址"></a>3-符号地址</h1><p>符号地址= 基地址 - 偏移地址</p>
 <h4 id="获取基地址"><a href="#获取基地址" class="headerlink" title="获取基地址"></a>获取基地址</h4><pre class=" language-objc"><code class="language-objc">//获取基地址
@@ -982,10 +981,10 @@ uintptr_t get_load_address(void) {
                     <div class="summary block-with-text">
                         
                             1-Dyld源码阅读
-版本号：dyld-551.4
-语言：C++
+Version：dyld-551.4
+Lauange：C++
 load()：3566行
-load()-&gt;loadPhase0()-&gt;loadPhase1()-&gt;loadPhase2()-&gt;loadPhase4()
+load()-&gt;loadPhase0()-&gt;loadPhase1()-&gt;loadPhase2()-&gt;loa
                         
                     </div>
                     <div class="publish-info">

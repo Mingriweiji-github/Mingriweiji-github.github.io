@@ -458,14 +458,15 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="1、Dyld源码阅读"><a href="#1、Dyld源码阅读" class="headerlink" title="1、Dyld源码阅读"></a>1、Dyld源码阅读</h1><ul>
+                <h1 id="Dyld源码阅读"><a href="#Dyld源码阅读" class="headerlink" title="Dyld源码阅读"></a>Dyld源码阅读</h1><ul>
 <li>Version：<strong>dyld-551.4</strong></li>
 <li>Lauange：<strong>C++</strong></li>
 <li>load()：3566行</li>
 <li><code>load()-&gt;loadPhase0()-&gt;loadPhase1()-&gt;loadPhase2()-&gt;loadPhase4()-&gt;loadPhase5()打开或检查已经存在的动态库：dyld3::findInSharedCacheImage</code></li>
 <li><code>load()-&gt;loadPhase2cache()-&gt;loadPhase4()-&gt;loadPhase5()-&gt;loadPhase6()</code></li>
 </ul>
-<h2 id="动态库路径"><a href="#动态库路径" class="headerlink" title="动态库路径"></a>动态库路径</h2><h4 id="iOS越狱手机"><a href="#iOS越狱手机" class="headerlink" title="iOS越狱手机"></a>iOS越狱手机</h4><ul>
+<h2 id="1、动态库路径"><a href="#1、动态库路径" class="headerlink" title="1、动态库路径"></a>1、动态库路径</h2><p><strong>iOS越狱手机</strong></p>
+<ul>
 <li><strong>在Mac\iOS中，是使用了<code>/usr/lib/dyld</code>程序来加载动态库</strong></li>
 <li>UIKit路径：<code>/system/Library/Frameworks/UIKit.framework</code></li>
 <li><strong>动态库共享缓存</strong>：<code>/System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64</code></li>
@@ -980,11 +981,11 @@ uintptr_t <span class="token function">get_load_address</span><span class="token
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1、Dyld源码阅读
+                            Dyld源码阅读
 Version：dyld-551.4
 Lauange：C++
 load()：3566行
-load()-&gt;loadPhase0()-&gt;loadPhase1()-&gt;loadPhase2()-&gt;loa
+load()-&gt;loadPhase0()-&gt;loadPhase1()-&gt;loadPhase2()-&gt;loadP
                         
                     </div>
                     <div class="publish-info">

@@ -616,28 +616,37 @@ $: ./dsc_extractor dyld_shared_cache_arm64 arm64_file</code></pre><img src="http
 <span class="token macro property">#<span class="token directive keyword">define</span>    MH_DSYM        0xa        </span><span class="token comment" spellcheck="true">/* companion file with only debug */</span>
                     <span class="token comment" spellcheck="true">/*  sections */</span>
 <span class="token macro property">#<span class="token directive keyword">define</span>    MH_KEXT_BUNDLE    0xb        </span><span class="token comment" spellcheck="true">/* x86_64 kexts */</span></code></pre>
-<h4 id="mach-o的作用"><a href="#mach-o的作用" class="headerlink" title="mach-o的作用"></a>mach-o的作用</h4><pre class=" language-c"><code class="language-c"> <span class="token operator">*</span> The layout of the file depends on the filetype<span class="token punctuation">.</span>  For all but the MH_OBJECT
- <span class="token operator">*</span> file type the segments are padded out and aligned on a segment alignment
- <span class="token operator">*</span> boundary <span class="token keyword">for</span> efficient demand pageing<span class="token punctuation">.</span>  The MH_EXECUTE<span class="token punctuation">,</span> MH_FVMLIB<span class="token punctuation">,</span> MH_DYLIB<span class="token punctuation">,</span>
- <span class="token operator">*</span> MH_DYLINKER and MH_BUNDLE file types also have the headers included as part
- <span class="token operator">*</span> of their first segment<span class="token punctuation">.</span>
- <span class="token operator">*</span> 
- <span class="token operator">*</span> The file type MH_OBJECT is a compact format intended as output of the
- <span class="token operator">*</span> assembler and <span class="token function">input</span> <span class="token punctuation">(</span>and possibly output<span class="token punctuation">)</span> of the link <span class="token function">editor</span> <span class="token punctuation">(</span>the <span class="token punctuation">.</span>o
- <span class="token operator">*</span> format<span class="token punctuation">)</span><span class="token punctuation">.</span>  All sections are in one unnamed segment with no segment padding<span class="token punctuation">.</span> 
- <span class="token operator">*</span> This format is used as an executable format when the file is so small the
- <span class="token operator">*</span> segment padding greatly increases its size<span class="token punctuation">.</span>
- <span class="token operator">*</span>
- <span class="token operator">*</span> The file type MH_PRELOAD is an executable format intended <span class="token keyword">for</span> things that
- <span class="token operator">*</span> are not executed under the <span class="token function">kernel</span> <span class="token punctuation">(</span>proms<span class="token punctuation">,</span> stand alones<span class="token punctuation">,</span> kernels<span class="token punctuation">,</span> etc<span class="token punctuation">)</span><span class="token punctuation">.</span>  The
- <span class="token operator">*</span> format can be executed under the kernel but may demand paged it and not
- <span class="token operator">*</span> preload it before execution<span class="token punctuation">.</span>
- <span class="token operator">*</span>
- <span class="token operator">*</span> A core file is in MH_CORE format and can be any in an arbritray legal
- <span class="token operator">*</span> Mach<span class="token operator">-</span>O file<span class="token punctuation">.</span>
- <span class="token operator">*</span>
- <span class="token operator">*</span> Constants <span class="token keyword">for</span> the filetype field of the mach_header
-</code></pre>
+<h4 id="Mach-o的作用"><a href="#Mach-o的作用" class="headerlink" title="Mach-o的作用"></a>Mach-o的作用</h4><ul>
+<li>The layout of the file depends on the filetype.  For all but the MH_OBJECT file type the segments are padded out and aligned on a segment alignment boundary for efficient demand pageing.  </li>
+<li>The MH_EXECUTE, MH_FVMLIB, MH_DYLIB,MH_DYLINKER and MH_BUNDLE file types also have the headers included as part of their first segment.</li>
+<li>Mach-O的布局取决于文件类型。除了MH_OBJECT以外的所有的文件类型将分段填充并在分段对齐时-对齐有效请求分页的边界。</li>
+<li>MH_EXECUTE，MH_FVMLIB，MH_DYLIB，MH_DYLINKER和MH_BUNDLE这些文件也有headers作为它们第一个segment。</li>
+</ul>
+<ul>
+<li><p>The file type MH_OBJECT is a compact format intended as output of the assembler and input (and possibly output) of the link editor (the .oformat).  All sections are in one unnamed segment with no segment padding. </p>
+<ul>
+<li>This format is used as an executable format when the file is so small the segment padding greatly increases its size.</li>
+</ul>
+</li>
+<li><p>文件类型MH_OBJECT是一种紧凑格式，旨在作为汇编器和链接编辑器（.o的输入）（可能是输出格式）。所有sections都在一个未命名的segment中，没有segment的填充。</p>
+</li>
+<li><p>当文件太小时segment填充可以大大增加了它的size。此格式用作可执行格式。</p>
+</li>
+</ul>
+<ul>
+<li><p>The file type MH_PRELOAD is an executable format intended for things that are not executed under the kernel (proms, stand alones, kernels, etc).  </p>
+</li>
+<li><p>The format can be executed under the kernel but may demand paged it and not preload it before execution.</p>
+</li>
+<li><p>文件类型MH_PRELOAD是一种可执行格式，用于非kernel内核下执行。（proms, stand alones, kernels, etc）</p>
+</li>
+<li><p>格式可以在内核下执行，但可能需要分页而不是在执行之前预加载它。</p>
+</li>
+</ul>
+<ul>
+<li>A core file is in MH_CORE format and can be any in an arbritray legal Mach-O file. Constants for the filetype field of the mach_header</li>
+<li>核心文件为MH_CORE格式，可以是任意格式的Mach-O文件。mach_header的文件类型是常量</li>
+</ul>
 <h2 id="Architectures-hpp"><a href="#Architectures-hpp" class="headerlink" title="Architectures.hpp"></a>Architectures.hpp</h2><pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">//</span>
 <span class="token comment" spellcheck="true">// Architectures</span>
 <span class="token comment" spellcheck="true">//</span>

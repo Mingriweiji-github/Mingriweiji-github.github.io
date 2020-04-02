@@ -581,26 +581,26 @@ $: ./dsc_extractor dyld_shared_cache_arm64 arm64_file</code></pre><img src="http
 <li>[Xclient下载Hopper Disassembler](<a href="https://xclie" target="_blank" rel="noopener">https://xclie</a> nt.info/s/hopper-disassembler.html#versions)</li>
 </ul>
 <h4 id="反汇编分析Mach-O文件"><a href="#反汇编分析Mach-O文件" class="headerlink" title="反汇编分析Mach-O文件"></a>反汇编分析Mach-O文件</h4><h2 id="2、Mach-O文件"><a href="#2、Mach-O文件" class="headerlink" title="2、Mach-O文件"></a>2、Mach-O文件</h2><ul>
-<li><a href="https://opensource.apple.com/tarballs/xnu/" target="_blank" rel="noopener">Mac 内核源码xnu</a></li>
+<li><code>xnu-6153.11.26-&gt;EXTERNAL_HEADERS-&gt;mach-o</code></li>
+<li><a href="https://opensource.apple.com/tarballs/xnu/" target="_blank" rel="noopener">Mac 内核xnu</a></li>
 <li>来源：C/OC/Swift -&gt; .O目标文件-&gt;Mach-O可执行文件</li>
-<li>EXTERNAL_HEADERS-&gt;mach-o查看源码</li>
 </ul>
 <h4 id="2-1-常见Mach-O"><a href="#2-1-常见Mach-O" class="headerlink" title="2.1 常见Mach-O"></a>2.1 常见Mach-O</h4><h4 id="MH-OBJECT"><a href="#MH-OBJECT" class="headerlink" title="MH_OBJECT"></a>MH_OBJECT</h4><ul>
 <li>目标文件(.o)</li>
 <li>静态库文件(.a)-静态库其实就是多个.o的集合</li>
 </ul>
 <h4 id="MH-EXECUTE-可执行文件"><a href="#MH-EXECUTE-可执行文件" class="headerlink" title="MH_EXECUTE:可执行文件"></a>MH_EXECUTE:可执行文件</h4><ul>
-<li>.app/xxx</li>
+<li><code>.app/xxx</code></li>
 </ul>
 <h4 id="MH-DYLib-动态库文件"><a href="#MH-DYLib-动态库文件" class="headerlink" title="MH_DYLib:动态库文件"></a>MH_DYLib:动态库文件</h4><ul>
-<li>.dylib</li>
-<li>.framework/xxx</li>
+<li><code>.dylib</code></li>
+<li><code>.framework/xxx</code></li>
 </ul>
 <h4 id="MH-DYLIKER动态链接编辑器"><a href="#MH-DYLIKER动态链接编辑器" class="headerlink" title="MH_DYLIKER动态链接编辑器"></a>MH_DYLIKER动态链接编辑器</h4><ul>
-<li>/usr/lib/dyld</li>
+<li><code>/usr/lib/dyld</code></li>
 </ul>
 <h4 id="MH-DSYM-存储着二进制文件符号信息"><a href="#MH-DSYM-存储着二进制文件符号信息" class="headerlink" title="MH_DSYM:存储着二进制文件符号信息"></a>MH_DSYM:存储着二进制文件符号信息</h4><ul>
-<li>.dSYM/Contents/Resources/DWARF/XXX</li>
+<li><code>.dSYM/Contents/Resources/DWARF/XXX</code></li>
 </ul>
 <h4 id="11种mach-o格式"><a href="#11种mach-o格式" class="headerlink" title="11种mach-o格式"></a>11种mach-o格式</h4><pre class=" language-c"><code class="language-c">
 <span class="token macro property">#<span class="token directive keyword">define</span>    MH_OBJECT    0x1        </span><span class="token comment" spellcheck="true">/* relocatable object file */</span>
@@ -617,15 +617,15 @@ $: ./dsc_extractor dyld_shared_cache_arm64 arm64_file</code></pre><img src="http
                     <span class="token comment" spellcheck="true">/*  sections */</span>
 <span class="token macro property">#<span class="token directive keyword">define</span>    MH_KEXT_BUNDLE    0xb        </span><span class="token comment" spellcheck="true">/* x86_64 kexts */</span></code></pre>
 <h4 id="Mach-o的作用"><a href="#Mach-o的作用" class="headerlink" title="Mach-o的作用"></a>Mach-o的作用</h4><ul>
-<li>The layout of the file depends on the filetype.  For all but the MH_OBJECT file type the segments are padded out and aligned on a segment alignment boundary for efficient demand pageing.  </li>
-<li>The MH_EXECUTE, MH_FVMLIB, MH_DYLIB,MH_DYLINKER and MH_BUNDLE file types also have the headers included as part of their first segment.</li>
+<li><strong>The layout of the file depends on the filetype.  For all but the MH_OBJECT file type the segments are padded out and aligned on a segment alignment boundary for efficient demand pageing.</strong>  </li>
+<li><strong>The MH_EXECUTE, MH_FVMLIB, MH_DYLIB,MH_DYLINKER and MH_BUNDLE file types also have the headers included as part of their first segment.</strong></li>
 <li>Mach-O的布局取决于文件类型。除了MH_OBJECT以外的所有的文件类型将分段填充并在分段对齐时-对齐有效请求分页的边界。</li>
 <li>MH_EXECUTE，MH_FVMLIB，MH_DYLIB，MH_DYLINKER和MH_BUNDLE这些文件也有headers作为它们第一个segment。</li>
 </ul>
 <ul>
-<li><p>The file type MH_OBJECT is a compact format intended as output of the assembler and input (and possibly output) of the link editor (the .oformat).  All sections are in one unnamed segment with no segment padding. </p>
+<li><p><strong>The file type MH_OBJECT is a compact format intended as output of the assembler and input (and possibly output) of the link editor (the .oformat).  All sections are in one unnamed segment with no segment padding.</strong> </p>
 <ul>
-<li>This format is used as an executable format when the file is so small the segment padding greatly increases its size.</li>
+<li><strong>This format is used as an executable format when the file is so small the segment padding greatly increases its size.</strong></li>
 </ul>
 </li>
 <li><p>文件类型MH_OBJECT是一种紧凑格式，旨在作为汇编器和链接编辑器（.o的输入）（可能是输出格式）。所有sections都在一个未命名的segment中，没有segment的填充。</p>
@@ -634,9 +634,9 @@ $: ./dsc_extractor dyld_shared_cache_arm64 arm64_file</code></pre><img src="http
 </li>
 </ul>
 <ul>
-<li><p>The file type MH_PRELOAD is an executable format intended for things that are not executed under the kernel (proms, stand alones, kernels, etc).  </p>
+<li><p><strong>The file type MH_PRELOAD is an executable format intended for things that are not executed under the kernel (proms, stand alones, kernels, etc).</strong>  </p>
 </li>
-<li><p>The format can be executed under the kernel but may demand paged it and not preload it before execution.</p>
+<li><p><strong>The format can be executed under the kernel but may demand paged it and not preload it before execution.</strong></p>
 </li>
 <li><p>文件类型MH_PRELOAD是一种可执行格式，用于非kernel内核下执行。（proms, stand alones, kernels, etc）</p>
 </li>
@@ -644,10 +644,10 @@ $: ./dsc_extractor dyld_shared_cache_arm64 arm64_file</code></pre><img src="http
 </li>
 </ul>
 <ul>
-<li>A core file is in MH_CORE format and can be any in an arbritray legal Mach-O file. Constants for the filetype field of the mach_header</li>
+<li><strong>A core file is in MH_CORE format and can be any in an arbritray legal Mach-O file. Constants for the filetype field of the mach_header</strong></li>
 <li>核心文件为MH_CORE格式，可以是任意格式的Mach-O文件。mach_header的文件类型是常量</li>
 </ul>
-<h2 id="Architectures-hpp"><a href="#Architectures-hpp" class="headerlink" title="Architectures.hpp"></a>Architectures.hpp</h2><pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">//</span>
+<h4 id="Architectures-hpp"><a href="#Architectures-hpp" class="headerlink" title="Architectures.hpp"></a>Architectures.hpp</h4><pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">//</span>
 <span class="token comment" spellcheck="true">// Architectures</span>
 <span class="token comment" spellcheck="true">//</span>
 <span class="token keyword">struct</span> x86

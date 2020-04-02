@@ -585,24 +585,33 @@ $: ./dsc_extractor dyld_shared_cache_arm64 arm64_file</code></pre><img src="http
 <li>来源：C/OC/Swift -&gt; .O目标文件-&gt;Mach-O可执行文件</li>
 <li><strong>查看Mac内核中的Mach-O</strong>: <code>xnu-6153.11.26-&gt;EXTERNAL_HEADERS-&gt;mach-o</code></li>
 </ul>
-<p><img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200402dyld.png" alt=""></p>
-<h4 id="2-1-常见Mach-O"><a href="#2-1-常见Mach-O" class="headerlink" title="2.1 常见Mach-O"></a>2.1 常见Mach-O</h4><h4 id="MH-OBJECT"><a href="#MH-OBJECT" class="headerlink" title="MH_OBJECT"></a>MH_OBJECT</h4><ul>
+<img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200402dyld.png" style="zoom: 67%;" />
+
+<h4 id="2-1-常见Mach-O"><a href="#2-1-常见Mach-O" class="headerlink" title="2.1 常见Mach-O"></a>2.1 常见Mach-O</h4><h4 id="MH-EXECUTE-可执行文件"><a href="#MH-EXECUTE-可执行文件" class="headerlink" title="MH_EXECUTE:可执行文件"></a>MH_EXECUTE:可执行文件</h4><ul>
+<li><code>.app/xxx</code></li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200402090833.png" alt=""></p>
+<h4 id="MH-OBJECT"><a href="#MH-OBJECT" class="headerlink" title="MH_OBJECT"></a>MH_OBJECT</h4><ul>
 <li>目标文件(.o)</li>
 <li>静态库文件(.a)-静态库其实就是多个.o的集合</li>
 </ul>
-<h4 id="MH-EXECUTE-可执行文件"><a href="#MH-EXECUTE-可执行文件" class="headerlink" title="MH_EXECUTE:可执行文件"></a>MH_EXECUTE:可执行文件</h4><ul>
-<li><code>.app/xxx</code></li>
-</ul>
+<img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200402091045.png" style="zoom:50%;" />
+
 <h4 id="MH-DYLib-动态库文件"><a href="#MH-DYLib-动态库文件" class="headerlink" title="MH_DYLib:动态库文件"></a>MH_DYLib:动态库文件</h4><ul>
 <li><code>.dylib</code></li>
 <li><code>.framework/xxx</code></li>
 </ul>
+<p>![image-20200402091150403](/Users/mli/Library/Application Support/typora-user-images/image-20200402091150403.png)</p>
 <h4 id="MH-DYLIKER动态链接编辑器"><a href="#MH-DYLIKER动态链接编辑器" class="headerlink" title="MH_DYLIKER动态链接编辑器"></a>MH_DYLIKER动态链接编辑器</h4><ul>
 <li><code>/usr/lib/dyld</code></li>
 </ul>
+<img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/usr_lib_dyld_type.png" style="zoom:50%;" />
+
 <h4 id="MH-DSYM-存储着二进制文件符号信息"><a href="#MH-DSYM-存储着二进制文件符号信息" class="headerlink" title="MH_DSYM:存储着二进制文件符号信息"></a>MH_DSYM:存储着二进制文件符号信息</h4><ul>
 <li><code>.dSYM/Contents/Resources/DWARF/XXX</code></li>
 </ul>
+<img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200402091824.png" style="zoom:80%;" />
+
 <h4 id="11种mach-o格式"><a href="#11种mach-o格式" class="headerlink" title="11种mach-o格式"></a>11种mach-o格式</h4><pre class=" language-c"><code class="language-c">
 <span class="token macro property">#<span class="token directive keyword">define</span>    MH_OBJECT    0x1        </span><span class="token comment" spellcheck="true">/* relocatable object file */</span>
 <span class="token macro property">#<span class="token directive keyword">define</span>    MH_EXECUTE    0x2        </span><span class="token comment" spellcheck="true">/* demand paged executable file */</span>

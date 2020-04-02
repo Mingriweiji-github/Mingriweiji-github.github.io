@@ -581,10 +581,11 @@ $: ./dsc_extractor dyld_shared_cache_arm64 arm64_file</code></pre><img src="http
 <li>[Xclient下载Hopper Disassembler](<a href="https://xclie" target="_blank" rel="noopener">https://xclie</a> nt.info/s/hopper-disassembler.html#versions)</li>
 </ul>
 <h4 id="反汇编分析Mach-O文件"><a href="#反汇编分析Mach-O文件" class="headerlink" title="反汇编分析Mach-O文件"></a>反汇编分析Mach-O文件</h4><h2 id="2、Mach-O文件"><a href="#2、Mach-O文件" class="headerlink" title="2、Mach-O文件"></a>2、Mach-O文件</h2><ul>
-<li><code>xnu-6153.11.26-&gt;EXTERNAL_HEADERS-&gt;mach-o</code></li>
 <li><a href="https://opensource.apple.com/tarballs/xnu/" target="_blank" rel="noopener">Mac 内核xnu</a></li>
 <li>来源：C/OC/Swift -&gt; .O目标文件-&gt;Mach-O可执行文件</li>
+<li><strong>查看Mac内核中的Mach-O</strong>: <code>xnu-6153.11.26-&gt;EXTERNAL_HEADERS-&gt;mach-o</code></li>
 </ul>
+<p><img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200402dyld.png" alt=""></p>
 <h4 id="2-1-常见Mach-O"><a href="#2-1-常见Mach-O" class="headerlink" title="2.1 常见Mach-O"></a>2.1 常见Mach-O</h4><h4 id="MH-OBJECT"><a href="#MH-OBJECT" class="headerlink" title="MH_OBJECT"></a>MH_OBJECT</h4><ul>
 <li>目标文件(.o)</li>
 <li>静态库文件(.a)-静态库其实就是多个.o的集合</li>

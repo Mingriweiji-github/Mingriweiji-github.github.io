@@ -461,9 +461,8 @@
                 <h1 id="Dyld源码阅读"><a href="#Dyld源码阅读" class="headerlink" title="Dyld源码阅读"></a>Dyld源码阅读</h1><ul>
 <li>Version：<a href="https://opensource.apple.com/tarballs/dyld/" target="_blank" rel="noopener"><strong>dyld-551.4</strong></a></li>
 <li>Lauange：<strong>C++</strong></li>
-<li>load()：3566行<ul>
-<li><code>load()-&gt;loadPhase0()-&gt;loadPhase1()-&gt;loadPhase2()-&gt;loadPhase4()-&gt;loadPhase5()打开或检查已经存在的动态库：dyld3::findInSharedCacheImage</code></li>
-<li><code>load()-&gt;loadPhase2cache()-&gt;loadPhase4()-&gt;loadPhase5()-&gt;loadPhase6()</code></li>
+<li>load()调用路径：3566行 <ul>
+<li><code>load()-&gt;loadPhase0()-&gt;loadPhase1()-&gt;loadPhase2()-&gt;loadPhase4()-&gt;loadPhase5()打开或检查已经存在的动态库：dyld3::findInSharedCacheImage-&gt;loadPhase5load()-&gt;loadPhase5open()-&gt;loadPhase6()-&gt;加载3种Mach-O文件</code></li>
 </ul>
 </li>
 </ul>
@@ -577,32 +576,89 @@ $: ./dsc_extractor dyld_shared_cache_arm64 arm64_file</code></pre><img src="http
     <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<h2 id="0x05反汇编-Hopper-Disassembler"><a href="#0x05反汇编-Hopper-Disassembler" class="headerlink" title="0x05反汇编 Hopper Disassembler"></a>0x05反汇编 Hopper Disassembler</h2><ul>
+<h4 id="dyld加载流程"><a href="#dyld加载流程" class="headerlink" title="dyld加载流程"></a>dyld加载流程</h4><ul>
+<li>dyldStartup.s： <code>call __dyld_start -&gt;call dyldbootstrap::start</code> -&gt; dyldInitialization.cpp: <code>call start()-&gt;_main()</code>-&gt; </li>
+</ul>
+<h5 id="dyld的start-方法："><a href="#dyld的start-方法：" class="headerlink" title="dyld的start()方法："></a>dyld的start()方法：</h5><pre class=" language-c"><code class="language-c">uintptr_t <span class="token function">start</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">struct</span> macho_header<span class="token operator">*</span> appsMachHeader<span class="token punctuation">,</span> <span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> 
+                intptr_t slide<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">struct</span> macho_header<span class="token operator">*</span> dyldsMachHeader<span class="token punctuation">,</span>
+                uintptr_t<span class="token operator">*</span> startGlue<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// if kernel had to slide dyld, we need to fix up load sensitive locations</span>
+    <span class="token comment" spellcheck="true">// we have to do this before using any global variables</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span> slide <span class="token operator">!=</span> <span class="token number">0</span> <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">rebaseDyld</span><span class="token punctuation">(</span>dyldsMachHeader<span class="token punctuation">,</span> slide<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">// allow dyld to use mach messaging</span>
+    <span class="token function">mach_init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// kernel sets up env pointer to be just past end of agv array</span>
+    <span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span><span class="token operator">*</span> envp <span class="token operator">=</span> <span class="token operator">&amp;</span>argv<span class="token punctuation">[</span>argc<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// kernel sets up apple pointer to be just past end of envp array</span>
+    <span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span><span class="token operator">*</span> apple <span class="token operator">=</span> envp<span class="token punctuation">;</span>
+    <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token operator">*</span>apple <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token operator">++</span>apple<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token operator">++</span>apple<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// set up random value for stack canary</span>
+    <span class="token function">__guard_setup</span><span class="token punctuation">(</span>apple<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token macro property">#<span class="token directive keyword">if</span> DYLD_INITIALIZER_SUPPORT</span>
+    <span class="token comment" spellcheck="true">// run all C++ initializers inside dyld</span>
+    <span class="token function">runDyldInitializers</span><span class="token punctuation">(</span>dyldsMachHeader<span class="token punctuation">,</span> slide<span class="token punctuation">,</span> argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> envp<span class="token punctuation">,</span> apple<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token macro property">#<span class="token directive keyword">endif</span></span>
+
+    <span class="token comment" spellcheck="true">// now that we are done bootstrapping dyld, call dyld's main</span>
+    uintptr_t appsSlide <span class="token operator">=</span> <span class="token function">slideOfMainExecutable</span><span class="token punctuation">(</span>appsMachHeader<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> dyld<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">_main</span><span class="token punctuation">(</span>appsMachHeader<span class="token punctuation">,</span> appsSlide<span class="token punctuation">,</span> argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> envp<span class="token punctuation">,</span> apple<span class="token punctuation">,</span> startGlue<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token punctuation">}</span>
+</code></pre>
+<h5 id="dyld的main-方法"><a href="#dyld的main-方法" class="headerlink" title="dyld的main()方法"></a>dyld的main()方法</h5><pre class=" language-c"><code class="language-c">uintptr_t
+<span class="token function">_main</span><span class="token punctuation">(</span><span class="token keyword">const</span> macho_header<span class="token operator">*</span> mainExecutableMH<span class="token punctuation">,</span> uintptr_t mainExecutableSlide<span class="token punctuation">,</span> 
+        <span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> envp<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> apple<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> 
+        uintptr_t<span class="token operator">*</span> startGlue<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//1、保存可执行文件header，后面可以根据header访问其他信息</span>
+    uintptr_t result <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    sMainExecutableMachHeader <span class="token operator">=</span> mainExecutableMH<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">//2、设置上下文信息</span>
+    <span class="token function">setContext</span><span class="token punctuation">(</span>mainExecutableMH<span class="token punctuation">,</span> argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> envp<span class="token punctuation">,</span> apple<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">//3、获取可执行文件的路径</span>
+    sExecPath <span class="token operator">=</span> <span class="token function">_simple_getenv</span><span class="token punctuation">(</span>apple<span class="token punctuation">,</span> <span class="token string">"executable_path"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+
+<span class="token punctuation">}</span></code></pre>
+<h5 id="0x05反汇编-Hopper-Disassembler"><a href="#0x05反汇编-Hopper-Disassembler" class="headerlink" title="0x05反汇编 Hopper Disassembler"></a>0x05反汇编 Hopper Disassembler</h5><ul>
 <li>[Xclient下载Hopper Disassembler](<a href="https://xclie" target="_blank" rel="noopener">https://xclie</a> nt.info/s/hopper-disassembler.html#versions)</li>
 </ul>
-<h4 id="反汇编分析Mach-O文件"><a href="#反汇编分析Mach-O文件" class="headerlink" title="反汇编分析Mach-O文件"></a>反汇编分析Mach-O文件</h4><h2 id="2、Mach-O文件"><a href="#2、Mach-O文件" class="headerlink" title="2、Mach-O文件"></a>2、Mach-O文件</h2><ul>
+<h2 id="2、Mach-O文件"><a href="#2、Mach-O文件" class="headerlink" title="2、Mach-O文件"></a>2、Mach-O文件</h2><ul>
 <li><a href="https://opensource.apple.com/tarballs/xnu/" target="_blank" rel="noopener">Mac 内核xnu</a></li>
+<li>工具：<a href="https://github.com/mythkiven/MachOView" target="_blank" rel="noopener">MachOView</a></li>
 <li>来源：C/OC/Swift -&gt; .O目标文件-&gt;Mach-O可执行文件</li>
 <li><strong>查看Mac内核中的Mach-O</strong>: <code>xnu-6153.11.26-&gt;EXTERNAL_HEADERS-&gt;mach-o</code></li>
 </ul>
 <img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200402dyld.png" style="zoom: 67%;" />
 
-<h4 id="2-1-常见Mach-O"><a href="#2-1-常见Mach-O" class="headerlink" title="2.1 常见Mach-O"></a>2.1 常见Mach-O</h4><h4 id="MH-EXECUTE-可执行文件"><a href="#MH-EXECUTE-可执行文件" class="headerlink" title="MH_EXECUTE:可执行文件"></a>MH_EXECUTE:可执行文件</h4><ul>
+<h4 id="2-1-常见Mach-O"><a href="#2-1-常见Mach-O" class="headerlink" title="2.1 常见Mach-O"></a>2.1 常见Mach-O</h4><h4 id="MH-EXECUTE-可执行文件"><a href="#MH-EXECUTE-可执行文件" class="headerlink" title="MH_EXECUTE-可执行文件"></a>MH_EXECUTE-可执行文件</h4><ul>
 <li><code>.app/xxx</code></li>
 </ul>
 <p><img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200402090833.png" alt=""></p>
-<h4 id="MH-OBJECT"><a href="#MH-OBJECT" class="headerlink" title="MH_OBJECT"></a>MH_OBJECT</h4><ul>
+<h4 id="MH-OBJECT-目标文件或静态库"><a href="#MH-OBJECT-目标文件或静态库" class="headerlink" title="MH_OBJECT-目标文件或静态库"></a>MH_OBJECT-目标文件或静态库</h4><ul>
 <li>目标文件(.o)</li>
 <li>静态库文件(.a)-静态库其实就是多个.o的集合</li>
 </ul>
 <img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200402091045.png" style="zoom: 67%;" />
 
-<h4 id="MH-DYLib-动态库文件"><a href="#MH-DYLib-动态库文件" class="headerlink" title="MH_DYLib:动态库文件"></a>MH_DYLib:动态库文件</h4><ul>
+<h4 id="MH-DYLIB-动态库文件"><a href="#MH-DYLIB-动态库文件" class="headerlink" title="MH_DYLIB-动态库文件"></a>MH_DYLIB-动态库文件</h4><ul>
 <li><code>.dylib</code></li>
 <li><code>.framework/xxx</code></li>
 </ul>
 <p><img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200402093545.png" alt=""></p>
-<h4 id="MH-DYLIKER动态链接编辑器"><a href="#MH-DYLIKER动态链接编辑器" class="headerlink" title="MH_DYLIKER动态链接编辑器"></a>MH_DYLIKER动态链接编辑器</h4><ul>
+<h4 id="MH-DYLIKER-动态链接编辑器"><a href="#MH-DYLIKER-动态链接编辑器" class="headerlink" title="MH_DYLIKER-动态链接编辑器"></a>MH_DYLIKER-动态链接编辑器</h4><ul>
 <li><code>/usr/lib/dyld</code></li>
 </ul>
 <img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/usr_lib_dyld_type.png" style="zoom:50%;" />
@@ -657,7 +713,7 @@ $: ./dsc_extractor dyld_shared_cache_arm64 arm64_file</code></pre><img src="http
 <li><strong>A core file is in MH_CORE format and can be any in an arbritray legal Mach-O file. Constants for the filetype field of the mach_header</strong></li>
 <li>核心文件为MH_CORE格式，可以是任意格式的Mach-O文件。mach_header的文件类型是常量</li>
 </ul>
-<h4 id="Architectures-hpp"><a href="#Architectures-hpp" class="headerlink" title="Architectures.hpp"></a>Architectures.hpp</h4><pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">//</span>
+<h4 id="生成通用二进制文件："><a href="#生成通用二进制文件：" class="headerlink" title="生成通用二进制文件："></a>生成通用二进制文件：</h4><h5 id="Architectures-hpp"><a href="#Architectures-hpp" class="headerlink" title="Architectures.hpp"></a>Architectures.hpp</h5><pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">//</span>
 <span class="token comment" spellcheck="true">// Architectures</span>
 <span class="token comment" spellcheck="true">//</span>
 <span class="token keyword">struct</span> x86
@@ -683,6 +739,11 @@ $: ./dsc_extractor dyld_shared_cache_arm64 arm64_file</code></pre><img src="http
 
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 </code></pre>
+<h5 id="Universal-Binary"><a href="#Universal-Binary" class="headerlink" title="Universal Binary"></a>Universal Binary</h5><ul>
+<li>通用二进制文件，包含多种不同架构的二进制文件，比单个架构的文件大，也叫<code>Fat Binary</code></li>
+<li>由于执行过程中，只是调用一部分代码，所以运行起来也不需要额外的内存。</li>
+</ul>
+<h5 id="Xcode生成Universal-Binary"><a href="#Xcode生成Universal-Binary" class="headerlink" title="Xcode生成Universal Binary"></a>Xcode生成Universal Binary</h5><p>Standard architectures $(ARCHS_STANDARD)</p>
 <h4 id="dyld-cache-format-h"><a href="#dyld-cache-format-h" class="headerlink" title="dyld_cache_format.h"></a>dyld_cache_format.h</h4><pre class=" language-objc"><code class="language-objc">#define IPHONE_DYLD_SHARED_CACHE_DIR    "/System/Library/Caches/com.apple.dyld/"
 #define DYLD_SHARED_CACHE_BASE_NAME        "dyld_shared_cache_"</code></pre>
 <h4 id="FileAbstraction-hpp"><a href="#FileAbstraction-hpp" class="headerlink" title="FileAbstraction.hpp"></a>FileAbstraction.hpp</h4><pre class=" language-c"><code class="language-c">template <span class="token operator">&lt;</span>typename _E<span class="token operator">></span>
@@ -720,7 +781,52 @@ public<span class="token punctuation">:</span>
     <span class="token keyword">static</span> T <span class="token function">round_down</span><span class="token punctuation">(</span>T value<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> value <span class="token operator">&amp;</span> <span class="token operator">~</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span><span class="token number">7</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 </code></pre>
-<h2 id="3、符号地址"><a href="#3、符号地址" class="headerlink" title="3、符号地址"></a>3、符号地址</h2><p>符号地址= 基地址 - 偏移地址</p>
+<h2 id="3、dyld与Mach-O的关系"><a href="#3、dyld与Mach-O的关系" class="headerlink" title="3、dyld与Mach-O的关系"></a>3、dyld与Mach-O的关系</h2><ul>
+<li>dyld属于MH_DYLDLINKER类型的Mach-O文件</li>
+<li>dyld负责加载三种类型Mach-O文件<ul>
+<li>可执行文件</li>
+<li>动态库</li>
+<li>Bundle</li>
+</ul>
+</li>
+</ul>
+<p><strong>mach-o loader：only MH_BUNDLE, MH_DYLIB, and some MH_EXECUTE can be dynamically loaded</strong></p>
+<pre class=" language-c"><code class="language-c">    <span class="token comment" spellcheck="true">// try mach-o loader</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span> shortPage <span class="token punctuation">)</span> throw <span class="token string">"file too short"</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span> <span class="token function">isCompatibleMachO</span><span class="token punctuation">(</span>firstPages<span class="token punctuation">,</span> path<span class="token punctuation">)</span> <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+        <span class="token comment" spellcheck="true">// only MH_BUNDLE, MH_DYLIB, and some MH_EXECUTE can be dynamically loaded</span>
+        <span class="token keyword">const</span> mach_header<span class="token operator">*</span> mh <span class="token operator">=</span> <span class="token punctuation">(</span>mach_header<span class="token operator">*</span><span class="token punctuation">)</span>firstPages<span class="token punctuation">;</span>
+        <span class="token keyword">switch</span> <span class="token punctuation">(</span> mh<span class="token operator">-></span>filetype <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">case</span> MH_EXECUTE<span class="token punctuation">:</span>
+            <span class="token keyword">case</span> MH_DYLIB<span class="token punctuation">:</span>
+            <span class="token keyword">case</span> MH_BUNDLE<span class="token punctuation">:</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token keyword">default</span><span class="token punctuation">:</span>
+                throw <span class="token string">"mach-o, but wrong filetype"</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        uint32_t headerAndLoadCommandsSize <span class="token operator">=</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>macho_header<span class="token punctuation">)</span> <span class="token operator">+</span> mh<span class="token operator">-></span>sizeofcmds<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span> headerAndLoadCommandsSize <span class="token operator">></span> MAX_MACH_O_HEADER_AND_LOAD_COMMANDS_SIZE <span class="token punctuation">)</span>
+            <span class="token function">throwf</span><span class="token punctuation">(</span><span class="token string">"malformed mach-o: load commands size (%u) > %u"</span><span class="token punctuation">,</span> headerAndLoadCommandsSize<span class="token punctuation">,</span> MAX_MACH_O_HEADER_AND_LOAD_COMMANDS_SIZE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span> headerAndLoadCommandsSize <span class="token operator">></span> fileLength <span class="token punctuation">)</span>
+            dyld<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">throwf</span><span class="token punctuation">(</span><span class="token string">"malformed mach-o: load commands size (%u) > mach-o file size (%llu)"</span><span class="token punctuation">,</span> headerAndLoadCommandsSize<span class="token punctuation">,</span> fileLength<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span> headerAndLoadCommandsSize <span class="token operator">></span> <span class="token number">4096</span> <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// read more pages</span>
+            <span class="token keyword">unsigned</span> readAmount <span class="token operator">=</span> headerAndLoadCommandsSize <span class="token operator">-</span> <span class="token number">4096</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span> <span class="token function">pread</span><span class="token punctuation">(</span>fd<span class="token punctuation">,</span> <span class="token operator">&amp;</span>firstPages<span class="token punctuation">[</span><span class="token number">4096</span><span class="token punctuation">]</span><span class="token punctuation">,</span> readAmount<span class="token punctuation">,</span> fileOffset<span class="token operator">+</span><span class="token number">4096</span><span class="token punctuation">)</span> <span class="token operator">!=</span> readAmount <span class="token punctuation">)</span>
+                <span class="token function">throwf</span><span class="token punctuation">(</span><span class="token string">"pread of extra load commands past 4KB failed: %d"</span><span class="token punctuation">,</span> errno<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment" spellcheck="true">// instantiate an image</span>
+        ImageLoader<span class="token operator">*</span> image <span class="token operator">=</span> ImageLoaderMachO<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">instantiateFromFile</span><span class="token punctuation">(</span>path<span class="token punctuation">,</span> fd<span class="token punctuation">,</span> firstPages<span class="token punctuation">,</span> headerAndLoadCommandsSize<span class="token punctuation">,</span> fileOffset<span class="token punctuation">,</span> fileLength<span class="token punctuation">,</span> stat_buf<span class="token punctuation">,</span> gLinkContext<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">// validate</span>
+        <span class="token keyword">return</span> <span class="token function">checkandAddImage</span><span class="token punctuation">(</span>image<span class="token punctuation">,</span> context<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+<h2 id="4、符号地址"><a href="#4、符号地址" class="headerlink" title="4、符号地址"></a>4、符号地址</h2><p>符号地址= 基地址 - 偏移地址</p>
 <h4 id="获取基地址"><a href="#获取基地址" class="headerlink" title="获取基地址"></a>获取基地址</h4><pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">//获取基地址</span>
 uintptr_t <span class="token function">get_load_address</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     <span class="token keyword">const</span> <span class="token keyword">struct</span> mach_header <span class="token operator">*</span>exe_header <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
@@ -984,34 +1090,34 @@ uintptr_t <span class="token function">get_load_address</span><span class="token
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/04/01/Dyld%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/">
+                <a href="/2020/04/04/iOS%E8%B6%8A%E7%8B%B1%E5%88%9D%E4%BD%93%E9%AA%8C/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Dyld源码阅读">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="iOS越狱初体验">
                         
-                        <span class="card-title">Dyld源码阅读</span>
+                        <span class="card-title">iOS越狱初体验</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Dyld源码阅读
-Version：dyld-551.4
-Lauange：C++
-load()：3566行
-load()-&gt;loadPhase0()-&gt;loadPhase1()-&gt;loadPhase2()-&gt;loadP
+                            iOS越狱初体验iOS越狱能做到什么？
+查看 第三方APP UI 排版方式、布局实现技术
+获取三方App内部资源 .assets/.plist/icon…
+修改APP 功能重新打包 (EX: 去广告)
+反编译推测原始工程代码内容
+dump 
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-01
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-04-04
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -1020,7 +1126,6 @@ load()-&gt;loadPhase0()-&gt;loadPhase1()-&gt;loadPhase2()-&gt;loadP
                         </span>
                     </div>
                 </div>
-
                 
             </div>
         </div>

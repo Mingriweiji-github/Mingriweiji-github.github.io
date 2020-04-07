@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="一颗太阳, 明日危机">
+    <meta name="keywords" content="Alamfire源码, 明日危机">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>一颗太阳 | 明日危机</title>
+    <title>Alamfire源码 | 明日危机</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -307,12 +307,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">一颗太阳</h1>
+                    <h1 class="description center-align post-title">Alamfire源码</h1>
                 </div>
             </div>
         </div>
@@ -441,7 +441,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-03-18
+                    2020-03-25
                 </div>
                 
 
@@ -458,8 +458,159 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>激情岁月</p>
-<h2 id="一颗太阳"><a href="#一颗太阳" class="headerlink" title="一颗太阳"></a>一颗太阳</h2><h2 id="一千颗太阳"><a href="#一千颗太阳" class="headerlink" title="一千颗太阳"></a>一千颗太阳</h2><p><strong>1967年6月17日</strong></p>
+                <h2 id="Alamfire"><a href="#Alamfire" class="headerlink" title="Alamfire"></a>Alamfire</h2><h4 id="AFNetwork姊妹篇"><a href="#AFNetwork姊妹篇" class="headerlink" title="AFNetwork姊妹篇"></a><a href="https://xiaozhuanlan.com/topic/7510469283" target="_blank" rel="noopener">AFNetwork姊妹篇</a></h4><h4 id="URLSession全家桶"><a href="#URLSession全家桶" class="headerlink" title="URLSession全家桶"></a><a href="https://www.cnblogs.com/ludashi/p/5556088.html" target="_blank" rel="noopener">URLSession全家桶</a></h4><h4 id="AlamFire结构解析"><a href="#AlamFire结构解析" class="headerlink" title="AlamFire结构解析"></a><a href="https://www.cnblogs.com/ludashi/p/5588044.html" target="_blank" rel="noopener">AlamFire结构解析</a></h4><h4 id="戴铭JSONDecoder"><a href="#戴铭JSONDecoder" class="headerlink" title="戴铭JSONDecoder"></a><a href="http://xiaozhuanlan.com/topic/1703695248" target="_blank" rel="noopener">戴铭JSONDecoder</a></h4><h4 id="JSONSerialization编解码"><a href="#JSONSerialization编解码" class="headerlink" title="JSONSerialization编解码"></a>JSONSerialization编解码</h4><pre class=" language-swift"><code class="language-swift"><span class="token keyword">class</span> <span class="token class-name">JSONSerialization</span> <span class="token punctuation">:</span> <span class="token builtin">NSObject</span></code></pre>
+<h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>您可以使用JSONSerialization类将JSON转换为Foundation对象，并将Foundation对象转换为JSON。</p>
+<p>可能转换为JSON的Foundation对象必须具有以下属性：</p>
+<ul>
+<li>顶级对象是[<code>NSArray</code>]（<a href="https://developer.apple.com/documentation/foundation/nsarray）或[`NSDictionary`]（https://developer.apple.com/documentation/foundation/" target="_blank" rel="noopener">https://developer.apple.com/documentation/foundation/nsarray）或[`NSDictionary`]（https://developer.apple.com/documentation/foundation/</a> nsdictionary）。</li>
+<li>所有对象都是<a href="https://developer.apple.com/documentation/foundation/nsstring" target="_blank" rel="noopener"><code>NSString</code></a>，<a href="https://developer.apple.com/documentation/foundation/nsnumber" target="_blank" rel="noopener"><code>NSNumber</code></a>，<a href="https://developer.apple.com/documentation/foundation/nsarray" target="_blank" rel="noopener"><code>NSArray</code></a>，<a href="https://developer.apple.com/documentation/foundation/nsdictionary" target="_blank" rel="noopener"><code>NSDictionary</code></a>的实例 </li>
+<li><a href="https://developer.apple.com/documentation/foundation/nsnull" target="_blank" rel="noopener"> NSNull对象</a></li>
+<li>所有字典的key都是<a href="https://developer.apple.com/documentation/foundation/nsstring" target="_blank" rel="noopener"><code>NSString</code></a>的实例。</li>
+<li>不是NaN或无穷大的数字。</li>
+</ul>
+<p>其他规则可能适用。如调用<a href="https://developer.apple.com/documentation/foundation/jsonserialization/1418461-isvalidjsonobject" target="_blank" rel="noopener"><code>isValidJSONObject（_：）</code></a>或尝试进行转换是确定给定对象是否可以转换为JSON的确定方法数据。</p>
+<blockquote>
+<p> 线程安全在iOS 7和更高版本以及macOS 10.9和更高版本上，<strong><code>JSONSerialization</code>是线程安全的</strong>。</p>
+</blockquote>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h3 id="Creating-a-JSON-Object"><a href="#Creating-a-JSON-Object" class="headerlink" title="Creating a JSON Object"></a>Creating a JSON Object</h3><p><a href="https://developer.apple.com/documentation/foundation/jsonserialization/1415493-jsonobject" target="_blank" rel="noopener"><code>class func jsonObject(with: Data, options: JSONSerialization.ReadingOptions) -&gt; Any</code></a></p>
+<p>Returns a Foundation object from given JSON data.</p>
+<p><a href="https://developer.apple.com/documentation/foundation/jsonserialization/1418059-jsonobject" target="_blank" rel="noopener"><code>class func jsonObject(with: InputStream, options: JSONSerialization.ReadingOptions) -&gt; Any</code></a></p>
+<p>Returns a Foundation object from JSON data in a given stream.</p>
+<h3 id="Creating-JSON-Data"><a href="#Creating-JSON-Data" class="headerlink" title="Creating JSON Data"></a>Creating JSON Data</h3><p><a href="https://developer.apple.com/documentation/foundation/jsonserialization/1413636-data" target="_blank" rel="noopener"><code>class func data(withJSONObject: Any, options: JSONSerialization.WritingOptions) -&gt; Data</code></a></p>
+<p>Returns JSON data from a Foundation object.</p>
+<p><a href="https://developer.apple.com/documentation/foundation/jsonserialization/1417433-writejsonobject" target="_blank" rel="noopener"><code>class func writeJSONObject(Any, to: OutputStream, options: JSONSerialization.WritingOptions, error: NSErrorPointer) -&gt; Int</code></a></p>
+<p>Writes a given JSON object to a stream.</p>
+<p><a href="https://developer.apple.com/documentation/foundation/jsonserialization/1418461-isvalidjsonobject" target="_blank" rel="noopener"><code>class func isValidJSONObject(Any) -&gt; Bool</code></a></p>
+<p>Returns a Boolean value that indicates whether a given object can be converted to JSON data.</p>
+<pre class=" language-swift"><code class="language-swift"><span class="token comment" spellcheck="true">/// Result.swift</span>
+<span class="token keyword">import</span> <span class="token builtin">Foundation</span>
+
+<span class="token keyword">public</span> <span class="token keyword">enum</span> <span class="token builtin">Result</span><span class="token operator">&lt;</span><span class="token builtin">Value</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> <span class="token function">success</span><span class="token punctuation">(</span><span class="token builtin">Value</span><span class="token punctuation">)</span>
+    <span class="token keyword">case</span> <span class="token function">failure</span><span class="token punctuation">(</span><span class="token builtin">Error</span><span class="token punctuation">)</span>
+
+    <span class="token comment" spellcheck="true">/// Returns `true` if the result is a success, `false` otherwise.</span>
+    <span class="token keyword">public</span> <span class="token keyword">var</span> isSuccess<span class="token punctuation">:</span> <span class="token builtin">Bool</span> <span class="token punctuation">{</span>
+        <span class="token keyword">switch</span> <span class="token keyword">self</span> <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> <span class="token punctuation">.</span>success<span class="token punctuation">:</span>
+            <span class="token keyword">return</span> <span class="token boolean">true</span>
+        <span class="token keyword">case</span> <span class="token punctuation">.</span>failure<span class="token punctuation">:</span>
+            <span class="token keyword">return</span> <span class="token boolean">false</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// Returns `true` if the result is a failure, `false` otherwise.</span>
+    <span class="token keyword">public</span> <span class="token keyword">var</span> isFailure<span class="token punctuation">:</span> <span class="token builtin">Bool</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token operator">!</span>isSuccess
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// Returns the associated value if the result is a success, `nil` otherwise.</span>
+    <span class="token keyword">public</span> <span class="token keyword">var</span> value<span class="token punctuation">:</span> <span class="token builtin">Value</span><span class="token operator">?</span> <span class="token punctuation">{</span>
+        <span class="token keyword">switch</span> <span class="token keyword">self</span> <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> <span class="token punctuation">.</span><span class="token function">success</span><span class="token punctuation">(</span><span class="token keyword">let</span> value<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">return</span> value
+        <span class="token keyword">case</span> <span class="token punctuation">.</span>failure<span class="token punctuation">:</span>
+            <span class="token keyword">return</span> <span class="token constant">nil</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// Returns the associated error value if the result is a failure, `nil` otherwise.</span>
+    <span class="token keyword">public</span> <span class="token keyword">var</span> error<span class="token punctuation">:</span> <span class="token builtin">Error</span><span class="token operator">?</span> <span class="token punctuation">{</span>
+        <span class="token keyword">switch</span> <span class="token keyword">self</span> <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> <span class="token punctuation">.</span>success<span class="token punctuation">:</span>
+            <span class="token keyword">return</span> <span class="token constant">nil</span>
+        <span class="token keyword">case</span> <span class="token punctuation">.</span><span class="token function">failure</span><span class="token punctuation">(</span><span class="token keyword">let</span> error<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">return</span> error
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">// MARK: - CustomStringConvertible</span>
+
+<span class="token keyword">extension</span> <span class="token builtin">Result</span><span class="token punctuation">:</span> <span class="token builtin">CustomStringConvertible</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/// The textual representation used when written to an output stream, which includes whether the result was a</span>
+    <span class="token comment" spellcheck="true">/// success or failure.</span>
+    <span class="token keyword">public</span> <span class="token keyword">var</span> description<span class="token punctuation">:</span> <span class="token builtin">String</span> <span class="token punctuation">{</span>
+        <span class="token keyword">switch</span> <span class="token keyword">self</span> <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> <span class="token punctuation">.</span>success<span class="token punctuation">:</span>
+            <span class="token keyword">return</span> <span class="token string">"SUCCESS"</span>
+        <span class="token keyword">case</span> <span class="token punctuation">.</span>failure<span class="token punctuation">:</span>
+            <span class="token keyword">return</span> <span class="token string">"FAILURE"</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">// MARK: - CustomDebugStringConvertible</span>
+
+<span class="token keyword">extension</span> <span class="token builtin">Result</span><span class="token punctuation">:</span> <span class="token builtin">CustomDebugStringConvertible</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/// The debug textual representation used when written to an output stream, which includes whether the result was a</span>
+    <span class="token comment" spellcheck="true">/// success or failure in addition to the value or error.</span>
+    <span class="token keyword">public</span> <span class="token keyword">var</span> debugDescription<span class="token punctuation">:</span> <span class="token builtin">String</span> <span class="token punctuation">{</span>
+        <span class="token keyword">switch</span> <span class="token keyword">self</span> <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> <span class="token punctuation">.</span><span class="token function">success</span><span class="token punctuation">(</span><span class="token keyword">let</span> value<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">return</span> <span class="token string">"SUCCESS: <span class="token interpolation"><span class="token delimiter variable">\(</span>value<span class="token delimiter variable">)</span></span>"</span>
+        <span class="token keyword">case</span> <span class="token punctuation">.</span><span class="token function">failure</span><span class="token punctuation">(</span><span class="token keyword">let</span> error<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">return</span> <span class="token string">"FAILURE: <span class="token interpolation"><span class="token delimiter variable">\(</span>error<span class="token delimiter variable">)</span></span>"</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<pre class=" language-swift"><code class="language-swift"><span class="token keyword">public</span> <span class="token keyword">enum</span> <span class="token builtin">AFError</span><span class="token punctuation">:</span> <span class="token builtin">Error</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/// The underlying reason the parameter encoding error occurred.</span>
+    <span class="token comment" spellcheck="true">///</span>
+    <span class="token comment" spellcheck="true">/// - missingURL:                 The URL request did not have a URL to encode.</span>
+    <span class="token comment" spellcheck="true">/// - jsonEncodingFailed:         JSON serialization failed with an underlying system error during the</span>
+    <span class="token comment" spellcheck="true">///                               encoding process.</span>
+    <span class="token comment" spellcheck="true">/// - propertyListEncodingFailed: Property list serialization failed with an underlying system error during</span>
+    <span class="token comment" spellcheck="true">///                               encoding process.</span>
+    <span class="token keyword">public</span> <span class="token keyword">enum</span> <span class="token builtin">ParameterEncodingFailureReason</span> <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> missingURL
+        <span class="token keyword">case</span> <span class="token function">jsonEncodingFailed</span><span class="token punctuation">(</span>error<span class="token punctuation">:</span> <span class="token builtin">Error</span><span class="token punctuation">)</span>
+        <span class="token keyword">case</span> <span class="token function">propertyListEncodingFailed</span><span class="token punctuation">(</span>error<span class="token punctuation">:</span> <span class="token builtin">Error</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// The underlying reason the multipart encoding error occurred.</span>
+    <span class="token keyword">public</span> <span class="token keyword">enum</span> <span class="token builtin">MultipartEncodingFailureReason</span> <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> <span class="token function">bodyPartURLInvalid</span><span class="token punctuation">(</span>url<span class="token punctuation">:</span> <span class="token constant">URL</span><span class="token punctuation">)</span>
+        <span class="token keyword">case</span> <span class="token function">bodyPartFilenameInvalid</span><span class="token punctuation">(</span><span class="token keyword">in</span><span class="token punctuation">:</span> <span class="token constant">URL</span><span class="token punctuation">)</span>
+        <span class="token keyword">case</span> <span class="token function">bodyPartFileNotReachable</span><span class="token punctuation">(</span>at<span class="token punctuation">:</span> <span class="token constant">URL</span><span class="token punctuation">)</span>
+        <span class="token keyword">case</span> <span class="token function">bodyPartFileNotReachableWithError</span><span class="token punctuation">(</span>atURL<span class="token punctuation">:</span> <span class="token constant">URL</span><span class="token punctuation">,</span> error<span class="token punctuation">:</span> <span class="token builtin">Error</span><span class="token punctuation">)</span>
+        <span class="token keyword">case</span> <span class="token function">bodyPartFileIsDirectory</span><span class="token punctuation">(</span>at<span class="token punctuation">:</span> <span class="token constant">URL</span><span class="token punctuation">)</span>
+        <span class="token keyword">case</span> <span class="token function">bodyPartFileSizeNotAvailable</span><span class="token punctuation">(</span>at<span class="token punctuation">:</span> <span class="token constant">URL</span><span class="token punctuation">)</span>
+        <span class="token keyword">case</span> <span class="token function">bodyPartFileSizeQueryFailedWithError</span><span class="token punctuation">(</span>forURL<span class="token punctuation">:</span> <span class="token constant">URL</span><span class="token punctuation">,</span> error<span class="token punctuation">:</span> <span class="token builtin">Error</span><span class="token punctuation">)</span>
+        <span class="token keyword">case</span> <span class="token function">bodyPartInputStreamCreationFailed</span><span class="token punctuation">(</span><span class="token keyword">for</span><span class="token punctuation">:</span> <span class="token constant">URL</span><span class="token punctuation">)</span>
+
+        <span class="token keyword">case</span> <span class="token function">outputStreamCreationFailed</span><span class="token punctuation">(</span><span class="token keyword">for</span><span class="token punctuation">:</span> <span class="token constant">URL</span><span class="token punctuation">)</span>
+        <span class="token keyword">case</span> <span class="token function">outputStreamFileAlreadyExists</span><span class="token punctuation">(</span>at<span class="token punctuation">:</span> <span class="token constant">URL</span><span class="token punctuation">)</span>
+        <span class="token keyword">case</span> <span class="token function">outputStreamURLInvalid</span><span class="token punctuation">(</span>url<span class="token punctuation">:</span> <span class="token constant">URL</span><span class="token punctuation">)</span>
+        <span class="token keyword">case</span> <span class="token function">outputStreamWriteFailed</span><span class="token punctuation">(</span>error<span class="token punctuation">:</span> <span class="token builtin">Error</span><span class="token punctuation">)</span>
+
+        <span class="token keyword">case</span> <span class="token function">inputStreamReadFailed</span><span class="token punctuation">(</span>error<span class="token punctuation">:</span> <span class="token builtin">Error</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token keyword">enum</span> <span class="token builtin">ResponseValidationFailureReason</span> <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> dataFileNil
+        <span class="token keyword">case</span> <span class="token function">dataFileReadFailed</span><span class="token punctuation">(</span>at<span class="token punctuation">:</span> <span class="token constant">URL</span><span class="token punctuation">)</span>
+        <span class="token keyword">case</span> <span class="token function">missingContentType</span><span class="token punctuation">(</span>acceptableContentTypes<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token builtin">String</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        <span class="token keyword">case</span> <span class="token function">unacceptableContentType</span><span class="token punctuation">(</span>acceptableContentTypes<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token builtin">String</span><span class="token punctuation">]</span><span class="token punctuation">,</span> responseContentType<span class="token punctuation">:</span> <span class="token builtin">String</span><span class="token punctuation">)</span>
+        <span class="token keyword">case</span> <span class="token function">unacceptableStatusCode</span><span class="token punctuation">(</span>code<span class="token punctuation">:</span> <span class="token builtin">Int</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">public</span> <span class="token keyword">enum</span> <span class="token builtin">ResponseSerializationFailureReason</span> <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> inputDataNil
+        <span class="token keyword">case</span> inputDataNilOrZeroLength
+        <span class="token keyword">case</span> inputFileNil
+        <span class="token keyword">case</span> <span class="token function">inputFileReadFailed</span><span class="token punctuation">(</span>at<span class="token punctuation">:</span> <span class="token constant">URL</span><span class="token punctuation">)</span>
+        <span class="token keyword">case</span> <span class="token function">stringSerializationFailed</span><span class="token punctuation">(</span>encoding<span class="token punctuation">:</span> <span class="token builtin">String</span><span class="token punctuation">.</span><span class="token builtin">Encoding</span><span class="token punctuation">)</span>
+        <span class="token keyword">case</span> <span class="token function">jsonSerializationFailed</span><span class="token punctuation">(</span>error<span class="token punctuation">:</span> <span class="token builtin">Error</span><span class="token punctuation">)</span>
+        <span class="token keyword">case</span> <span class="token function">propertyListSerializationFailed</span><span class="token punctuation">(</span>error<span class="token punctuation">:</span> <span class="token builtin">Error</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">case</span> <span class="token function">invalidURL</span><span class="token punctuation">(</span>url<span class="token punctuation">:</span> <span class="token builtin">URLConvertible</span><span class="token punctuation">)</span>
+    <span class="token keyword">case</span> <span class="token function">parameterEncodingFailed</span><span class="token punctuation">(</span>reason<span class="token punctuation">:</span> <span class="token builtin">ParameterEncodingFailureReason</span><span class="token punctuation">)</span>
+    <span class="token keyword">case</span> <span class="token function">multipartEncodingFailed</span><span class="token punctuation">(</span>reason<span class="token punctuation">:</span> <span class="token builtin">MultipartEncodingFailureReason</span><span class="token punctuation">)</span>
+    <span class="token keyword">case</span> <span class="token function">responseValidationFailed</span><span class="token punctuation">(</span>reason<span class="token punctuation">:</span> <span class="token builtin">ResponseValidationFailureReason</span><span class="token punctuation">)</span>
+    <span class="token keyword">case</span> <span class="token function">responseSerializationFailed</span><span class="token punctuation">(</span>reason<span class="token punctuation">:</span> <span class="token builtin">ResponseSerializationFailureReason</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
 
             </div>
             <hr/>
@@ -485,7 +636,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://mingriweiji-github.github.io/2020/03/18/%E4%B8%80%E9%A2%97%E5%A4%AA%E9%98%B3/">https://mingriweiji-github.github.io/2020/03/18/%E4%B8%80%E9%A2%97%E5%A4%AA%E9%98%B3/</a>
+                    <a href="https://mingriweiji-github.github.io/2020/03/25/Alamfire%E6%BA%90%E7%A0%81/">https://mingriweiji-github.github.io/2020/03/25/Alamfire%E6%BA%90%E7%A0%81/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -690,26 +841,28 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/03/24/Kingfisher%E6%BA%90%E7%A0%81/">
+                <a href="/2020/04/01/Dyld%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="Kingfisher源码">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Dyld源码阅读">
                         
-                        <span class="card-title">Kingfisher源码</span>
+                        <span class="card-title">Dyld源码阅读</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Kingfisher源码Kingfisher3架构kf命名空间
-类 Kingfisher 是一个范型类，类型是 Base 
-协议 KingfisherCompatible，声明属性 kf，类型是范型 CompatibleType 。并要求遵
+                            Dyld源码阅读
+Version：dyld-551.4
+Lauange：C++
+load()调用路径：3566行 
+load()-&gt;loadPhase0()-&gt;loadPhase1()-&gt;loadPhase2()-&gt;
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-24
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-04-01
                         </span>
                         <span class="publish-author">
                             
@@ -729,31 +882,26 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/15/%E6%8E%92%E5%BA%8F%E9%97%AE%E9%A2%98/">
+                <a href="/2020/03/24/Kingfisher%E6%BA%90%E7%A0%81/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="排序问题">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="Kingfisher源码">
                         
-                        <span class="card-title">排序问题</span>
+                        <span class="card-title">Kingfisher源码</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            带着问题去学习，是最有效的学习方法。所以按照惯例，我还是先给你出一个思考题：
-问题一：为什么插入排序比冒泡排序更受欢迎？如何分析一个“排序算法”？
-
-最好情况、最坏情况、平均情况时间复杂度
-
-时间复杂度的系数、常数、低阶
-
-比较次数和交换次
+                            Kingfisher源码Kingfisher3架构kf命名空间
+类 Kingfisher 是一个范型类，类型是 Base 
+协议 KingfisherCompatible，声明属性 kf，类型是范型 CompatibleType 。并要求遵
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-15
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-24
                             </span>
                         <span class="publish-author">
                             

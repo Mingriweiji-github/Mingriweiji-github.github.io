@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="一颗太阳, 明日危机">
+    <meta name="keywords" content="iOS汇编基础, 明日危机">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>一颗太阳 | 明日危机</title>
+    <title>iOS汇编基础 | 明日危机</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -307,12 +307,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">一颗太阳</h1>
+                    <h1 class="description center-align post-title">iOS汇编基础</h1>
                 </div>
             </div>
         </div>
@@ -441,7 +441,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-03-18
+                    2020-04-02
                 </div>
                 
 
@@ -458,9 +458,28 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>激情岁月</p>
-<h2 id="一颗太阳"><a href="#一颗太阳" class="headerlink" title="一颗太阳"></a>一颗太阳</h2><h2 id="一千颗太阳"><a href="#一千颗太阳" class="headerlink" title="一千颗太阳"></a>一千颗太阳</h2><p><strong>1967年6月17日</strong></p>
-
+                <h1 id="iOS汇编基础"><a href="#iOS汇编基础" class="headerlink" title="iOS汇编基础"></a>iOS汇编基础</h1><h2 id="x86-64汇编"><a href="#x86-64汇编" class="headerlink" title="x86_64汇编"></a>x86_64汇编</h2><p>X84中原有8个32位通用寄存器%eax，%ebx，%ecx，%edx，%esi，%edi，%ebp，%esp,</p>
+<p>X86_64中分别被扩展为64位，并且多了8个寄存器。因此X86_64的寄存器如下：</p>
+<ul>
+<li>rax, eax, ax, ah, al;</li>
+<li>rbx, ebx, bx, bh, bl;</li>
+<li>rcx, ecx, cx, ch, cl;</li>
+<li>rdx, edx, dx, dh, dl;</li>
+<li>rsi, esi, si;</li>
+<li>rdi, edi, di;</li>
+<li>rbp, ebp;</li>
+<li>rsp, esp;</li>
+<li>r8-r15;</li>
+</ul>
+<p>GCC中对这些寄存器的调用规则如下：</p>
+<ul>
+<li><strong>%rax 作为函数返回值使用。</strong></li>
+<li><strong>%rsp 栈指针寄存器，指向栈顶</strong></li>
+<li><strong>%rdi，%rsi，%rdx，%rcx，%r8，%r9 用作函数参数，依次对应第1参数，第2参数。。。</strong></li>
+<li><strong>%rbx，%rbp，%r12，%r13，%14，%15 用作数据存储，遵循被调用者使用规则，简单说就是随便用，调用子函数之前要备份它，以防他被修改</strong></li>
+<li><strong>%r10，%r11 用作数据存储，遵循调用者使用规则，简单说就是使用之前要先保存原值</strong></li>
+</ul>
+<img src="https://images0.cnblogs.com/blog2015/678192/201505/312049552351566.png" alt="img" style="zoom:50%;" />
             </div>
             <hr/>
 
@@ -485,7 +504,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://mingriweiji-github.github.io/2020/03/18/%E4%B8%80%E9%A2%97%E5%A4%AA%E9%98%B3/">https://mingriweiji-github.github.io/2020/03/18/%E4%B8%80%E9%A2%97%E5%A4%AA%E9%98%B3/</a>
+                    <a href="https://mingriweiji-github.github.io/2020/04/02/iOS%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80/">https://mingriweiji-github.github.io/2020/04/02/iOS%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -690,26 +709,29 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/03/24/Kingfisher%E6%BA%90%E7%A0%81/">
+                <a href="/2020/04/04/iOS%E8%B6%8A%E7%8B%B1%E5%88%9D%E4%BD%93%E9%AA%8C/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="Kingfisher源码">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="iOS越狱初体验">
                         
-                        <span class="card-title">Kingfisher源码</span>
+                        <span class="card-title">iOS越狱初体验</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Kingfisher源码Kingfisher3架构kf命名空间
-类 Kingfisher 是一个范型类，类型是 Base 
-协议 KingfisherCompatible，声明属性 kf，类型是范型 CompatibleType 。并要求遵
+                            iOS越狱初体验iOS越狱能做到什么？
+查看 第三方APP UI 排版方式、布局实现技术
+获取三方App内部资源 .assets/.plist/icon…
+修改APP 功能重新打包 (EX: 去广告)
+反编译推测原始工程代码内容
+dump 
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-24
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-04-04
                         </span>
                         <span class="publish-author">
                             
@@ -729,31 +751,28 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/15/%E6%8E%92%E5%BA%8F%E9%97%AE%E9%A2%98/">
+                <a href="/2020/04/01/Dyld%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="排序问题">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Dyld源码阅读">
                         
-                        <span class="card-title">排序问题</span>
+                        <span class="card-title">Dyld源码阅读</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            带着问题去学习，是最有效的学习方法。所以按照惯例，我还是先给你出一个思考题：
-问题一：为什么插入排序比冒泡排序更受欢迎？如何分析一个“排序算法”？
-
-最好情况、最坏情况、平均情况时间复杂度
-
-时间复杂度的系数、常数、低阶
-
-比较次数和交换次
+                            Dyld源码阅读
+Version：dyld-551.4
+Lauange：C++
+load()调用路径：3566行 
+load()-&gt;loadPhase0()-&gt;loadPhase1()-&gt;loadPhase2()-&gt;
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-15
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-01
                             </span>
                         <span class="publish-author">
                             

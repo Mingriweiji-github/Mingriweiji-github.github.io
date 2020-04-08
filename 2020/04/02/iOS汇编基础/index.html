@@ -480,6 +480,43 @@
 <li><strong>%r10，%r11 用作数据存储，遵循调用者使用规则，简单说就是使用之前要先保存原值</strong></li>
 </ul>
 <img src="https://images0.cnblogs.com/blog2015/678192/201505/312049552351566.png" alt="img" style="zoom:50%;" />
+
+<h2 id="ARM处理器架构"><a href="#ARM处理器架构" class="headerlink" title="ARM处理器架构"></a>ARM处理器架构</h2><h3 id="ARM"><a href="#ARM" class="headerlink" title="ARM"></a>ARM</h3><p>现在的智能手机</p>
+<h3 id="ARM指令集"><a href="#ARM指令集" class="headerlink" title="ARM指令集"></a>ARM指令集</h3><ul>
+<li>armv7｜armv7s｜arm64都是ARM处理器的指令集<ul>
+<li><strong>v7</strong><br>iPhone3GS、iPhone4、iPhone4S</li>
+<li><strong>v7s</strong><br>iPhone5、iPhone5C</li>
+<li><strong>arm64</strong><br><strong>iPhone5S</strong>、iPhone6、iPhone6 Plus、iPhone6S、iPhone6S Plus<br>iPhoneSE、iPhone7、iPhone7 Plus、iPhone8、iPhone8 Plus、iPhoneX<br>iPad5、iPad Air、iPad Air2、iPad Pro、iPad Pro2<br>iPad mini with Retina display、iPad mini3、iPad mini4<br>iPod Touch6</li>
+</ul>
+</li>
+<li>i386｜x86_64 是Mac处理器的指令集</li>
+</ul>
+<blockquote>
+<pre class=" language-bash"><code class="language-bash">模拟器32位处理器测试需要i386架构，
+模拟器64位处理器测试需要x86_64架构，
+
+真机32位处理器需要armv7,或者armv7s架构，
+真机64位处理器需要arm64架构。</code></pre>
+</blockquote>
+<h3 id="编译错误"><a href="#编译错误" class="headerlink" title="编译错误"></a>编译错误</h3><p><strong>真机编译错误: No architectures to compile for (ONLY_ACTIVE_ARCH=YES, active arch=x86_64, VALID_ARCHS=i386)</strong></p>
+<p><strong>模拟器上编译错误：No architectures to compile for (ONLY_ACTIVE_ARCH=YES, active arch=armv7s, VALID_ARCHS=armv7 armv6)</strong></p>
+<h2 id="iOS汇编入门教程"><a href="#iOS汇编入门教程" class="headerlink" title="iOS汇编入门教程"></a>iOS汇编入门教程</h2><blockquote>
+<p>来自公主号：高级页面仔</p>
+</blockquote>
+<ul>
+<li><a href="https://mp.weixin.qq.com/s/tbOfzoiUIoRueSRIboI2zw" target="_blank" rel="noopener">1、ARM64汇编基础</a></li>
+<li><a href="https://mp.weixin.qq.com/s/Xw15C2Xw_MgCcw0sOkdmHA" target="_blank" rel="noopener">2、在Xcode工程中嵌入汇编代码</a></li>
+<li><a href="https://mp.weixin.qq.com/s/TR2j-W4-0H8lKgGgnU3jww" target="_blank" rel="noopener">3、汇编中的 Section 与数据存取</a></li>
+<li><a href="https://mp.weixin.qq.com/s/CtIbfUgxTj-DfXASKboaSQ" target="_blank" rel="noopener">通过dylib实现iOS运行时Native代码注入</a></li>
+<li><a href="https://mp.weixin.qq.com/s/T4sfBPpT_o2MjKfcqUSlPQ" target="_blank" rel="noopener">基于 Mach-O 符号重排减少缺页中断次数来提升 iOS App 启动速度的可行性分析</a></li>
+<li><a href="https://mp.weixin.qq.com/s/yKPY1Vd7JUA8SYUNCZl7kg" target="_blank" rel="noopener">4、基于 LLDB 动态调试快速分析系统函数</a></li>
+<li><a href="https://mp.weixin.qq.com/s/LIbmvDM-AsIYukFMJ0A9XA" target="_blank" rel="noopener">5、Objc Block 的内存布局和汇编表示</a></li>
+<li><a href="https://mp.weixin.qq.com/s/eP9lwVCjDKLGUudUiFuxDg" target="_blank" rel="noopener">6、CPU 指令重排与内存屏障</a></li>
+<li><a href="https://mp.weixin.qq.com/s/KxnfCU5vBJz88-J366paUw" target="_blank" rel="noopener">7、ARM Exclusive - 互斥锁与读写一致性的底层实现原理</a></li>
+<li><a href="https://mp.weixin.qq.com/s/qf5-UughNpJYn0P7g9ZkFA" target="_blank" rel="noopener">8、Relocation - 静态库链接时是如何保证对变量的相对寻址依然正确的？</a></li>
+<li><a href="https://mp.weixin.qq.com/s/SE5vpD733SQw9_yc1JN_TQ" target="_blank" rel="noopener">9、在 ARC 下对非 ObjC 类型的指针进行操作的编译器陷阱</a></li>
+</ul>
+
             </div>
             <hr/>
 

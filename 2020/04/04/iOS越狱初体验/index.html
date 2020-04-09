@@ -488,7 +488,6 @@
 </li>
 <li>通过Cydia安装下面的源到越狱设备上<ul>
 <li>Apple File Conduit 2：可以访问整个iOS文件系统</li>
-<li>AppSync Unified: 可以绕过系统验证，随意安装和运行破解的ipa安装包</li>
 <li>iFile: 可以自由访问iOS文件系统</li>
 </ul>
 </li>
@@ -501,10 +500,23 @@
 <li>Cydia搜索OpenSSH</li>
 <li>安装Openssh</li>
 <li>Mac终端：<ul>
-<li>ssh root@youriPhoneIP</li>
+<li>ssh root@host</li>
 <li>输入初始密码<strong>alpine</strong></li>
 <li>退出登录：exit</li>
 </ul>
+</li>
+</ul>
+<pre class=" language-bash"><code class="language-bash">$ <span class="token function">ssh</span> root@192.168.0.110
+root@192.168.0.110's password:</code></pre>
+<h4 id="password-for-ssh-root-host"><a href="#password-for-ssh-root-host" class="headerlink" title="password for ssh root@host"></a>password for <code>ssh root@host</code></h4><pre class=" language-bash"><code class="language-bash">$ <span class="token function">sudo</span> -s
+$ <span class="token function">passwd</span>
+Changing password <span class="token keyword">for</span> root.
+New password:
+Retype new password:</code></pre>
+<h4 id="报错：ImportError-No-module-named-usbmux"><a href="#报错：ImportError-No-module-named-usbmux" class="headerlink" title="报错：ImportError: No module named usbmux"></a>报错：ImportError: No module named usbmux</h4><ul>
+<li><p>重新下载 <a href="https://links.jianshu.com/go?to=p%5Bhttps%3A%2F%2Fcgit.sukimashita.com%2Fusbmuxd.git%2Fsnapshot%2Fusbmuxd-1.0.8.tar.gz%5D(https%3A%2F%2Fcgit.sukimashita.com%2Fusbmuxd.git%2Fsnapshot%2Fusbmuxd-1.0.8.tar.gz)" target="_blank" rel="noopener">usbmuxd工具包</a></p>
+</li>
+<li><p>保留<code>python-client</code> 文件夹</p>
 </li>
 </ul>
 <h5 id="变更服务器身份信息"><a href="#变更服务器身份信息" class="headerlink" title="变更服务器身份信息"></a>变更服务器身份信息</h5><ul>
@@ -737,6 +749,123 @@ Setting up reveal2loader <span class="token punctuation">(</span><span class="to
 <li><p>如有破解版Reveal可参考：<a href="https://www.jianshu.com/p/f37ea9b9d2f3" target="_blank" rel="noopener">https://www.jianshu.com/p/f37ea9b9d2f3</a></p>
 </li>
 </ul>
+<h2 id="5、脱壳"><a href="#5、脱壳" class="headerlink" title="5、脱壳"></a>5、脱壳</h2><h4 id="5-1-通过ipa获取Mach-O"><a href="#5-1-通过ipa获取Mach-O" class="headerlink" title="5.1 通过ipa获取Mach-O"></a>5.1 通过ipa获取Mach-O</h4><ul>
+<li><p>PP助手下载的ipa包是解密后的包</p>
+</li>
+<li><p><strong>Apple Configurator 2</strong>下载的ipa包是加密包</p>
+</li>
+</ul>
+<h5 id="使用Apple-Configurator-2下载ipa"><a href="#使用Apple-Configurator-2下载ipa" class="headerlink" title="使用Apple Configurator 2下载ipa"></a>使用<strong>Apple Configurator 2</strong>下载ipa</h5><ul>
+<li><p>1、<a href="https://juejin.im/post/5c6e87af51882523f02666a6" target="_blank" rel="noopener">安装Apple Configurator 2</a></p>
+</li>
+<li><p>2、进入Finder：<code>~/Library/Group Containers/K36BKF7T3D.group.com.apple.configurator/Library/Caches/Assets/TemporaryItems/</code> 获取ipa，记得复制出来，弹框消失后IPA文件也会消失</p>
+</li>
+<li><p><strong>3、如果在解压ipa包时，出现“IPA已损坏 移除到垃圾篓”之类的提示，可以尝试把后缀名.ipa修改成.zip</strong></p>
+</li>
+<li><p>4、解压zip包-&gt;进入Payload-&gt; 右键显示包内容-&gt;获取可执行文件如下</p>
+<img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/uploadjokeMachofile.png" style="zoom:50%;" />
+
+</li>
+</ul>
+<ul>
+<li><p>4中获取的可执行文件不能正常导出头文件的话，直接查找越狱设备的一下路径：</p>
+<ul>
+<li><p><code>/var/mobile/Containers/Bundle/Application/</code>可以获取当前越狱设备中安装的应用的.app文件，直接拷贝到Mac的Desktop上</p>
+<img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200408165039.png" style="zoom:50%;" />
+</li>
+<li><p><code>ps -A</code>查看当前App也能看到上面这个路径</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="5-2-Class-dump"><a href="#5-2-Class-dump" class="headerlink" title="5.2 Class-dump"></a>5.2 Class-dump</h4><p>1、下载地址：<a href="http://stevenygard.com/projects/class-dump/" target="_blank" rel="noopener">http://stevenygard.com/projects/class-dump/</a></p>
+<p>2、打开终端输入 <code>open /usr/local/bin</code></p>
+<p>3、把dmg文件中的class-dump文件复制到<code>/usr/local/bin</code></p>
+<p>4、更改权限：终端输入 <code>sudo chmod 777 /usr/local/bin/class-dump</code></p>
+<p>5、显示class-dump的用法和版本: <code>class-dump --help</code></p>
+<p>6、cd 到5.1获取的Mach-O文件所在目录</p>
+<p><strong>用终端输入命令 <code>class-dump -H [MachO文件的路径] -o [输出文件夹路径]</code>,就可以得到所有的.h文件了</strong></p>
+<p>自己编译的项目没有加密，能够解析出来。class-dump不能直接将AppStore上的app的头文件导出来，你只会导出CDStructures.h这个头文件，而这里边基本是没有信息的。相当于Apple在app上加了一层壳（加密了），需要把这层壳砸破。</p>
+<p>class-dump -H test.decrypted -o test，但是只能导出CDStructures.h，这个文件，但是</p>
+<p>于是就使用class-dump -arch armv64 -H test.decrypted -o test 来导出，竟然能导出所有的头文件了。</p>
+<h4 id="5-2查看可执行文件是否加密？"><a href="#5-2查看可执行文件是否加密？" class="headerlink" title="5.2查看可执行文件是否加密？"></a>5.2查看可执行文件是否加密？</h4><h5 id="使用MachOView"><a href="#使用MachOView" class="headerlink" title="使用MachOView"></a>使用MachOView</h5><ul>
+<li>Load Commands -&gt; LC_ENCRYPTION_INFO -&gt; Crypt ID的值</li>
+<li>0代表未加密</li>
+</ul>
+<h5 id="使用otool"><a href="#使用otool" class="headerlink" title="使用otool"></a>使用otool</h5><pre class=" language-bash"><code class="language-bash">otool -l machoFile <span class="token operator">|</span> <span class="token function">grep</span> cycript</code></pre>
+<h4 id="5-3、Clutch脱壳"><a href="#5-3、Clutch脱壳" class="headerlink" title="5.3、Clutch脱壳"></a>5.3、Clutch脱壳</h4><h5 id="usr-bin-Clutch-Permission-denied"><a href="#usr-bin-Clutch-Permission-denied" class="headerlink" title="/usr/bin/Clutch Permission denied"></a>/usr/bin/Clutch Permission denied</h5><pre class=" language-bash"><code class="language-bash">5s:~ root<span class="token comment" spellcheck="true"># Clutch</span>
+-sh: /usr/bin/Clutch: Permission denied</code></pre>
+<p><strong>权限不够，输入命令如下：</strong></p>
+<pre class=" language-bash"><code class="language-bash">5s:~ root<span class="token comment" spellcheck="true"># chmod +x /usr/bin/Clutch</span>
+5s:~ root<span class="token comment" spellcheck="true"># Clutch</span>
+Usage: Clutch <span class="token punctuation">[</span>OPTIONS<span class="token punctuation">]</span>
+-b --binary-dump <span class="token operator">&lt;</span>value<span class="token operator">></span> Only dump binary files from specified bundleID
+-d --dump <span class="token operator">&lt;</span>value<span class="token operator">></span>        Dump specified bundleID into .ipa <span class="token function">file</span>
+-i --print-installed     Print installed applications
+   --clean               Clean /var/tmp/clutch directory
+   --version             Display version and <span class="token keyword">exit</span>
+-? --help                Display this <span class="token function">help</span> and <span class="token keyword">exit</span>
+-n --no-color            Print with colors disabled</code></pre>
+<h5 id="Clutch-i-查看可以脱壳的App"><a href="#Clutch-i-查看可以脱壳的App" class="headerlink" title="Clutch -i 查看可以脱壳的App"></a>Clutch -i 查看可以脱壳的App</h5><pre class=" language-bash"><code class="language-bash">5s:~ root<span class="token comment" spellcheck="true"># Clutch -i</span>
+Installed apps:
+1:   知识星球 <span class="token operator">&lt;</span>com.unnoo.quan<span class="token operator">></span>
+2:   爱思加强版 <span class="token operator">&lt;</span>com.pd.A4Player<span class="token operator">></span>
+3:   饿了么 <span class="token operator">&lt;</span>me.ele.ios.eleme<span class="token operator">></span>
+4:   暴走漫画 <span class="token operator">&lt;</span>goodluck.push.baozou<span class="token operator">></span>
+5:   喜马拉雅「听书社区」电台有声小说相声评书 <span class="token operator">&lt;</span>com.gemd.iting<span class="token operator">></span>
+6:   微视 <span class="token operator">&lt;</span>com.tencent.microvision<span class="token operator">></span>
+7:   猿辅导-小学初中高中全科在线互动直播课 <span class="token operator">&lt;</span>com.fenbi.tutor<span class="token operator">></span>
+8:   今日头条 <span class="token operator">&lt;</span>com.ss.iphone.article.News<span class="token operator">></span>
+9:   手机淘宝 <span class="token operator">&lt;</span>com.taobao.taobao4iphone<span class="token operator">></span>
+10:  爱奇艺 <span class="token operator">&lt;</span>com.qiyi.iphone<span class="token operator">></span>
+11:  全民K歌 <span class="token operator">&lt;</span>com.tencent.QQKSong<span class="token operator">></span>
+12:  钉钉 <span class="token operator">&lt;</span>com.laiwang.DingTalk<span class="token operator">></span>
+13:  书旗小说 <span class="token operator">&lt;</span>com.shuqicenter.reader<span class="token operator">></span>
+14:  QQ <span class="token operator">&lt;</span>com.tencent.mqq<span class="token operator">></span>
+15:  快手极速版 <span class="token operator">&lt;</span>com.kuaishou.nebula<span class="token operator">></span>
+16:  腾讯新闻 <span class="token operator">&lt;</span>com.tencent.info<span class="token operator">></span>
+17:  京东 <span class="token operator">&lt;</span>com.360buy.jdmobile<span class="token operator">></span>
+18:  腾讯视频 <span class="token operator">&lt;</span>com.tencent.live4iphone<span class="token operator">></span>
+19:  微信读书 <span class="token operator">&lt;</span>com.tencent.weread<span class="token operator">></span>
+20:  布卡漫画 <span class="token operator">&lt;</span>bukaios.ibuka.com<span class="token operator">></span>
+21:  支付宝 <span class="token operator">&lt;</span>com.alipay.iphoneclient<span class="token operator">></span>
+22:  快手 <span class="token operator">&lt;</span>com.jiangjia.gif<span class="token operator">></span>
+23:  网易新闻 <span class="token operator">&lt;</span>com.netease.news<span class="token operator">></span>
+24:  抖音短视频 <span class="token operator">&lt;</span>com.ss.iphone.ugc.Aweme<span class="token operator">></span></code></pre>
+<h5 id="Cluth-d-获取ipa文件"><a href="#Cluth-d-获取ipa文件" class="headerlink" title="Cluth -d 获取ipa文件"></a>Cluth -d 获取ipa文件</h5><pre class=" language-basic"><code class="language-basic"><span class="token number">5</span>s<span class="token punctuation">:</span>~ root# Clutch <span class="token operator">-</span>d <span class="token number">4</span>
+Zipping BaoManReader.app
+Swapping architectures..
+ASLR slide<span class="token punctuation">:</span> <span class="token number">0</span>xd0000
+Dumping <span class="token operator">&lt;</span>BaoManReader<span class="token operator">></span> <span class="token punctuation">(</span>armv7<span class="token punctuation">)</span>
+Patched cryptid <span class="token punctuation">(</span><span class="token number">32</span>bit segment<span class="token punctuation">)</span>
+Writing new checksum
+ASLR slide<span class="token punctuation">:</span> <span class="token number">0</span>x100038000
+Dumping <span class="token operator">&lt;</span>BaoManReader<span class="token operator">></span> <span class="token punctuation">(</span>arm64<span class="token punctuation">)</span>
+Patched cryptid <span class="token punctuation">(</span><span class="token number">64</span>bit segment<span class="token punctuation">)</span>
+Writing new checksum
+DONE<span class="token punctuation">:</span> <span class="token operator">/</span>private<span class="token operator">/</span>var<span class="token operator">/</span>mobile<span class="token operator">/</span>Documents<span class="token operator">/</span>Dumped<span class="token operator">/</span>goodluck.push.baozou<span class="token operator">-</span>iOS8.<span class="token number">0</span><span class="token operator">-</span><span class="token punctuation">(</span>Clutch<span class="token operator">-</span><span class="token number">2.0</span><span class="token number">.4</span><span class="token punctuation">)</span>.ipa
+Finished dumping goodluck.push.baozou <span class="token function">in</span> <span class="token number">29.4</span> seconds</code></pre>
+<p><strong>脱壳后生成IPA文件</strong></p>
+<p> <strong>IPA生成后的路径: <code>/var/mobile/Documents/Dumped/</code>拷贝到桌面上查看当前的加密状态</strong></p>
+<img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200408232750.png" style="zoom:50%;" />
+
+<pre class=" language-basic"><code class="language-basic">$ otool <span class="token operator">-</span>l BaoManReader_old | grep crypt
+     cryptoff <span class="token number">16384</span>
+    cryptsize <span class="token number">10403840</span>
+      cryptid <span class="token number">1</span>
+     cryptoff <span class="token number">16384</span>
+    cryptsize <span class="token number">11370496</span>
+      cryptid <span class="token number">1</span>
+存在加密id
+$ otool <span class="token operator">-</span>l BaoManReader | grep crypt
+     cryptoff <span class="token number">16384</span>
+    cryptsize <span class="token number">10403840</span>
+      cryptid <span class="token number">0</span>
+     cryptoff <span class="token number">16384</span>
+    cryptsize <span class="token number">11370496</span>
+      cryptid <span class="token number">0</span>
+不存在加密的id</code></pre>
+<h5 id="class-dump导出头文件headers"><a href="#class-dump导出头文件headers" class="headerlink" title="class-dump导出头文件headers"></a>class-dump导出头文件headers</h5><pre class=" language-bash"><code class="language-bash">$ class-dump -H BaoManReader -o Headers</code></pre>
 
             </div>
             <hr/>

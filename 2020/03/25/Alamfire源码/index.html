@@ -460,21 +460,28 @@
             <div id="articleContent">
                 <p>Alamfire</p>
 <h2 id="Github地址"><a href="#Github地址" class="headerlink" title="Github地址"></a><a href="https://github.com/Alamofire/Alamofire" target="_blank" rel="noopener">Github地址</a></h2><h2 id="1、Request分析"><a href="#1、Request分析" class="headerlink" title="1、Request分析"></a>1、Request分析</h2><h4 id="Request准守的Protocol"><a href="#Request准守的Protocol" class="headerlink" title="Request准守的Protocol"></a>Request准守的Protocol</h4><ul>
-<li>Equatable</li>
-<li>Hashable</li>
-<li>CustomStringConvertible</li>
+<li><p><strong>Equatable</strong></p>
+</li>
+<li><p><strong>Hashable</strong></p>
+</li>
+<li><p><strong>CustomStringConvertible</strong></p>
+</li>
+<li><p><strong>Downloadable</strong></p>
+</li>
+<li><p><strong>UploadableConvertible</strong></p>
+</li>
 </ul>
-<pre class=" language-swift"><code class="language-swift"><span class="token keyword">extension</span> <span class="token builtin">Request</span><span class="token punctuation">:</span> <span class="token builtin">Equatable</span> <span class="token punctuation">{</span>
+<h5 id="Equatable"><a href="#Equatable" class="headerlink" title="Equatable"></a>Equatable</h5><pre class=" language-swift"><code class="language-swift"><span class="token keyword">extension</span> <span class="token builtin">Request</span><span class="token punctuation">:</span> <span class="token builtin">Equatable</span> <span class="token punctuation">{</span>
     <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">func</span> <span class="token operator">==</span><span class="token punctuation">(</span>lhs<span class="token punctuation">:</span> <span class="token builtin">Request</span><span class="token punctuation">,</span> rhs<span class="token punctuation">:</span> <span class="token builtin">Request</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Bool</span> <span class="token punctuation">{</span>
         <span class="token keyword">return</span> lhs<span class="token punctuation">.</span>id <span class="token operator">==</span> rhs<span class="token punctuation">.</span>id
     <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-
-<span class="token keyword">extension</span> <span class="token builtin">Request</span><span class="token punctuation">:</span> <span class="token builtin">Hashable</span> <span class="token punctuation">{</span>
+<span class="token punctuation">}</span></code></pre>
+<h5 id="Hashable"><a href="#Hashable" class="headerlink" title="Hashable"></a>Hashable</h5><pre class=" language-swift"><code class="language-swift"><span class="token keyword">extension</span> <span class="token builtin">Request</span><span class="token punctuation">:</span> <span class="token builtin">Hashable</span> <span class="token punctuation">{</span>
     <span class="token keyword">public</span> <span class="token keyword">func</span> <span class="token function">hash</span><span class="token punctuation">(</span>into hasher<span class="token punctuation">:</span> <span class="token keyword">inout</span> <span class="token builtin">Hasher</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
         hasher<span class="token punctuation">.</span><span class="token function">combine</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span>
     <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h5 id="CustomStringConvertible"><a href="#CustomStringConvertible" class="headerlink" title="CustomStringConvertible"></a>CustomStringConvertible</h5><pre class=" language-swift"><code class="language-swift">
 
 <span class="token keyword">extension</span> <span class="token builtin">Request</span><span class="token punctuation">:</span> <span class="token builtin">CustomStringConvertible</span> <span class="token punctuation">{</span>
     <span class="token comment" spellcheck="true">/// A textual representation of this instance, including the `HTTPMethod` and `URL` if the `URLRequest` has been</span>
@@ -489,7 +496,7 @@
         <span class="token keyword">return</span> response<span class="token punctuation">.</span><span class="token builtin">map</span> <span class="token punctuation">{</span> <span class="token string">"<span class="token interpolation"><span class="token delimiter variable">\(</span>requestDescription<span class="token delimiter variable">)</span></span> (<span class="token interpolation"><span class="token delimiter variable">\(</span>$<span class="token number">0</span><span class="token punctuation">.</span>statusCode<span class="token delimiter variable">)</span></span>)"</span> <span class="token punctuation">}</span> <span class="token operator">?</span><span class="token operator">?</span> requestDescription
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
-<h4 id="Downloadable"><a href="#Downloadable" class="headerlink" title="Downloadable"></a><strong>Downloadable</strong></h4><pre class=" language-swift"><code class="language-swift"> <span class="token comment" spellcheck="true">/// Type describing the source used to create the underlying `URLSessionDownloadTask`.</span>
+<h5 id="Downloadable"><a href="#Downloadable" class="headerlink" title="Downloadable"></a>Downloadable</h5><pre class=" language-swift"><code class="language-swift"> <span class="token comment" spellcheck="true">/// Type describing the source used to create the underlying `URLSessionDownloadTask`.</span>
 
   <span class="token keyword">public</span> <span class="token keyword">enum</span> <span class="token builtin">Downloadable</span> <span class="token punctuation">{</span>
 
@@ -502,7 +509,7 @@
 ​    <span class="token keyword">case</span> <span class="token function">resumeData</span><span class="token punctuation">(</span><span class="token builtin">Data</span><span class="token punctuation">)</span>
 
   <span class="token punctuation">}</span></code></pre>
-<h4 id="Protocol-Extension经典写法"><a href="#Protocol-Extension经典写法" class="headerlink" title="Protocol+Extension经典写法"></a>Protocol+Extension经典写法</h4><pre class=" language-swift"><code class="language-swift"><span class="token comment" spellcheck="true">/// A type that can produce an `UploadRequest.Uploadable` value.</span>
+<h5 id="UploadableConvertible"><a href="#UploadableConvertible" class="headerlink" title="UploadableConvertible"></a>UploadableConvertible</h5><pre class=" language-swift"><code class="language-swift"><span class="token comment" spellcheck="true">/// A type that can produce an `UploadRequest.Uploadable` value.</span>
 <span class="token keyword">public</span> protocol <span class="token builtin">UploadableConvertible</span> <span class="token punctuation">{</span>
     <span class="token comment" spellcheck="true">/// Produces an `UploadRequest.Uploadable` value from the instance.</span>
     <span class="token comment" spellcheck="true">///</span>
@@ -519,12 +526,12 @@
 
 <span class="token comment" spellcheck="true">/// A type that can be converted to an upload, whether from an `UploadRequest.Uploadable` or `URLRequestConvertible`.</span>
 <span class="token keyword">public</span> protocol <span class="token builtin">UploadConvertible</span><span class="token punctuation">:</span> <span class="token builtin">UploadableConvertible</span> <span class="token operator">&amp;</span> <span class="token builtin">URLRequestConvertible</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
-<h4 id="初始化字段"><a href="#初始化字段" class="headerlink" title="初始化字段"></a>初始化字段</h4><pre class=" language-basic"><code class="language-basic">id<span class="token punctuation">:</span> UUID 为request提供唯一标识，用于hash、相等
-underlyingQueue<span class="token punctuation">:</span> DispatchQueue 内部异步操作的串行队列
-serializationQueue<span class="token punctuation">:</span> DispatchQueue 序列化使用的队列
-eventMonitor<span class="token punctuation">:</span> EventMonitor?   事件监控
-interceptor<span class="token punctuation">:</span> RequestInterceptor? 拦截器<span class="token punctuation">(</span>重试器、适配器<span class="token punctuation">)</span>
-delegate<span class="token punctuation">:</span> RequestDelegate?</code></pre>
+<h4 id="初始化字段"><a href="#初始化字段" class="headerlink" title="初始化字段"></a>初始化字段</h4><pre class=" language-visual"><code class="language-visual">id: UUID 为request提供唯一标识，用于hash、相等
+underlyingQueue: DispatchQueue 内部异步操作的串行队列
+serializationQueue: DispatchQueue 序列化使用的队列
+eventMonitor: EventMonitor?   事件监控
+interceptor: RequestInterceptor? 拦截器(重试器、适配器)
+delegate: RequestDelegate?</code></pre>
 <h4 id="Result定义State枚举"><a href="#Result定义State枚举" class="headerlink" title="Result定义State枚举"></a>Result定义State枚举</h4><pre class=" language-swift"><code class="language-swift"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Request</span> <span class="token punctuation">{</span>
 
     <span class="token keyword">public</span> <span class="token keyword">enum</span> <span class="token builtin">State</span> <span class="token punctuation">{</span>

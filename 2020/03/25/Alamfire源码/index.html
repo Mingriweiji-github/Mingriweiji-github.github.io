@@ -526,13 +526,7 @@
 
 <span class="token comment" spellcheck="true">/// A type that can be converted to an upload, whether from an `UploadRequest.Uploadable` or `URLRequestConvertible`.</span>
 <span class="token keyword">public</span> protocol <span class="token builtin">UploadConvertible</span><span class="token punctuation">:</span> <span class="token builtin">UploadableConvertible</span> <span class="token operator">&amp;</span> <span class="token builtin">URLRequestConvertible</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
-<h4 id="初始化字段"><a href="#初始化字段" class="headerlink" title="初始化字段"></a>初始化字段</h4><p>==id: UUID 为request提供唯一标识，用于hash、相等==<br>==underlyingQueue: DispatchQueue 内部异步操作的串行队列==<br>==serializationQueue: DispatchQueue 序列化使用的队列==<br>==eventMonitor: EventMonitor?   事件监控==<br>==interceptor: RequestInterceptor? 拦截器(重试器、适配器)==<br>==delegate: RequestDelegate?==</p>
-<pre class=" language-visual"><code class="language-visual">==id: UUID 为request提供唯一标识，用于hash、相等==
-==underlyingQueue: DispatchQueue 内部异步操作的串行队列==
-==serializationQueue: DispatchQueue 序列化使用的队列==
-==eventMonitor: EventMonitor?   事件监控==
-==interceptor: RequestInterceptor? 拦截器(重试器、适配器)==
-==delegate: RequestDelegate?==</code></pre>
+<h4 id="初始化字段"><a href="#初始化字段" class="headerlink" title="初始化字段"></a>初始化字段</h4><p><code>id</code>: <code>UUID</code> 为request提供唯一标识，用于hash、相等<br><code>underlyingQueue</code>: DispatchQueue 内部异步操作的串行队列<br><code>serializationQueue</code>: DispatchQueue 序列化使用的队列<br><code>eventMonitor</code>: EventMonitor?   事件监控<br><code>interceptor</code>: RequestInterceptor? 拦截器(重试器、适配器)<br><code>delegate</code>: RequestDelegate?</p>
 <h4 id="Result定义State枚举"><a href="#Result定义State枚举" class="headerlink" title="Result定义State枚举"></a>Result定义State枚举</h4><pre class=" language-swift"><code class="language-swift"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Request</span> <span class="token punctuation">{</span>
 
     <span class="token keyword">public</span> <span class="token keyword">enum</span> <span class="token builtin">State</span> <span class="token punctuation">{</span>

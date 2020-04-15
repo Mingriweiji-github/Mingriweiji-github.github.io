@@ -460,6 +460,10 @@
             <div id="articleContent">
                 <h1 id="SwiftTip"><a href="#SwiftTip" class="headerlink" title="SwiftTip"></a>SwiftTip</h1><a id="more"></a>
 
+<ul>
+<li>Flip the image: 翻转图片</li>
+<li>Retrive the paths: 检索，重新获得</li>
+</ul>
 <h4 id="Swift访问控制权限"><a href="#Swift访问控制权限" class="headerlink" title="Swift访问控制权限"></a>Swift访问控制权限</h4><p>Swift的访问权限管理依赖于两个概念：module和文件。module是一个完整的代码单元，</p>
 <p>它可以是一个或多个框架（Framework），或者是一个App Bundle，可以被import导入到工程中。</p>
 <p>文件指的就是<code>Swift File</code>，它通常属于一个module。</p>
@@ -508,8 +512,7 @@
     <span class="token keyword">public</span> <span class="token keyword">private</span><span class="token punctuation">(</span><span class="token keyword">set</span><span class="token punctuation">)</span> <span class="token keyword">var</span> name<span class="token punctuation">:</span> <span class="token builtin">String</span><span class="token operator">?</span>
 <span class="token punctuation">}</span></code></pre>
 <p><strong>如果既想要外部可读，又想仅内部可写，可以为<code>getter</code>加上<code>public</code>：</strong></p>
-<h4 id="声明关键字"><a href="#声明关键字" class="headerlink" title="声明关键字"></a><a href="https://swift.gg/2019/08/22/Swift-Keywords/#more" target="_blank" rel="noopener">声明关键字</a></h4><p><strong>associatedtype</strong>：在协议中，定义一个类型的占位符名称。直到协议被实现，该占位符才会被指定具体的类型。</p>
-<pre class=" language-swift"><code class="language-swift">protocol <span class="token builtin">Entertainment</span>  
+<h4 id="声明关键字"><a href="#声明关键字" class="headerlink" title="声明关键字"></a><a href="https://swift.gg/2019/08/22/Swift-Keywords/#more" target="_blank" rel="noopener">声明关键字</a></h4><h5 id="associatedtype：在协议中，定义一个类型的占位符名称。直到协议被实现，该占位符才会被指定具体的类型。"><a href="#associatedtype：在协议中，定义一个类型的占位符名称。直到协议被实现，该占位符才会被指定具体的类型。" class="headerlink" title="associatedtype：在协议中，定义一个类型的占位符名称。直到协议被实现，该占位符才会被指定具体的类型。"></a><strong>associatedtype</strong>：在协议中，定义一个类型的占位符名称。直到协议被实现，该占位符才会被指定具体的类型。</h5><pre class=" language-swift"><code class="language-swift">protocol <span class="token builtin">Entertainment</span>  
 <span class="token punctuation">{</span>  
     associatedtype <span class="token builtin">MediaType</span>  
 <span class="token punctuation">}</span>
@@ -518,15 +521,13 @@
 <span class="token punctuation">{</span>  
     <span class="token keyword">typealias</span> <span class="token builtin">MediaType</span> <span class="token operator">=</span> <span class="token builtin">String</span> <span class="token comment" spellcheck="true">//可以指定任意类型</span>
 <span class="token punctuation">}</span></code></pre>
-<p><strong>class</strong>：通用、灵活的结构体，是程序的基础组成部分。与 struct 类似，不同之处在于：</p>
-<ul>
+<h5 id="class：通用、灵活的结构体，是程序的基础组成部分。与-struct-类似，不同之处在于："><a href="#class：通用、灵活的结构体，是程序的基础组成部分。与-struct-类似，不同之处在于：" class="headerlink" title="class：通用、灵活的结构体，是程序的基础组成部分。与 struct 类似，不同之处在于："></a><strong>class</strong>：通用、灵活的结构体，是程序的基础组成部分。与 struct 类似，不同之处在于：</h5><ul>
 <li>允许一个类继承另一个类的特性。</li>
 <li>类型转换，允许在运行时检查和指定一个类的实际类型。</li>
 <li>析构方法允许类的实例释放所有资源。</li>
 <li>引用计数允许多个引用指向一个实例。</li>
 </ul>
-<p><strong>struct</strong>：通用、灵活的结构体，是程序的基础组成部分，并提供了默认初始化方法。与 class 不同，当 struct 在代码中被传递时，是被拷贝的，并不使用引用计数。除此之外，struct 没有下面的这些功能：</p>
-<ul>
+<h5 id="struct：通用、灵活的结构体，是程序的基础组成部分，并提供了默认初始化方法。与-class-不同，当-struct-在代码中被传递时，是被拷贝的，并不使用引用计数。除此之外，struct-没有下面的这些功能："><a href="#struct：通用、灵活的结构体，是程序的基础组成部分，并提供了默认初始化方法。与-class-不同，当-struct-在代码中被传递时，是被拷贝的，并不使用引用计数。除此之外，struct-没有下面的这些功能：" class="headerlink" title="struct：通用、灵活的结构体，是程序的基础组成部分，并提供了默认初始化方法。与 class 不同，当 struct 在代码中被传递时，是被拷贝的，并不使用引用计数。除此之外，struct 没有下面的这些功能："></a><strong>struct</strong>：通用、灵活的结构体，是程序的基础组成部分，并提供了默认初始化方法。与 class 不同，当 struct 在代码中被传递时，是被拷贝的，并不使用引用计数。除此之外，struct 没有下面的这些功能：</h5><ul>
 <li>使用继承。</li>
 <li>运行时的类型转换。</li>
 <li>使用析构方法。</li>
@@ -537,9 +538,7 @@
     <span class="token keyword">var</span> age<span class="token punctuation">:</span><span class="token builtin">Int</span>  
     <span class="token keyword">var</span> gender<span class="token punctuation">:</span><span class="token builtin">String</span>  
 <span class="token punctuation">}</span></code></pre>
-<p><strong>extension</strong>：允许给已有的类、结构体、枚举、协议类型，添加新功能。</p>
-<p><strong>NSError</strong>：<a href="https://nshipster.cn/nserror/" target="_blank" rel="noopener">code</a>、domin、userInfo</p>
-<p><a href="https://onevcat.com/2017/10/swift-error-category/" target="_blank" rel="noopener">Swift Error分类</a></p>
+<h5 id="extension：允许给已有的类、结构体、枚举、协议类型，添加新功能。"><a href="#extension：允许给已有的类、结构体、枚举、协议类型，添加新功能。" class="headerlink" title="extension：允许给已有的类、结构体、枚举、协议类型，添加新功能。"></a><strong>extension</strong>：允许给已有的类、结构体、枚举、协议类型，添加新功能。</h5><h5 id="NSError：code、domin、userInfo"><a href="#NSError：code、domin、userInfo" class="headerlink" title="NSError：code、domin、userInfo"></a><strong>NSError</strong>：<a href="https://nshipster.cn/nserror/" target="_blank" rel="noopener">code</a>、domin、userInfo</h5><p><a href="https://onevcat.com/2017/10/swift-error-category/" target="_blank" rel="noopener">Swift Error分类</a></p>
 <ul>
 <li>domain error</li>
 <li>Recoverable error</li>
@@ -550,9 +549,7 @@
     <span class="token keyword">case</span> <span class="token function">Success</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span>
     <span class="token keyword">case</span> <span class="token function">Failure</span><span class="token punctuation">(</span><span class="token builtin">NSError</span><span class="token punctuation">)</span>
 <span class="token punctuation">}</span></code></pre>
-<p><strong>try!表示强制执行，如果发生异常程序crash</strong></p>
-<p><strong>try?返回可选项，如果发生异常返回nil否则返回正常结果</strong></p>
-<pre class=" language-swift"><code class="language-swift"><span class="token keyword">enum</span> E<span class="token punctuation">:</span> <span class="token builtin">Error</span> <span class="token punctuation">{</span>
+<h5 id="try-表示强制执行，如果发生异常程序crash"><a href="#try-表示强制执行，如果发生异常程序crash" class="headerlink" title="try!表示强制执行，如果发生异常程序crash"></a><strong>try!表示强制执行，如果发生异常程序crash</strong></h5><h5 id="try-返回可选项，如果发生异常返回nil-不会crash"><a href="#try-返回可选项，如果发生异常返回nil-不会crash" class="headerlink" title="try?返回可选项，如果发生异常返回nil 不会crash"></a><strong>try?返回可选项，如果发生异常返回nil 不会crash</strong></h5><pre class=" language-swift"><code class="language-swift"><span class="token keyword">enum</span> E<span class="token punctuation">:</span> <span class="token builtin">Error</span> <span class="token punctuation">{</span>
     <span class="token keyword">case</span> <span class="token builtin">Negative</span>
 <span class="token punctuation">}</span>
 
@@ -568,7 +565,47 @@
 <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
     <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"failed"</span><span class="token punctuation">)</span>
 <span class="token punctuation">}</span></code></pre>
-<h4 id="autoclosure作用：将表达式自动封装成一个闭包"><a href="#autoclosure作用：将表达式自动封装成一个闭包" class="headerlink" title="@autoclosure作用：将表达式自动封装成一个闭包"></a>@autoclosure作用：将表达式自动封装成一个闭包</h4><p>()-&gt;Void</p>
+<h4 id="Precondition预处理"><a href="#Precondition预处理" class="headerlink" title="Precondition预处理"></a>Precondition预处理</h4><h5 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h5><pre class=" language-swift"><code class="language-swift"><span class="token keyword">public</span> <span class="token keyword">func</span> <span class="token function">precondition</span><span class="token punctuation">(</span><span class="token number">_</span> condition<span class="token punctuation">:</span> @<span class="token function">autoclosure</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Bool</span><span class="token punctuation">,</span>
+                           <span class="token number">_</span> message<span class="token punctuation">:</span> @<span class="token function">autoclosure</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">String</span> <span class="token operator">=</span> <span class="token keyword">default</span><span class="token punctuation">,</span>
+                                file<span class="token punctuation">:</span> <span class="token builtin">StaticString</span> <span class="token operator">=</span> #file<span class="token punctuation">,</span>
+                                line<span class="token punctuation">:</span> <span class="token builtin">UInt</span> <span class="token operator">=</span> #line<span class="token punctuation">)</span>
+
+<span class="token keyword">public</span> <span class="token keyword">func</span> <span class="token function">preconditionFailure</span><span class="token punctuation">(</span><span class="token number">_</span> message<span class="token punctuation">:</span> @<span class="token function">autoclosure</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">String</span> <span class="token operator">=</span> <span class="token keyword">default</span><span class="token punctuation">,</span>
+                                     file<span class="token punctuation">:</span> <span class="token builtin">StaticString</span> <span class="token operator">=</span> #file<span class="token punctuation">,</span>
+                                     line<span class="token punctuation">:</span> <span class="token builtin">UInt</span> <span class="token operator">=</span> #line<span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Never</span></code></pre>
+<h5 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h5><pre class=" language-swift"><code class="language-swift"><span class="token function">precondition</span><span class="token punctuation">(</span>condition<span class="token punctuation">:</span> <span class="token builtin">Bool</span><span class="token punctuation">,</span> message<span class="token punctuation">:</span> <span class="token builtin">String</span><span class="token punctuation">)</span></code></pre>
+<ul>
+<li><p>precondition 在一般的代码中并不多见，因为它是动态的，只会在程序运行时进行检查，适用于哪些无法在编译期确定的风险情况。</p>
+</li>
+<li><p>如果出现了诸如数据错误的情况，precondition 会提前终止程序，避免因数据错误造成更多的损失。</p>
+<ul>
+<li>如果条件判断为 true，代码运行会继续进行。</li>
+<li>如果条件判断为 false，程序将终止。</li>
+</ul>
+</li>
+<li><p>assert 是单纯地触发断言即停止程序，不会让你有机会将可能出错的设计走过它这一关。？？？</p>
+</li>
+</ul>
+<p>例如：Swift 数组的下标操作可能造成越界，使用扩展的方式向其中增加一个方法来判断下标是否越界。</p>
+<pre><code>extension Array {
+    func isOutOfBounds(index: Int) {
+    precondition((0..&lt;endIndex).contains(index), &quot;数组越界&quot;)
+    print(&quot;继续执行&quot;)
+    }
+}</code></pre><pre class=" language-swift"><code class="language-swift"><span class="token comment" spellcheck="true">// 不越界的情况</span>
+
+<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">isOutOfBounds</span><span class="token punctuation">(</span>index<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">)</span>           <span class="token comment" spellcheck="true">// 继续执行</span></code></pre>
+<pre class=" language-swift"><code class="language-swift"><span class="token comment" spellcheck="true">// 越界的情况</span>
+
+<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">isOutOfBounds</span><span class="token punctuation">(</span>index<span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">)</span>           <span class="token comment" spellcheck="true">// Thread 1: Precondition failed: 数组越界</span></code></pre>
+<ul>
+<li>在满足 precondition 条件的时候，程序会继续执行。</li>
+<li>在不满足 precondition 条件的时候，程序被终止，并且将 precondition 中预设的错误信息打印到了控制台上，precondition 避免了一些无意义的操作。</li>
+</ul>
+<h4 id="precondition和assert的区别"><a href="#precondition和assert的区别" class="headerlink" title="precondition和assert的区别"></a>precondition和assert的<a href="https://stackoverflow.com/questions/29673027/difference-between-precondition-and-assert-in-swift" target="_blank" rel="noopener">区别</a></h4><ul>
+<li><a href="https://stackoverflow.com/questions/29673027/difference-between-precondition-and-assert-in-swift" target="_blank" rel="noopener">https://stackoverflow.com/questions/29673027/difference-between-precondition-and-assert-in-swift</a></li>
+</ul>
+<h4 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h4><h5 id="autoclosure作用：将表达式自动封装成一个闭包"><a href="#autoclosure作用：将表达式自动封装成一个闭包" class="headerlink" title="@autoclosure作用：将表达式自动封装成一个闭包"></a>@autoclosure作用：将表达式自动封装成一个闭包</h5><p>()-&gt;Void</p>
 <p>1.2 ??的底层实现是用的enum</p>
 <p>1.3 “闭包和循环引用”</p>
 <p><strong>weak解决循环引用的正确写法：</strong></p>
@@ -643,7 +680,7 @@
 <h4 id="Swift反射机制Mirror"><a href="#Swift反射机制Mirror" class="headerlink" title="Swift反射机制Mirror"></a>Swift反射机制Mirror</h4><blockquote>
 <p>“通过 Mirror 初始化得到的结果中包含的元素的描述都被集合在 children 属性下，如果你有心可以到 Swift 标准库中查找它的定义，它实际上是一个 Child 的集合，而 Child 则是一对键值的多元组：</p>
 </blockquote>
-<h3 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h3><pre class=" language-swift"><code class="language-swift">
+<h5 id="示例1"><a href="#示例1" class="headerlink" title="示例1"></a>示例1</h5><pre class=" language-swift"><code class="language-swift">
 <span class="token keyword">struct</span> <span class="token builtin">Car</span> <span class="token punctuation">{</span>
 
 <span class="token keyword">let</span> logo<span class="token punctuation">:</span> <span class="token builtin">String</span>
@@ -674,7 +711,7 @@ mirror<span class="token punctuation">.</span>children<span class="token punctua
 
 <span class="token function">dump</span><span class="token punctuation">(</span>baoM<span class="token punctuation">)</span>
 </code></pre>
-<h3 id="示例2-获取property"><a href="#示例2-获取property" class="headerlink" title="示例2 获取property"></a>示例2 获取property</h3><pre class=" language-swift"><code class="language-swift">
+<h5 id="示例2-获取property"><a href="#示例2-获取property" class="headerlink" title="示例2 获取property"></a>示例2 获取property</h5><pre class=" language-swift"><code class="language-swift">
 <span class="token keyword">let</span> homeProperty <span class="token operator">=</span> <span class="token function">Mirror</span><span class="token punctuation">(</span>reflecting<span class="token punctuation">:</span> <span class="token keyword">self</span><span class="token punctuation">)</span>
 
 homeProperty<span class="token punctuation">.</span>children<span class="token punctuation">.</span><span class="token builtin">map</span> <span class="token punctuation">{</span>
@@ -693,9 +730,9 @@ homeProperty<span class="token punctuation">.</span>children<span class="token p
 <p>• 便利初始化器必须调用其他初始化器，使得最后肯定会调用指定初始化器</p>
 </blockquote>
 <p>在Swift中千万不要用String的count方法计算文本长度。否则当文本中有emoji时，会计算出错。应当转成NSString再去求length。</p>
-<h2 id="Array-for-in使用"><a href="#Array-for-in使用" class="headerlink" title="Array for-in使用"></a>Array for-in使用</h2><img src="/Users/mac/Library/Application Support/typora-user-images/image-20191205151814435.png" alt="image-20191205151814435" style="zoom:50%;" />
+<h4 id="Array-for-in使用"><a href="#Array-for-in使用" class="headerlink" title="Array for-in使用"></a>Array for-in使用</h4><img src="/Users/mac/Library/Application Support/typora-user-images/image-20191205151814435.png" alt="image-20191205151814435" style="zoom:50%;" />
 
-<h4 id="1-for-in获取索引-index"><a href="#1-for-in获取索引-index" class="headerlink" title="1.for in获取索引 index"></a>1.for in获取索引 index</h4><pre class=" language-swift"><code class="language-swift">                <span class="token keyword">let</span> array <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"Apple"</span><span class="token punctuation">,</span> <span class="token string">"Google"</span><span class="token punctuation">,</span> <span class="token string">"Amazon"</span><span class="token punctuation">]</span>
+<h5 id="1-for-in获取索引-index"><a href="#1-for-in获取索引-index" class="headerlink" title="1.for in获取索引 index"></a>1.for in获取索引 index</h5><pre class=" language-swift"><code class="language-swift">                <span class="token keyword">let</span> array <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"Apple"</span><span class="token punctuation">,</span> <span class="token string">"Google"</span><span class="token punctuation">,</span> <span class="token string">"Amazon"</span><span class="token punctuation">]</span>
         <span class="token keyword">for</span> item <span class="token keyword">in</span> array <span class="token punctuation">{</span>
           <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"company name is :(item)"</span><span class="token punctuation">)</span>
         <span class="token punctuation">}</span>
@@ -703,7 +740,7 @@ homeProperty<span class="token punctuation">.</span>children<span class="token p
         <span class="token keyword">for</span> <span class="token punctuation">(</span>index<span class="token punctuation">,</span> item<span class="token punctuation">)</span> <span class="token keyword">in</span> array<span class="token punctuation">.</span><span class="token function">enumerated</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
             <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"index:(index), item:(item)"</span><span class="token punctuation">)</span>
         <span class="token punctuation">}</span></code></pre>
-<h4 id="2-array-firstIndex-of-获取index"><a href="#2-array-firstIndex-of-获取index" class="headerlink" title="2.array.firstIndex(of:)获取index"></a>2.array.firstIndex(of:)获取index</h4><pre class=" language-swift"><code class="language-swift">                <span class="token comment" spellcheck="true">///配合array.firstIndex(of:)使用</span>
+<h5 id="2-array-firstIndex-of-获取index"><a href="#2-array-firstIndex-of-获取index" class="headerlink" title="2.array.firstIndex(of:)获取index"></a>2.array.firstIndex(of:)获取index</h5><pre class=" language-swift"><code class="language-swift">                <span class="token comment" spellcheck="true">///配合array.firstIndex(of:)使用</span>
         <span class="token keyword">let</span> googleIndex <span class="token operator">=</span> array<span class="token punctuation">.</span><span class="token function">firstIndex</span><span class="token punctuation">(</span>of<span class="token punctuation">:</span> <span class="token string">"Google"</span><span class="token punctuation">)</span>
         <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"googleIndex is : (googleIndex ?? 0)"</span><span class="token punctuation">)</span>
                 <span class="token comment" spellcheck="true">///配合array.firstIndex(where:)使用</span>
@@ -713,7 +750,7 @@ homeProperty<span class="token punctuation">.</span>children<span class="token p
         <span class="token keyword">if</span> <span class="token keyword">let</span> item <span class="token operator">=</span> array<span class="token punctuation">.</span><span class="token function">first</span><span class="token punctuation">(</span><span class="token keyword">where</span><span class="token punctuation">:</span> <span class="token punctuation">{</span> $<span class="token number">0</span><span class="token punctuation">.</span><span class="token function">hasPrefix</span><span class="token punctuation">(</span><span class="token string">"A"</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token punctuation">{</span>
             <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"array.first is :(item)"</span><span class="token punctuation">)</span>
         <span class="token punctuation">}</span></code></pre>
-<h2 id="Array-forEach"><a href="#Array-forEach" class="headerlink" title="Array.forEach()"></a>Array.forEach()</h2><h4 id="2-1forEach-和函数式编程结合使用"><a href="#2-1forEach-和函数式编程结合使用" class="headerlink" title="2.1forEach()和函数式编程结合使用"></a>2.1forEach()和函数式编程结合使用</h4><pre class=" language-swift"><code class="language-swift">                <span class="token keyword">let</span> array <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"1"</span><span class="token punctuation">,</span> <span class="token string">"2"</span><span class="token punctuation">,</span> <span class="token string">"3"</span><span class="token punctuation">,</span> <span class="token string">"4"</span><span class="token punctuation">,</span> <span class="token string">"5"</span><span class="token punctuation">,</span> <span class="token string">"6"</span><span class="token punctuation">]</span>
+<h4 id="Array-forEach"><a href="#Array-forEach" class="headerlink" title="Array.forEach()"></a>Array.forEach()</h4><h5 id="2-1forEach-和函数式编程结合使用"><a href="#2-1forEach-和函数式编程结合使用" class="headerlink" title="2.1forEach()和函数式编程结合使用"></a>2.1forEach()和函数式编程结合使用</h5><pre class=" language-swift"><code class="language-swift">                <span class="token keyword">let</span> array <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"1"</span><span class="token punctuation">,</span> <span class="token string">"2"</span><span class="token punctuation">,</span> <span class="token string">"3"</span><span class="token punctuation">,</span> <span class="token string">"4"</span><span class="token punctuation">,</span> <span class="token string">"5"</span><span class="token punctuation">,</span> <span class="token string">"6"</span><span class="token punctuation">]</span>
         <span class="token comment" spellcheck="true">///使用forEach</span>
         array<span class="token punctuation">.</span><span class="token builtin">map</span> <span class="token punctuation">{</span> <span class="token function">Int</span><span class="token punctuation">(</span>$<span class="token number">0</span><span class="token punctuation">)</span><span class="token operator">!</span> <span class="token punctuation">}</span><span class="token punctuation">.</span>forEach <span class="token punctuation">{</span> num <span class="token keyword">in</span>
             <span class="token function">print</span><span class="token punctuation">(</span>num<span class="token punctuation">)</span>
@@ -723,7 +760,7 @@ homeProperty<span class="token punctuation">.</span>children<span class="token p
         <span class="token builtin">map</span><span class="token punctuation">.</span>forEach <span class="token punctuation">{</span>
             <span class="token function">print</span><span class="token punctuation">(</span>$<span class="token number">0</span><span class="token punctuation">)</span>
         <span class="token punctuation">}</span></code></pre>
-<h4 id="2-2forEach-遍历optional集合会自动过滤nil"><a href="#2-2forEach-遍历optional集合会自动过滤nil" class="headerlink" title="2.2forEach()遍历optional集合会自动过滤nil"></a>2.2forEach()遍历optional集合会自动过滤nil</h4><pre class=" language-swift"><code class="language-swift">                <span class="token keyword">let</span> optionalString<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token builtin">String</span><span class="token punctuation">]</span><span class="token operator">?</span> <span class="token operator">=</span> <span class="token constant">nil</span>
+<h5 id="2-2forEach-遍历optional集合会自动过滤nil"><a href="#2-2forEach-遍历optional集合会自动过滤nil" class="headerlink" title="2.2forEach()遍历optional集合会自动过滤nil"></a>2.2forEach()遍历optional集合会自动过滤nil</h5><pre class=" language-swift"><code class="language-swift">                <span class="token keyword">let</span> optionalString<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token builtin">String</span><span class="token punctuation">]</span><span class="token operator">?</span> <span class="token operator">=</span> <span class="token constant">nil</span>
         <span class="token comment" spellcheck="true">//使用forEach强制解包option，会过滤</span>
         optionalString<span class="token operator">?</span><span class="token punctuation">.</span>forEach <span class="token punctuation">{</span> str <span class="token keyword">in</span>
             <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"str is (str)"</span><span class="token punctuation">)</span>
@@ -732,7 +769,166 @@ homeProperty<span class="token punctuation">.</span>children<span class="token p
         <span class="token keyword">for</span> str <span class="token keyword">in</span> optionalString<span class="token operator">!</span> <span class="token punctuation">{</span>
             <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"str is (str)"</span><span class="token punctuation">)</span>
         <span class="token punctuation">}</span></code></pre>
-<h2 id="Array-index"><a href="#Array-index" class="headerlink" title="Array index"></a>Array index</h2>
+<h4 id="propertyWrapper定义与使用"><a href="#propertyWrapper定义与使用" class="headerlink" title="@propertyWrapper定义与使用"></a>@propertyWrapper定义与使用</h4><h5 id="propertyWrapper定义"><a href="#propertyWrapper定义" class="headerlink" title="@propertyWrapper定义"></a><a href="https://nshipster.com/propertywrapper/#constraining-values" target="_blank" rel="noopener">@propertyWrapper定义</a></h5><pre class=" language-swift"><code class="language-swift">@propertyWrapper
+<span class="token keyword">struct</span> <span class="token builtin">Clamping</span><span class="token operator">&lt;</span><span class="token builtin">Value</span><span class="token punctuation">:</span> <span class="token builtin">Comparable</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> value<span class="token punctuation">:</span> <span class="token builtin">Value</span>
+    <span class="token keyword">let</span> range<span class="token punctuation">:</span> <span class="token builtin">ClosedRange</span><span class="token operator">&lt;</span><span class="token builtin">Value</span><span class="token operator">></span>
+
+    <span class="token keyword">init</span><span class="token punctuation">(</span>initialValue value<span class="token punctuation">:</span> <span class="token builtin">Value</span><span class="token punctuation">,</span> <span class="token number">_</span> range<span class="token punctuation">:</span> <span class="token builtin">ClosedRange</span><span class="token operator">&lt;</span><span class="token builtin">Value</span><span class="token operator">></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">precondition</span><span class="token punctuation">(</span>range<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>value<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">self</span><span class="token punctuation">.</span>value <span class="token operator">=</span> value
+        <span class="token keyword">self</span><span class="token punctuation">.</span>range <span class="token operator">=</span> range
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">var</span> wrappedValue<span class="token punctuation">:</span> <span class="token builtin">Value</span> <span class="token punctuation">{</span>
+        <span class="token keyword">get</span> <span class="token punctuation">{</span> value <span class="token punctuation">}</span>
+        <span class="token keyword">set</span> <span class="token punctuation">{</span> value <span class="token operator">=</span> <span class="token function">min</span><span class="token punctuation">(</span><span class="token function">max</span><span class="token punctuation">(</span>range<span class="token punctuation">.</span>lowerBound<span class="token punctuation">,</span> newValue<span class="token punctuation">)</span><span class="token punctuation">,</span> range<span class="token punctuation">.</span>upperBound<span class="token punctuation">)</span> <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h5 id="使用-1"><a href="#使用-1" class="headerlink" title="使用"></a>使用</h5><pre class=" language-swift"><code class="language-swift"><span class="token keyword">struct</span> <span class="token builtin">Solution</span> <span class="token punctuation">{</span>
+    @<span class="token function">Clamping</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token number">14</span><span class="token punctuation">)</span> <span class="token keyword">var</span> pH<span class="token punctuation">:</span> <span class="token builtin">Double</span> <span class="token operator">=</span> <span class="token number">7.0</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">let</span> carbonicAcid <span class="token operator">=</span> <span class="token function">Solution</span><span class="token punctuation">(</span>pH<span class="token punctuation">:</span> <span class="token number">4.68</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// at 1 mM under standard conditions</span>
+</code></pre>
+<h5 id="Related-Ideas"><a href="#Related-Ideas" class="headerlink" title="Related Ideas"></a>Related Ideas</h5><ul>
+<li>A <code>@Positive</code> / <code>@NonNegative</code> property wrapper that provides the unsigned guarantees to signed integer types.</li>
+<li>A <code>@NonZero</code> property wrapper that ensures that a number value is either greater than or less than <code>0</code>.</li>
+<li><code>@Validated</code> or <code>@Whitelisted</code> / <code>@Blacklisted</code> property wrappers that restrict which values can be assigned.</li>
+</ul>
+<h4 id="FirstVC"><a href="#FirstVC" class="headerlink" title="FirstVC"></a>FirstVC</h4><pre class=" language-swift"><code class="language-swift"><span class="token keyword">extension</span> <span class="token builtin">UIView</span> <span class="token punctuation">{</span>
+
+    <span class="token comment" spellcheck="true">/// Get current view controller based current view.</span>
+    <span class="token keyword">public</span> <span class="token keyword">func</span> <span class="token function">firstViewController</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">UIViewController</span><span class="token operator">?</span> <span class="token punctuation">{</span>
+        <span class="token keyword">for</span> view <span class="token keyword">in</span> <span class="token function">sequence</span><span class="token punctuation">(</span><span class="token builtin">first</span><span class="token punctuation">:</span> <span class="token keyword">self</span><span class="token punctuation">.</span>superview<span class="token punctuation">,</span> next<span class="token punctuation">:</span> <span class="token punctuation">{</span> $<span class="token number">0</span><span class="token operator">?</span><span class="token punctuation">.</span>superview <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token keyword">let</span> responder <span class="token operator">=</span> view<span class="token operator">?</span><span class="token punctuation">.</span>next <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> responder<span class="token punctuation">.</span><span class="token function">isKind</span><span class="token punctuation">(</span>of<span class="token punctuation">:</span> <span class="token builtin">UIViewController</span><span class="token punctuation">.</span><span class="token keyword">self</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">return</span> responder <span class="token keyword">as</span><span class="token operator">?</span> <span class="token builtin">UIViewController</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> <span class="token constant">nil</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">func</span> <span class="token function">firstResponder</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">UIView</span><span class="token operator">?</span> <span class="token punctuation">{</span>
+        <span class="token keyword">var</span> views <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token builtin">UIView</span><span class="token punctuation">]</span><span class="token punctuation">(</span>arrayLiteral<span class="token punctuation">:</span> <span class="token keyword">self</span><span class="token punctuation">)</span>
+        <span class="token keyword">var</span> index <span class="token operator">=</span> <span class="token number">0</span>
+        <span class="token keyword">repeat</span> <span class="token punctuation">{</span>
+            <span class="token keyword">let</span> view <span class="token operator">=</span> views<span class="token punctuation">[</span>index<span class="token punctuation">]</span>
+            <span class="token keyword">if</span> view<span class="token punctuation">.</span>isFirstResponder <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> view
+            <span class="token punctuation">}</span>
+            views<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>contentsOf<span class="token punctuation">:</span> view<span class="token punctuation">.</span>subviews<span class="token punctuation">)</span>
+            index <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">1</span>
+        <span class="token punctuation">}</span> <span class="token keyword">while</span> index <span class="token operator">&lt;</span> views<span class="token punctuation">.</span><span class="token builtin">count</span>
+        <span class="token keyword">return</span> <span class="token constant">nil</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4 id="TopVC"><a href="#TopVC" class="headerlink" title="TopVC"></a>TopVC</h4><pre class=" language-swift"><code class="language-swift"><span class="token keyword">if</span> <span class="token keyword">let</span> controller <span class="token operator">=</span> <span class="token builtin">UIWindow</span><span class="token punctuation">.</span><span class="token function">topViewController</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    controller<span class="token punctuation">.</span><span class="token function">present</span><span class="token punctuation">(</span>alert<span class="token punctuation">,</span> animated<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> completion<span class="token punctuation">:</span> <span class="token constant">nil</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<pre class=" language-swift"><code class="language-swift"><span class="token keyword">extension</span> <span class="token builtin">UIWindow</span> <span class="token punctuation">{</span>
+
+    <span class="token comment" spellcheck="true">/// Returns the top most controller</span>
+    open <span class="token keyword">class</span> <span class="token class-name">func</span> <span class="token function">topViewController</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">UIViewController</span><span class="token operator">?</span> <span class="token punctuation">{</span>
+        <span class="token keyword">let</span> window <span class="token operator">=</span> <span class="token builtin">UIApplication</span><span class="token punctuation">.</span>shared<span class="token punctuation">.</span>delegate<span class="token operator">?</span><span class="token punctuation">.</span>window
+        <span class="token keyword">let</span> rootViewController <span class="token operator">=</span> window<span class="token operator">?</span><span class="token operator">?</span><span class="token punctuation">.</span>rootViewController
+        <span class="token keyword">return</span> <span class="token function">topMost</span><span class="token punctuation">(</span>of<span class="token punctuation">:</span> rootViewController<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">/// Returns the top most view controller from given view controller's stack.</span>
+    open <span class="token keyword">class</span> <span class="token class-name">func</span> <span class="token function">topMost</span><span class="token punctuation">(</span>of viewController<span class="token punctuation">:</span> <span class="token builtin">UIViewController</span><span class="token operator">?</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">UIViewController</span><span class="token operator">?</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// presented view controller</span>
+        <span class="token keyword">if</span> <span class="token keyword">let</span> presentedViewController <span class="token operator">=</span> viewController<span class="token operator">?</span><span class="token punctuation">.</span>presentedViewController <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token keyword">self</span><span class="token punctuation">.</span><span class="token function">topMost</span><span class="token punctuation">(</span>of<span class="token punctuation">:</span> presentedViewController<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment" spellcheck="true">// UITabBarController</span>
+        <span class="token keyword">if</span> <span class="token keyword">let</span> tabBarController <span class="token operator">=</span> viewController <span class="token keyword">as</span><span class="token operator">?</span> <span class="token builtin">UITabBarController</span><span class="token punctuation">,</span>
+            <span class="token keyword">let</span> selectedViewController <span class="token operator">=</span> tabBarController<span class="token punctuation">.</span>selectedViewController <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token keyword">self</span><span class="token punctuation">.</span><span class="token function">topMost</span><span class="token punctuation">(</span>of<span class="token punctuation">:</span> selectedViewController<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment" spellcheck="true">// UINavigationController</span>
+        <span class="token keyword">if</span> <span class="token keyword">let</span> navigationController <span class="token operator">=</span> viewController <span class="token keyword">as</span><span class="token operator">?</span> <span class="token builtin">UINavigationController</span><span class="token punctuation">,</span>
+            <span class="token keyword">let</span> visibleViewController <span class="token operator">=</span> navigationController<span class="token punctuation">.</span>visibleViewController <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token keyword">self</span><span class="token punctuation">.</span><span class="token function">topMost</span><span class="token punctuation">(</span>of<span class="token punctuation">:</span> visibleViewController<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment" spellcheck="true">// UIPageController</span>
+        <span class="token keyword">if</span> <span class="token keyword">let</span> pageViewController <span class="token operator">=</span> viewController <span class="token keyword">as</span><span class="token operator">?</span> <span class="token builtin">UIPageViewController</span><span class="token punctuation">,</span>
+            pageViewController<span class="token punctuation">.</span>viewControllers<span class="token operator">?</span><span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token operator">==</span> <span class="token number">1</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token keyword">self</span><span class="token punctuation">.</span><span class="token function">topMost</span><span class="token punctuation">(</span>of<span class="token punctuation">:</span> pageViewController<span class="token punctuation">.</span>viewControllers<span class="token operator">?</span><span class="token punctuation">.</span><span class="token builtin">first</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment" spellcheck="true">// child view controller</span>
+        <span class="token keyword">for</span> subview <span class="token keyword">in</span> viewController<span class="token operator">?</span><span class="token punctuation">.</span>view<span class="token operator">?</span><span class="token punctuation">.</span>subviews <span class="token operator">?</span><span class="token operator">?</span> <span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token keyword">let</span> childViewController <span class="token operator">=</span> subview<span class="token punctuation">.</span>next <span class="token keyword">as</span><span class="token operator">?</span> <span class="token builtin">UIViewController</span> <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> <span class="token keyword">self</span><span class="token punctuation">.</span><span class="token function">topMost</span><span class="token punctuation">(</span>of<span class="token punctuation">:</span> childViewController<span class="token punctuation">)</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">return</span> viewController
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4 id="DispatchGroup分组管理异步任务"><a href="#DispatchGroup分组管理异步任务" class="headerlink" title="DispatchGroup分组管理异步任务"></a>DispatchGroup分组管理异步任务</h4><ul>
+<li><strong>enter和leave必须配对出现，如下：</strong></li>
+</ul>
+<pre class=" language-swift"><code class="language-swift">  <span class="token keyword">let</span> group <span class="token operator">=</span> <span class="token function">DispatchGroup</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  group<span class="token punctuation">.</span><span class="token function">enter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//把该任务添加到组队列中执行</span>
+  myQueue<span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">async</span><span class="token punctuation">(</span>group<span class="token punctuation">:</span> group<span class="token punctuation">,</span> qos<span class="token punctuation">:</span> <span class="token punctuation">.</span><span class="token keyword">default</span><span class="token punctuation">,</span> flags<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> execute<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token keyword">for</span> <span class="token number">_</span> <span class="token keyword">in</span> <span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token number">10</span> <span class="token punctuation">{</span>
+          <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"耗时任务一"</span><span class="token punctuation">)</span>
+          group<span class="token punctuation">.</span><span class="token function">leave</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//执行完之后从组队列中移除</span>
+      <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+  group<span class="token punctuation">.</span><span class="token function">enter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//把该任务添加到组队列中执行</span>
+  myQueue<span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">async</span><span class="token punctuation">(</span>group<span class="token punctuation">:</span> group<span class="token punctuation">,</span> qos<span class="token punctuation">:</span> <span class="token punctuation">.</span><span class="token keyword">default</span><span class="token punctuation">,</span> flags<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> execute<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token keyword">for</span> <span class="token number">_</span> <span class="token keyword">in</span> <span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token number">10</span> <span class="token punctuation">{</span>
+          <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"耗时任务二"</span><span class="token punctuation">)</span>
+          group<span class="token punctuation">.</span><span class="token function">leave</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//执行完之后从组队列中移除</span>
+      <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+  <span class="token comment" spellcheck="true">//当上面所有的任务执行完之后通知</span>
+  group<span class="token punctuation">.</span><span class="token function">notify</span><span class="token punctuation">(</span>queue<span class="token punctuation">:</span> <span class="token punctuation">.</span>main<span class="token punctuation">)</span> <span class="token punctuation">{</span> 
+      <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"所有的任务执行完了"</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span></code></pre>
+<h4 id="Swift4-2中的self"><a href="#Swift4-2中的self" class="headerlink" title="Swift4.2中的self"></a><a href="https://juejin.im/post/5ba8cbeae51d450e877f5a4d" target="_blank" rel="noopener">Swift4.2中的self</a></h4><ul>
+<li>在 4.2 之前，<code>self</code> 是全局保留关键字，所以如果在逃逸闭包中如果在闭包中把 self 标记为 weak 后，如果要使用需要使用 ` 包起来：</li>
+</ul>
+<pre class=" language-swift"><code class="language-swift"><span class="token keyword">guard</span> <span class="token keyword">let</span> `<span class="token keyword">self</span>` <span class="token operator">=</span> <span class="token keyword">self</span> <span class="token keyword">else</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token punctuation">}</span></code></pre>
+<ul>
+<li>Swift4.2之后</li>
+</ul>
+<pre class=" language-swift"><code class="language-swift"><span class="token function">doSomething</span><span class="token punctuation">(</span>then<span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token punctuation">[</span><span class="token keyword">weak</span> <span class="token keyword">self</span><span class="token punctuation">]</span> <span class="token keyword">in</span>
+    <span class="token keyword">guard</span> <span class="token keyword">let</span> <span class="token keyword">self</span> <span class="token operator">=</span> <span class="token keyword">self</span> <span class="token punctuation">{</span> <span class="token keyword">else</span> <span class="token keyword">return</span> <span class="token punctuation">}</span>
+    <span class="token keyword">self</span><span class="token punctuation">.</span><span class="token function">doSomethingElse</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span></code></pre>
+<ul>
+<li>当然取消了这个限制后也意味着 self 可能不一定是 self 了：</li>
+</ul>
+<pre class=" language-swift"><code class="language-swift"><span class="token keyword">var</span> number<span class="token punctuation">:</span> <span class="token builtin">Int</span><span class="token operator">?</span> <span class="token operator">=</span> <span class="token constant">nil</span>
+<span class="token keyword">if</span> <span class="token keyword">let</span> <span class="token keyword">self</span> <span class="token operator">=</span> number <span class="token punctuation">{</span>
+  <span class="token function">print</span><span class="token punctuation">(</span><span class="token keyword">self</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// 这里的 self 是 number：Int</span>
+ <span class="token punctuation">}</span>
+</code></pre>
+<h4 id="prepareForReuse重置"><a href="#prepareForReuse重置" class="headerlink" title="prepareForReuse重置"></a>prepareForReuse重置</h4><blockquote>
+<p>Apple: If a <code>UITableViewCell</code> object is reusable—that is, it has a reuse identifier—this method is invoked just before the object is returned from the <code>UITableView</code> method <a href="https://developer.apple.com/documentation/uikit/uitableview/1614891-dequeuereusablecell" target="_blank" rel="noopener"><code>dequeueReusableCell(withIdentifier:)</code></a>. For performance reasons, <strong>you should only reset attributes of the cell that are not related to content, for example, alpha, editing, and selection state.</strong> The table view’s delegate in <a href="https://developer.apple.com/documentation/uikit/uitableviewdatasource/1614861-tableview" target="_blank" rel="noopener"><code>tableView(_:cellForRowAt:)</code></a> should <em>always</em> reset all content when reusing a cell. If the cell object does not have an associated reuse identifier, this method is not called. If you override this method, you must be sure to invoke the superclass implementation.</p>
+</blockquote>
+<pre class=" language-swift"><code class="language-swift"><span class="token keyword">override</span> <span class="token keyword">func</span> <span class="token function">prepareForReuse</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// Clean up</span>
+    <span class="token keyword">if</span> <span class="token punctuation">[</span><span class="token keyword">self</span><span class="token punctuation">.</span>subviews containsObject<span class="token punctuation">:</span> <span class="token keyword">self</span><span class="token punctuation">.</span>someNotoriousView<span class="token punctuation">]</span> <span class="token punctuation">{</span>
+        <span class="token punctuation">[</span><span class="token keyword">self</span><span class="token punctuation">.</span>contentView removeFromSuperview<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="callback"><a href="#callback" class="headerlink" title="callback"></a>callback</h4><pre class=" language-swift"><code class="language-swift"><span class="token keyword">var</span> select1Callback<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token builtin">String</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Void</span><span class="token punctuation">)</span><span class="token operator">?</span>
+<span class="token keyword">var</span> select2Callback<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token builtin">IndexPath</span><span class="token punctuation">,</span> <span class="token builtin">Model</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Void</span><span class="token punctuation">)</span><span class="token operator">?</span></code></pre>
+
             </div>
             <hr/>
 

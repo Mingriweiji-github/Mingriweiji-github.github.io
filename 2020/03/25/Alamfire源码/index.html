@@ -672,11 +672,47 @@
     <span class="token keyword">public</span> <span class="token keyword">var</span> isCancelled<span class="token punctuation">:</span> <span class="token builtin">Bool</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> state <span class="token operator">==</span> <span class="token punctuation">.</span>cancelled <span class="token punctuation">}</span>
     <span class="token comment" spellcheck="true">/// Returns whether `state` is `.finished`.</span>
     <span class="token keyword">public</span> <span class="token keyword">var</span> isFinished<span class="token punctuation">:</span> <span class="token builtin">Bool</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> state <span class="token operator">==</span> <span class="token punctuation">.</span>finished <span class="token punctuation">}</span></code></pre>
-<h4 id="Redirects"><a href="#Redirects" class="headerlink" title="Redirects"></a>Redirects</h4><ul>
+<h4 id="可变状态MutableState"><a href="#可变状态MutableState" class="headerlink" title="可变状态MutableState"></a>可变状态MutableState</h4><p>通过结构体MutableState封装，包括进度、重定向、缓存、cURL、响应序列化、凭证、请求、task、metrics、重试次数、错误。</p>
+<pre class=" language-swift"><code class="language-swift"><span class="token comment" spellcheck="true">/// Protected `MutableState` value that provides thread-safe access to state values.</span>
+    fileprivate <span class="token keyword">let</span> protectedMutableState<span class="token punctuation">:</span> <span class="token builtin">Protector</span><span class="token operator">&lt;</span><span class="token builtin">MutableState</span><span class="token operator">></span> <span class="token operator">=</span> <span class="token function">Protector</span><span class="token punctuation">(</span><span class="token function">MutableState</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
+<pre class=" language-swift"><code class="language-swift">    <span class="token keyword">struct</span> <span class="token builtin">MutableState</span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">/// State of the `Request`.</span>
+        <span class="token keyword">var</span> state<span class="token punctuation">:</span> <span class="token builtin">State</span> <span class="token operator">=</span> <span class="token punctuation">.</span>initialized
+        <span class="token comment" spellcheck="true">/// `ProgressHandler` and `DispatchQueue` provided for upload progress callbacks.</span>
+        <span class="token keyword">var</span> uploadProgressHandler<span class="token punctuation">:</span> <span class="token punctuation">(</span>handler<span class="token punctuation">:</span> <span class="token builtin">ProgressHandler</span><span class="token punctuation">,</span> queue<span class="token punctuation">:</span> <span class="token builtin">DispatchQueue</span><span class="token punctuation">)</span><span class="token operator">?</span>
+        <span class="token comment" spellcheck="true">/// `ProgressHandler` and `DispatchQueue` provided for download progress callbacks.</span>
+        <span class="token keyword">var</span> downloadProgressHandler<span class="token punctuation">:</span> <span class="token punctuation">(</span>handler<span class="token punctuation">:</span> <span class="token builtin">ProgressHandler</span><span class="token punctuation">,</span> queue<span class="token punctuation">:</span> <span class="token builtin">DispatchQueue</span><span class="token punctuation">)</span><span class="token operator">?</span>
+        <span class="token comment" spellcheck="true">/// `RedirectHandler` provided for to handle request redirection.</span>
+        <span class="token keyword">var</span> redirectHandler<span class="token punctuation">:</span> <span class="token builtin">RedirectHandler</span><span class="token operator">?</span>
+        <span class="token comment" spellcheck="true">/// `CachedResponseHandler` provided to handle response caching.</span>
+        <span class="token keyword">var</span> cachedResponseHandler<span class="token punctuation">:</span> <span class="token builtin">CachedResponseHandler</span><span class="token operator">?</span>
+        <span class="token comment" spellcheck="true">/// Closure called when the `Request` is able to create a cURL description of itself.</span>
+        <span class="token keyword">var</span> cURLHandler<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token builtin">String</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Void</span><span class="token punctuation">)</span><span class="token operator">?</span>
+        <span class="token comment" spellcheck="true">/// Response serialization closures that handle response parsing.</span>
+        <span class="token keyword">var</span> responseSerializers<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Void</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        <span class="token comment" spellcheck="true">/// Response serialization completion closures executed once all response serializers are complete.</span>
+        <span class="token keyword">var</span> responseSerializerCompletions<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Void</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        <span class="token comment" spellcheck="true">/// Whether response serializer processing is finished.</span>
+        <span class="token keyword">var</span> responseSerializerProcessingFinished <span class="token operator">=</span> <span class="token boolean">false</span>
+        <span class="token comment" spellcheck="true">/// `URLCredential` used for authentication challenges.</span>
+        <span class="token keyword">var</span> credential<span class="token punctuation">:</span> <span class="token builtin">URLCredential</span><span class="token operator">?</span>
+        <span class="token comment" spellcheck="true">/// All `URLRequest`s created by Alamofire on behalf of the `Request`.</span>
+        <span class="token keyword">var</span> requests<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token builtin">URLRequest</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        <span class="token comment" spellcheck="true">/// All `URLSessionTask`s created by Alamofire on behalf of the `Request`.</span>
+        <span class="token keyword">var</span> tasks<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token builtin">URLSessionTask</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        <span class="token comment" spellcheck="true">/// All `URLSessionTaskMetrics` values gathered by Alamofire on behalf of the `Request`. Should correspond</span>
+        <span class="token comment" spellcheck="true">/// exactly the the `tasks` created.</span>
+        <span class="token keyword">var</span> metrics<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token builtin">URLSessionTaskMetrics</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        <span class="token comment" spellcheck="true">/// Number of times any retriers provided retried the `Request`.</span>
+        <span class="token keyword">var</span> retryCount <span class="token operator">=</span> <span class="token number">0</span>
+        <span class="token comment" spellcheck="true">/// Final `AFError` for the `Request`, whether from various internal Alamofire calls or as a result of a `task`.</span>
+        <span class="token keyword">var</span> error<span class="token punctuation">:</span> <span class="token builtin">AFError</span><span class="token operator">?</span>
+    <span class="token punctuation">}</span></code></pre>
+<h5 id="Redirects"><a href="#Redirects" class="headerlink" title="Redirects"></a>Redirects</h5><ul>
 <li>如果多次设置重定向hander是逻辑错误的而且会引起crash</li>
 <li>如果设置了redirect handler,当redirect response 响应的话，会使用到实例Request</li>
 </ul>
-<h4 id="Cached-Responses"><a href="#Cached-Responses" class="headerlink" title="Cached Responses"></a><strong>Cached Responses</strong></h4><ul>
+<h5 id="Cached-Responses"><a href="#Cached-Responses" class="headerlink" title="Cached Responses"></a><strong>Cached Responses</strong></h5><ul>
 <li><p>Sets the cached response handler for the <code>Request</code> which will be used when attempting to cache a response.</p>
 </li>
 <li><p>Note: Attempting to set the cache handler more than once is a logic error and will crash.</p>
@@ -756,7 +792,7 @@
 
   <span class="token comment" spellcheck="true">/// Creates an `UploadRequest` using the provided parameters.</span>
   <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span></code></pre>
-<h2 id="2、Result枚举"><a href="#2、Result枚举" class="headerlink" title="2、Result枚举"></a>2、Result枚举</h2><pre class=" language-swift"><code class="language-swift"><span class="token comment" spellcheck="true">/// Result.swift</span>
+<h2 id="2、Session"><a href="#2、Session" class="headerlink" title="2、Session"></a>2、Session</h2><h2 id="3、Result枚举"><a href="#3、Result枚举" class="headerlink" title="3、Result枚举"></a>3、Result枚举</h2><pre class=" language-swift"><code class="language-swift"><span class="token comment" spellcheck="true">/// Result.swift</span>
 <span class="token keyword">import</span> <span class="token builtin">Foundation</span>
 
 <span class="token keyword">public</span> <span class="token keyword">enum</span> <span class="token builtin">Result</span><span class="token operator">&lt;</span><span class="token builtin">Value</span><span class="token operator">></span> <span class="token punctuation">{</span>

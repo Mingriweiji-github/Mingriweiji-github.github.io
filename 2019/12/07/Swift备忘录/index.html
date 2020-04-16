@@ -485,7 +485,7 @@
 </tr>
 <tr>
 <td align="left">internal</td>
-<td align="left">默认权限可以访问自己module中源文件里的任何实体</td>
+<td align="left"><strong>默认权限可以访问自己module中源文件里的任何实体</strong></td>
 </tr>
 <tr>
 <td align="left">fileprivate</td>
@@ -928,6 +928,83 @@ homeProperty<span class="token punctuation">.</span>children<span class="token p
 <span class="token punctuation">}</span></code></pre>
 <h4 id="callback"><a href="#callback" class="headerlink" title="callback"></a>callback</h4><pre class=" language-swift"><code class="language-swift"><span class="token keyword">var</span> select1Callback<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token builtin">String</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Void</span><span class="token punctuation">)</span><span class="token operator">?</span>
 <span class="token keyword">var</span> select2Callback<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token builtin">IndexPath</span><span class="token punctuation">,</span> <span class="token builtin">Model</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Void</span><span class="token punctuation">)</span><span class="token operator">?</span></code></pre>
+<h4 id="什么是-typealias？"><a href="#什么是-typealias？" class="headerlink" title="什么是 typealias？"></a><a href="https://swift.gg/2020/04/11/2019-05-15-the-usefulness-of-typealiases/#more" target="_blank" rel="noopener">什么是 <code>typealias</code>？</a></h4><p><strong>顾名思义，<code>typealias</code> 是特定类型的别名。</strong>类型，例如 <code>Int</code>、<code>Double</code>、<code>UIViewController</code> 或一种自定义类型。<code>Int32</code> 和 <code>Int8</code> 是不同的类型。换句话说，<strong>类型别名在你的代码库里插入现有类型的另一个名称。</strong>例如：</p>
+<pre class=" language-swift"><code class="language-swift"><span class="token keyword">typealias</span> <span class="token builtin">Money</span> <span class="token operator">=</span> <span class="token builtin">Int</span></code></pre>
+<h5 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h5><pre class=" language-swift"><code class="language-swift"><span class="token keyword">struct</span> <span class="token builtin">Bank</span> <span class="token punctuation">{</span>
+  <span class="token keyword">typealias</span> <span class="token builtin">DepositMoney</span> <span class="token operator">=</span> <span class="token builtin">Int</span>
+  <span class="token keyword">typealias</span> <span class="token builtin">WithdrawMoney</span> <span class="token operator">=</span> <span class="token builtin">Int</span>
+  <span class="token keyword">private</span> <span class="token keyword">var</span> credit<span class="token punctuation">:</span> <span class="token builtin">Int</span> <span class="token operator">=</span> <span class="token number">0</span>
+  <span class="token keyword">mutating</span> <span class="token keyword">func</span> <span class="token function">deposit</span><span class="token punctuation">(</span>amount<span class="token punctuation">:</span> <span class="token builtin">DepositMoney</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    credit <span class="token operator">+</span><span class="token operator">=</span> amount
+  <span class="token punctuation">}</span>
+  <span class="token keyword">mutating</span> <span class="token keyword">func</span> <span class="token function">withdraw</span><span class="token punctuation">(</span>amount<span class="token punctuation">:</span> <span class="token builtin">WithdrawMoney</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    credit <span class="token operator">-</span><span class="token operator">=</span> amount
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="提高可读性"><a href="#提高可读性" class="headerlink" title="提高可读性"></a>提高可读性</h4><pre class=" language-swift"><code class="language-swift"><span class="token keyword">final</span> <span class="token keyword">class</span> <span class="token class-name">Dispatcher</span> <span class="token punctuation">{</span>
+  <span class="token keyword">private</span> <span class="token keyword">var</span> successHandler<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token builtin">Int</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Void</span><span class="token punctuation">)</span><span class="token operator">?</span>
+  <span class="token keyword">private</span> <span class="token keyword">var</span> errorHandler<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token builtin">Error</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Void</span><span class="token punctuation">)</span><span class="token operator">?</span>
+
+  <span class="token keyword">func</span> <span class="token function">handle</span><span class="token punctuation">(</span>success<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token builtin">Int</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Void</span><span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">,</span> error<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token builtin">Error</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Void</span><span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">self</span><span class="token punctuation">.</span>successHandler <span class="token operator">=</span> success
+    <span class="token keyword">self</span><span class="token punctuation">.</span>errorHandler <span class="token operator">=</span> error
+    <span class="token function">internalHandle</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">func</span> <span class="token function">handle</span><span class="token punctuation">(</span>success<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token builtin">Int</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Void</span><span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   <span class="token keyword">self</span><span class="token punctuation">.</span>successHandler <span class="token operator">=</span> success
+    <span class="token function">internalHandle</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">func</span> <span class="token function">handle</span><span class="token punctuation">(</span>error<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token builtin">Int</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Void</span><span class="token operator">?</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">self</span><span class="token punctuation">.</span>errorHandler <span class="token operator">=</span> error
+    <span class="token function">internalHandle</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">private</span> <span class="token keyword">func</span> <span class="token function">internalHandle</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>该结构体引入了两个闭包，一个用于成功情况，一个用于错误情况。但是，我们还希望提供更方便的函数，调用其中一个处理器即可。在上面的示例中，如果要向成功和错误处理器添加另一个参数（例如 <code>HTTPResponse</code>），那么需要更改很多代码。在三个地方，<code>((Int) -&gt; Void)?</code> 需要变成 <code>((Int, HTTPResponse) -&gt; Void)?</code>。错误处理器也是一样的。通过使用多个类型别名，可以避免这种情况，只需要在一个地方修改类型：</p>
+<pre class=" language-swift"><code class="language-swift"><span class="token keyword">final</span> <span class="token keyword">class</span> <span class="token class-name">Dispatcher</span> <span class="token punctuation">{</span>
+  <span class="token keyword">typealias</span> <span class="token builtin">Success</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token builtin">Int</span><span class="token punctuation">,</span> <span class="token builtin">HTTPResponse</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Void</span>
+  <span class="token keyword">typealias</span> <span class="token builtin">Failure</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token builtin">Error</span><span class="token punctuation">,</span> <span class="token builtin">HTTPResponse</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Void</span>
+
+  <span class="token keyword">private</span> <span class="token keyword">var</span> successHandler<span class="token punctuation">:</span> <span class="token builtin">Success</span><span class="token operator">?</span>
+  <span class="token keyword">private</span> <span class="token keyword">var</span> errorHandler<span class="token punctuation">:</span> <span class="token builtin">Failure</span><span class="token operator">?</span>
+
+  <span class="token keyword">func</span> <span class="token function">handle</span><span class="token punctuation">(</span>success<span class="token punctuation">:</span> <span class="token builtin">Success</span><span class="token operator">?</span><span class="token punctuation">,</span> error<span class="token punctuation">:</span> <span class="token builtin">Failure</span><span class="token operator">?</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">self</span><span class="token punctuation">.</span>successHandler <span class="token operator">=</span> success
+    <span class="token keyword">self</span><span class="token punctuation">.</span>errorHandler <span class="token operator">=</span> error
+    <span class="token function">internalHandle</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">func</span> <span class="token function">handle</span><span class="token punctuation">(</span>success<span class="token punctuation">:</span> <span class="token builtin">Success</span><span class="token operator">?</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   <span class="token keyword">self</span><span class="token punctuation">.</span>successHandler <span class="token operator">=</span> success
+    <span class="token function">internalHandle</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">func</span> <span class="token function">handle</span><span class="token punctuation">(</span>error<span class="token punctuation">:</span> <span class="token builtin">Failure</span><span class="token operator">?</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">self</span><span class="token punctuation">.</span>errorHandler <span class="token operator">=</span> error
+    <span class="token function">internalHandle</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">private</span> <span class="token keyword">func</span> <span class="token function">internalHandle</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h5 id="组合协议"><a href="#组合协议" class="headerlink" title="组合协议"></a>组合协议</h5><pre class=" language-swift"><code class="language-swift">protocol <span class="token builtin">CanRead</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+protocol <span class="token builtin">CanWrite</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+protocol <span class="token builtin">CanAuthorize</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+protocol <span class="token builtin">CanCreateUser</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+<span class="token keyword">typealias</span> <span class="token builtin">Administrator</span> <span class="token operator">=</span> <span class="token builtin">CanRead</span> <span class="token operator">&amp;</span> <span class="token builtin">CanWrite</span> <span class="token operator">&amp;</span> <span class="token builtin">CanAuthorize</span> <span class="token operator">&amp;</span> <span class="token builtin">CanCreateUser</span>
+<span class="token keyword">typealias</span> <span class="token builtin">User</span> <span class="token operator">=</span> <span class="token builtin">CanRead</span> <span class="token operator">&amp;</span> <span class="token builtin">CanWrite</span>
+<span class="token keyword">typealias</span> <span class="token builtin">Consumer</span> <span class="token operator">=</span> <span class="token builtin">CanRead</span></code></pre>
+<p>在这里，我们定义了权限层。<strong>管理员可以做所有事情，用户可以读写，而消费者只能读。</strong></p>
+<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><pre class=" language-swift"><code class="language-swift"><span class="token keyword">func</span> <span class="token function">first</span><span class="token punctuation">(</span>action<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token builtin">Int</span><span class="token punctuation">,</span> <span class="token builtin">Error</span><span class="token operator">?</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Void</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token keyword">func</span> <span class="token function">second</span><span class="token punctuation">(</span>action<span class="token punctuation">:</span> <span class="token builtin">Success</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
+<p>第二个不是立即就能明白的。<strong><code>Success</code> 是什么类型？如何构造它？你必须在 Xcode 中按住 Option 单击它，以了解它的功能和工作方式。这会带来额外的工作量。如果使用了许多类型别名，则将花费更多的时间。</strong>这没有很好的解决方案，（通常）只能依赖于用例。</p>
 
             </div>
             <hr/>

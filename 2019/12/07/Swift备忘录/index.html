@@ -464,54 +464,42 @@
 <li>Flip the image: 翻转图片</li>
 <li>Retrive the paths: 检索，重新获得</li>
 </ul>
-<h3 id="Array-loop"><a href="#Array-loop" class="headerlink" title="Array loop"></a><a href="https://www.hackingwithswift.com/articles/76/how-to-loop-over-arrays" target="_blank" rel="noopener">Array loop</a></h3><h5 id="forEach-遍历optional集合会自动过滤nil"><a href="#forEach-遍历optional集合会自动过滤nil" class="headerlink" title="forEach()遍历optional集合会自动过滤nil"></a>forEach()遍历optional集合会自动过滤nil</h5><pre class=" language-swift"><code class="language-swift"><span class="token keyword">let</span> optionalString<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token builtin">String</span><span class="token punctuation">]</span><span class="token operator">?</span> <span class="token operator">=</span> <span class="token constant">nil</span>
-<span class="token comment" spellcheck="true">//使用forEach强制解包option，会过滤</span>
-optionalString<span class="token operator">?</span><span class="token punctuation">.</span>forEach <span class="token punctuation">{</span> str <span class="token keyword">in</span>
-    <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"str is (str)"</span><span class="token punctuation">)</span>
-<span class="token punctuation">}</span>
-<span class="token comment" spellcheck="true">///使用for-in强制解包optional，会crash</span>
-<span class="token keyword">for</span> str <span class="token keyword">in</span> optionalString<span class="token operator">!</span> <span class="token punctuation">{</span>
-    <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"str is (str)"</span><span class="token punctuation">)</span>
-<span class="token punctuation">}</span></code></pre>
-<h4 id=""><a href="#" class="headerlink" title=""></a></h4><h4 id="1、forEach-和enumerated-的区别"><a href="#1、forEach-和enumerated-的区别" class="headerlink" title="1、forEach()和enumerated()的区别?"></a>1、forEach()和enumerated()的区别?</h4><ul>
-<li><strong>forEach的官方定义</strong></li>
+<h2 id="问题记录"><a href="#问题记录" class="headerlink" title="问题记录"></a>问题记录</h2><ul>
+<li><p><code>柯里化</code> 什么意思</p>
+</li>
+<li><p><code>POP</code> 与 <code>OOP</code>的区别</p>
+</li>
+<li><p><code>Any</code> 与<code>AnyObject</code> 区别</p>
+</li>
+<li><p><code>rethrows</code> 和 <code>throws</code> 有什么区别呢？</p>
+</li>
+<li><p><code>break</code> <code>return</code> <code>continue</code> <code>fallthough</code> 在语句中的含义（switch、while、for）</p>
+</li>
+<li><h3 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h3><ul>
+<li><code>public</code> <code>open</code> <code>final</code></li>
+<li><code>static</code> <code>class</code></li>
+<li><code>mutating</code>  <code>inout</code></li>
+<li><code>infix operator</code></li>
+<li><code>dynamicMemberLookup</code></li>
+<li><code>where</code></li>
+<li><code>@dynamicCallable</code></li>
+<li><code>@autoclosure</code></li>
+<li><code>@escaping</code></li>
 </ul>
-<pre class=" language-swift"><code class="language-swift"><span class="token keyword">public</span> <span class="token keyword">func</span> <span class="token function">forEach</span><span class="token punctuation">(</span><span class="token number">_</span> body<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token builtin">Element</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Void</span><span class="token punctuation">)</span> <span class="token keyword">rethrows</span> <span class="token punctuation">{</span>
-    <span class="token keyword">for</span> element <span class="token keyword">in</span> <span class="token keyword">self</span> <span class="token punctuation">{</span>
-        <span class="token keyword">try</span> <span class="token function">body</span><span class="token punctuation">(</span>element<span class="token punctuation">)</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
-<ul>
-<li><strong>forEach的使用</strong></li>
+<h3 id="协议-Protocol"><a href="#协议-Protocol" class="headerlink" title="协议 Protocol"></a>协议 Protocol</h3><ul>
+<li><code>ExpressibleByDictionaryLiteral</code></li>
+<li><code>Sequence</code></li>
+<li><code>Collection</code></li>
+<li><code>CustomStringConvertible</code></li>
+<li><code>Hashable</code> <code>Codable</code></li>
+<li><code>Comparable</code></li>
+<li><code>RangeReplaceableCollection</code></li>
 </ul>
-<pre class=" language-swift"><code class="language-swift">ships<span class="token punctuation">.</span>forEach <span class="token punctuation">{</span>
-    <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"<span class="token interpolation"><span class="token delimiter variable">\(</span>$<span class="token number">0</span><span class="token punctuation">.</span>value<span class="token delimiter variable">)</span></span> is from <span class="token interpolation"><span class="token delimiter variable">\(</span>$<span class="token number">0</span><span class="token punctuation">.</span>key<span class="token delimiter variable">)</span></span>"</span><span class="token punctuation">)</span>
-<span class="token punctuation">}</span></code></pre>
-<h4 id="2、enumerated-还是zip"><a href="#2、enumerated-还是zip" class="headerlink" title="2、enumerated()还是zip()???"></a>2、enumerated()还是<a href="https://swift.gg/2017/05/05/you-probably-don' target="_blank" rel="noopener"t-want-enumerated/">zip()</a>???</h4><p>我见到 <code>enumerated()</code> 最常用的方式是对一个数组执行 enumerated，使用返回的 offset 来获取另一个数组对应的元素。</p>
-<pre><code>for (offset, model) in models.enumerated() {
-    let viewController = viewControllers[offset]
-    viewController.model = model
-}</code></pre><p>虽然这段代码可以正常运作，但<strong>前提是 <code>models</code> 和 <code>viewControllers</code> 都是 Array 类型，使用整型来作为索引值类型，从 0 开始。另一个前提是这两个数组拥有相同的长度。如果<code>models</code> 的数组长度比 <code>viewControllers</code> 短的话，就会崩溃。</strong>我们还多了一个没有实际意义的多余的变量 <code>offset</code>。一个简洁的 Swift 实现方式应该是：</p>
-<pre><code>for (model, viewController) in zip(models, viewControllers) {
-    viewController.model = model
-}</code></pre><p><strong>使用zip()加简洁，而且适用于所有 <code>Sequence</code> 类型，而且可以安全地处理不等长的数组。</strong></p>
-<p>让我们看看另一个例子，这段代码给第一个 <code>imageView</code> 和它的容器以及每个 <code>imageView</code> 之间添加了一段 autolayout 的约束</p>
-<pre class=" language-swift"><code class="language-swift"><span class="token keyword">for</span> <span class="token punctuation">(</span>offset<span class="token punctuation">,</span> imageView<span class="token punctuation">)</span> <span class="token keyword">in</span> imageViews<span class="token punctuation">.</span><span class="token function">enumerated</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">if</span> offset <span class="token operator">==</span> <span class="token number">0</span> <span class="token punctuation">{</span>
-        imageView<span class="token punctuation">.</span>leadingAnchor<span class="token punctuation">.</span><span class="token function">constraint</span><span class="token punctuation">(</span>equalTo<span class="token punctuation">:</span> containerView<span class="token punctuation">.</span>leadingAnchor<span class="token punctuation">)</span><span class="token punctuation">.</span>isActive <span class="token operator">=</span> <span class="token boolean">true</span>
-    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-        <span class="token keyword">let</span> imageToAnchor <span class="token operator">=</span> imageView<span class="token punctuation">[</span>offset <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span>
-        imageView<span class="token punctuation">.</span>leadingAnchor<span class="token punctuation">.</span><span class="token function">constraint</span><span class="token punctuation">(</span>equalTo<span class="token punctuation">:</span> imageToAnchor<span class="token punctuation">.</span>trailingAnchor<span class="token punctuation">)</span><span class="token punctuation">.</span>isActive <span class="token operator">=</span> <span class="token boolean">true</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
-<p>这段示例代码也有同样的问题，我们想要成对的元素，但使用 <code>enumerated()</code> 去获取索引以便后续操作的时候，我们就需要手动去处理索引，这并没有必要。<code>zip</code> 在这种情况下也适用。</p>
-<p>首先，处理容器和第一个元素的约束：</p>
-<pre class=" language-swift"><code class="language-swift">imageViews<span class="token punctuation">.</span><span class="token builtin">first</span><span class="token operator">?</span><span class="token punctuation">.</span>leadingAnchor<span class="token punctuation">.</span><span class="token function">constraint</span><span class="token punctuation">(</span>equalTo<span class="token punctuation">:</span> containerView<span class="token punctuation">.</span>leadingAnchor<span class="token punctuation">)</span><span class="token punctuation">.</span>isActive <span class="token operator">=</span> <span class="token boolean">true</span></code></pre>
-<p>接着，我们来把元素拼成一对：</p>
-<pre class=" language-swift"><code class="language-swift"><span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">left</span><span class="token punctuation">,</span> <span class="token keyword">right</span><span class="token punctuation">)</span> <span class="token keyword">in</span> <span class="token function">zip</span><span class="token punctuation">(</span>imageViews<span class="token punctuation">,</span> imageViews<span class="token punctuation">.</span><span class="token function">dropFirst</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">left</span><span class="token punctuation">.</span>trailingAnchor<span class="token punctuation">.</span><span class="token function">constraint</span><span class="token punctuation">(</span>equalTo<span class="token punctuation">:</span> <span class="token keyword">right</span><span class="token punctuation">.</span>leadingAnchor<span class="token punctuation">)</span><span class="token punctuation">.</span>isActive <span class="token operator">=</span> <span class="token boolean">true</span>
-<span class="token punctuation">}</span></code></pre>
-<p>搞定，没有索引值，任何 Sequence 类型都适用，而且更加简洁。</p>
+<blockquote>
+<p>以上协议常见应用场景是什么，有什么作用？</p>
+</blockquote>
+</li>
+</ul>
 <h4 id="iOS初始化核心原则"><a href="#iOS初始化核心原则" class="headerlink" title="iOS初始化核心原则"></a>iOS初始化核心原则</h4><blockquote>
 <p>iOS 的初始化最核心两条的规则：</p>
 </blockquote>
@@ -811,7 +799,7 @@ homeProperty<span class="token punctuation">.</span>children<span class="token p
 
 <span class="token keyword">let</span> carbonicAcid <span class="token operator">=</span> <span class="token function">Solution</span><span class="token punctuation">(</span>pH<span class="token punctuation">:</span> <span class="token number">4.68</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// at 1 mM under standard conditions</span>
 </code></pre>
-<h5 id="Related-Ideas"><a href="#Related-Ideas" class="headerlink" title="Related Ideas"></a>Related Ideas</h5><ul>
+<h4 id="UserDefaults-propertyWrapper"><a href="#UserDefaults-propertyWrapper" class="headerlink" title="UserDefaults + @propertyWrapper"></a><a href="https://juejin.im/post/5d2b420b6fb9a07ea803f994" target="_blank" rel="noopener">UserDefaults + @propertyWrapper</a></h4><h5 id="Related-Ideas"><a href="#Related-Ideas" class="headerlink" title="Related Ideas"></a>Related Ideas</h5><ul>
 <li>A <code>@Positive</code> / <code>@NonNegative</code> property wrapper that provides the unsigned guarantees to signed integer types.</li>
 <li>A <code>@NonZero</code> property wrapper that ensures that a number value is either greater than or less than <code>0</code>.</li>
 <li><code>@Validated</code> or <code>@Whitelisted</code> / <code>@Blacklisted</code> property wrappers that restrict which values can be assigned.</li>

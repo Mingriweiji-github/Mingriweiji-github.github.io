@@ -799,12 +799,58 @@ homeProperty<span class="token punctuation">.</span>children<span class="token p
 
 <span class="token keyword">let</span> carbonicAcid <span class="token operator">=</span> <span class="token function">Solution</span><span class="token punctuation">(</span>pH<span class="token punctuation">:</span> <span class="token number">4.68</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// at 1 mM under standard conditions</span>
 </code></pre>
-<h4 id="UserDefaults-propertyWrapper"><a href="#UserDefaults-propertyWrapper" class="headerlink" title="UserDefaults + @propertyWrapper"></a><a href="https://juejin.im/post/5d2b420b6fb9a07ea803f994" target="_blank" rel="noopener">UserDefaults + @propertyWrapper</a></h4><h5 id="Related-Ideas"><a href="#Related-Ideas" class="headerlink" title="Related Ideas"></a>Related Ideas</h5><ul>
+<h4 id="propertyWrapper属性包裹器-SwiftLee"><a href="#propertyWrapper属性包裹器-SwiftLee" class="headerlink" title="@propertyWrapper属性包裹器  | SwiftLee"></a><a href="https://juejin.im/post/5d2b420b6fb9a07ea803f994" target="_blank" rel="noopener">@propertyWrapper属性包裹器 </a> | <a href="https://www.avanderlee.com/swift/property-wrappers/" target="_blank" rel="noopener">SwiftLee</a></h4><pre class=" language-swift"><code class="language-swift">@propertyWrapper <span class="token comment" spellcheck="true">/// 先告诉编译器 下面这个UserDefault是一个属性包裹器</span>
+<span class="token keyword">struct</span> <span class="token builtin">UserDefault</span><span class="token operator">&lt;</span>T<span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">///这里的属性key 和 defaultValue 还有init方法都是实际业务中的业务代码</span>
+    <span class="token comment" spellcheck="true">///我们不需要过多关注</span>
+    <span class="token keyword">let</span> key<span class="token punctuation">:</span> <span class="token builtin">String</span>
+    <span class="token keyword">let</span> defaultValue<span class="token punctuation">:</span> T
+
+    <span class="token keyword">init</span><span class="token punctuation">(</span><span class="token number">_</span> key<span class="token punctuation">:</span> <span class="token builtin">String</span><span class="token punctuation">,</span> defaultValue<span class="token punctuation">:</span> T<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">self</span><span class="token punctuation">.</span>key <span class="token operator">=</span> key
+        <span class="token keyword">self</span><span class="token punctuation">.</span>defaultValue <span class="token operator">=</span> defaultValue
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">///  wrappedValue是@propertyWrapper必须要实现的属性</span>
+    <span class="token comment" spellcheck="true">/// 当操作我们要包裹的属性时  其具体set get方法实际上走的都是wrappedValue 的set get 方法。</span>
+    <span class="token keyword">var</span> wrappedValue<span class="token punctuation">:</span> T <span class="token punctuation">{</span>
+        <span class="token keyword">get</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token builtin">UserDefaults</span><span class="token punctuation">.</span>standard<span class="token punctuation">.</span><span class="token function">object</span><span class="token punctuation">(</span>forKey<span class="token punctuation">:</span> key<span class="token punctuation">)</span> <span class="token keyword">as</span><span class="token operator">?</span> T <span class="token operator">?</span><span class="token operator">?</span> defaultValue
+        <span class="token punctuation">}</span>
+        <span class="token keyword">set</span> <span class="token punctuation">{</span>
+            <span class="token builtin">UserDefaults</span><span class="token punctuation">.</span>standard<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span>newValue<span class="token punctuation">,</span> forKey<span class="token punctuation">:</span> key<span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">struct</span> <span class="token builtin">UserDefaultsConfig</span> <span class="token punctuation">{</span>
+    @<span class="token function">UserDefault</span><span class="token punctuation">(</span><span class="token string">"has_seen_app_introduction"</span><span class="token punctuation">,</span> defaultValue<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">)</span>
+    <span class="token keyword">static</span> <span class="token keyword">var</span> hasSeenAppIntroduction<span class="token punctuation">:</span> <span class="token builtin">Bool</span>
+
+    @<span class="token function">UserDefault</span><span class="token punctuation">(</span><span class="token string">"username"</span><span class="token punctuation">,</span> defaultValue<span class="token punctuation">:</span> <span class="token string">"Antoine van der Lee"</span><span class="token punctuation">)</span>
+    <span class="token keyword">static</span> <span class="token keyword">var</span> username<span class="token punctuation">:</span> <span class="token builtin">String</span>
+
+    @<span class="token function">UserDefault</span><span class="token punctuation">(</span><span class="token string">"year_of_birth"</span><span class="token punctuation">,</span> defaultValue<span class="token punctuation">:</span> <span class="token number">1990</span><span class="token punctuation">)</span>
+    <span class="token keyword">static</span> <span class="token keyword">var</span> yearOfBirth<span class="token punctuation">:</span> <span class="token builtin">Int</span>
+<span class="token punctuation">}</span>
+
+
+<span class="token comment" spellcheck="true">///具体的业务代码。</span>
+<span class="token builtin">UserDefaultsConfig</span><span class="token punctuation">.</span>hasSeenAppIntroduction <span class="token operator">=</span> <span class="token boolean">false</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token builtin">UserDefaultsConfig</span><span class="token punctuation">.</span>hasSeenAppIntroduction<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// Prints: false</span>
+<span class="token builtin">UserDefaultsConfig</span><span class="token punctuation">.</span>hasSeenAppIntroduction <span class="token operator">=</span> <span class="token boolean">true</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token builtin">UserDefaultsConfig</span><span class="token punctuation">.</span>hasSeenAppIntroduction<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// Prints: true</span>
+</code></pre>
+<h5 id="Other-usage-examples"><a href="#Other-usage-examples" class="headerlink" title="Other usage examples"></a>Other usage examples</h5><p>Property wrappers are used throughout the default Swift APIs as well. The new @State and @Binding keys are an example of this. Another idea could be to create a wrapper for thread-specific writing and reading:</p>
+<pre class=" language-swift"><code class="language-swift">@<span class="token builtin">ThreadSpecific</span> <span class="token keyword">var</span> localPool<span class="token punctuation">:</span> <span class="token builtin">MemoryPool</span></code></pre>
+<p>Or, as some might find handy, a way to define command line actions:</p>
+<pre class=" language-swift"><code class="language-swift">@<span class="token function">Option</span><span class="token punctuation">(</span>shorthand<span class="token punctuation">:</span> <span class="token string">"m"</span><span class="token punctuation">,</span> documentation<span class="token punctuation">:</span> <span class="token string">"Minimum value"</span><span class="token punctuation">,</span> defaultValue<span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">)</span>
+<span class="token keyword">var</span> minimum<span class="token punctuation">:</span> <span class="token builtin">Int</span></code></pre>
+<h5 id="Related-Ideas"><a href="#Related-Ideas" class="headerlink" title="Related Ideas"></a>Related Ideas</h5><ul>
 <li>A <code>@Positive</code> / <code>@NonNegative</code> property wrapper that provides the unsigned guarantees to signed integer types.</li>
 <li>A <code>@NonZero</code> property wrapper that ensures that a number value is either greater than or less than <code>0</code>.</li>
 <li><code>@Validated</code> or <code>@Whitelisted</code> / <code>@Blacklisted</code> property wrappers that restrict which values can be assigned.</li>
 </ul>
-<h4 id="Get-current-view-controller-via-UIView"><a href="#Get-current-view-controller-via-UIView" class="headerlink" title="Get current view controller via UIView"></a>Get current view controller via UIView</h4><pre class=" language-swift"><code class="language-swift"><span class="token keyword">extension</span> <span class="token builtin">UIView</span> <span class="token punctuation">{</span>
+<h4 id="FirstVC-via-UIView"><a href="#FirstVC-via-UIView" class="headerlink" title="FirstVC via UIView"></a>FirstVC via UIView</h4><pre class=" language-swift"><code class="language-swift"><span class="token keyword">extension</span> <span class="token builtin">UIView</span> <span class="token punctuation">{</span>
 
     <span class="token comment" spellcheck="true">/// Get current view controller based current view.</span>
     <span class="token keyword">public</span> <span class="token keyword">func</span> <span class="token function">firstViewController</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">UIViewController</span><span class="token operator">?</span> <span class="token punctuation">{</span>
@@ -833,7 +879,7 @@ homeProperty<span class="token punctuation">.</span>children<span class="token p
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
-<h4 id="Get-top-view-controller-via-UIWindow"><a href="#Get-top-view-controller-via-UIWindow" class="headerlink" title="Get top view controller via UIWindow"></a>Get top view controller via UIWindow</h4><pre class=" language-swift"><code class="language-swift"><span class="token keyword">if</span> <span class="token keyword">let</span> controller <span class="token operator">=</span> <span class="token builtin">UIWindow</span><span class="token punctuation">.</span><span class="token function">topViewController</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<h4 id="TopVC-via-UIWindow"><a href="#TopVC-via-UIWindow" class="headerlink" title="TopVC via UIWindow"></a>TopVC via UIWindow</h4><pre class=" language-swift"><code class="language-swift"><span class="token keyword">if</span> <span class="token keyword">let</span> controller <span class="token operator">=</span> <span class="token builtin">UIWindow</span><span class="token punctuation">.</span><span class="token function">topViewController</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
     controller<span class="token punctuation">.</span><span class="token function">present</span><span class="token punctuation">(</span>alert<span class="token punctuation">,</span> animated<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span> completion<span class="token punctuation">:</span> <span class="token constant">nil</span><span class="token punctuation">)</span>
 <span class="token punctuation">}</span>
 </code></pre>

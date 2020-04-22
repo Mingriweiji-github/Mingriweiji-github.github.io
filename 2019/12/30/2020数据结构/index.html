@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="二叉树前世今生, 明日危机">
+    <meta name="keywords" content="2020数据结构, 明日危机">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>二叉树前世今生 | 明日危机</title>
+    <title>2020数据结构 | 明日危机</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -307,12 +307,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">二叉树前世今生</h1>
+                    <h1 class="description center-align post-title">2020数据结构</h1>
                 </div>
             </div>
         </div>
@@ -458,119 +458,118 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="二叉树今生"><a href="#二叉树今生" class="headerlink" title="二叉树今生"></a>二叉树今生</h1><p>为什么会有二叉树这种数据结构？</p>
-<p>思考一个问题：如果一个集合中有42亿个元素，让你从这42亿个元素中搜索某一个元素，你需要多少次操作？</p>
-<p><strong>如果使用数组链表的话最多可能需要42亿次比较，而如果使用二叉树我们只需要32次比较即可，这就是二叉树存在的价值。Java中的HashSet使用的就是二叉树</strong></p>
-<h2 id="前驱与后继"><a href="#前驱与后继" class="headerlink" title="前驱与后继"></a>前驱与后继</h2><h3 id="前驱节点"><a href="#前驱节点" class="headerlink" title="前驱节点"></a>前驱节点</h3><ol>
-<li><p>若一个节点有左子树，那么该节点的前驱节点是其左子树中val值最大的节点（也就是左子树中所谓的rightMostNode）</p>
-</li>
-<li><p>若一个节点没有左子树，那么判断该节点和其父节点的关系 </p>
-<p>2.1 若该节点是其父节点的右边孩子，那么该节点的前驱结点即为其父节点。 </p>
-<p>2.2 若该节点是其父节点的左边孩子，那么需要沿着其父亲节点一直向树的顶端寻找，直到找到一个节点P，P节点是其父节点Q的右边孩子（可参考例子2的前驱结点是1），那么Q就是该节点的后继节点</p>
-</li>
+                <h3 id="第一篇数据结构"><a href="#第一篇数据结构" class="headerlink" title="第一篇数据结构"></a>第一篇数据结构</h3><h4 id="数组和链表"><a href="#数组和链表" class="headerlink" title="数组和链表"></a>数组和链表</h4><hr>
+<p><img src="https://static001.geekbang.org/resource/image/4f/68/4f63e92598ec2551069a0eef69db7168.jpg" alt="数组和链表对比"></p>
+<h4 id="思考题：-1-如何分别用链表和数组实现LRU缓冲淘汰策略？"><a href="#思考题：-1-如何分别用链表和数组实现LRU缓冲淘汰策略？" class="headerlink" title="思考题： 1.如何分别用链表和数组实现LRU缓冲淘汰策略？"></a>思考题： 1.如何分别用链表和数组实现LRU缓冲淘汰策略？</h4><p><strong>1）什么是缓存？</strong></p>
+<ul>
+<li>缓存是一种提高数据读取性能的技术，在硬件设计、软件开发中都有着非广泛的应用，比如常见的CPU缓存、数据库缓存、浏览器缓存等等。</li>
+</ul>
+<blockquote>
+<p>什么是C CPU在从内存读取数据的时候，会先把读取到的数据加载到CPU的缓存中。而CPU每次从内存读取数据并不是只读取那个特定要访问的地址，而是读取一个数据块(这个大小我不太确定。。)并保存到CPU缓存中，然后下次访问内存数据的时候就会先从CPU缓存开始查找，如果找到就不需要再从内存中取。这样就实现了比内存访问速度更快的机制，也就是CPU缓存存在的意义:为了弥补内存访问速度过慢与CPU执行速度快之间的差异而引入。</p>
+</blockquote>
+<p><strong>2）为什么使用缓存？即缓存的特点</strong></p>
+<ul>
+<li>缓存的大小是有限的，当缓存被用满时，哪些数据应该被清理出去，哪些数据应该被保留？就需要用到缓存淘汰策略。</li>
+</ul>
+<p><strong>3）什么是缓存淘汰策略？</strong></p>
+<ul>
+<li>指的是当缓存被用满时清理数据的优先顺序。</li>
+</ul>
+<p><strong>4）有哪些缓存淘汰策略？</strong></p>
+<ul>
+<li>先进先出策略FIFO（First In，First Out）</li>
+<li>最少使用策略LFU（Least Frenquently Used）</li>
+<li>最近最少使用策略LRU（Least Recently Used）。</li>
+</ul>
+<p><strong>5）链表实现LRU缓存淘汰策略</strong></p>
+<p>我们维护一个有序单链表，越靠近链表尾部的结点是越早之前访问的。当有一个新的数据被访问时，我们从链表头开始顺序遍历链表。</p>
+<ul>
+<li><ol>
+<li>如果此数据之前已经被缓存在链表中了，我们遍历得到这个数据对应的结点，并将其从原来的位置删除，然后再插入到链表的头部。</li>
 </ol>
-<h3 id="后继节点"><a href="#后继节点" class="headerlink" title="后继节点"></a>后继节点</h3><ol>
-<li>若一个节点有右子树，那么该节点的后继节点是其右子树中val值最小的节点（也就是右子树中所谓的leftMostNode）</li>
-<li>若一个节点没有右子树，那么判断该节点和其父节点的关系<br>2.1 若该节点是其父节点的左边孩子，那么该节点的后继结点即为其父节点<br>2.2 若该节点是其父节点的右边孩子，那么需要沿着其父亲节点一直向树的顶端寻找，直到找到一个节点P，P节点是其父节点Q的左边孩子（可参考例子2的前驱结点是1），那么Q就是该节点的后继节点</li>
+</li>
+<li><ol start="2">
+<li>如果此数据没有在缓存链表中，又可以分为两种情况：</li>
 </ol>
-<p>如何判断两个二叉树是否相同？</p>
-<p><strong>递归法</strong></p>
-<pre class=" language-Java"><code class="language-Java">static public bool IsSameTree(TreeNode root1, TreeNode root2) {
-    if (root1 == null && root2 == null) {
-        return true;
-    }
-    if ((root1 == null && root2 != null) || (root1 != null && root2 == null)) {
-        return false;
-    }
-    if (root1.val != root2.val) {//判断每个节点的值是否相等，如果去除此判断，则判断两个二叉树是否结构相等
-        return false;
-    }
-    return IsSameTree(root1.left, root2.left) && IsSameTree(root1.right, root2.right);
-}</code></pre>
-<p><strong>非递归法</strong></p>
-<pre class=" language-Java"><code class="language-Java">bool  BTreeCompare（BTreeNode_t *pRoot1, BTreeNode_t *pRoot2)  
-{  
-    if( pRoot1 == NULL && pRoot2 == NULL )  
-        return false;  
-
-
-    queue <BTreeNode_t *> que1;  
-    queue <BTreeNode_t *> que2;  
-
-
-    que1.push(pRoot1);  
-    que2.push(pRoot2);  
-
-
-    int curLevelNodeTotal1 = 0;  
-    int curLevelNodeTotal2 = 0;  
-
-
-    bool flag = true; //作为比较不一致时跳出标识  
-    while( ( !que1.empty()) && ( !que2.empty())) //当两个队列均不为空时，才进行比较  
-    {  
-        curLevelNodeTotal1 = que1.size();  //获取树1的当前层节点总数  
-        curLevelNodeTotal2 = que2.size(); //获取树2的当前层节点总数  
-        if( curLevelNodeTotal1 != curLevelNodeTotal2){  
-            flag = false;//当前层节点总数都不一致，不需要比较了，直接跳出  
-            break;  
-        }  
-        int cnt1 = 0;//遍历本层节点时的计数器  
-        int cnt2 = 0;  
-        while( cnt1 < curLevelNodeTotal1  && cnt2 < curLevelNodeTotal2){  
-            ++cnt1;  
-            ++cnt2;  
-            pRoot1 = que1.front();  
-            que1.pop();  
-            pRoot2 = que2.front();  
-            que2.pop();  
-
-            //比较当前节点中数据是否一致  
-            if( pRoot1->m_pElemt != pRoot2->m_pElemt ){  
-                flag = false;  
-                break;  
-            }  
-            //判断pRoot1和pRoot2左右节点结构是否相同  
-            if( ( pRoot1->m_pLeft != NULL && pRoot2->m_pLeft == NULL )    ||  
-                ( pRoot1->m_pLeft == NULL && pRoot2->m_pLeft != NULL )    ||  
-                ( pRoot1->m_pRight != NULL && pRoot2->m_pRight == NULL )    ||  
-                ( pRoot1->m_pRight == NULL && pRoot2->m_pRight != NULL )  
-            ){  
-                flag = false;  
-                break;  
-            }  
-
-            //将左右节点入队  
-            if( pRoot1->m_pLeft != NULL )  
-                que1.push( pRoot1->m_pLeft);  
-            if( pRoot1->m_pRight != NULL )  
-                que1.push( pRoot1->m_pRight);  
-            if( pRoot2->m_pLeft != NULL )  
-                que2.push( pRoot2->m_pLeft);  
-            if( pRoot2->m_pRight != NULL )  
-                que2.push( pRoot2->m_pRight);  
-        }  
-
-
-        if( flag == false )  
-            break;  
-    }  
-
-    //如果比较标志为false，则不相同  
-    if( flag == false ){  
-        while( !que1.empty() )  
-            que1.pop();  
-        while( !que2.empty())  
-            que2.pop();  
-
-
-        return false;  
-    }  
-
-
-    return true;  
-}</code></pre>
-
+<ul>
+<li>如果此时缓存未满，则将此结点直接插入到链表的头部；</li>
+<li>如果此时缓存已满，则链表尾结点删除，将新的数据结点插入链表的头部。</li>
+</ul>
+</li>
+</ul>
+<p><strong>6）数组实现LRU缓存淘汰策略</strong></p>
+<p><strong>方式一</strong></p>
+<ul>
+<li>首位置保存最新访问数据，末尾位置优先清理</li>
+<li>当访问的数据未存在于缓存的数组中时，直接将数据插入数组第一个元素位置，此时数组所有元素需要向后移动1个位置，时间复杂度为O(n)；</li>
+<li>当访问的数据存在于缓存的数组中时，查找到数据并将其插入数组的第一个位置，此时亦需移动数组元素，时间复杂度为O(n)。</li>
+<li>缓存用满时，则清理掉末尾的数据，时间复杂度为O(1)。</li>
+</ul>
+<p><strong>方式二</strong></p>
+<ul>
+<li><p>首位置优先清理，末尾位置保存最新访问数据</p>
+</li>
+<li><p>当访问的数据未存在于缓存的数组中时，直接将数据添加进数组作为当前最有一个元素时间复杂度为O(1)；</p>
+</li>
+<li><p>当访问的数据存在于缓存的数组中时，查找到数据并将其插入当前数组最后一个元素的位置，此时亦需移动数组元素，时间复杂度为O(n)。</p>
+</li>
+<li><p>缓存用满时，则清理掉数组首位置的元素，且剩余数组元素需整体前移一位，时间复杂度为O(n)。（优化：清理的时候可以考虑一次性清理一定数量，从而降低清理次数，提高性能。）</p>
+</li>
+</ul>
+<h4 id="2-如何通过单链表实现“判断某个字符串是否为回文字符串”？"><a href="#2-如何通过单链表实现“判断某个字符串是否为回文字符串”？" class="headerlink" title="2.如何通过单链表实现“判断某个字符串是否为回文字符串”？"></a>2.如何通过单链表实现“判断某个字符串是否为回文字符串”？</h4><h4 id="方法一：半栈法"><a href="#方法一：半栈法" class="headerlink" title="方法一：半栈法"></a>方法一：半栈法</h4><ul>
+<li>１．用快慢两个指针遍历，同时用栈copy慢指针指向的data。</li>
+<li>２．完成后，慢指针指向中间节点，耗时为N/2.</li>
+<li>３．最后用pop栈中的data和慢指针指向的data比较，耗时也是N/2.</li>
+<li>所以时间复杂度为：Ｏ(N)，空间复杂度因栈额外存储了一半的data，故为O(N/2)</li>
+</ul>
+<h4 id="方法二：全栈法"><a href="#方法二：全栈法" class="headerlink" title="方法二：全栈法"></a>方法二：全栈法</h4><ul>
+<li>1）前提：字符串以单个字符的形式存储在单链表中。</li>
+<li>2）遍历链表，判断字符个数是否为奇数，若为偶数，则不是。</li>
+<li>3）将链表中的字符倒序存储一份在另一个链表中。</li>
+<li>4）同步遍历2个链表，比较对应的字符是否相等，若相等，则是回文字串，否则，不是。</li>
+</ul>
+<h4 id="方法三：硬干法"><a href="#方法三：硬干法" class="headerlink" title="方法三：硬干法"></a>方法三：硬干法</h4><ul>
+<li><ol>
+<li>一个指针从头取data，另一个指针遍历到底取data，比较二者</li>
+</ol>
+</li>
+<li>２．删除尾部节点，重复１．</li>
+<li>时间复杂度高达　O(N^2)，空间复杂度却最低Ｏ(1)</li>
+</ul>
+<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><ul>
+<li><p><a href="https://mp.weixin.qq.com/s/0nubI8XPcUJYAaEk-Eomrg" target="_blank" rel="noopener">动画| 什么是二分搜索树？</a></p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/h_mO28pmE_uNbHA5GVmWPA" target="_blank" rel="noopener">动画| 二叉树有几种存储方式？</a></p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/tFJqwKa-adXW0kXGxldisg" target="_blank" rel="noopener">动画| 二叉树在实际生活中的应用？</a></p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/XqxOp5jXqDg6fez6GphLCA" target="_blank" rel="noopener">红黑树</a></p>
+</li>
+</ul>
+<h2 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h2><ul>
+<li><p><a href="https://mp.weixin.qq.com/s/DFLD41tFVtlXVYgg2QJcsQ" target="_blank" rel="noopener">什么是递归？</a></p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/G7hlvXeW_qNDPOwnIFteug" target="_blank" rel="noopener">什么是分支？</a></p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/Q0w59YQmZN7tWxSXPR1vrA" target="_blank" rel="noopener">Hash算法原理及应用</a></p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/Rh0O3ifxOtmHocr4NNNSYw" target="_blank" rel="noopener">动画 | 什么是快速排序？</a></p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/WOpU112IcvRed078mQ8ovA" target="_blank" rel="noopener">动画：面试官问我插入排序和冒泡排序哪个更牛逼？</a></p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/-9mD9LC4OrN5dl5DQSHyNA" target="_blank" rel="noopener">动画: 快速排序 | 如何求第 K 大元素？</a></p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/nXo4A-_NX_JKmTAbbTYVRg" target="_blank" rel="noopener">动画| 什么是堆排序？</a></p>
+</li>
+<li><p><a href="https://mp.weixin.qq.com/s/u397yZKJzuyTuzQDCcE7mw" target="_blank" rel="noopener">动画| 什么是希尔排序</a></p>
+</li>
+</ul>
+<h2 id="算法题目推荐"><a href="#算法题目推荐" class="headerlink" title="算法题目推荐"></a>算法题目推荐</h2><ul>
+<li><a href="https://leetcode-cn.com/explore/interview/card/top-interview-questions-easy" target="_blank" rel="noopener">初级算法</a></li>
+<li><a href="https://leetcode-cn.com/explore/interview/card/top-interview-questions-medium/" target="_blank" rel="noopener">中级算法</a></li>
+<li><a href="https://leetcode-cn.com/explore/interview/card/top-interview-questions-hard/" target="_blank" rel="noopener">高级算法</a></li>
+</ul>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2>
             </div>
             <hr/>
 
@@ -595,7 +594,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://mingriweiji-github.github.io/2019/12/30/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">https://mingriweiji-github.github.io/2019/12/30/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/</a>
+                    <a href="https://mingriweiji-github.github.io/2019/12/30/2020%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">https://mingriweiji-github.github.io/2019/12/30/2020%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -800,22 +799,21 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/12/30/%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">
+                <a href="/2019/12/30/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="红黑树前世今生">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="二叉树前世今生">
                         
-                        <span class="card-title">红黑树前世今生</span>
+                        <span class="card-title">二叉树前世今生</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            红黑树前世今生关键词：二叉搜索树、前驱节点、后继节点、B树、红黑树
-什么是B树前世B树是一种相对于来说特殊二叉搜索树，多用于数据库和文件搜索系统中。
-n阶B树的性质
-B树是一种平衡的多路搜索树，拥有平衡二叉树的一些特性，与平衡二叉树的最大区
+                            二叉树今生为什么会有二叉树这种数据结构？
+思考一个问题：如果一个集合中有42亿个元素，让你从这42亿个元素中搜索某一个元素，你需要多少次操作？
+如果使用数组链表的话最多可能需要42亿次比较，而如果使用二叉树我们只需要32次比较即可，这就是二
                         
                     </div>
                     <div class="publish-info">
@@ -840,26 +838,28 @@ B树是一种平衡的多路搜索树，拥有平衡二叉树的一些特性，�
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/12/30/2020%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
+                <a href="/2019/12/30/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="2020数据结构">
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="iOS图像处理">
                         
-                        <span class="card-title">2020数据结构</span>
+                        <span class="card-title">iOS图像处理</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            第一篇数据结构数组和链表
+                            iOS图像优化技巧
+1、如何处理大尺寸图片？
 
-思考题： 1.如何分别用链表和数组实现LRU缓冲淘汰策略？1）什么是缓存？
+2、如何处理瀑布流图片占用大量内存的问题？
 
-缓存是一种提高数据读取性能的技术，在硬件设计、软件开发中都有着非广泛的应用，比如常见的CPU缓存、数据库缓存、浏览器缓存等等。
+3、如何处理多张图片上传和下载问题？
 
 
-什
+1、处理大尺寸图片那么，什么时候对图像进行渲染优化才有意义呢？
+当它明显大于 UIImageView 显
                         
                     </div>
                     <div class="publish-info">

@@ -543,6 +543,15 @@
   associatedtype <span class="token builtin">Element</span>
   <span class="token keyword">mutating</span> <span class="token keyword">func</span> <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Element</span><span class="token operator">?</span>
 <span class="token punctuation">}</span></code></pre>
+<p>“序列和迭代器非常相似，你可能会问，为什么它们会被分为不同的类型？为什么不能直接把 IteratorProtocol 的功能包含到 Sequence 中呢？”</p>
+<pre class=" language-swift"><code class="language-swift"><span class="token keyword">func</span> <span class="token function">fibsIterator</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">AnyIterator</span><span class="token operator">&lt;</span><span class="token builtin">Int</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> state <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token builtin">AnyIterator</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> upcomingNumber <span class="token operator">=</span> state<span class="token punctuation">.</span><span class="token number">0</span>
+    state <span class="token operator">=</span> <span class="token punctuation">(</span>state<span class="token punctuation">.</span><span class="token number">1</span><span class="token punctuation">,</span> state<span class="token punctuation">.</span><span class="token number">0</span> <span class="token operator">+</span> state<span class="token punctuation">.</span><span class="token number">1</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> upcomingNumber
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <h5 id="Sequence"><a href="#Sequence" class="headerlink" title="Sequence"></a>Sequence</h5><pre class=" language-swift"><code class="language-swift"><span class="token keyword">public</span> protocol <span class="token builtin">Sequence</span> <span class="token punctuation">{</span>
 
   associatedtype <span class="token builtin">Element</span>
@@ -626,7 +635,8 @@
       <span class="token keyword">try</span> <span class="token function">body</span><span class="token punctuation">(</span>element<span class="token punctuation">)</span>
     <span class="token punctuation">}</span>
   <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
+<span class="token punctuation">}</span>
+</code></pre>
 <h5 id="split"><a href="#split" class="headerlink" title="split()"></a>split()</h5><pre class=" language-swift"><code class="language-swift"><span class="token keyword">extension</span> <span class="token builtin">Sequence</span> <span class="token keyword">where</span> <span class="token builtin">Element</span><span class="token punctuation">:</span> <span class="token builtin">Equatable</span> <span class="token punctuation">{</span>
   @inlinable
   <span class="token keyword">public</span> __consuming <span class="token keyword">func</span> <span class="token function">split</span><span class="token punctuation">(</span>
@@ -639,7 +649,8 @@
       omittingEmptySubsequences<span class="token punctuation">:</span> omittingEmptySubsequences<span class="token punctuation">,</span>
       whereSeparator<span class="token punctuation">:</span> <span class="token punctuation">{</span> $<span class="token number">0</span> <span class="token operator">==</span> separator <span class="token punctuation">}</span><span class="token punctuation">)</span>
   <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
+<span class="token punctuation">}</span>
+</code></pre>
 <h5 id="IteratorSequence"><a href="#IteratorSequence" class="headerlink" title="IteratorSequence()"></a>IteratorSequence()</h5><pre class=" language-swift"><code class="language-swift"><span class="token keyword">public</span> <span class="token keyword">struct</span> <span class="token builtin">IteratorSequence</span><span class="token operator">&lt;</span><span class="token builtin">Base</span><span class="token punctuation">:</span> <span class="token builtin">IteratorProtocol</span><span class="token operator">></span> <span class="token punctuation">{</span>
   @usableFromInline
   <span class="token keyword">internal</span> <span class="token keyword">var</span> _base<span class="token punctuation">:</span> <span class="token builtin">Base</span>
@@ -663,12 +674,14 @@
   <span class="token keyword">public</span> <span class="token keyword">mutating</span> <span class="token keyword">func</span> <span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Base</span><span class="token punctuation">.</span><span class="token builtin">Element</span><span class="token operator">?</span> <span class="token punctuation">{</span>
     <span class="token keyword">return</span> _base<span class="token punctuation">.</span><span class="token function">next</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
   <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
+<span class="token punctuation">}</span>
+</code></pre>
 <h5 id=""><a href="#" class="headerlink" title=""></a></h5><h5 id="-1"><a href="#-1" class="headerlink" title=""></a></h5><h5 id="-2"><a href="#-2" class="headerlink" title=""></a></h5><h5 id="-3"><a href="#-3" class="headerlink" title=""></a></h5><h5 id="-4"><a href="#-4" class="headerlink" title=""></a></h5><h4 id="SequenceAlgorithms源码"><a href="#SequenceAlgorithms源码" class="headerlink" title="SequenceAlgorithms源码"></a>SequenceAlgorithms源码</h4><h5 id="enumerated"><a href="#enumerated" class="headerlink" title="enumerated()"></a>enumerated()</h5><pre class=" language-swift"><code class="language-swift"><span class="token keyword">extension</span> <span class="token builtin">Sequence</span> <span class="token punctuation">{</span>
   @inlinable <span class="token comment" spellcheck="true">// protocol-only</span>
   <span class="token keyword">public</span> <span class="token keyword">func</span> <span class="token function">enumerated</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">EnumeratedSequence</span><span class="token operator">&lt;</span><span class="token keyword">Self</span><span class="token operator">></span> <span class="token punctuation">{</span>
     <span class="token keyword">return</span> <span class="token function">EnumeratedSequence</span><span class="token punctuation">(</span>_base<span class="token punctuation">:</span> <span class="token keyword">self</span><span class="token punctuation">)</span>
   <span class="token punctuation">}</span>
+
 </code></pre>
 <h5 id="min-1"><a href="#min-1" class="headerlink" title="min()"></a>min()</h5><pre class=" language-swift"><code class="language-swift"><span class="token keyword">extension</span> <span class="token builtin">Sequence</span> <span class="token punctuation">{</span>
   <span class="token keyword">public</span> <span class="token keyword">func</span> <span class="token function">min</span><span class="token punctuation">(</span>
@@ -681,7 +694,8 @@
     <span class="token punctuation">}</span>
     <span class="token keyword">return</span> result
   <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
+<span class="token punctuation">}</span>
+</code></pre>
 <h5 id="max-1"><a href="#max-1" class="headerlink" title="max()"></a>max()</h5><pre class=" language-swift"><code class="language-swift"><span class="token keyword">extension</span> <span class="token builtin">Sequence</span> <span class="token punctuation">{</span>
   <span class="token keyword">public</span> <span class="token keyword">func</span> <span class="token function">max</span><span class="token punctuation">(</span>
     by areInIncreasingOrder<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token builtin">Element</span><span class="token punctuation">,</span> <span class="token builtin">Element</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Bool</span>
@@ -693,9 +707,9 @@
     <span class="token punctuation">}</span>
     <span class="token keyword">return</span> result
   <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
-<h5 id="contains"><a href="#contains" class="headerlink" title="contains()"></a>contains()</h5><pre class=" language-swift"><code class="language-swift">
-<span class="token keyword">extension</span> <span class="token builtin">Sequence</span> <span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h5 id="contains"><a href="#contains" class="headerlink" title="contains()"></a>contains()</h5><pre class=" language-swift"><code class="language-swift"><span class="token keyword">extension</span> <span class="token builtin">Sequence</span> <span class="token punctuation">{</span>
   @inlinable
   <span class="token keyword">public</span> <span class="token keyword">func</span> <span class="token function">contains</span><span class="token punctuation">(</span>
     <span class="token keyword">where</span> predicate<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token builtin">Element</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Bool</span>
@@ -724,7 +738,8 @@
       <span class="token keyword">return</span> <span class="token keyword">self</span><span class="token punctuation">.</span><span class="token builtin">contains</span> <span class="token punctuation">{</span> $<span class="token number">0</span> <span class="token operator">==</span> element <span class="token punctuation">}</span>
     <span class="token punctuation">}</span>
   <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
+<span class="token punctuation">}</span>
+</code></pre>
 <h5 id="reduce-函数"><a href="#reduce-函数" class="headerlink" title="reduce()函数"></a>reduce()函数</h5><pre class=" language-swift"><code class="language-swift"><span class="token keyword">extension</span> <span class="token builtin">Sequence</span> <span class="token punctuation">{</span>
   @inlinable
   <span class="token keyword">public</span> <span class="token keyword">func</span> <span class="token builtin">reduce</span><span class="token operator">&lt;</span><span class="token builtin">Result</span><span class="token operator">></span><span class="token punctuation">(</span>
@@ -751,7 +766,8 @@
     <span class="token punctuation">}</span>
     <span class="token keyword">return</span> accumulator
   <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
+<span class="token punctuation">}</span>
+</code></pre>
 <h5 id="reversed"><a href="#reversed" class="headerlink" title="reversed()"></a>reversed()</h5><pre class=" language-swift"><code class="language-swift"><span class="token keyword">extension</span> <span class="token builtin">Sequence</span> <span class="token punctuation">{</span>
 
   @inlinable
@@ -764,7 +780,8 @@
     <span class="token punctuation">}</span>
     <span class="token keyword">return</span> result
   <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
+<span class="token punctuation">}</span>
+</code></pre>
 <h5 id="flatMap"><a href="#flatMap" class="headerlink" title="flatMap()"></a>flatMap()</h5><pre class=" language-swift"><code class="language-swift"><span class="token keyword">extension</span> <span class="token builtin">Sequence</span> <span class="token punctuation">{</span>
   @inlinable
   <span class="token keyword">public</span> <span class="token keyword">func</span> flatMap<span class="token operator">&lt;</span><span class="token builtin">SegmentOfResult</span><span class="token punctuation">:</span> <span class="token builtin">Sequence</span><span class="token operator">></span><span class="token punctuation">(</span>
@@ -776,7 +793,8 @@
     <span class="token punctuation">}</span>
     <span class="token keyword">return</span> result
   <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
+<span class="token punctuation">}</span>
+</code></pre>
 <h4 id="03-zip源码"><a href="#03-zip源码" class="headerlink" title="03 zip源码"></a>03 zip源码</h4><h5 id="zip使用"><a href="#zip使用" class="headerlink" title="zip使用"></a><a href="https://www.hangge.com/blog/cache/detail_1829.html" target="_blank" rel="noopener">zip使用</a></h5><pre class=" language-swift"><code class="language-swift"><span class="token keyword">let</span> words <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"one"</span><span class="token punctuation">,</span> <span class="token string">"two"</span><span class="token punctuation">,</span> <span class="token string">"three"</span><span class="token punctuation">,</span> <span class="token string">"four"</span><span class="token punctuation">]</span>
 <span class="token keyword">let</span> numbers <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"1"</span><span class="token punctuation">,</span> <span class="token string">"2"</span><span class="token punctuation">,</span> <span class="token string">"3"</span><span class="token punctuation">,</span> <span class="token string">"4"</span><span class="token punctuation">,</span> <span class="token string">"5"</span><span class="token punctuation">,</span> <span class="token string">"6"</span><span class="token punctuation">]</span>
 <span class="token comment" spellcheck="true">// 1.1、Array(zip())生成元组</span>
@@ -794,7 +812,8 @@
 
 <span class="token comment" spellcheck="true">//3、将两个数组生成字典</span>
 <span class="token keyword">let</span> dic <span class="token operator">=</span> <span class="token function">Dictionary</span><span class="token punctuation">(</span>uniqueKeysWithValues<span class="token punctuation">:</span> <span class="token function">zip</span><span class="token punctuation">(</span>words<span class="token punctuation">,</span> numbers<span class="token punctuation">)</span><span class="token punctuation">)</span>
-<span class="token function">print</span><span class="token punctuation">(</span>dic<span class="token punctuation">)</span><span class="token comment" spellcheck="true">//["two": "2", "four": "4", "one": "1", "three": "3"]</span></code></pre>
+<span class="token function">print</span><span class="token punctuation">(</span>dic<span class="token punctuation">)</span><span class="token comment" spellcheck="true">//["two": "2", "four": "4", "one": "1", "three": "3"]</span>
+</code></pre>
 <h5 id="zip源码"><a href="#zip源码" class="headerlink" title="zip源码"></a>zip源码</h5><pre class=" language-swift"><code class="language-swift"><span class="token keyword">public</span> <span class="token keyword">func</span> zip<span class="token operator">&lt;</span><span class="token builtin">Sequence1</span><span class="token punctuation">,</span> <span class="token builtin">Sequence2</span><span class="token operator">></span><span class="token punctuation">(</span>
   <span class="token number">_</span> sequence1<span class="token punctuation">:</span> <span class="token builtin">Sequence1</span><span class="token punctuation">,</span> <span class="token number">_</span> sequence2<span class="token punctuation">:</span> <span class="token builtin">Sequence2</span>
 <span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Zip2Sequence</span><span class="token operator">&lt;</span><span class="token builtin">Sequence1</span><span class="token punctuation">,</span> <span class="token builtin">Sequence2</span><span class="token operator">></span> <span class="token punctuation">{</span>
@@ -834,6 +853,7 @@
     <span class="token punctuation">}</span>
   <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
+
 </code></pre>
 <pre class=" language-swift"><code class="language-swift"><span class="token keyword">extension</span> <span class="token builtin">Zip2Sequence</span><span class="token punctuation">.</span><span class="token builtin">Iterator</span><span class="token punctuation">:</span> <span class="token builtin">IteratorProtocol</span> <span class="token punctuation">{</span>
   <span class="token keyword">public</span> <span class="token keyword">typealias</span> <span class="token builtin">Element</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token builtin">Sequence1</span><span class="token punctuation">.</span><span class="token builtin">Element</span><span class="token punctuation">,</span> <span class="token builtin">Sequence2</span><span class="token punctuation">.</span><span class="token builtin">Element</span><span class="token punctuation">)</span>
@@ -871,7 +891,8 @@
       _sequence1<span class="token punctuation">.</span>underestimatedCount<span class="token punctuation">,</span>
       _sequence2<span class="token punctuation">.</span>underestimatedCount
     <span class="token punctuation">)</span>
-  <span class="token punctuation">}</span></code></pre>
+  <span class="token punctuation">}</span>
+</code></pre>
 <h4 id="04"><a href="#04" class="headerlink" title="04"></a>04</h4><h4 id="05"><a href="#05" class="headerlink" title="05"></a>05</h4><h4 id="06"><a href="#06" class="headerlink" title="06"></a>06</h4><h4 id="07"><a href="#07" class="headerlink" title="07"></a>07</h4><h4 id="08"><a href="#08" class="headerlink" title="08"></a>08</h4><h4 id="09"><a href="#09" class="headerlink" title="09"></a>09</h4><h4 id="10"><a href="#10" class="headerlink" title="10"></a>10</h4><p><strong>集合协议Sequence: 如果让你设计<code>Sequence</code>类型，你会为它添加那些约束呢？如果你没有特别丰富的经验，最好的办法，还是去看看Swift官方的<code>Sequence</code>实现吧。还是那句话，源码之前，了无秘密。</strong></p>
 <h2 id="Sequence是一个值类型"><a href="#Sequence是一个值类型" class="headerlink" title="Sequence是一个值类型"></a>Sequence是一个值类型</h2><p>当我们走近源代码之前，先来思考一个问题。一个最纯粹的“序列”，究竟意味着什么呢？通过前面两节内容我们知道，序列本身可以是有限的，也可以是无限的；可以是支持多次遍历的，也可以是只能遍历一次的。把这些约束摆在眼前，其实答案就很明显了：</p>
 <ul>
@@ -2070,6 +2091,7 @@ extension Sequence {
   public typealias SubSequence = AnySequence&lt;Element>
 }
 */</span>
+
 </code></pre>
 
             </div>
@@ -2344,31 +2366,33 @@ Github开源地址
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/04/06/LookinLoader%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/">
+                <a href="/2020/04/18/Swift%E9%9B%86%E5%90%88%E6%BA%90%E7%A0%81/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="LookinLoader安装使用">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="Swift集合源码">
                         
-                        <span class="card-title">LookinLoader安装使用</span>
+                        <span class="card-title">Swift集合源码</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Lookin查看自己的App
-1、Lookin下载
+                            Swift CollectionsArray数组Array的两种for循环
+只遍历value
 
-2、pod添加：pod &#39;LookinServer&#39;, :configurations =&gt; [&#39;Debug&#39;]
+for item in array {
+  print(item)
+}
 
-3、pod install
+快速枚举数组，用元祖(index, value)接收
 
-4
+for (in
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-06
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-18
                             </span>
                         <span class="publish-author">
                             

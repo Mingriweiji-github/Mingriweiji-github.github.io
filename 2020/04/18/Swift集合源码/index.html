@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="LookinLoader安装使用, 明日危机">
+    <meta name="keywords" content="Swift集合源码, 明日危机">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>LookinLoader安装使用 | 明日危机</title>
+    <title>Swift集合源码 | 明日危机</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -307,12 +307,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">LookinLoader安装使用</h1>
+                    <h1 class="description center-align post-title">Swift集合源码</h1>
                 </div>
             </div>
         </div>
@@ -441,7 +441,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-04-06
+                    2020-04-18
                 </div>
                 
 
@@ -458,36 +458,123 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="Lookin查看自己的App"><a href="#Lookin查看自己的App" class="headerlink" title="Lookin查看自己的App"></a>Lookin查看自己的App</h2><ul>
-<li><p>1、<a href="https://lookin.work/get" target="_blank" rel="noopener">Lookin下载</a></p>
-</li>
-<li><p>2、pod添加：<code>pod &#39;LookinServer&#39;, :configurations =&gt; [&#39;Debug&#39;]</code></p>
-</li>
-<li><p>3、pod install</p>
-</li>
-<li><p>4、打开mac上安装的Lookin</p>
-</li>
-</ul>
-<h2 id="配合LookinLoader查看第三方App"><a href="#配合LookinLoader查看第三方App" class="headerlink" title="配合LookinLoader查看第三方App"></a>配合LookinLoader查看第三方App</h2><blockquote>
-<p>官方：正常情况下，你无法将 LookinServer 嵌入到别人的 iOS App 里，因此你也就无法使用 Lookin 查看别人的 App。但我们也注意到有些第三方开发者通过某些方式实现了向别人的 App 中注入 Framework 的需求，这可能已属于逆向破解范畴，你可在 Github 中搜索 <em><a href="https://github.com/search?q=lookinloader" target="_blank" rel="noopener">LookinLoader</a></em> 自行研究，或向他们寻求帮助。</p>
+                <h1 id="Swift-Collections"><a href="#Swift-Collections" class="headerlink" title="Swift Collections"></a>Swift Collections</h1><h2 id="Array"><a href="#Array" class="headerlink" title="Array"></a><a href="https://www.hackingwithswift.com/articles/76/how-to-loop-over-arrays" target="_blank" rel="noopener">Array</a></h2><h1 id="数组Array的两种for循环"><a href="#数组Array的两种for循环" class="headerlink" title="数组Array的两种for循环"></a>数组Array的两种for循环</h1><blockquote>
+<p>只遍历value</p>
 </blockquote>
-<h3 id="1、LookinLoader安装"><a href="#1、LookinLoader安装" class="headerlink" title="1、LookinLoader安装"></a>1、LookinLoader安装</h3><h4 id="Step-1"><a href="#Step-1" class="headerlink" title="Step 1"></a>Step 1</h4><p> <strong>在越狱手机中的「Cydia」-&gt;搜索「LookinLoader」-&gt;「安裝」</strong></p>
-<img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200406124849.PNG" style="zoom:33%;" />
+<pre class=" language-swift"><code class="language-swift"><span class="token keyword">for</span> item <span class="token keyword">in</span> array <span class="token punctuation">{</span>
+  <span class="token function">print</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<blockquote>
+<p>快速枚举数组，用元祖(index, value)接收</p>
+</blockquote>
+<pre class=" language-swift"><code class="language-swift"><span class="token keyword">for</span> <span class="token punctuation">(</span>index<span class="token punctuation">,</span> value<span class="token punctuation">)</span> <span class="token keyword">in</span> array<span class="token punctuation">.</span><span class="token function">enumerated</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">print</span><span class="token punctuation">(</span>index<span class="token punctuation">,</span> value<span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<p><strong>array.enumerated() + map 快速枚举</strong></p>
+<pre class=" language-swift"><code class="language-swift"><span class="token keyword">let</span> nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">]</span>
+<span class="token keyword">let</span> newNums <span class="token operator">=</span> nums<span class="token punctuation">.</span><span class="token function">enumerated</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token builtin">map</span> <span class="token punctuation">{</span> <span class="token punctuation">(</span>index<span class="token punctuation">,</span> num<span class="token punctuation">)</span> <span class="token keyword">in</span>
+    <span class="token keyword">return</span> num <span class="token operator">*</span> <span class="token number">10</span>
+<span class="token punctuation">}</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"newNums:<span class="token interpolation"><span class="token delimiter variable">\(</span>newNums<span class="token delimiter variable">)</span></span>"</span><span class="token punctuation">)</span></code></pre>
+<h1 id="数组的值倒叙reversed-enumerated"><a href="#数组的值倒叙reversed-enumerated" class="headerlink" title="数组的值倒叙reversed() + enumerated()"></a>数组的值倒叙reversed() + enumerated()</h1><blockquote>
+<p>//可以用来快速的枚举数组中的内容，并用元组(index, value)接收 public func enumerated() -&gt; EnumeratedSequence&gt;</p>
+<p>//可以倒叙数组内容 public func reversed() -&gt; ReversedRandomAccessCollection&gt;</p>
+</blockquote>
+<pre class=" language-swift"><code class="language-swift"><span class="token keyword">let</span> nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">]</span>
 
-<h4 id="Step-2"><a href="#Step-2" class="headerlink" title="Step 2"></a>Step 2</h4><p><strong>进入设置-&gt;「Lookin」-&gt;「Enabled Applications」-&gt;启用想要查看的App</strong></p>
-<img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200406125024.PNG" style="zoom:33%;" />
+
+<span class="token comment" spellcheck="true">//1、值倒叙</span>
+<span class="token keyword">for</span> item <span class="token keyword">in</span> nums<span class="token punctuation">.</span><span class="token function">reversed</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">enumerated</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">print</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span>index<span class="token punctuation">,</span> item<span class="token punctuation">)</span> <span class="token keyword">in</span> nums<span class="token punctuation">.</span><span class="token function">reversed</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">enumerated</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
 
 
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">/*
+ (offset: 0, element: 1)
+ (offset: 1, element: 2)
+ (offset: 2, element: 3)
+ (offset: 3, element: 4)
+ (offset: 4, element: 5)
+ */</span>
 
-<h4 id="Step-3"><a href="#Step-3" class="headerlink" title="Step 3"></a>Step 3</h4><p><strong>数据线连接越狱手机到Mac-&gt; 打开要查看的APP -&gt;Mac上打开Lookin -&gt; 查看三方的App。</strong></p>
-<img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200406125351.png" style="zoom:50%;" />
+
+<span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">--</span><span class="token operator">-</span>
 
 
-<h3 id="2、Lookin使用"><a href="#2、Lookin使用" class="headerlink" title="2、Lookin使用"></a>2、Lookin使用</h3><h4 id="2-1可以看到列表0"><a href="#2-1可以看到列表0" class="headerlink" title="2.1可以看到列表0"></a>2.1可以看到列表0</h4><img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200406130759.png" style="zoom:50%;" />
+<span class="token comment" spellcheck="true">// 2、索引+值都是倒叙</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> nums<span class="token punctuation">.</span><span class="token function">enumerated</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">reversed</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token comment" spellcheck="true">//    print("\(i)")</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">/*
+(offset: 4, element: 1)
+(offset: 3, element: 2)
+(offset: 2, element: 3)
+(offset: 1, element: 4)
+(offset: 0, element: 5)
+*/</span></code></pre>
+<h1 id="数组的索引逆序"><a href="#数组的索引逆序" class="headerlink" title="数组的索引逆序"></a>数组的索引逆序</h1><pre class=" language-swift"><code class="language-swift"><span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">(</span>nums<span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">reversed</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">print</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<h1 id="数组的索引逆序-1"><a href="#数组的索引逆序-1" class="headerlink" title="数组的索引逆序"></a>数组的索引逆序</h1><h4 id="1、forEach-遍历optional集合会自动过滤nil"><a href="#1、forEach-遍历optional集合会自动过滤nil" class="headerlink" title="1、forEach()遍历optional集合会自动过滤nil"></a>1、forEach()遍历optional集合会自动过滤nil</h4><pre class=" language-swift"><code class="language-swift"><span class="token keyword">let</span> optionalString<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token builtin">String</span><span class="token punctuation">]</span><span class="token operator">?</span> <span class="token operator">=</span> <span class="token constant">nil</span>
+<span class="token comment" spellcheck="true">//使用forEach强制解包option，会过滤</span>
+optionalString<span class="token operator">?</span><span class="token punctuation">.</span>forEach <span class="token punctuation">{</span> str <span class="token keyword">in</span>
+    <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"str is (str)"</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">///使用for-in强制解包optional，会crash</span>
+<span class="token keyword">for</span> str <span class="token keyword">in</span> optionalString<span class="token operator">!</span> <span class="token punctuation">{</span>
+    <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"str is (str)"</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="2、forEach-和enumerated-的区别"><a href="#2、forEach-和enumerated-的区别" class="headerlink" title="2、forEach()和enumerated()的区别?"></a>2、forEach()和enumerated()的区别?</h4><ul>
+<li><strong>forEach的官方定义</strong></li>
+</ul>
+<pre class=" language-swift"><code class="language-swift"><span class="token keyword">public</span> <span class="token keyword">func</span> <span class="token function">forEach</span><span class="token punctuation">(</span><span class="token number">_</span> body<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token builtin">Element</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Void</span><span class="token punctuation">)</span> <span class="token keyword">rethrows</span> <span class="token punctuation">{</span>
+    <span class="token keyword">for</span> element <span class="token keyword">in</span> <span class="token keyword">self</span> <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token function">body</span><span class="token punctuation">(</span>element<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<ul>
+<li><strong>forEach的使用</strong></li>
+</ul>
+<pre class=" language-swift"><code class="language-swift">ships<span class="token punctuation">.</span>forEach <span class="token punctuation">{</span>
+    <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"<span class="token interpolation"><span class="token delimiter variable">\(</span>$<span class="token number">0</span><span class="token punctuation">.</span>value<span class="token delimiter variable">)</span></span> is from <span class="token interpolation"><span class="token delimiter variable">\(</span>$<span class="token number">0</span><span class="token punctuation">.</span>key<span class="token delimiter variable">)</span></span>"</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="3、enumerated-还是zip"><a href="#3、enumerated-还是zip" class="headerlink" title="3、enumerated()还是zip()???"></a>3、enumerated()还是<a href="https://swift.gg/2017/05/05/you-probably-don' target="_blank" rel="noopener"t-want-enumerated/">zip()</a>???</h4><p>我见到 <code>enumerated()</code> 最常用的方式是对一个数组执行 enumerated，使用返回的 offset 来获取另一个数组对应的元素。</p>
+<pre><code>for (offset, model) in models.enumerated() {
+    let viewController = viewControllers[offset]
+    viewController.model = model
+}
 
-<h4 id="2-2可以看到列表6"><a href="#2-2可以看到列表6" class="headerlink" title="2.2可以看到列表6"></a>2.2可以看到列表6</h4><p><img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200406130414.png" alt=""></p>
-<p>代理方法：<code>UIScrollViewDelayedTouchesBeganGestureRecognizer</code></p>
-<p>代理方法：<code>UIScrollViewPanGestureRecognizer</code></p>
+</code></pre><p>虽然这段代码可以正常运作，但<strong>前提是 <code>models</code> 和 <code>viewControllers</code> 都是 Array 类型，使用整型来作为索引值类型，从 0 开始。另一个前提是这两个数组拥有相同的长度。如果<code>models</code> 的数组长度比 <code>viewControllers</code> 短的话，就会崩溃。</strong>我们还多了一个没有实际意义的多余的变量 <code>offset</code>。一个简洁的 Swift 实现方式应该是：</p>
+<pre><code>for (model, viewController) in zip(models, viewControllers) {
+    viewController.model = model
+}
+
+</code></pre><p><strong>使用zip()加简洁，而且适用于所有 <code>Sequence</code> 类型，而且可以安全地处理不等长的数组。</strong></p>
+<p>让我们看看另一个例子，这段代码给第一个 <code>imageView</code> 和它的容器以及每个 <code>imageView</code> 之间添加了一段 autolayout 的约束</p>
+<pre class=" language-swift"><code class="language-swift"><span class="token keyword">for</span> <span class="token punctuation">(</span>offset<span class="token punctuation">,</span> imageView<span class="token punctuation">)</span> <span class="token keyword">in</span> imageViews<span class="token punctuation">.</span><span class="token function">enumerated</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> offset <span class="token operator">==</span> <span class="token number">0</span> <span class="token punctuation">{</span>
+        imageView<span class="token punctuation">.</span>leadingAnchor<span class="token punctuation">.</span><span class="token function">constraint</span><span class="token punctuation">(</span>equalTo<span class="token punctuation">:</span> containerView<span class="token punctuation">.</span>leadingAnchor<span class="token punctuation">)</span><span class="token punctuation">.</span>isActive <span class="token operator">=</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token keyword">let</span> imageToAnchor <span class="token operator">=</span> imageView<span class="token punctuation">[</span>offset <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span>
+        imageView<span class="token punctuation">.</span>leadingAnchor<span class="token punctuation">.</span><span class="token function">constraint</span><span class="token punctuation">(</span>equalTo<span class="token punctuation">:</span> imageToAnchor<span class="token punctuation">.</span>trailingAnchor<span class="token punctuation">)</span><span class="token punctuation">.</span>isActive <span class="token operator">=</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+</code></pre>
+<p>这段示例代码也有同样的问题，我们想要成对的元素，但使用 <code>enumerated()</code> 去获取索引以便后续操作的时候，我们就需要手动去处理索引，这并没有必要。<code>zip</code> 在这种情况下也适用。</p>
+<p>首先，处理容器和第一个元素的约束：</p>
+<pre class=" language-swift"><code class="language-swift">imageViews<span class="token punctuation">.</span><span class="token builtin">first</span><span class="token operator">?</span><span class="token punctuation">.</span>leadingAnchor<span class="token punctuation">.</span><span class="token function">constraint</span><span class="token punctuation">(</span>equalTo<span class="token punctuation">:</span> containerView<span class="token punctuation">.</span>leadingAnchor<span class="token punctuation">)</span><span class="token punctuation">.</span>isActive <span class="token operator">=</span> <span class="token boolean">true</span>
+
+</code></pre>
+<p>接着，我们来把元素拼成一对：</p>
+<pre class=" language-swift"><code class="language-swift"><span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">left</span><span class="token punctuation">,</span> <span class="token keyword">right</span><span class="token punctuation">)</span> <span class="token keyword">in</span> <span class="token function">zip</span><span class="token punctuation">(</span>imageViews<span class="token punctuation">,</span> imageViews<span class="token punctuation">.</span><span class="token function">dropFirst</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">left</span><span class="token punctuation">.</span>trailingAnchor<span class="token punctuation">.</span><span class="token function">constraint</span><span class="token punctuation">(</span>equalTo<span class="token punctuation">:</span> <span class="token keyword">right</span><span class="token punctuation">.</span>leadingAnchor<span class="token punctuation">)</span><span class="token punctuation">.</span>isActive <span class="token operator">=</span> <span class="token boolean">true</span>
+<span class="token punctuation">}</span>
+
+</code></pre>
+<p>搞定，没有索引值，任何 Sequence 类型都适用，而且更加简洁。</p>
 
             </div>
             <hr/>
@@ -513,7 +600,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://mingriweiji-github.github.io/2020/04/06/LookinLoader%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/">https://mingriweiji-github.github.io/2020/04/06/LookinLoader%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/</a>
+                    <a href="https://mingriweiji-github.github.io/2020/04/18/Swift%E9%9B%86%E5%90%88%E6%BA%90%E7%A0%81/">https://mingriweiji-github.github.io/2020/04/18/Swift%E9%9B%86%E5%90%88%E6%BA%90%E7%A0%81/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -718,28 +805,23 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/04/18/Swift%E9%9B%86%E5%90%88%E6%BA%90%E7%A0%81/">
+                <a href="/2020/04/18/Swift%E6%A0%87%E5%87%86%E5%BA%93%E6%BA%90%E7%A0%81/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="Swift集合源码">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="Swift标准库源码">
                         
-                        <span class="card-title">Swift集合源码</span>
+                        <span class="card-title">Swift标准库源码</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Swift CollectionsArray数组Array的两种for循环
-只遍历value
-
-for item in array {
-  print(item)
-}
-
-快速枚举数组，用元祖(index, value)接收
-
-for (in
+                            Swift标准库源码
+Swift.org
+Github开源地址 
+1、下载后的路径使用BBEdit查看所有标准库：stdlib/public/core/
+2、网页查看：https://github.com/apple/swift/tree/
                         
                     </div>
                     <div class="publish-info">
@@ -764,29 +846,31 @@ for (in
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/04/04/iOS%E8%B6%8A%E7%8B%B1%E5%88%9D%E4%BD%93%E9%AA%8C/">
+                <a href="/2020/04/06/LookinLoader%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="iOS越狱初体验">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="LookinLoader安装使用">
                         
-                        <span class="card-title">iOS越狱初体验</span>
+                        <span class="card-title">LookinLoader安装使用</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            iOS越狱初体验iOS越狱能做到什么？
-查看 第三方APP UI 排版方式、布局实现技术
-获取三方App内部资源 .assets/.plist/icon…
-修改APP 功能重新打包 (EX: 去广告)
-反编译推测原始工程代码内容
-dump 
+                            Lookin查看自己的App
+1、Lookin下载
+
+2、pod添加：pod &#39;LookinServer&#39;, :configurations =&gt; [&#39;Debug&#39;]
+
+3、pod install
+
+4
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-04
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-06
                             </span>
                         <span class="publish-author">
                             

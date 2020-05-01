@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mingriweiji-github.github.io/"/>
-  <updated>2020-05-01T11:21:12.730Z</updated>
+  <updated>2020-05-01T12:17:53.425Z</updated>
   <id>https://mingriweiji-github.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://mingriweiji-github.github.io/2020/04/18/Swift%E6%A0%87%E5%87%86%E5%BA%93%E6%BA%90%E7%A0%81/"/>
     <id>https://mingriweiji-github.github.io/2020/04/18/Swift%E6%A0%87%E5%87%86%E5%BA%93%E6%BA%90%E7%A0%81/</id>
     <published>2020-04-18T02:13:45.000Z</published>
-    <updated>2020-05-01T11:21:12.730Z</updated>
+    <updated>2020-05-01T12:17:53.425Z</updated>
     
     <summary type="html">
     
@@ -48,8 +48,8 @@
     <title>Swift集合源码</title>
     <link href="https://mingriweiji-github.github.io/2020/04/18/Swift%E9%9B%86%E5%90%88%E6%BA%90%E7%A0%81/"/>
     <id>https://mingriweiji-github.github.io/2020/04/18/Swift%E9%9B%86%E5%90%88%E6%BA%90%E7%A0%81/</id>
-    <published>2020-04-18T02:08:23.000Z</published>
-    <updated>2020-04-25T23:36:14.140Z</updated>
+    <published>2020-04-18T00:08:23.000Z</published>
+    <updated>2020-05-01T12:21:40.066Z</updated>
     
     <summary type="html">
     
@@ -64,6 +64,60 @@
     </summary>
     
     
+    
+  </entry>
+  
+  <entry>
+    <title>Alamfire源码</title>
+    <link href="https://mingriweiji-github.github.io/2020/04/16/Alamfire%E6%BA%90%E7%A0%81/"/>
+    <id>https://mingriweiji-github.github.io/2020/04/16/Alamfire%E6%BA%90%E7%A0%81/</id>
+    <published>2020-04-16T02:13:45.000Z</published>
+    <updated>2020-05-01T11:51:27.313Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;Alamfire-Github地址&quot;&gt;&lt;a href=&quot;#Alamfire-Github地址&quot; class=&quot;headerlink&quot; title=&quot;Alamfire Github地址&quot;&gt;&lt;/a&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+    
+      <category term="swift" scheme="https://mingriweiji-github.github.io/categories/swift/"/>
+    
+    
+      <category term="源码" scheme="https://mingriweiji-github.github.io/tags/%E6%BA%90%E7%A0%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Kingfisher源码</title>
+    <link href="https://mingriweiji-github.github.io/2020/04/16/Kingfisher%E6%BA%90%E7%A0%81/"/>
+    <id>https://mingriweiji-github.github.io/2020/04/16/Kingfisher%E6%BA%90%E7%A0%81/</id>
+    <published>2020-04-16T02:13:45.000Z</published>
+    <updated>2020-05-01T11:51:55.504Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;Kingfisher源码&quot;&gt;&lt;a href=&quot;#Kingfisher源码&quot; class=&quot;headerlink&quot; title=&quot;Kingfisher源码&quot;&gt;&lt;/a&gt;Kingfisher源码&lt;/h1&gt;&lt;h4 id=&quot;Kingfisher3架构&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+    
+      <category term="swift" scheme="https://mingriweiji-github.github.io/categories/swift/"/>
+    
+    
+      <category term="源码" scheme="https://mingriweiji-github.github.io/tags/%E6%BA%90%E7%A0%81/"/>
     
   </entry>
   
@@ -162,147 +216,6 @@
   </entry>
   
   <entry>
-    <title>Alamfire源码</title>
-    <link href="https://mingriweiji-github.github.io/2020/03/25/Alamfire%E6%BA%90%E7%A0%81/"/>
-    <id>https://mingriweiji-github.github.io/2020/03/25/Alamfire%E6%BA%90%E7%A0%81/</id>
-    <published>2020-03-24T17:57:02.623Z</published>
-    <updated>2020-04-11T03:04:06.161Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;Alamfire&lt;/p&gt;
-&lt;h2 id=&quot;Github地址&quot;&gt;&lt;a href=&quot;#Github地址&quot; class=&quot;headerlink&quot; title=&quot;Github地址&quot;&gt;&lt;/a&gt;&lt;a
-        
-      
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Kingfisher源码</title>
-    <link href="https://mingriweiji-github.github.io/2020/03/24/Kingfisher%E6%BA%90%E7%A0%81/"/>
-    <id>https://mingriweiji-github.github.io/2020/03/24/Kingfisher%E6%BA%90%E7%A0%81/</id>
-    <published>2020-03-24T09:41:47.374Z</published>
-    <updated>2020-03-25T01:42:00.076Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;Kingfisher源码&quot;&gt;&lt;a href=&quot;#Kingfisher源码&quot; class=&quot;headerlink&quot; title=&quot;Kingfisher源码&quot;&gt;&lt;/a&gt;Kingfisher源码&lt;/h1&gt;&lt;h4 id=&quot;Kingfisher3架构&quot;&gt;&lt;a
-        
-      
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>一颗太阳</title>
-    <link href="https://mingriweiji-github.github.io/2020/03/18/%E4%B8%80%E9%A2%97%E5%A4%AA%E9%98%B3/"/>
-    <id>https://mingriweiji-github.github.io/2020/03/18/%E4%B8%80%E9%A2%97%E5%A4%AA%E9%98%B3/</id>
-    <published>2020-03-18T06:44:02.192Z</published>
-    <updated>2020-03-18T06:44:02.192Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;激情岁月&lt;/p&gt;
-&lt;h2 id=&quot;一颗太阳&quot;&gt;&lt;a href=&quot;#一颗太阳&quot; class=&quot;headerlink&quot; title=&quot;一颗太阳&quot;&gt;&lt;/a&gt;一颗太阳&lt;/h2&gt;&lt;h2 id=&quot;一千颗太阳&quot;&gt;&lt;a href=&quot;#一千颗太阳&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>排序问题</title>
-    <link href="https://mingriweiji-github.github.io/2020/03/15/%E6%8E%92%E5%BA%8F%E9%97%AE%E9%A2%98/"/>
-    <id>https://mingriweiji-github.github.io/2020/03/15/%E6%8E%92%E5%BA%8F%E9%97%AE%E9%A2%98/</id>
-    <published>2020-03-15T04:37:17.863Z</published>
-    <updated>2020-03-17T01:55:57.693Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;带着问题去学习，是最有效的学习方法。所以按照惯例，我还是先给你出一个思考题：&lt;/p&gt;
-&lt;h3 id=&quot;问题一：为什么插入排序比冒泡排序更受欢迎？&quot;&gt;&lt;a href=&quot;#问题一：为什么插入排序比冒泡排序更受欢迎？&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>反转问题</title>
-    <link href="https://mingriweiji-github.github.io/2020/03/15/%E5%8F%8D%E8%BD%AC%E9%97%AE%E9%A2%98/"/>
-    <id>https://mingriweiji-github.github.io/2020/03/15/%E5%8F%8D%E8%BD%AC%E9%97%AE%E9%A2%98/</id>
-    <published>2020-03-15T03:35:25.039Z</published>
-    <updated>2020-03-15T04:25:50.290Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;字符串反转&quot;&gt;&lt;a href=&quot;#字符串反转&quot; class=&quot;headerlink&quot; title=&quot;字符串反转&quot;&gt;&lt;/a&gt;字符串反转&lt;/h2&gt;&lt;h3 id=&quot;方法一：递归&quot;&gt;&lt;a href=&quot;#方法一：递归&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>智力题</title>
-    <link href="https://mingriweiji-github.github.io/2020/03/15/%E6%99%BA%E5%8A%9B%E9%A2%98/"/>
-    <id>https://mingriweiji-github.github.io/2020/03/15/%E6%99%BA%E5%8A%9B%E9%A2%98/</id>
-    <published>2020-03-15T02:44:43.844Z</published>
-    <updated>2020-03-15T03:31:45.729Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;智力题&quot;&gt;&lt;a href=&quot;#智力题&quot; class=&quot;headerlink&quot; title=&quot;智力题&quot;&gt;&lt;/a&gt;智力题&lt;/h1&gt;&lt;h2 id=&quot;1、有两个水桶，-一个装-3L-的水，-一个可装-5L-的水，-问-如何利用这两个桶，-量出-4L-的水来？&quot;&gt;&lt;a
-        
-      
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
     <title>Runloop</title>
     <link href="https://mingriweiji-github.github.io/2020/03/11/Runloop/"/>
     <id>https://mingriweiji-github.github.io/2020/03/11/Runloop/</id>
@@ -344,6 +257,45 @@
     
     </summary>
     
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Swift函数式编程</title>
+    <link href="https://mingriweiji-github.github.io/2020/02/20/Swift%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/"/>
+    <id>https://mingriweiji-github.github.io/2020/02/20/Swift%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/</id>
+    <published>2020-02-20T02:13:45.000Z</published>
+    <updated>2020-05-01T12:21:13.305Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Functional-Programming-in-Swift&quot;&gt;&lt;a href=&quot;#Functional-Programming-in-Swift&quot; class=&quot;headerlink&quot; title=&quot;Functional Programming in Swift&quot;&gt;&lt;/a&gt;Functional Programming in Swift&lt;/h1&gt;&lt;p&gt;函数式编程介绍。版本：swift 4.2, iOS 12, Xcode 10&lt;/p&gt;
+&lt;p&gt;在本部分中，您将介绍FP中的一些关键概念。许多讨论FP的论文都将不变状态和缺乏副作用视为FP的最重要方面，因此您将从这里开始。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="swift" scheme="https://mingriweiji-github.github.io/categories/swift/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Swift备忘录</title>
+    <link href="https://mingriweiji-github.github.io/2020/02/18/Swift%E5%A4%87%E5%BF%98%E5%BD%95/"/>
+    <id>https://mingriweiji-github.github.io/2020/02/18/Swift%E5%A4%87%E5%BF%98%E5%BD%95/</id>
+    <published>2020-02-18T02:13:45.000Z</published>
+    <updated>2020-05-01T12:20:32.454Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;SwiftTip&quot;&gt;&lt;a href=&quot;#SwiftTip&quot; class=&quot;headerlink&quot; title=&quot;SwiftTip&quot;&gt;&lt;/a&gt;SwiftTip&lt;/h1&gt;
+    
+    </summary>
+    
+    
+      <category term="swift" scheme="https://mingriweiji-github.github.io/categories/swift/"/>
     
     
   </entry>
@@ -418,53 +370,6 @@
   </entry>
   
   <entry>
-    <title>红黑树前世今生</title>
-    <link href="https://mingriweiji-github.github.io/2019/12/30/%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/"/>
-    <id>https://mingriweiji-github.github.io/2019/12/30/%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/</id>
-    <published>2019-12-30T07:28:54.939Z</published>
-    <updated>2019-12-30T07:28:54.939Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;红黑树前世今生&quot;&gt;&lt;a href=&quot;#红黑树前世今生&quot; class=&quot;headerlink&quot; title=&quot;红黑树前世今生&quot;&gt;&lt;/a&gt;红黑树前世今生&lt;/h1&gt;&lt;p&gt;关键词：二叉搜索树、前驱节点、后继节点、B树、红黑树&lt;/p&gt;
-&lt;h2 id=&quot;什么是B树&quot;&gt;&lt;a
-        
-      
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>二叉树前世今生</title>
-    <link href="https://mingriweiji-github.github.io/2019/12/30/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/"/>
-    <id>https://mingriweiji-github.github.io/2019/12/30/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/</id>
-    <published>2019-12-30T07:28:54.936Z</published>
-    <updated>2019-12-30T07:28:54.937Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;二叉树今生&quot;&gt;&lt;a href=&quot;#二叉树今生&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
     <title>iOS图像处理</title>
     <link href="https://mingriweiji-github.github.io/2019/12/30/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/"/>
     <id>https://mingriweiji-github.github.io/2019/12/30/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</id>
@@ -484,6 +389,116 @@
     </summary>
     
     
+    
+  </entry>
+  
+  <entry>
+    <title>红黑树前世今生</title>
+    <link href="https://mingriweiji-github.github.io/2019/06/08/%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/"/>
+    <id>https://mingriweiji-github.github.io/2019/06/08/%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/</id>
+    <published>2019-06-08T02:13:45.000Z</published>
+    <updated>2020-05-01T12:08:13.707Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;红黑树前世今生&quot;&gt;&lt;a href=&quot;#红黑树前世今生&quot; class=&quot;headerlink&quot; title=&quot;红黑树前世今生&quot;&gt;&lt;/a&gt;红黑树前世今生&lt;/h1&gt;&lt;p&gt;关键词：二叉搜索树、前驱节点、后继节点、B树、红黑树&lt;/p&gt;
+&lt;h2 id=&quot;什么是B树&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+    
+      <category term="java" scheme="https://mingriweiji-github.github.io/categories/java/"/>
+    
+    
+      <category term="算法" scheme="https://mingriweiji-github.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>二叉树今生</title>
+    <link href="https://mingriweiji-github.github.io/2019/06/06/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/"/>
+    <id>https://mingriweiji-github.github.io/2019/06/06/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/</id>
+    <published>2019-06-06T02:13:45.000Z</published>
+    <updated>2020-05-01T12:08:30.369Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;二叉树今生&quot;&gt;&lt;a href=&quot;#二叉树今生&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="java" scheme="https://mingriweiji-github.github.io/categories/java/"/>
+    
+    
+      <category term="算法" scheme="https://mingriweiji-github.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>排序问题</title>
+    <link href="https://mingriweiji-github.github.io/2018/01/01/%E6%8E%92%E5%BA%8F%E9%97%AE%E9%A2%98/"/>
+    <id>https://mingriweiji-github.github.io/2018/01/01/%E6%8E%92%E5%BA%8F%E9%97%AE%E9%A2%98/</id>
+    <published>2018-01-01T03:11:45.000Z</published>
+    <updated>2020-05-01T12:12:44.878Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;带着问题去学习，是最有效的学习方法。所以按照惯例，我还是先给你出一个思考题：&lt;/p&gt;
+&lt;h3 id=&quot;问题一：为什么插入排序比冒泡排序更受欢迎？&quot;&gt;&lt;a href=&quot;#问题一：为什么插入排序比冒泡排序更受欢迎？&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="java" scheme="https://mingriweiji-github.github.io/categories/java/"/>
+    
+    
+      <category term="算法" scheme="https://mingriweiji-github.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>反转问题</title>
+    <link href="https://mingriweiji-github.github.io/2018/01/01/%E5%8F%8D%E8%BD%AC%E9%97%AE%E9%A2%98/"/>
+    <id>https://mingriweiji-github.github.io/2018/01/01/%E5%8F%8D%E8%BD%AC%E9%97%AE%E9%A2%98/</id>
+    <published>2018-01-01T02:13:45.000Z</published>
+    <updated>2020-05-01T12:13:24.640Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;字符串反转&quot;&gt;&lt;a href=&quot;#字符串反转&quot; class=&quot;headerlink&quot; title=&quot;字符串反转&quot;&gt;&lt;/a&gt;字符串反转&lt;/h2&gt;&lt;h3 id=&quot;方法一：递归&quot;&gt;&lt;a href=&quot;#方法一：递归&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="java" scheme="https://mingriweiji-github.github.io/categories/java/"/>
+    
+    
+      <category term="算法" scheme="https://mingriweiji-github.github.io/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   

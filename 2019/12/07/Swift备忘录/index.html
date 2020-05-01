@@ -520,6 +520,18 @@
 <p><strong>在Swift中千万不要用String的count方法计算文本长度,否则当文本中有emoji时，会计算出错。</strong></p>
 <p><strong>应当转成NSString再去求length</strong></p>
 </blockquote>
+<h4 id="Swift-单例"><a href="#Swift-单例" class="headerlink" title="Swift 单例"></a>Swift 单例</h4><pre class=" language-swift"><code class="language-swift"><span class="token keyword">class</span> <span class="token class-name">Manager</span>  <span class="token punctuation">{</span>
+    <span class="token keyword">static</span> <span class="token keyword">let</span> shared <span class="token operator">=</span> <span class="token function">Manager</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token keyword">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<blockquote>
+<p>这种写法不仅简洁，而且保证了单例的独一无二。</p>
+<p><strong>在初始化类变量的时候，Apple 将会把这个初始化包装在一次 swift_once_block_invoke 中，以保证它的唯一性。</strong></p>
+<p><strong>不仅如此，对于所有的全局变量，Apple 都会在底层使用这个类似 dispatch_once 的方式来确保只以 lazy 的方式初始化一次。</strong></p>
+<p>另外，我们在这个类型中加入了一个私有的初始化方法，来覆盖默认的公开初始化方法，这让项目中的其他地方不能够通过 init 来生成自己的 MyManager 实例，也保证了类型单例的唯一性。</p>
+<p>如果你需要的是类似 default 的形式的单例 (也就是说这个类的使用者可以创建自己的实例) 的话，可以去掉这个私有的 init 方法。</p>
+<p>摘录来自: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第四版)。” Apple Books. </p>
+</blockquote>
 <h4 id="Swift访问控制权限"><a href="#Swift访问控制权限" class="headerlink" title="Swift访问控制权限"></a>Swift访问控制权限</h4><p>Swift的访问权限管理依赖于两个概念：module和文件。module是一个完整的代码单元，</p>
 <p>它可以是一个或多个框架（Framework），或者是一个App Bundle，可以被import导入到工程中。</p>
 <p>文件指的就是<code>Swift File</code>，它通常属于一个module。</p>
@@ -1058,6 +1070,30 @@ protocol <span class="token builtin">CanCreateUser</span> <span class="token pun
 <h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><pre class=" language-swift"><code class="language-swift"><span class="token keyword">func</span> <span class="token function">first</span><span class="token punctuation">(</span>action<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token builtin">Int</span><span class="token punctuation">,</span> <span class="token builtin">Error</span><span class="token operator">?</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Void</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
 <span class="token keyword">func</span> <span class="token function">second</span><span class="token punctuation">(</span>action<span class="token punctuation">:</span> <span class="token builtin">Success</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
 <p>第二个不是立即就能明白的。<strong><code>Success</code> 是什么类型？如何构造它？你必须在 Xcode 中按住 Option 单击它，以了解它的功能和工作方式。这会带来额外的工作量。如果使用了许多类型别名，则将花费更多的时间。</strong>这没有很好的解决方案，（通常）只能依赖于用例。</p>
+<h4 id="UnsafePointer"><a href="#UnsafePointer" class="headerlink" title="UnsafePointer"></a>UnsafePointer</h4><h4 id="UnsafeMutablePointer"><a href="#UnsafeMutablePointer" class="headerlink" title="UnsafeMutablePointer"></a>UnsafeMutablePointer</h4><h4 id="UnsafeRawPointer"><a href="#UnsafeRawPointer" class="headerlink" title="UnsafeRawPointer"></a>UnsafeRawPointer</h4><h4 id="UnsafeMutableRawPointer"><a href="#UnsafeMutableRawPointer" class="headerlink" title="UnsafeMutableRawPointer"></a>UnsafeMutableRawPointer</h4><h4 id="extension-添加属性"><a href="#extension-添加属性" class="headerlink" title="extension 添加属性"></a>extension 添加属性</h4><h5 id="储存属性"><a href="#储存属性" class="headerlink" title="储存属性"></a>储存属性</h5><pre class=" language-swift"><code class="language-swift"><span class="token comment" spellcheck="true">///public struct URLRequest : ReferenceConvertible, Equatable, Hashable {}</span>
+<span class="token keyword">private</span> <span class="token keyword">var</span> <span class="token builtin">KeyIdentifer</span><span class="token punctuation">:</span> <span class="token builtin">Void</span><span class="token operator">?</span>
+<span class="token keyword">extension</span> <span class="token builtin">URLRequest</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">internal</span><span class="token punctuation">(</span><span class="token keyword">set</span><span class="token punctuation">)</span> <span class="token keyword">var</span> key<span class="token punctuation">:</span> <span class="token builtin">String</span><span class="token operator">?</span> <span class="token punctuation">{</span>
+        <span class="token keyword">get</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token function">objc_getAssociatedObject</span><span class="token punctuation">(</span><span class="token keyword">self</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span><span class="token builtin">KeyIdentifer</span><span class="token punctuation">)</span> <span class="token keyword">as</span><span class="token operator">?</span> <span class="token builtin">String</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">set</span> <span class="token punctuation">{</span>
+            <span class="token function">objc_setAssociatedObject</span><span class="token punctuation">(</span><span class="token keyword">self</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span><span class="token builtin">KeyIdentifer</span><span class="token punctuation">,</span> newValue<span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token constant">OBJC_ASSOCIATION_RETAIN_NONATOMIC</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="Bool属性"><a href="#Bool属性" class="headerlink" title="Bool属性"></a>Bool属性</h4><pre class=" language-swift"><code class="language-swift"><span class="token comment" spellcheck="true">///public struct URLRequest : ReferenceConvertible, Equatable, Hashable {}</span>
+<span class="token keyword">private</span> <span class="token keyword">var</span> <span class="token builtin">KeyIdentifer</span><span class="token punctuation">:</span> <span class="token builtin">Void</span><span class="token operator">?</span>
+<span class="token keyword">extension</span> xxx <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">internal</span><span class="token punctuation">(</span><span class="token keyword">set</span><span class="token punctuation">)</span> <span class="token keyword">var</span> isSuccess<span class="token punctuation">:</span> <span class="token builtin">Bool</span><span class="token operator">?</span> <span class="token punctuation">{</span>
+        <span class="token keyword">get</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token function">objc_getAssociatedObject</span><span class="token punctuation">(</span><span class="token keyword">self</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span><span class="token builtin">KeyIdentifer</span><span class="token punctuation">)</span> <span class="token keyword">as</span><span class="token operator">?</span> <span class="token builtin">Bool</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">set</span> <span class="token punctuation">{</span>
+            <span class="token function">objc_setAssociatedObject</span><span class="token punctuation">(</span><span class="token keyword">self</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span><span class="token builtin">KeyIdentifer</span><span class="token punctuation">,</span> newValue<span class="token punctuation">,</span> <span class="token punctuation">.</span><span class="token constant">OBJC_ASSOCIATION_RETAIN_NONATOMIC</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 
             </div>
             <hr/>

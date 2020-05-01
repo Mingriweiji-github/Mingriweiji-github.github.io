@@ -1,0 +1,1542 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Dyld源码阅读, 明日危机">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>Dyld源码阅读 | 明日危机</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<link rel="alternate" href="/atom.xml" title="明日危机" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">明日危机</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">明日危机</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Dyld源码阅读</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/iOS/">
+                                <span class="chip bg-color">iOS</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E6%BA%90%E7%A0%81/" class="post-category">
+                                源码
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2020-01-15
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="Dyld源码阅读"><a href="#Dyld源码阅读" class="headerlink" title="Dyld源码阅读"></a>Dyld源码阅读</h1><ul>
+<li>Version：<a href="https://opensource.apple.com/tarballs/dyld/" target="_blank" rel="noopener"><strong>dyld-551.4</strong></a></li>
+<li>Lauange：<strong>C++</strong></li>
+<li>load()调用路径：3566行 <ul>
+<li><code>load()-&gt;loadPhase0()-&gt;loadPhase1()-&gt;loadPhase2()-&gt;loadPhase4()-&gt;loadPhase5()打开或检查已经存在的动态库：dyld3::findInSharedCacheImage-&gt;loadPhase5load()-&gt;loadPhase5open()-&gt;loadPhase6()-&gt;加载3种Mach-O文件</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="1、动态库路径"><a href="#1、动态库路径" class="headerlink" title="1、动态库路径"></a>1、动态库路径</h2><p><strong>iOS越狱手机</strong></p>
+<ul>
+<li><strong>在Mac\iOS中，是使用了<code>/usr/lib/dyld</code>程序来加载动态库</strong></li>
+<li>UIKit路径：<code>/system/Library/Frameworks/UIKit.framework</code></li>
+<li><strong>动态库共享缓存</strong>：<code>/System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64</code></li>
+</ul>
+<h2 id="0x00-load"><a href="#0x00-load" class="headerlink" title="0x00 load()"></a>0x00 load()</h2><pre class=" language-c"><code class="language-c">ImageLoader<span class="token operator">*</span> <span class="token function">load</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> path<span class="token punctuation">,</span> <span class="token keyword">const</span> LoadContext<span class="token operator">&amp;</span> context<span class="token punctuation">,</span> <span class="token keyword">unsigned</span><span class="token operator">&amp;</span> cacheIndex<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// try all path permutations and check against existing loaded images</span>
+    ImageLoader<span class="token operator">*</span> image <span class="token operator">=</span> <span class="token function">loadPhase0</span><span class="token punctuation">(</span>path<span class="token punctuation">,</span> orgPath<span class="token punctuation">,</span> context<span class="token punctuation">,</span> cacheIndex<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span> image <span class="token operator">!=</span> <span class="token constant">NULL</span> <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">CRSetCrashLogMessage2</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> image<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">// try all path permutations and try open() until first success</span>
+    image <span class="token operator">=</span> <span class="token function">loadPhase0</span><span class="token punctuation">(</span>path<span class="token punctuation">,</span> orgPath<span class="token punctuation">,</span> context<span class="token punctuation">,</span> cacheIndex<span class="token punctuation">,</span> <span class="token operator">&amp;</span>exceptions<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span> image <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+        image <span class="token operator">=</span> <span class="token function">loadPhase2cache</span><span class="token punctuation">(</span>path<span class="token punctuation">,</span> orgPath<span class="token punctuation">,</span> context<span class="token punctuation">,</span> cacheIndex<span class="token punctuation">,</span> <span class="token operator">&amp;</span>exceptions<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token macro property">#<span class="token directive keyword">endif</span></span>
+    <span class="token function">CRSetCrashLogMessage2</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="0x01-loadPhase2"><a href="#0x01-loadPhase2" class="headerlink" title="0x01 loadPhase2()"></a>0x01 loadPhase2()</h2><h2 id="0x02-loadPhase5"><a href="#0x02-loadPhase5" class="headerlink" title="0x02 loadPhase5"></a>0x02 loadPhase5</h2><h4 id="loadPhase5load（）"><a href="#loadPhase5load（）" class="headerlink" title="loadPhase5load（）"></a>loadPhase5load（）</h4><h4 id="loadPhase5check（）"><a href="#loadPhase5check（）" class="headerlink" title="loadPhase5check（）"></a>loadPhase5check（）</h4><pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">// open or check existing</span>
+<span class="token keyword">static</span> ImageLoader<span class="token operator">*</span> <span class="token function">loadPhase5</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> path<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> orgPath<span class="token punctuation">,</span> <span class="token keyword">const</span> LoadContext<span class="token operator">&amp;</span> context<span class="token punctuation">,</span> <span class="token keyword">unsigned</span><span class="token operator">&amp;</span> cacheIndex<span class="token punctuation">,</span> std<span class="token punctuation">:</span><span class="token punctuation">:</span>vector<span class="token operator">&lt;</span><span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span><span class="token operator">></span><span class="token operator">*</span> exceptions<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>    
+    <span class="token comment" spellcheck="true">// check for specific dylib overrides</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>std<span class="token punctuation">:</span><span class="token punctuation">:</span>vector<span class="token operator">&lt;</span>DylibOverride<span class="token operator">></span><span class="token punctuation">:</span><span class="token punctuation">:</span>iterator it <span class="token operator">=</span> sDylibOverrides<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> it <span class="token operator">!=</span> sDylibOverrides<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token operator">++</span>it<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span> <span class="token function">strcmp</span><span class="token punctuation">(</span>it<span class="token operator">-></span>installName<span class="token punctuation">,</span> path<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">0</span> <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            path <span class="token operator">=</span> it<span class="token operator">-></span>override<span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span> exceptions <span class="token operator">!=</span> <span class="token constant">NULL</span> <span class="token punctuation">)</span> 
+        <span class="token keyword">return</span> <span class="token function">loadPhase5load</span><span class="token punctuation">(</span>path<span class="token punctuation">,</span> orgPath<span class="token punctuation">,</span> context<span class="token punctuation">,</span> cacheIndex<span class="token punctuation">,</span> exceptions<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">else</span>
+        <span class="token keyword">return</span> <span class="token function">loadPhase5check</span><span class="token punctuation">(</span>path<span class="token punctuation">,</span> orgPath<span class="token punctuation">,</span> context<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="0x03-findInSharedCacheImage"><a href="#0x03-findInSharedCacheImage" class="headerlink" title="0x03 findInSharedCacheImage"></a>0x03 findInSharedCacheImage</h2><pre class=" language-c"><code class="language-c"><span class="token keyword">static</span> bool <span class="token function">findInSharedCacheImage</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> path<span class="token punctuation">,</span> bool searchByPath<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">struct</span> stat<span class="token operator">*</span> stat_buf<span class="token punctuation">,</span> <span class="token keyword">const</span> macho_header<span class="token operator">*</span><span class="token operator">*</span> mh<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span><span class="token operator">*</span> pathInCache<span class="token punctuation">,</span> <span class="token keyword">long</span><span class="token operator">*</span> slide<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    dyld3<span class="token punctuation">:</span><span class="token punctuation">:</span>SharedCacheFindDylibResults results<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span> dyld3<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">findInSharedCacheImage</span><span class="token punctuation">(</span>sSharedCacheLoadInfo<span class="token punctuation">,</span> path<span class="token punctuation">,</span> <span class="token operator">&amp;</span>results<span class="token punctuation">)</span> <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token operator">*</span>mh             <span class="token operator">=</span> <span class="token punctuation">(</span>macho_header<span class="token operator">*</span><span class="token punctuation">)</span>results<span class="token punctuation">.</span>mhInCache<span class="token punctuation">;</span>
+        <span class="token operator">*</span>pathInCache <span class="token operator">=</span> results<span class="token punctuation">.</span>pathInCache<span class="token punctuation">;</span>
+        <span class="token operator">*</span>slide         <span class="token operator">=</span> results<span class="token punctuation">.</span>slideInCache<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> true<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> false<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+bool <span class="token function">inSharedCache</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> path<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">return</span> dyld3<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">pathIsInSharedCacheImage</span><span class="token punctuation">(</span>sSharedCacheLoadInfo<span class="token punctuation">,</span> path<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>    
+
+<span class="token keyword">static</span> <span class="token keyword">int</span> <span class="token function">imageSorter</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">void</span><span class="token operator">*</span> l<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">void</span><span class="token operator">*</span> r<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">const</span> ImageLoader<span class="token operator">*</span> left <span class="token operator">=</span> <span class="token operator">*</span><span class="token punctuation">(</span><span class="token punctuation">(</span>ImageLoader<span class="token operator">*</span><span class="token operator">*</span><span class="token punctuation">)</span>l<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> ImageLoader<span class="token operator">*</span> right<span class="token operator">=</span> <span class="token operator">*</span><span class="token punctuation">(</span><span class="token punctuation">(</span>ImageLoader<span class="token operator">*</span><span class="token operator">*</span><span class="token punctuation">)</span>r<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> left<span class="token operator">-></span><span class="token function">compare</span><span class="token punctuation">(</span>right<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<ul>
+<li>findInSharedCacheImage</li>
+<li>inSharedCache</li>
+</ul>
+<h2 id="0x04-Clang-编译dsc-extractor-cpp"><a href="#0x04-Clang-编译dsc-extractor-cpp" class="headerlink" title="0x04 Clang++编译dsc_extractor.cpp"></a>0x04 Clang++编译dsc_extractor.cpp</h2><h4 id="生成可执行文件dsc-extractor"><a href="#生成可执行文件dsc-extractor" class="headerlink" title="生成可执行文件dsc_extractor :"></a>生成可执行文件dsc_extractor :</h4><pre><code>$: clang++ -o dsc_extractor dsc_extractor.cpp </code></pre><img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200401153405.png" style="zoom:50%;" />
+
+<h4 id="抽取动态共享缓存中的Mach-O"><a href="#抽取动态共享缓存中的Mach-O" class="headerlink" title="抽取动态共享缓存中的Mach-O"></a>抽取动态共享缓存中的Mach-O</h4><pre><code>$: cd xxx/com.apple.dyld
+$: ./dsc_extractor dyld_shared_cache_arm64 arm64_file</code></pre><img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/截屏2020-04-01 下午3.35.35.png" style="zoom:50%;" />
+
+<p><strong>dsc_extractor.cpp内容如下:</strong></p>
+<pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">// test program</span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;stddef.h></span></span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;dlfcn.h></span></span>
+
+
+<span class="token keyword">typedef</span> <span class="token keyword">int</span> <span class="token punctuation">(</span><span class="token operator">*</span>extractor_proc<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> shared_cache_file_path<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> extraction_root_path<span class="token punctuation">,</span>
+                                                    <span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">^</span>progress<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">unsigned</span> current<span class="token punctuation">,</span> <span class="token keyword">unsigned</span> total<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span> argc <span class="token operator">!=</span> <span class="token number">3</span> <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">fprintf</span><span class="token punctuation">(</span><span class="token constant">stderr</span><span class="token punctuation">,</span> <span class="token string">"usage: dsc_extractor &lt;path-to-cache-file> &lt;path-to-device-dir>\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">//void* handle = dlopen("/Volumes/my/src/dyld/build/Debug/dsc_extractor.bundle", RTLD_LAZY);</span>
+    <span class="token keyword">void</span><span class="token operator">*</span> handle <span class="token operator">=</span> <span class="token function">dlopen</span><span class="token punctuation">(</span><span class="token string">"/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/usr/lib/dsc_extractor.bundle"</span><span class="token punctuation">,</span> RTLD_LAZY<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span> handle <span class="token operator">==</span> <span class="token constant">NULL</span> <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">fprintf</span><span class="token punctuation">(</span><span class="token constant">stderr</span><span class="token punctuation">,</span> <span class="token string">"dsc_extractor.bundle could not be loaded\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    extractor_proc proc <span class="token operator">=</span> <span class="token punctuation">(</span>extractor_proc<span class="token punctuation">)</span><span class="token function">dlsym</span><span class="token punctuation">(</span>handle<span class="token punctuation">,</span> <span class="token string">"dyld_shared_cache_extract_dylibs_progress"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span> proc <span class="token operator">==</span> <span class="token constant">NULL</span> <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">fprintf</span><span class="token punctuation">(</span><span class="token constant">stderr</span><span class="token punctuation">,</span> <span class="token string">"dsc_extractor.bundle did not have dyld_shared_cache_extract_dylibs_progress symbol\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">int</span> result <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token operator">*</span>proc<span class="token punctuation">)</span><span class="token punctuation">(</span>argv<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> argv<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token operator">^</span><span class="token punctuation">(</span><span class="token keyword">unsigned</span> c<span class="token punctuation">,</span> <span class="token keyword">unsigned</span> total<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d/%d\n"</span><span class="token punctuation">,</span> c<span class="token punctuation">,</span> total<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span> <span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">fprintf</span><span class="token punctuation">(</span><span class="token constant">stderr</span><span class="token punctuation">,</span> <span class="token string">"dyld_shared_cache_extract_dylibs_progress() => %d\n"</span><span class="token punctuation">,</span> result<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4 id="dyld加载流程"><a href="#dyld加载流程" class="headerlink" title="dyld加载流程"></a>dyld加载流程</h4><ul>
+<li>dyldStartup.s： <code>call __dyld_start -&gt;call dyldbootstrap::start</code> -&gt; dyldInitialization.cpp: <code>call start()-&gt;_main()</code>-&gt; </li>
+</ul>
+<h5 id="dyld的start-方法："><a href="#dyld的start-方法：" class="headerlink" title="dyld的start()方法："></a>dyld的start()方法：</h5><pre class=" language-c"><code class="language-c">uintptr_t <span class="token function">start</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">struct</span> macho_header<span class="token operator">*</span> appsMachHeader<span class="token punctuation">,</span> <span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> 
+                intptr_t slide<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">struct</span> macho_header<span class="token operator">*</span> dyldsMachHeader<span class="token punctuation">,</span>
+                uintptr_t<span class="token operator">*</span> startGlue<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// if kernel had to slide dyld, we need to fix up load sensitive locations</span>
+    <span class="token comment" spellcheck="true">// we have to do this before using any global variables</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span> slide <span class="token operator">!=</span> <span class="token number">0</span> <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">rebaseDyld</span><span class="token punctuation">(</span>dyldsMachHeader<span class="token punctuation">,</span> slide<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">// allow dyld to use mach messaging</span>
+    <span class="token function">mach_init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// kernel sets up env pointer to be just past end of agv array</span>
+    <span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span><span class="token operator">*</span> envp <span class="token operator">=</span> <span class="token operator">&amp;</span>argv<span class="token punctuation">[</span>argc<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// kernel sets up apple pointer to be just past end of envp array</span>
+    <span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span><span class="token operator">*</span> apple <span class="token operator">=</span> envp<span class="token punctuation">;</span>
+    <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token operator">*</span>apple <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token operator">++</span>apple<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token operator">++</span>apple<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// set up random value for stack canary</span>
+    <span class="token function">__guard_setup</span><span class="token punctuation">(</span>apple<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token macro property">#<span class="token directive keyword">if</span> DYLD_INITIALIZER_SUPPORT</span>
+    <span class="token comment" spellcheck="true">// run all C++ initializers inside dyld</span>
+    <span class="token function">runDyldInitializers</span><span class="token punctuation">(</span>dyldsMachHeader<span class="token punctuation">,</span> slide<span class="token punctuation">,</span> argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> envp<span class="token punctuation">,</span> apple<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token macro property">#<span class="token directive keyword">endif</span></span>
+
+    <span class="token comment" spellcheck="true">// now that we are done bootstrapping dyld, call dyld's main</span>
+    uintptr_t appsSlide <span class="token operator">=</span> <span class="token function">slideOfMainExecutable</span><span class="token punctuation">(</span>appsMachHeader<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> dyld<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">_main</span><span class="token punctuation">(</span>appsMachHeader<span class="token punctuation">,</span> appsSlide<span class="token punctuation">,</span> argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> envp<span class="token punctuation">,</span> apple<span class="token punctuation">,</span> startGlue<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token punctuation">}</span>
+</code></pre>
+<h5 id="dyld的main-方法"><a href="#dyld的main-方法" class="headerlink" title="dyld的main()方法"></a>dyld的main()方法</h5><pre class=" language-c"><code class="language-c">uintptr_t
+<span class="token function">_main</span><span class="token punctuation">(</span><span class="token keyword">const</span> macho_header<span class="token operator">*</span> mainExecutableMH<span class="token punctuation">,</span> uintptr_t mainExecutableSlide<span class="token punctuation">,</span> 
+        <span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> envp<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">char</span><span class="token operator">*</span> apple<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span> 
+        uintptr_t<span class="token operator">*</span> startGlue<span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//1、保存可执行文件header，后面可以根据header访问其他信息</span>
+    uintptr_t result <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    sMainExecutableMachHeader <span class="token operator">=</span> mainExecutableMH<span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">//2、设置上下文信息</span>
+    <span class="token function">setContext</span><span class="token punctuation">(</span>mainExecutableMH<span class="token punctuation">,</span> argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> envp<span class="token punctuation">,</span> apple<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">//3、获取可执行文件的路径</span>
+    sExecPath <span class="token operator">=</span> <span class="token function">_simple_getenv</span><span class="token punctuation">(</span>apple<span class="token punctuation">,</span> <span class="token string">"executable_path"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+
+<span class="token punctuation">}</span></code></pre>
+<h5 id="0x05反汇编-Hopper-Disassembler"><a href="#0x05反汇编-Hopper-Disassembler" class="headerlink" title="0x05反汇编 Hopper Disassembler"></a>0x05反汇编 Hopper Disassembler</h5><ul>
+<li>[Xclient下载Hopper Disassembler](<a href="https://xclie" target="_blank" rel="noopener">https://xclie</a> nt.info/s/hopper-disassembler.html#versions)</li>
+</ul>
+<h2 id="2、Mach-O文件"><a href="#2、Mach-O文件" class="headerlink" title="2、Mach-O文件"></a>2、Mach-O文件</h2><ul>
+<li><a href="https://opensource.apple.com/tarballs/xnu/" target="_blank" rel="noopener">Mac 内核xnu</a></li>
+<li>工具：<a href="https://github.com/mythkiven/MachOView" target="_blank" rel="noopener">MachOView</a></li>
+<li>来源：C/OC/Swift -&gt; .O目标文件-&gt;Mach-O可执行文件</li>
+<li><strong>查看Mac内核中的Mach-O</strong>: <code>xnu-6153.11.26-&gt;EXTERNAL_HEADERS-&gt;mach-o</code></li>
+</ul>
+<img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200402dyld.png" style="zoom: 67%;" />
+
+<h4 id="2-1-常见Mach-O"><a href="#2-1-常见Mach-O" class="headerlink" title="2.1 常见Mach-O"></a>2.1 常见Mach-O</h4><h4 id="MH-EXECUTE-可执行文件"><a href="#MH-EXECUTE-可执行文件" class="headerlink" title="MH_EXECUTE-可执行文件"></a>MH_EXECUTE-可执行文件</h4><ul>
+<li><code>.app/xxx</code></li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200402090833.png" alt=""></p>
+<h4 id="MH-OBJECT-目标文件或静态库"><a href="#MH-OBJECT-目标文件或静态库" class="headerlink" title="MH_OBJECT-目标文件或静态库"></a>MH_OBJECT-目标文件或静态库</h4><ul>
+<li>目标文件(.o)</li>
+<li>静态库文件(.a)-静态库其实就是多个.o的集合</li>
+</ul>
+<img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200402091045.png" style="zoom: 67%;" />
+
+<h4 id="MH-DYLIB-动态库文件"><a href="#MH-DYLIB-动态库文件" class="headerlink" title="MH_DYLIB-动态库文件"></a>MH_DYLIB-动态库文件</h4><ul>
+<li><code>.dylib</code></li>
+<li><code>.framework/xxx</code></li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200402093545.png" alt=""></p>
+<h4 id="MH-DYLIKER-动态链接编辑器"><a href="#MH-DYLIKER-动态链接编辑器" class="headerlink" title="MH_DYLIKER-动态链接编辑器"></a>MH_DYLIKER-动态链接编辑器</h4><ul>
+<li><code>/usr/lib/dyld</code></li>
+</ul>
+<img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/usr_lib_dyld_type.png" style="zoom:50%;" />
+
+<h4 id="MH-DSYM-存储着二进制文件符号信息"><a href="#MH-DSYM-存储着二进制文件符号信息" class="headerlink" title="MH_DSYM:存储着二进制文件符号信息"></a>MH_DSYM:存储着二进制文件符号信息</h4><ul>
+<li><code>.dSYM/Contents/Resources/DWARF/XXX</code></li>
+</ul>
+<img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200402091824.png" style="zoom:80%;" />
+
+<h4 id="11种mach-o格式"><a href="#11种mach-o格式" class="headerlink" title="11种mach-o格式"></a>11种mach-o格式</h4><pre class=" language-c"><code class="language-c">
+<span class="token macro property">#<span class="token directive keyword">define</span>    MH_OBJECT    0x1        </span><span class="token comment" spellcheck="true">/* relocatable object file */</span>
+<span class="token macro property">#<span class="token directive keyword">define</span>    MH_EXECUTE    0x2        </span><span class="token comment" spellcheck="true">/* demand paged executable file */</span>
+<span class="token macro property">#<span class="token directive keyword">define</span>    MH_FVMLIB    0x3        </span><span class="token comment" spellcheck="true">/* fixed VM shared library file */</span>
+<span class="token macro property">#<span class="token directive keyword">define</span>    MH_CORE        0x4        </span><span class="token comment" spellcheck="true">/* core file */</span>
+<span class="token macro property">#<span class="token directive keyword">define</span>    MH_PRELOAD    0x5        </span><span class="token comment" spellcheck="true">/* preloaded executable file */</span>
+<span class="token macro property">#<span class="token directive keyword">define</span>    MH_DYLIB    0x6        </span><span class="token comment" spellcheck="true">/* dynamically bound shared library */</span>
+<span class="token macro property">#<span class="token directive keyword">define</span>    MH_DYLINKER    0x7        </span><span class="token comment" spellcheck="true">/* dynamic link editor */</span>
+<span class="token macro property">#<span class="token directive keyword">define</span>    MH_BUNDLE    0x8        </span><span class="token comment" spellcheck="true">/* dynamically bound bundle file */</span>
+<span class="token macro property">#<span class="token directive keyword">define</span>    MH_DYLIB_STUB    0x9        </span><span class="token comment" spellcheck="true">/* shared library stub for static */</span>
+                    <span class="token comment" spellcheck="true">/*  linking only, no section contents */</span>
+<span class="token macro property">#<span class="token directive keyword">define</span>    MH_DSYM        0xa        </span><span class="token comment" spellcheck="true">/* companion file with only debug */</span>
+                    <span class="token comment" spellcheck="true">/*  sections */</span>
+<span class="token macro property">#<span class="token directive keyword">define</span>    MH_KEXT_BUNDLE    0xb        </span><span class="token comment" spellcheck="true">/* x86_64 kexts */</span></code></pre>
+<h4 id="Mach-o的作用"><a href="#Mach-o的作用" class="headerlink" title="Mach-o的作用"></a>Mach-o的作用</h4><ul>
+<li><strong>The layout of the file depends on the filetype.  For all but the MH_OBJECT file type the segments are padded out and aligned on a segment alignment boundary for efficient demand pageing.</strong>  </li>
+<li><strong>The MH_EXECUTE, MH_FVMLIB, MH_DYLIB,MH_DYLINKER and MH_BUNDLE file types also have the headers included as part of their first segment.</strong></li>
+<li>Mach-O的布局取决于文件类型。除了MH_OBJECT以外的所有的文件类型将分段填充并在分段对齐时-对齐有效请求分页的边界。</li>
+<li>MH_EXECUTE，MH_FVMLIB，MH_DYLIB，MH_DYLINKER和MH_BUNDLE这些文件也有headers作为它们第一个segment。</li>
+</ul>
+<ul>
+<li><p><strong>The file type MH_OBJECT is a compact format intended as output of the assembler and input (and possibly output) of the link editor (the .oformat).  All sections are in one unnamed segment with no segment padding.</strong> </p>
+<ul>
+<li><strong>This format is used as an executable format when the file is so small the segment padding greatly increases its size.</strong></li>
+</ul>
+</li>
+<li><p>文件类型MH_OBJECT是一种紧凑格式，旨在作为汇编器和链接编辑器（.o的输入）（可能是输出格式）。所有sections都在一个未命名的segment中，没有segment的填充。</p>
+</li>
+<li><p>当文件太小时segment填充可以大大增加了它的size。此格式用作可执行格式。</p>
+</li>
+</ul>
+<ul>
+<li><p><strong>The file type MH_PRELOAD is an executable format intended for things that are not executed under the kernel (proms, stand alones, kernels, etc).</strong>  </p>
+</li>
+<li><p><strong>The format can be executed under the kernel but may demand paged it and not preload it before execution.</strong></p>
+</li>
+<li><p>文件类型MH_PRELOAD是一种可执行格式，用于非kernel内核下执行。（proms, stand alones, kernels, etc）</p>
+</li>
+<li><p>格式可以在内核下执行，但可能需要分页而不是在执行之前预加载它。</p>
+</li>
+</ul>
+<ul>
+<li><strong>A core file is in MH_CORE format and can be any in an arbritray legal Mach-O file. Constants for the filetype field of the mach_header</strong></li>
+<li>核心文件为MH_CORE格式，可以是任意格式的Mach-O文件。mach_header的文件类型是常量</li>
+</ul>
+<h4 id="生成通用二进制文件："><a href="#生成通用二进制文件：" class="headerlink" title="生成通用二进制文件："></a>生成通用二进制文件：</h4><h5 id="Architectures-hpp"><a href="#Architectures-hpp" class="headerlink" title="Architectures.hpp"></a>Architectures.hpp</h5><pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">//</span>
+<span class="token comment" spellcheck="true">// Architectures</span>
+<span class="token comment" spellcheck="true">//</span>
+<span class="token keyword">struct</span> x86
+<span class="token punctuation">{</span>
+    <span class="token keyword">typedef</span> Pointer32<span class="token operator">&lt;</span>LittleEndian<span class="token operator">></span>        P<span class="token punctuation">;</span>
+
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">struct</span> x86_64
+<span class="token punctuation">{</span>
+    <span class="token keyword">typedef</span> Pointer64<span class="token operator">&lt;</span>LittleEndian<span class="token operator">></span>        P<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">struct</span> arm
+<span class="token punctuation">{</span>
+    <span class="token keyword">typedef</span> Pointer32<span class="token operator">&lt;</span>LittleEndian<span class="token operator">></span>        P<span class="token punctuation">;</span>
+
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">struct</span> arm64
+<span class="token punctuation">{</span>
+    <span class="token keyword">typedef</span> Pointer64<span class="token operator">&lt;</span>LittleEndian<span class="token operator">></span>        P<span class="token punctuation">;</span>
+
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<h5 id="Universal-Binary"><a href="#Universal-Binary" class="headerlink" title="Universal Binary"></a>Universal Binary</h5><ul>
+<li>通用二进制文件，包含多种不同架构的二进制文件，比单个架构的文件大，也叫<code>Fat Binary</code></li>
+<li>由于执行过程中，只是调用一部分代码，所以运行起来也不需要额外的内存。</li>
+</ul>
+<h5 id="Xcode生成Universal-Binary"><a href="#Xcode生成Universal-Binary" class="headerlink" title="Xcode生成Universal Binary"></a>Xcode生成Universal Binary</h5><p>Standard architectures $(ARCHS_STANDARD)</p>
+<h4 id="dyld-cache-format-h"><a href="#dyld-cache-format-h" class="headerlink" title="dyld_cache_format.h"></a>dyld_cache_format.h</h4><pre class=" language-objc"><code class="language-objc">#define IPHONE_DYLD_SHARED_CACHE_DIR    "/System/Library/Caches/com.apple.dyld/"
+#define DYLD_SHARED_CACHE_BASE_NAME        "dyld_shared_cache_"</code></pre>
+<h4 id="FileAbstraction-hpp"><a href="#FileAbstraction-hpp" class="headerlink" title="FileAbstraction.hpp"></a>FileAbstraction.hpp</h4><pre class=" language-c"><code class="language-c">template <span class="token operator">&lt;</span>typename _E<span class="token operator">></span>
+class Pointer32
+<span class="token punctuation">{</span>
+public<span class="token punctuation">:</span>
+    <span class="token keyword">typedef</span> uint32_t    uint_t<span class="token punctuation">;</span>
+    <span class="token keyword">typedef</span> _E            E<span class="token punctuation">;</span>
+
+    <span class="token keyword">static</span> uint64_t    <span class="token function">getP</span><span class="token punctuation">(</span><span class="token keyword">const</span> uint_t<span class="token operator">&amp;</span> from<span class="token punctuation">)</span>                INLINE <span class="token punctuation">{</span> <span class="token keyword">return</span> _E<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">get32</span><span class="token punctuation">(</span>from<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token keyword">static</span> <span class="token keyword">void</span>        <span class="token function">setP</span><span class="token punctuation">(</span>uint_t<span class="token operator">&amp;</span> into<span class="token punctuation">,</span> uint64_t value<span class="token punctuation">)</span>        INLINE <span class="token punctuation">{</span> _E<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">set32</span><span class="token punctuation">(</span>into<span class="token punctuation">,</span> <span class="token punctuation">(</span>uint32_t<span class="token punctuation">)</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">// Round to a P-size boundary</span>
+    template <span class="token operator">&lt;</span>typename T<span class="token operator">></span>
+    <span class="token keyword">static</span> T <span class="token function">round_up</span><span class="token punctuation">(</span>T value<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token punctuation">(</span>value<span class="token operator">+</span><span class="token number">3</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token operator">~</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span><span class="token number">3</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    template <span class="token operator">&lt;</span>typename T<span class="token operator">></span>
+    <span class="token keyword">static</span> T <span class="token function">round_down</span><span class="token punctuation">(</span>T value<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> value <span class="token operator">&amp;</span> <span class="token operator">~</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span><span class="token number">3</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+
+template <span class="token operator">&lt;</span>typename _E<span class="token operator">></span>
+class Pointer64
+<span class="token punctuation">{</span>
+public<span class="token punctuation">:</span>
+    <span class="token keyword">typedef</span> uint64_t    uint_t<span class="token punctuation">;</span>
+    <span class="token keyword">typedef</span> _E            E<span class="token punctuation">;</span>
+
+    <span class="token keyword">static</span> uint64_t    <span class="token function">getP</span><span class="token punctuation">(</span><span class="token keyword">const</span> uint_t<span class="token operator">&amp;</span> from<span class="token punctuation">)</span>                INLINE <span class="token punctuation">{</span> <span class="token keyword">return</span> _E<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">get64</span><span class="token punctuation">(</span>from<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    <span class="token keyword">static</span> <span class="token keyword">void</span>        <span class="token function">setP</span><span class="token punctuation">(</span>uint_t<span class="token operator">&amp;</span> into<span class="token punctuation">,</span> uint64_t value<span class="token punctuation">)</span>        INLINE <span class="token punctuation">{</span> _E<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">set64</span><span class="token punctuation">(</span>into<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">// Round to a P-size boundary</span>
+    template <span class="token operator">&lt;</span>typename T<span class="token operator">></span>
+    <span class="token keyword">static</span> T <span class="token function">round_up</span><span class="token punctuation">(</span>T value<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token punctuation">(</span>value<span class="token operator">+</span><span class="token number">7</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> <span class="token operator">~</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span><span class="token number">7</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+    template <span class="token operator">&lt;</span>typename T<span class="token operator">></span>
+    <span class="token keyword">static</span> T <span class="token function">round_down</span><span class="token punctuation">(</span>T value<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> value <span class="token operator">&amp;</span> <span class="token operator">~</span><span class="token punctuation">(</span>T<span class="token punctuation">)</span><span class="token number">7</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<h2 id="3、dyld与Mach-O的关系"><a href="#3、dyld与Mach-O的关系" class="headerlink" title="3、dyld与Mach-O的关系"></a>3、dyld与Mach-O的关系</h2><ul>
+<li>dyld属于MH_DYLDLINKER类型的Mach-O文件</li>
+<li>dyld负责加载三种类型Mach-O文件<ul>
+<li>可执行文件</li>
+<li>动态库</li>
+<li>Bundle</li>
+</ul>
+</li>
+</ul>
+<p><strong>mach-o loader：only MH_BUNDLE, MH_DYLIB, and some MH_EXECUTE can be dynamically loaded</strong></p>
+<pre class=" language-c"><code class="language-c">    <span class="token comment" spellcheck="true">// try mach-o loader</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span> shortPage <span class="token punctuation">)</span> throw <span class="token string">"file too short"</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span> <span class="token function">isCompatibleMachO</span><span class="token punctuation">(</span>firstPages<span class="token punctuation">,</span> path<span class="token punctuation">)</span> <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+        <span class="token comment" spellcheck="true">// only MH_BUNDLE, MH_DYLIB, and some MH_EXECUTE can be dynamically loaded</span>
+        <span class="token keyword">const</span> mach_header<span class="token operator">*</span> mh <span class="token operator">=</span> <span class="token punctuation">(</span>mach_header<span class="token operator">*</span><span class="token punctuation">)</span>firstPages<span class="token punctuation">;</span>
+        <span class="token keyword">switch</span> <span class="token punctuation">(</span> mh<span class="token operator">-></span>filetype <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">case</span> MH_EXECUTE<span class="token punctuation">:</span>
+            <span class="token keyword">case</span> MH_DYLIB<span class="token punctuation">:</span>
+            <span class="token keyword">case</span> MH_BUNDLE<span class="token punctuation">:</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token keyword">default</span><span class="token punctuation">:</span>
+                throw <span class="token string">"mach-o, but wrong filetype"</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        uint32_t headerAndLoadCommandsSize <span class="token operator">=</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>macho_header<span class="token punctuation">)</span> <span class="token operator">+</span> mh<span class="token operator">-></span>sizeofcmds<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span> headerAndLoadCommandsSize <span class="token operator">></span> MAX_MACH_O_HEADER_AND_LOAD_COMMANDS_SIZE <span class="token punctuation">)</span>
+            <span class="token function">throwf</span><span class="token punctuation">(</span><span class="token string">"malformed mach-o: load commands size (%u) > %u"</span><span class="token punctuation">,</span> headerAndLoadCommandsSize<span class="token punctuation">,</span> MAX_MACH_O_HEADER_AND_LOAD_COMMANDS_SIZE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span> headerAndLoadCommandsSize <span class="token operator">></span> fileLength <span class="token punctuation">)</span>
+            dyld<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">throwf</span><span class="token punctuation">(</span><span class="token string">"malformed mach-o: load commands size (%u) > mach-o file size (%llu)"</span><span class="token punctuation">,</span> headerAndLoadCommandsSize<span class="token punctuation">,</span> fileLength<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span> headerAndLoadCommandsSize <span class="token operator">></span> <span class="token number">4096</span> <span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// read more pages</span>
+            <span class="token keyword">unsigned</span> readAmount <span class="token operator">=</span> headerAndLoadCommandsSize <span class="token operator">-</span> <span class="token number">4096</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span> <span class="token function">pread</span><span class="token punctuation">(</span>fd<span class="token punctuation">,</span> <span class="token operator">&amp;</span>firstPages<span class="token punctuation">[</span><span class="token number">4096</span><span class="token punctuation">]</span><span class="token punctuation">,</span> readAmount<span class="token punctuation">,</span> fileOffset<span class="token operator">+</span><span class="token number">4096</span><span class="token punctuation">)</span> <span class="token operator">!=</span> readAmount <span class="token punctuation">)</span>
+                <span class="token function">throwf</span><span class="token punctuation">(</span><span class="token string">"pread of extra load commands past 4KB failed: %d"</span><span class="token punctuation">,</span> errno<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment" spellcheck="true">// instantiate an image</span>
+        ImageLoader<span class="token operator">*</span> image <span class="token operator">=</span> ImageLoaderMachO<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">instantiateFromFile</span><span class="token punctuation">(</span>path<span class="token punctuation">,</span> fd<span class="token punctuation">,</span> firstPages<span class="token punctuation">,</span> headerAndLoadCommandsSize<span class="token punctuation">,</span> fileOffset<span class="token punctuation">,</span> fileLength<span class="token punctuation">,</span> stat_buf<span class="token punctuation">,</span> gLinkContext<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment" spellcheck="true">// validate</span>
+        <span class="token keyword">return</span> <span class="token function">checkandAddImage</span><span class="token punctuation">(</span>image<span class="token punctuation">,</span> context<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span></code></pre>
+<h2 id="4、符号地址"><a href="#4、符号地址" class="headerlink" title="4、符号地址"></a>4、符号地址</h2><p>符号地址= 基地址 - 偏移地址</p>
+<h4 id="获取基地址"><a href="#获取基地址" class="headerlink" title="获取基地址"></a>获取基地址</h4><pre class=" language-c"><code class="language-c"><span class="token comment" spellcheck="true">//获取基地址</span>
+uintptr_t <span class="token function">get_load_address</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> <span class="token keyword">struct</span> mach_header <span class="token operator">*</span>exe_header <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>uint32_t i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token function">_dyld_image_count</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> <span class="token keyword">struct</span> mach_header <span class="token operator">*</span>header <span class="token operator">=</span> <span class="token function">_dyld_get_image_header</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>header<span class="token operator">-></span>filetype <span class="token operator">==</span> MH_EXECUTE<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            exe_header <span class="token operator">=</span> header<span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment" spellcheck="true">//返回值即为加载地址</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>uintptr_t<span class="token punctuation">)</span>exe_header<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="获取偏移地址"><a href="#获取偏移地址" class="headerlink" title="获取偏移地址"></a>获取偏移地址</h4><pre class=" language-c"><code class="language-c">uintptr_t <span class="token function">get_slide_address</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    uintptr_t vmaddr_slide <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span>uint32_t i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token function">_dyld_image_count</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">const</span> <span class="token keyword">struct</span> mach_header <span class="token operator">*</span>header <span class="token operator">=</span> <span class="token function">_dyld_get_image_header</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>header<span class="token operator">-></span>filetype <span class="token operator">==</span> MH_EXECUTE<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            vmaddr_slide <span class="token operator">=</span> <span class="token function">_dyld_get_image_vmaddr_slide</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>uintptr_t<span class="token punctuation">)</span>vmaddr_slide<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="dSYM文件"><a href="#dSYM文件" class="headerlink" title="dSYM文件"></a>dSYM文件</h4><ul>
+<li>编译时添加选项：DWARF with dSYM File，在编译打包完成之后就会生成调试符号文件（Mach-O文件）</li>
+<li>文件查找：找到.xcarchive文件→show package contents→…一直到DWARF→工程二进制文件</li>
+</ul>
+<h4 id="atos命令"><a href="#atos命令" class="headerlink" title="atos命令"></a>atos命令</h4><p>有了dSYM文件，就可以使用atos命令查找到具体代码行出现奔溃信息的地方</p>
+<pre class=" language-c"><code class="language-c">atos <span class="token punctuation">[</span><span class="token operator">-</span>o executable<span class="token punctuation">]</span> <span class="token punctuation">[</span><span class="token operator">-</span>l loadAddress<span class="token punctuation">]</span> <span class="token punctuation">[</span><span class="token operator">-</span>arch architecture<span class="token punctuation">]</span> <span class="token punctuation">[</span>address <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span>
+
+#<span class="token operator">-</span>arch 选择框架arm64<span class="token operator">/</span>arm32<span class="token operator">/</span>x86_64</code></pre>
+<h2 id="4、Crash收集"><a href="#4、Crash收集" class="headerlink" title="4、Crash收集"></a>4、Crash收集</h2><h4 id="KSCrash"><a href="#KSCrash" class="headerlink" title="KSCrash"></a><a href="https://github.com/kstenerud/KSCrash" target="_blank" rel="noopener">KSCrash</a></h4><h4 id="SentryCocoa"><a href="#SentryCocoa" class="headerlink" title="SentryCocoa"></a><a href="https://github.com/getsentry/sentry-cocoa" target="_blank" rel="noopener">SentryCocoa</a></h4><ul>
+<li><h5 id="SentryCrashDynamicLinker"><a href="#SentryCrashDynamicLinker" class="headerlink" title="SentryCrashDynamicLinker"></a><a href="https://github.com/getsentry/sentry-cocoa/blob/master/Sources/SentryCrash/Recording/Tools/SentryCrashDynamicLinker.c" target="_blank" rel="noopener">SentryCrashDynamicLinker</a></h5></li>
+</ul>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://mingriweiji-github.github.io" rel="external nofollow noreferrer">KM</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://mingriweiji-github.github.io/2020/01/15/Dyld%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/">https://mingriweiji-github.github.io/2020/01/15/Dyld%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://mingriweiji-github.github.io" target="_blank">KM</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/iOS/">
+                                    <span class="chip bg-color">iOS</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2020/01/15/iOS%E8%B6%8A%E7%8B%B1%E5%88%9D%E4%BD%93%E9%AA%8C/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="iOS越狱初体验">
+                        
+                        <span class="card-title">iOS越狱初体验</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            iOS越狱初体验iOS越狱能做到什么？
+查看 第三方APP UI 排版方式、布局实现技术
+获取三方App内部资源 .assets/.plist/icon…
+修改APP 功能重新打包 (EX: 去广告)
+反编译推测原始工程代码内容
+dump 
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-01-15
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%BA%90%E7%A0%81/" class="post-category">
+                                    源码
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/iOS/">
+                        <span class="chip bg-color">iOS</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%AE%9E%E6%88%98100%E9%81%93/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="算法实战">
+                        
+                        <span class="card-title">算法实战</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            为什么学算法？为什么要学习算法？
+算法是内功，决定你武功的高度
+算法能让你更好更快理解一门语言系统的设计理念
+算法能让你触类旁通
+momo算法题：接雨水  反转链表II  旋转矩阵
+
+主要算法
+基础技巧：分治、二分、贪心
+排序算法：快速排序
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2019-06-22
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                    算法
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/swift/">
+                        <span class="chip bg-color">swift</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="https://mingriweiji-github.github.io" target="_blank">KM</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

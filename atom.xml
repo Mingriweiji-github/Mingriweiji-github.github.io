@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mingriweiji-github.github.io/"/>
-  <updated>2020-05-01T12:17:53.425Z</updated>
+  <updated>2020-05-01T12:42:46.400Z</updated>
   <id>https://mingriweiji-github.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://mingriweiji-github.github.io/2020/04/18/Swift%E6%A0%87%E5%87%86%E5%BA%93%E6%BA%90%E7%A0%81/"/>
     <id>https://mingriweiji-github.github.io/2020/04/18/Swift%E6%A0%87%E5%87%86%E5%BA%93%E6%BA%90%E7%A0%81/</id>
     <published>2020-04-18T02:13:45.000Z</published>
-    <updated>2020-05-01T12:17:53.425Z</updated>
+    <updated>2020-05-01T12:42:46.400Z</updated>
     
     <summary type="html">
     
@@ -37,10 +37,10 @@
     </summary>
     
     
-      <category term="swift" scheme="https://mingriweiji-github.github.io/categories/swift/"/>
+      <category term="源码" scheme="https://mingriweiji-github.github.io/categories/%E6%BA%90%E7%A0%81/"/>
     
     
-      <category term="源码" scheme="https://mingriweiji-github.github.io/tags/%E6%BA%90%E7%A0%81/"/>
+      <category term="swift" scheme="https://mingriweiji-github.github.io/tags/swift/"/>
     
   </entry>
   
@@ -49,7 +49,7 @@
     <link href="https://mingriweiji-github.github.io/2020/04/18/Swift%E9%9B%86%E5%90%88%E6%BA%90%E7%A0%81/"/>
     <id>https://mingriweiji-github.github.io/2020/04/18/Swift%E9%9B%86%E5%90%88%E6%BA%90%E7%A0%81/</id>
     <published>2020-04-18T00:08:23.000Z</published>
-    <updated>2020-05-01T12:21:40.066Z</updated>
+    <updated>2020-05-01T12:43:06.634Z</updated>
     
     <summary type="html">
     
@@ -64,6 +64,10 @@
     </summary>
     
     
+      <category term="源码" scheme="https://mingriweiji-github.github.io/categories/%E6%BA%90%E7%A0%81/"/>
+    
+    
+      <category term="swift" scheme="https://mingriweiji-github.github.io/tags/swift/"/>
     
   </entry>
   
@@ -72,7 +76,7 @@
     <link href="https://mingriweiji-github.github.io/2020/04/16/Alamfire%E6%BA%90%E7%A0%81/"/>
     <id>https://mingriweiji-github.github.io/2020/04/16/Alamfire%E6%BA%90%E7%A0%81/</id>
     <published>2020-04-16T02:13:45.000Z</published>
-    <updated>2020-05-01T11:51:27.313Z</updated>
+    <updated>2020-05-01T12:40:30.964Z</updated>
     
     <summary type="html">
     
@@ -87,10 +91,10 @@
     </summary>
     
     
-      <category term="swift" scheme="https://mingriweiji-github.github.io/categories/swift/"/>
+      <category term="源码" scheme="https://mingriweiji-github.github.io/categories/%E6%BA%90%E7%A0%81/"/>
     
     
-      <category term="源码" scheme="https://mingriweiji-github.github.io/tags/%E6%BA%90%E7%A0%81/"/>
+      <category term="swift" scheme="https://mingriweiji-github.github.io/tags/swift/"/>
     
   </entry>
   
@@ -99,7 +103,7 @@
     <link href="https://mingriweiji-github.github.io/2020/04/16/Kingfisher%E6%BA%90%E7%A0%81/"/>
     <id>https://mingriweiji-github.github.io/2020/04/16/Kingfisher%E6%BA%90%E7%A0%81/</id>
     <published>2020-04-16T02:13:45.000Z</published>
-    <updated>2020-05-01T11:51:55.504Z</updated>
+    <updated>2020-05-01T12:42:09.782Z</updated>
     
     <summary type="html">
     
@@ -114,19 +118,58 @@
     </summary>
     
     
-      <category term="swift" scheme="https://mingriweiji-github.github.io/categories/swift/"/>
+      <category term="源码" scheme="https://mingriweiji-github.github.io/categories/%E6%BA%90%E7%A0%81/"/>
     
     
-      <category term="源码" scheme="https://mingriweiji-github.github.io/tags/%E6%BA%90%E7%A0%81/"/>
+      <category term="swift" scheme="https://mingriweiji-github.github.io/tags/swift/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Swift函数式编程</title>
+    <link href="https://mingriweiji-github.github.io/2020/02/20/Swift%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/"/>
+    <id>https://mingriweiji-github.github.io/2020/02/20/Swift%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/</id>
+    <published>2020-02-20T02:13:45.000Z</published>
+    <updated>2020-05-01T12:42:53.935Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Functional-Programming-in-Swift&quot;&gt;&lt;a href=&quot;#Functional-Programming-in-Swift&quot; class=&quot;headerlink&quot; title=&quot;Functional Programming in Swift&quot;&gt;&lt;/a&gt;Functional Programming in Swift&lt;/h1&gt;&lt;p&gt;函数式编程介绍。版本：swift 4.2, iOS 12, Xcode 10&lt;/p&gt;
+&lt;p&gt;在本部分中，您将介绍FP中的一些关键概念。许多讨论FP的论文都将不变状态和缺乏副作用视为FP的最重要方面，因此您将从这里开始。&lt;/p&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="swift" scheme="https://mingriweiji-github.github.io/tags/swift/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Swift备忘录</title>
+    <link href="https://mingriweiji-github.github.io/2020/02/18/Swift%E5%A4%87%E5%BF%98%E5%BD%95/"/>
+    <id>https://mingriweiji-github.github.io/2020/02/18/Swift%E5%A4%87%E5%BF%98%E5%BD%95/</id>
+    <published>2020-02-18T02:13:45.000Z</published>
+    <updated>2020-05-01T12:42:35.126Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;SwiftTip&quot;&gt;&lt;a href=&quot;#SwiftTip&quot; class=&quot;headerlink&quot; title=&quot;SwiftTip&quot;&gt;&lt;/a&gt;SwiftTip&lt;/h1&gt;
+    
+    </summary>
+    
+    
+    
+      <category term="swift" scheme="https://mingriweiji-github.github.io/tags/swift/"/>
     
   </entry>
   
   <entry>
     <title>LookinLoader安装使用</title>
-    <link href="https://mingriweiji-github.github.io/2020/04/06/LookinLoader%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/"/>
-    <id>https://mingriweiji-github.github.io/2020/04/06/LookinLoader%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/</id>
-    <published>2020-04-06T08:54:49.718Z</published>
-    <updated>2020-04-14T08:52:38.758Z</updated>
+    <link href="https://mingriweiji-github.github.io/2020/01/20/LookinLoader%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/"/>
+    <id>https://mingriweiji-github.github.io/2020/01/20/LookinLoader%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/</id>
+    <published>2020-01-20T02:13:45.000Z</published>
+    <updated>2020-05-01T12:45:25.191Z</updated>
     
     <summary type="html">
     
@@ -143,14 +186,16 @@
     
     
     
+      <category term="iOS" scheme="https://mingriweiji-github.github.io/tags/iOS/"/>
+    
   </entry>
   
   <entry>
     <title>iOS越狱初体验</title>
-    <link href="https://mingriweiji-github.github.io/2020/04/04/iOS%E8%B6%8A%E7%8B%B1%E5%88%9D%E4%BD%93%E9%AA%8C/"/>
-    <id>https://mingriweiji-github.github.io/2020/04/04/iOS%E8%B6%8A%E7%8B%B1%E5%88%9D%E4%BD%93%E9%AA%8C/</id>
-    <published>2020-04-04T09:20:36.310Z</published>
-    <updated>2020-04-09T00:13:42.851Z</updated>
+    <link href="https://mingriweiji-github.github.io/2020/01/15/iOS%E8%B6%8A%E7%8B%B1%E5%88%9D%E4%BD%93%E9%AA%8C/"/>
+    <id>https://mingriweiji-github.github.io/2020/01/15/iOS%E8%B6%8A%E7%8B%B1%E5%88%9D%E4%BD%93%E9%AA%8C/</id>
+    <published>2020-01-15T02:13:45.000Z</published>
+    <updated>2020-05-01T12:44:13.300Z</updated>
     
     <summary type="html">
     
@@ -165,38 +210,19 @@
     </summary>
     
     
-    
-  </entry>
-  
-  <entry>
-    <title>iOS汇编基础</title>
-    <link href="https://mingriweiji-github.github.io/2020/04/02/iOS%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80/"/>
-    <id>https://mingriweiji-github.github.io/2020/04/02/iOS%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80/</id>
-    <published>2020-04-02T00:52:53.292Z</published>
-    <updated>2020-04-08T15:24:58.246Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;iOS汇编基础&quot;&gt;&lt;a href=&quot;#iOS汇编基础&quot; class=&quot;headerlink&quot; title=&quot;iOS汇编基础&quot;&gt;&lt;/a&gt;iOS汇编基础&lt;/h1&gt;&lt;h2 id=&quot;x86-64汇编&quot;&gt;&lt;a href=&quot;#x86-64汇编&quot;
-        
-      
-    
-    </summary>
+      <category term="源码" scheme="https://mingriweiji-github.github.io/categories/%E6%BA%90%E7%A0%81/"/>
     
     
+      <category term="iOS" scheme="https://mingriweiji-github.github.io/tags/iOS/"/>
     
   </entry>
   
   <entry>
     <title>Dyld源码阅读</title>
-    <link href="https://mingriweiji-github.github.io/2020/04/01/Dyld%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/"/>
-    <id>https://mingriweiji-github.github.io/2020/04/01/Dyld%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/</id>
-    <published>2020-04-01T03:31:34.664Z</published>
-    <updated>2020-04-02T09:02:38.977Z</updated>
+    <link href="https://mingriweiji-github.github.io/2020/01/15/Dyld%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/"/>
+    <id>https://mingriweiji-github.github.io/2020/01/15/Dyld%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/</id>
+    <published>2020-01-15T02:13:45.000Z</published>
+    <updated>2020-05-01T12:47:36.384Z</updated>
     
     <summary type="html">
     
@@ -212,100 +238,19 @@
     </summary>
     
     
+      <category term="源码" scheme="https://mingriweiji-github.github.io/categories/%E6%BA%90%E7%A0%81/"/>
+    
+    
+      <category term="iOS" scheme="https://mingriweiji-github.github.io/tags/iOS/"/>
     
   </entry>
   
   <entry>
-    <title>Runloop</title>
-    <link href="https://mingriweiji-github.github.io/2020/03/11/Runloop/"/>
-    <id>https://mingriweiji-github.github.io/2020/03/11/Runloop/</id>
-    <published>2020-03-11T13:16:28.012Z</published>
-    <updated>2020-03-13T17:26:08.484Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;Runloop&quot;&gt;&lt;a href=&quot;#Runloop&quot; class=&quot;headerlink&quot; title=&quot;Runloop&quot;&gt;&lt;/a&gt;Runloop&lt;/h1&gt;&lt;h2 id=&quot;1-讲讲-RunLoop，项目中有用到吗？&quot;&gt;&lt;a
-        
-      
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>iOS多线程</title>
-    <link href="https://mingriweiji-github.github.io/2020/03/11/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
-    <id>https://mingriweiji-github.github.io/2020/03/11/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/</id>
-    <published>2020-03-11T12:34:15.299Z</published>
-    <updated>2020-03-26T03:40:12.723Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;深入理解GCD&quot;&gt;&lt;a href=&quot;#深入理解GCD&quot; class=&quot;headerlink&quot; title=&quot;深入理解GCD&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://bestswifter.com/deep-gcd/&quot; target=&quot;_blank&quot;
-        
-      
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Swift函数式编程</title>
-    <link href="https://mingriweiji-github.github.io/2020/02/20/Swift%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/"/>
-    <id>https://mingriweiji-github.github.io/2020/02/20/Swift%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/</id>
-    <published>2020-02-20T02:13:45.000Z</published>
-    <updated>2020-05-01T12:21:13.305Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;Functional-Programming-in-Swift&quot;&gt;&lt;a href=&quot;#Functional-Programming-in-Swift&quot; class=&quot;headerlink&quot; title=&quot;Functional Programming in Swift&quot;&gt;&lt;/a&gt;Functional Programming in Swift&lt;/h1&gt;&lt;p&gt;函数式编程介绍。版本：swift 4.2, iOS 12, Xcode 10&lt;/p&gt;
-&lt;p&gt;在本部分中，您将介绍FP中的一些关键概念。许多讨论FP的论文都将不变状态和缺乏副作用视为FP的最重要方面，因此您将从这里开始。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="swift" scheme="https://mingriweiji-github.github.io/categories/swift/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Swift备忘录</title>
-    <link href="https://mingriweiji-github.github.io/2020/02/18/Swift%E5%A4%87%E5%BF%98%E5%BD%95/"/>
-    <id>https://mingriweiji-github.github.io/2020/02/18/Swift%E5%A4%87%E5%BF%98%E5%BD%95/</id>
-    <published>2020-02-18T02:13:45.000Z</published>
-    <updated>2020-05-01T12:20:32.454Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;SwiftTip&quot;&gt;&lt;a href=&quot;#SwiftTip&quot; class=&quot;headerlink&quot; title=&quot;SwiftTip&quot;&gt;&lt;/a&gt;SwiftTip&lt;/h1&gt;
-    
-    </summary>
-    
-    
-      <category term="swift" scheme="https://mingriweiji-github.github.io/categories/swift/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>2020算法实战150道</title>
-    <link href="https://mingriweiji-github.github.io/2020/01/23/2020%E7%AE%97%E6%B3%95%E5%AE%9E%E6%88%98100%E9%81%93/"/>
-    <id>https://mingriweiji-github.github.io/2020/01/23/2020%E7%AE%97%E6%B3%95%E5%AE%9E%E6%88%98100%E9%81%93/</id>
-    <published>2020-01-22T17:19:23.000Z</published>
-    <updated>2020-04-22T17:25:56.913Z</updated>
+    <title>算法实战</title>
+    <link href="https://mingriweiji-github.github.io/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%AE%9E%E6%88%98100%E9%81%93/"/>
+    <id>https://mingriweiji-github.github.io/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%AE%9E%E6%88%98100%E9%81%93/</id>
+    <published>2019-06-21T19:18:15.000Z</published>
+    <updated>2020-05-01T12:51:26.234Z</updated>
     
     <summary type="html">
     
@@ -320,15 +265,46 @@
     </summary>
     
     
+      <category term="算法" scheme="https://mingriweiji-github.github.io/categories/%E7%AE%97%E6%B3%95/"/>
+    
+    
+      <category term="swift" scheme="https://mingriweiji-github.github.io/tags/swift/"/>
     
   </entry>
   
   <entry>
-    <title>2020数据结构</title>
-    <link href="https://mingriweiji-github.github.io/2020/01/23/2020%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    <id>https://mingriweiji-github.github.io/2020/01/23/2020%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</id>
-    <published>2020-01-22T17:18:15.000Z</published>
-    <updated>2020-04-22T17:26:08.892Z</updated>
+    <title>算法基础</title>
+    <link href="https://mingriweiji-github.github.io/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/"/>
+    <id>https://mingriweiji-github.github.io/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/</id>
+    <published>2019-06-21T18:18:15.000Z</published>
+    <updated>2020-05-01T12:39:17.673Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;算法基础&quot;&gt;&lt;a href=&quot;#算法基础&quot; class=&quot;headerlink&quot; title=&quot;算法基础&quot;&gt;&lt;/a&gt;算法基础&lt;/h1&gt;&lt;h4 id=&quot;为什么要学习算法？&quot;&gt;&lt;a href=&quot;#为什么要学习算法？&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="算法" scheme="https://mingriweiji-github.github.io/categories/%E7%AE%97%E6%B3%95/"/>
+    
+    
+      <category term="swift" scheme="https://mingriweiji-github.github.io/tags/swift/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>数据结构思想</title>
+    <link href="https://mingriweiji-github.github.io/2019/06/22/2020%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    <id>https://mingriweiji-github.github.io/2019/06/22/2020%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</id>
+    <published>2019-06-21T17:18:15.000Z</published>
+    <updated>2020-05-01T12:39:01.190Z</updated>
     
     <summary type="html">
     
@@ -343,52 +319,10 @@
     </summary>
     
     
-    
-  </entry>
-  
-  <entry>
-    <title>2020算法基础</title>
-    <link href="https://mingriweiji-github.github.io/2020/01/23/2020%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/"/>
-    <id>https://mingriweiji-github.github.io/2020/01/23/2020%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/</id>
-    <published>2020-01-22T17:11:47.000Z</published>
-    <updated>2020-04-22T17:25:43.385Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;2020常见算法&quot;&gt;&lt;a href=&quot;#2020常见算法&quot; class=&quot;headerlink&quot; title=&quot;2020常见算法&quot;&gt;&lt;/a&gt;2020常见算法&lt;/h1&gt;&lt;h4 id=&quot;为什么要学习算法？&quot;&gt;&lt;a href=&quot;#为什么要学习算法？&quot;
-        
-      
-    
-    </summary>
+      <category term="算法" scheme="https://mingriweiji-github.github.io/categories/%E7%AE%97%E6%B3%95/"/>
     
     
-    
-  </entry>
-  
-  <entry>
-    <title>iOS图像处理</title>
-    <link href="https://mingriweiji-github.github.io/2019/12/30/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/"/>
-    <id>https://mingriweiji-github.github.io/2019/12/30/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</id>
-    <published>2019-12-30T07:28:54.924Z</published>
-    <updated>2020-03-26T08:59:08.699Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;iOS图像优化技巧&quot;&gt;&lt;a href=&quot;#iOS图像优化技巧&quot; class=&quot;headerlink&quot; title=&quot;iOS图像优化技巧&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://swift.gg/2019/11/01/image-resizing/&quot;
-        
-      
-    
-    </summary>
-    
-    
+      <category term="java" scheme="https://mingriweiji-github.github.io/tags/java/"/>
     
   </entry>
   
@@ -397,7 +331,7 @@
     <link href="https://mingriweiji-github.github.io/2019/06/08/%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/"/>
     <id>https://mingriweiji-github.github.io/2019/06/08/%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/</id>
     <published>2019-06-08T02:13:45.000Z</published>
-    <updated>2020-05-01T12:08:13.707Z</updated>
+    <updated>2020-05-01T12:39:55.525Z</updated>
     
     <summary type="html">
     
@@ -413,10 +347,10 @@
     </summary>
     
     
-      <category term="java" scheme="https://mingriweiji-github.github.io/categories/java/"/>
+      <category term="算法" scheme="https://mingriweiji-github.github.io/categories/%E7%AE%97%E6%B3%95/"/>
     
     
-      <category term="算法" scheme="https://mingriweiji-github.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+      <category term="java" scheme="https://mingriweiji-github.github.io/tags/java/"/>
     
   </entry>
   
@@ -425,7 +359,7 @@
     <link href="https://mingriweiji-github.github.io/2019/06/06/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/"/>
     <id>https://mingriweiji-github.github.io/2019/06/06/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/</id>
     <published>2019-06-06T02:13:45.000Z</published>
-    <updated>2020-05-01T12:08:30.369Z</updated>
+    <updated>2020-05-01T12:39:39.893Z</updated>
     
     <summary type="html">
     
@@ -440,10 +374,118 @@
     </summary>
     
     
-      <category term="java" scheme="https://mingriweiji-github.github.io/categories/java/"/>
+      <category term="算法" scheme="https://mingriweiji-github.github.io/categories/%E7%AE%97%E6%B3%95/"/>
     
     
-      <category term="算法" scheme="https://mingriweiji-github.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+      <category term="java" scheme="https://mingriweiji-github.github.io/tags/java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>iOS汇编基础</title>
+    <link href="https://mingriweiji-github.github.io/2018/12/02/iOS%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80/"/>
+    <id>https://mingriweiji-github.github.io/2018/12/02/iOS%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80/</id>
+    <published>2018-12-02T03:15:40.000Z</published>
+    <updated>2020-05-01T12:34:27.038Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;iOS汇编基础&quot;&gt;&lt;a href=&quot;#iOS汇编基础&quot; class=&quot;headerlink&quot; title=&quot;iOS汇编基础&quot;&gt;&lt;/a&gt;iOS汇编基础&lt;/h1&gt;&lt;h2 id=&quot;x86-64汇编&quot;&gt;&lt;a href=&quot;#x86-64汇编&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="逆向" scheme="https://mingriweiji-github.github.io/categories/%E9%80%86%E5%90%91/"/>
+    
+    
+      <category term="iOS" scheme="https://mingriweiji-github.github.io/tags/iOS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>iOS图像优化技巧</title>
+    <link href="https://mingriweiji-github.github.io/2018/12/01/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/"/>
+    <id>https://mingriweiji-github.github.io/2018/12/01/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</id>
+    <published>2018-12-01T03:15:40.000Z</published>
+    <updated>2020-05-01T12:41:59.460Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;iOS图像优化技巧&quot;&gt;&lt;a href=&quot;#iOS图像优化技巧&quot; class=&quot;headerlink&quot; title=&quot;iOS图像优化技巧&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://swift.gg/2019/11/01/image-resizing/&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="图像" scheme="https://mingriweiji-github.github.io/categories/%E5%9B%BE%E5%83%8F/"/>
+    
+    
+      <category term="iOS" scheme="https://mingriweiji-github.github.io/tags/iOS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>iOS多线程</title>
+    <link href="https://mingriweiji-github.github.io/2018/06/01/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+    <id>https://mingriweiji-github.github.io/2018/06/01/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/</id>
+    <published>2018-06-01T03:13:45.000Z</published>
+    <updated>2020-05-01T12:41:19.853Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;深入理解GCD&quot;&gt;&lt;a href=&quot;#深入理解GCD&quot; class=&quot;headerlink&quot; title=&quot;深入理解GCD&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://bestswifter.com/deep-gcd/&quot; target=&quot;_blank&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="源码" scheme="https://mingriweiji-github.github.io/categories/%E6%BA%90%E7%A0%81/"/>
+    
+    
+      <category term="iOS" scheme="https://mingriweiji-github.github.io/tags/iOS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Runloop</title>
+    <link href="https://mingriweiji-github.github.io/2018/06/01/Runloop/"/>
+    <id>https://mingriweiji-github.github.io/2018/06/01/Runloop/</id>
+    <published>2018-06-01T02:13:45.000Z</published>
+    <updated>2020-05-01T12:42:19.350Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;Runloop&quot;&gt;&lt;a href=&quot;#Runloop&quot; class=&quot;headerlink&quot; title=&quot;Runloop&quot;&gt;&lt;/a&gt;Runloop&lt;/h1&gt;&lt;h2 id=&quot;1-讲讲-RunLoop，项目中有用到吗？&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+    
+      <category term="源码" scheme="https://mingriweiji-github.github.io/categories/%E6%BA%90%E7%A0%81/"/>
+    
+    
+      <category term="iOS" scheme="https://mingriweiji-github.github.io/tags/iOS/"/>
     
   </entry>
   
@@ -452,7 +494,7 @@
     <link href="https://mingriweiji-github.github.io/2018/01/01/%E6%8E%92%E5%BA%8F%E9%97%AE%E9%A2%98/"/>
     <id>https://mingriweiji-github.github.io/2018/01/01/%E6%8E%92%E5%BA%8F%E9%97%AE%E9%A2%98/</id>
     <published>2018-01-01T03:11:45.000Z</published>
-    <updated>2020-05-01T12:12:44.878Z</updated>
+    <updated>2020-05-01T12:40:15.172Z</updated>
     
     <summary type="html">
     
@@ -468,10 +510,10 @@
     </summary>
     
     
-      <category term="java" scheme="https://mingriweiji-github.github.io/categories/java/"/>
+      <category term="算法" scheme="https://mingriweiji-github.github.io/categories/%E7%AE%97%E6%B3%95/"/>
     
     
-      <category term="算法" scheme="https://mingriweiji-github.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+      <category term="java" scheme="https://mingriweiji-github.github.io/tags/java/"/>
     
   </entry>
   
@@ -480,7 +522,7 @@
     <link href="https://mingriweiji-github.github.io/2018/01/01/%E5%8F%8D%E8%BD%AC%E9%97%AE%E9%A2%98/"/>
     <id>https://mingriweiji-github.github.io/2018/01/01/%E5%8F%8D%E8%BD%AC%E9%97%AE%E9%A2%98/</id>
     <published>2018-01-01T02:13:45.000Z</published>
-    <updated>2020-05-01T12:13:24.640Z</updated>
+    <updated>2020-05-01T12:39:48.376Z</updated>
     
     <summary type="html">
     
@@ -495,10 +537,10 @@
     </summary>
     
     
-      <category term="java" scheme="https://mingriweiji-github.github.io/categories/java/"/>
+      <category term="算法" scheme="https://mingriweiji-github.github.io/categories/%E7%AE%97%E6%B3%95/"/>
     
     
-      <category term="算法" scheme="https://mingriweiji-github.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+      <category term="java" scheme="https://mingriweiji-github.github.io/tags/java/"/>
     
   </entry>
   

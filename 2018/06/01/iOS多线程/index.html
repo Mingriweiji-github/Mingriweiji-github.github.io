@@ -1,0 +1,1412 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="iOS多线程, 明日危机">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>iOS多线程 | 明日危机</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<link rel="alternate" href="/atom.xml" title="明日危机" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">明日危机</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">明日危机</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">iOS多线程</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/iOS/">
+                                <span class="chip bg-color">iOS</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E6%BA%90%E7%A0%81/" class="post-category">
+                                源码
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2018-06-01
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="深入理解GCD"><a href="#深入理解GCD" class="headerlink" title="深入理解GCD"></a><a href="https://bestswifter.com/deep-gcd/" target="_blank" rel="noopener">深入理解GCD</a></h2><p><strong><code>dispatch_async</code> 会把任务添加到队列的一个链表中，添加完后会唤醒队列，根据 vtable 中的函数指针，调用 wakeup 方法。</strong></p>
+<ul>
+<li>在 wakeup 方法中，从线程池里取出工作线程(如果没有就新建)，然后在工作线程中取出链表头部指向的 block 并执行。</li>
+</ul>
+<p><strong><code>dispatch_sync</code> 的实现略简单一些，它不涉及线程池(因此一般都在当前线程执行)，而是利用与线程绑定的信号量来实现串行。</strong></p>
+<p>分发到不同队列时，代码进入的分支也不一样，比如 <code>dispatch_async</code> 到主队列的任务由 runloop 处理，而分发到其他队列的任务由线程池处理。</p>
+<p>在当前串行队列中执行 <code>dispatch_sync</code> 时，由于 <code>dq_running</code> 属性(表示在运行的任务数量) 为 1，所以以下判断成立:</p>
+<pre class=" language-cpp"><code class="language-cpp"><span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">slowpath</span><span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">dispatch_atomic_cmpxchg2o</span><span class="token punctuation">(</span>dq<span class="token punctuation">,</span> dq_running<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+    <span class="token keyword">return</span> <span class="token function">_dispatch_barrier_sync_f_slow</span><span class="token punctuation">(</span>dq<span class="token punctuation">,</span> ctxt<span class="token punctuation">,</span> func<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>在 <code>_dispatch_barrier_sync_f_slow</code> 函数中使用了线程对应的信号量并且调用 <code>wait</code> 方法，从而导致线程死锁。</p>
+<p>如果向其它队列同步提交 block，最终进入 <code>_dispatch_barrier_sync_f_invoke</code>，它只是保证了 block 执行的原子性，但没有使用线程对应的信号量。</p>
+<p><strong>对于信号量来说，它主要使用 <code>signal</code> 和 <code>wait</code> 这两个接口，底层分别调用了内核提供的方法。</strong></p>
+<ul>
+<li>在调用 wait 方法后，先将 value 减一，如果大于零立刻返回，否则陷入等待。<code>signal</code> 方法将信号量加一，如果 value 大于零立刻返回，否则说明唤醒了某一个等待线程，此时由系统决定哪个线程的等待方法可以返回。</li>
+</ul>
+<p><strong><code>dispatch_group</code> 的本质就是一个 value 非常大的信号量，等待 group 完成实际上就是等待 value 恢复初始值。</strong>而</p>
+<ul>
+<li>notify 的作用是将所有注册的回调组装成一个链表，在 <code>dispatch_async</code> 完成时判断 value 是不是恢复初始值，如果是则调用 <code>dispatch_async</code> 异步执行所有注册的回调。</li>
+</ul>
+<p><strong><code>dispatch_once</code> 通过一个静态变量来标记 block 是否已被执行，同时使用信号量确保只有一个线程能执行，执行完 block 后会唤醒其他所有等待的线程。</strong></p>
+<p><strong><code>dispatch_barrier_async</code> 改变了 block 的 <code>vtable</code> 标记位，当它将要被取出执行时，会等待前面的 block 都执行完，然后在下一次循环中被执行。</strong></p>
+<p><strong><code>dispatch_source</code> 可以用来实现定时器。</strong></p>
+<ul>
+<li>所有的 source 会被提交到用户指定的队列，然后提交到 manager 队列中，按照触发时间排好序。</li>
+<li>随后找到最近触发的定时器，调用内核的 <code>select</code> 方法等待。</li>
+<li>等待结束后，依次唤醒 manager 队列和用户指定队列，最终触发一开始设置的回调 block。</li>
+</ul>
+<p><strong>GCD 中的对象用 <code>do_suspend_cnt</code> 来表示是否暂停。队列默认处于启动状态，而 <code>dispatch_source</code> 需要手动启动。</strong></p>
+<p><strong><code>dispatch_after</code> 函数依赖于 <code>dispatch_source</code> 定时器，它只是注册了一个定时器，然后在回调函数中执行 block。</strong></p>
+<p><a href="https://www.cnblogs.com/beckwang0912/p/7146833.html" target="_blank" rel="noopener">GCD死锁案例分析</a></p>
+<p><a href="https://juejin.im/post/5ab4a4466fb9a028d14107ff#heading-31" target="_blank" rel="noopener">NSOperation案例分析</a></p>
+<h2 id="深入理解iOS开发中的锁"><a href="#深入理解iOS开发中的锁" class="headerlink" title="深入理解iOS开发中的锁"></a><a href="https://bestswifter.com/ios-lock/" target="_blank" rel="noopener">深入理解iOS开发中的锁</a></h2><p><img src="http://images.bestswifter.com/lock_benchmark.png" alt=""></p>
+<h4 id="自旋锁的目的是为了确保临界区只有一个线程可以访问"><a href="#自旋锁的目的是为了确保临界区只有一个线程可以访问" class="headerlink" title="自旋锁的目的是为了确保临界区只有一个线程可以访问"></a>自旋锁的目的是为了确保临界区只有一个线程可以访问</h4><pre class=" language-objc"><code class="language-objc">bool lock = false; // 一开始没有锁上，任何线程都可以申请锁  
+do {  
+    while(test_and_set(&lock); // test_and_set 是一个原子操作
+        Critical section  // 临界区
+    lock = false; // 相当于释放锁，这样别的线程可以进入临界区
+        Reminder section // 不需要锁保护的代码        
+}</code></pre>
+<ul>
+<li>显然在 while 循环中，<strong>线程处于忙等状态，白白浪费 CPU 时间，最终因为超时被操作系统抢占时间片。如果临界区执行时间较长，比如是文件读写，这种忙等是毫无必要的。</strong></li>
+<li>如果临界区的执行时间过长，使用自旋锁不是个好主意</li>
+</ul>
+<h4 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h4><ul>
+<li>首先会把信号量的值减一，并判断是否大于零。</li>
+<li>如果大于零，说明不用等待，所以立刻返回。小于0等待signal唤醒线程</li>
+</ul>
+<h4 id="pthread-mutex互斥锁"><a href="#pthread-mutex互斥锁" class="headerlink" title="pthread_mutex互斥锁"></a>pthread_mutex互斥锁</h4><ul>
+<li>互斥锁的实现原理与信号量非常相似，不是使用忙等，而是<strong>阻塞线程并睡眠，需要进行上下文切换。</strong></li>
+</ul>
+<pre class=" language-objc"><code class="language-objc">pthread_mutexattr_t attr;  
+pthread_mutexattr_init(&attr);  
+pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_NORMAL);  // 定义锁的属性
+
+pthread_mutex_t mutex;  
+pthread_mutex_init(&mutex, &attr) // 创建锁
+
+pthread_mutex_lock(&mutex); // 申请锁  
+    // 临界区
+pthread_mutex_unlock(&mutex); // 释放锁 </code></pre>
+<ul>
+<li>一般情况下，一个线程只能申请一次锁，也只能在获得锁的情况下才能释放锁，多次申请锁或释放未获得的锁都会导致崩溃。</li>
+<li>假设在已经获得锁的情况下再次申请锁，线程会因为等待锁的释放而进入睡眠状态，因此就不可能再释放锁，从而导致死锁。</li>
+<li>然而这种情况经常会发生，比如某个函数申请了锁，在临界区内又递归调用了自己。辛运的是 <code>pthread_mutex</code> 支持递归锁，也就是允许一个线程递归的申请锁，只要把 attr 的类型改成 <code>PTHREAD_MUTEX_RECURSIVE</code> 即可。</li>
+</ul>
+<h4 id="NSLock"><a href="#NSLock" class="headerlink" title="NSLock"></a>NSLock</h4><ul>
+<li><p><code>NSLock</code> 只是在内部封装了一个 <code>pthread_mutex</code>，属性为 <code>PTHREAD_MUTEX_ERRORCHECK</code>，它会损失一定性能换来错误提示。</p>
+</li>
+<li><p><code>NSLock</code> 比 <code>pthread_mutex</code> 略慢的原因在于它需要经过方法调用，同时由于缓存的存在，多次方法调用不会对性能产生太大的影响。</p>
+</li>
+</ul>
+<h4 id="NSCondition"><a href="#NSCondition" class="headerlink" title="NSCondition"></a>NSCondition</h4><ul>
+<li><p><code>NSCondition</code> 的底层是通过条件变量(condition variable) <code>pthread_cond_t</code> 来实现的。</p>
+</li>
+<li><p><strong>条件变量有点像信号量，提供了线程阻塞与信号机制，因此可以用来阻塞某个线程**</strong>，并等待某个数据就绪，随后唤醒线程**，比如常见的生产者-消费者模式。</p>
+</li>
+<li><p><code>NSCondition</code> 其实是封装了一个互斥锁和条件变量， 它把前者的 <code>lock</code> 方法和后者的 <code>wait/signal</code> 统一在 <code>NSCondition</code> 对象中，暴露给使用者</p>
+</li>
+<li><p>它的加解锁过程与 <code>NSLock</code> 几乎一致，理论上来说耗时也应该一样(实际测试也是如此)。在图中显示它耗时略长，我猜测有可能是测试者在每次加解锁的前后还附带了变量的初始化和销毁操作。</p>
+</li>
+</ul>
+<h4 id="NSRecursiveLock"><a href="#NSRecursiveLock" class="headerlink" title="NSRecursiveLock"></a><a href="https://bestswifter.com/ios-lock/#nsrecursivelock" target="_blank" rel="noopener">NSRecursiveLock</a></h4><ul>
+<li><p>递归锁也是通过 <code>pthread_mutex_lock</code> 函数来实现，在函数内部会判断锁的类型，如果显示是递归锁，就允许递归调用，仅仅将一个计数器加一，锁的释放过程也是同理。</p>
+<p><strong>使用递归锁NSRecursiveLock</strong></p>
+<pre class=" language-objc"><code class="language-objc">    NSLock *lock = [[NSLock alloc] init];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        static void (^RecursiveMethod)(int);
+        RecursiveMethod = ^(int value) {
+            [lock lock];//递归调用时失败，NSLock不能被同一线程多次获取，多次获取使用NSRecursiveLock
+            if (value > 0) {
+                NSLog(@"value = %d", value);
+                sleep(2);
+                RecursiveMethod(value - 1);
+            }
+            [lock unlock];
+        };
+        RecursiveMethod(5);
+    });</code></pre>
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4></li>
+</ul>
+<h4 id="synchronized"><a href="#synchronized" class="headerlink" title="@synchronized"></a><a href="http://yulingtianxia.com/blog/2015/11/01/More-than-you-want-to-know-about-synchronized/" target="_blank" rel="noopener">@synchronized</a></h4><p>这其实是一个 OC 层面的锁， 主要是通过牺牲性能换来语法上的简洁与可读。</p>
+<ol>
+<li>你调用 <code>sychronized</code> 的每个对象，runtime 都会为其分配一个递归锁并存储在哈希表中。</li>
+<li>如果在 <code>sychronized</code> 内部对象被释放或被设为 <code>nil</code> 看起来都 OK。不过这没在文档中说明，所以我不会再生产代码中依赖这条。</li>
+<li>注意不要向你的 <code>sychronized</code> block 传入 <code>nil</code>！这将会从代码中移走线程安全。你可以通过在 <code>objc_sync_nil</code> 上加断点来查看是否发生了这样的事情。</li>
+</ol>
+<h2 id="1、你理解的多线程？并发和串行，同步和异步"><a href="#1、你理解的多线程？并发和串行，同步和异步" class="headerlink" title="1、你理解的多线程？并发和串行，同步和异步"></a>1、<strong>你理解的多线程？并发和串行，同步和异步</strong></h2><ul>
+<li>同步和异步的区别: <strong>是否开辟新的线程</strong>，同步只能在当前线程执行任务，异步可以再新的线程执行任务</li>
+<li>串行和并发的区别:是<strong>任务执行的顺序</strong>，串行任务只能顺序执行，并发可以多个任务同时执行。</li>
+</ul>
+<h2 id="2、iOS多线程有哪些？常用哪个？"><a href="#2、iOS多线程有哪些？常用哪个？" class="headerlink" title="2、iOS多线程有哪些？常用哪个？"></a>2、iOS多线程有哪些？常用哪个？</h2><ul>
+<li>NSThread、GCD/NSOperationQueue</li>
+<li>常用GCD/NSOperation</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200314043637.png" alt="pthread NSThread GCD NSoperatio"></p>
+<h2 id="3、GCD-的队列类型有哪些？"><a href="#3、GCD-的队列类型有哪些？" class="headerlink" title="3、GCD 的队列类型有哪些？"></a><strong>3、GCD 的队列类型有哪些？</strong></h2><p>GCD的队列可以分为2大类型</p>
+<ul>
+<li>并发队列（Concurrent Dispatch Queue）<ul>
+<li>可以让多个任务并发（同时）执行（自动开启多个线程同时执行任务）</li>
+<li>并发功能只有在异步（dispatch_async）函数下才有效</li>
+</ul>
+</li>
+<li>串行队列（Serial Dispatch Queue）<ul>
+<li>让任务一个接着一个地执行（一个任务执行完毕后，再执行下一个任务）</li>
+</ul>
+</li>
+</ul>
+<h2 id="4、OperationQueue-和-GCD-的区别？"><a href="#4、OperationQueue-和-GCD-的区别？" class="headerlink" title="4、OperationQueue 和 GCD 的区别？"></a><strong>4、OperationQueue 和 GCD 的区别？</strong></h2><ol>
+<li>GCD是底层的C语言构成的API，而NSOperationQueue及相关对象是Objc的对象。在GCD中，在队列中执行的是由block构成的任务，这是一个轻量级的数据结构；而Operation作为一个对象，为我们提供了更多的选择；</li>
+<li>在NSOperationQueue中，我们可以随时取消已经设定要准备执行的任务(当然，已经开始的任务就无法阻止了)，而GCD没法停止已经加入queue的block(其实是有的，但需要许多复杂的代码)；</li>
+<li>NSOperation能够方便地设置依赖关系，我们可以让一个Operation依赖于另一个Operation，这样的话尽管两个Operation处于同一个并行队列中，但前者会直到后者执行完毕后再执行；</li>
+<li>我们能将KVO应用在NSOperation中，可以监听一个Operation是否完成或取消，这样子能比GCD更加有效地掌控我们执行的后台任务；</li>
+<li>在NSOperation中，我们能够设置NSOperation的priority优先级，能够使同一个并行队列中的任务区分先后地执行，而在GCD中，我们只能区分不同任务队列的优先级，如果要区分block任务的优先级，也需要大量的复杂代码；</li>
+<li>我们能够对NSOperation进行继承，在这之上添加成员变量与成员方法，提高整个代码的复用度，这比简单地将block任务排入执行队列更有自由度，能够在其之上添加更多自定制的功能。</li>
+</ol>
+<p><strong>总的来说，Operation queue 提供了更多你在编写多线程程序时需要的功能，并隐藏了许多线程调度，线程取消与线程优先级的复杂代码，为我们提供简单的API入口。</strong></p>
+<p><strong>从编程原则来说，一般我们需要尽可能的使用高等级、封装完美的API，在必须时才使用底层API。但是我认为当我们的需求能够以更简单的底层代码完成的时候，简洁的GCD或许是个更好的选择，而Operation queue 为我们提供能更多的选择。</strong></p>
+<h2 id="5、线程安全是什么？如何处理线程安全的问题？"><a href="#5、线程安全是什么？如何处理线程安全的问题？" class="headerlink" title="5、线程安全是什么？如何处理线程安全的问题？"></a><strong>5、线程安全是什么？如何处理线程安全的问题？</strong></h2><blockquote>
+<p>我们一般通过线程同步方案如加锁的方式来实现线程的安全</p>
+<p><a href="https://bestswifter.com/ios-lock/" target="_blank" rel="noopener">iOS锁的原理</a> |   <a href="https://www.jianshu.com/p/e56c3d28e77d" target="_blank" rel="noopener">深入浅出iOS系统内核-同步机制</a></p>
+</blockquote>
+<ul>
+<li><strong>os_unfair_lock：iOS10开始os_unfair_lock来替代OSSpinLock, 等待锁的线程会进入休眠不占用CPU资源， 这个os_unfair_lock解决了优先级翻转问题。</strong></li>
+<li><strong>OSSpinLock叫做”自旋锁”，等待锁的线程会处于忙等一直占用着CPU资源</strong></li>
+<li><strong>dispatch_semaphore：信号量为1的semaphore也可以看做是锁</strong></li>
+<li><strong>pthread_mutex：跨平台的互斥锁。互斥锁的实现原理与信号量非常相似，不是使用忙等，而是阻塞线程并睡眠，需要进行上下文切换。</strong></li>
+<li><strong>使用GCD的串行队列也可以实现锁的功能</strong></li>
+<li><strong>NSLock是对metex互斥锁的封装，NSRecurisiveLock也是对metex的递归封装，API和NSLock一直。</strong></li>
+<li>NSCondition</li>
+<li>NSConditionLock</li>
+<li><strong>@synchorized也是mutex的递归封装，@synchronized(obj)内部会生成obj对应的递归锁，然后进行加锁、解锁操作。</strong></li>
+</ul>
+<h2 id="6、自旋锁和互斥锁如何选择？"><a href="#6、自旋锁和互斥锁如何选择？" class="headerlink" title="6、自旋锁和互斥锁如何选择？"></a><strong>6、自旋锁和互斥锁如何选择？</strong></h2><p><strong>自旋锁OSSpinLock：当线程获取锁，其他等待锁的线程会忙等一直占用CPU,自旋锁有优先级翻转的可能性，所以苹果已经弃用自旋锁OSSpinLock改用os_unfair_lock.</strong></p>
+<p><strong>互斥锁mutext：阻塞线程并休眠，其他线程才能正常访问，用互斥的方式来保证线程的安全。</strong></p>
+<p><strong>递归锁：顾名思义，可以被一个线程多次获得，而不会引起死锁。它记录了成功获得锁的次数，每一次成功的获得锁，必须有一个配套的释放锁和其对应，这样才不会引起死锁。NSRecursiveLock 会记录上锁和解锁的次数，当二者平衡的时候，才会释放锁，其它线程才可以上锁成功。</strong></p>
+<ul>
+<li><strong>什么情况使用自旋锁比较划算？</strong> <ul>
+<li>预计线程等待锁的<strong>时间很短</strong> </li>
+<li><strong>竞争情况很少</strong>发生，加锁的代码（临界区）经常被调用</li>
+<li><strong>CPU资源不紧张</strong> 多核处理器</li>
+</ul>
+</li>
+<li><strong>什么情况使用互斥锁比较划算？</strong> <ul>
+<li>预计线程等待锁的<strong>时间较长</strong> </li>
+<li>临界区<strong>代码复杂或者循环量大</strong> </li>
+<li><strong>临界区竞争非常激烈</strong> </li>
+<li>单核处理器 临界区有IO操作 </li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><strong>追问二：使用以上锁需要注意哪些？</strong> </li>
+<li><strong>追问三：用C/OC/C++，任选其一，实现自旋或互斥？口述即可！</strong></li>
+</ul>
+<h2 id="7、iOS线程同步方案性能比较"><a href="#7、iOS线程同步方案性能比较" class="headerlink" title="7、iOS线程同步方案性能比较"></a>7、iOS线程同步方案<strong>性能</strong>比较</h2><p><strong>性能从高到低排序:</strong></p>
+<pre><code>os_unfair_lock &gt; OSSpinLock &gt; dispatch_semaphore &gt; pthread_mutex &gt; dispatch_queue(DISPATCH_QUEUE_SERIAL) &gt; NSLock &gt; NSCondition &gt; pthread_mutex(recursive) &gt; NSRecursiveLock &gt; NSConditionLock &gt; @synchronized</code></pre><h2 id="8、如何用gcd实现并发执行1和2再执行任务3的方案？"><a href="#8、如何用gcd实现并发执行1和2再执行任务3的方案？" class="headerlink" title="**8、如何用gcd实现并发执行1和2再执行任务3的方案？"></a>**8、如何用gcd实现并发执行1和2再执行任务3的方案？</h2><ul>
+<li><strong>异步并发执行任务1、任务2</strong> </li>
+<li><strong>等任务1、任务2都执行完毕后，再回到主线程执行任务3</strong></li>
+</ul>
+<h4 id="dispatch-group-notify"><a href="#dispatch-group-notify" class="headerlink" title="dispatch_group_notify"></a>dispatch_group_notify</h4><h4 id="dispatch-barrier-async"><a href="#dispatch-barrier-async" class="headerlink" title="dispatch_barrier_async"></a>dispatch_barrier_async</h4><h4 id="dispatch-sempher-2"><a href="#dispatch-sempher-2" class="headerlink" title="dispatch_sempher(2)"></a>dispatch_sempher(2)</h4><pre class=" language-swift"><code class="language-swift">    <span class="token keyword">let</span> group <span class="token operator">=</span> <span class="token function">DispatchGroup</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">let</span> queue <span class="token operator">=</span> <span class="token builtin">DispatchQueue</span><span class="token punctuation">.</span><span class="token keyword">init</span><span class="token punctuation">(</span>label<span class="token punctuation">:</span> <span class="token string">"handleAPIQueue"</span><span class="token punctuation">)</span>
+    group<span class="token punctuation">.</span><span class="token function">enter</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    queue<span class="token punctuation">.</span>async <span class="token punctuation">{</span>
+        <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"任务1完成"</span><span class="token punctuation">)</span>
+        group<span class="token punctuation">.</span><span class="token function">leave</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+    group<span class="token punctuation">.</span><span class="token function">enter</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    queue<span class="token punctuation">.</span>async <span class="token punctuation">{</span>
+        <span class="token builtin">DispatchQueue</span><span class="token punctuation">.</span>main<span class="token punctuation">.</span><span class="token function">asyncAfter</span><span class="token punctuation">(</span>deadline<span class="token punctuation">:</span> <span class="token punctuation">.</span><span class="token function">now</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">3</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"任务2完成"</span><span class="token punctuation">)</span>
+            group<span class="token punctuation">.</span><span class="token function">leave</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//注意leave的位置必须在任务完成后</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">//group.leave() //如果leave放在这里的话，notify不会等待任务2完成就会触发</span>
+
+    group<span class="token punctuation">.</span><span class="token function">enter</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    queue<span class="token punctuation">.</span>async <span class="token punctuation">{</span>
+        <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"任务3完成"</span><span class="token punctuation">)</span>
+        group<span class="token punctuation">.</span><span class="token function">leave</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+
+    group<span class="token punctuation">.</span><span class="token function">notify</span><span class="token punctuation">(</span>queue<span class="token punctuation">:</span> queue<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"所有任务都完成了"</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+</code></pre>
+<p><a href="https://blog.csdn.net/die_word/article/details/80797329" target="_blank" rel="noopener">网络请求应用实例</a></p>
+<h2 id="9、如何实现多度单写？"><a href="#9、如何实现多度单写？" class="headerlink" title="9、如何实现多度单写？"></a><code>9、如何实现多度单写？</code></h2><p><strong>dispatch_barrier_async</strong></p>
+<ul>
+<li>这个函数传入的并发队列必须是自己通过dispatch_queue_cretate创建的 </li>
+<li>如果传入的是一个串行或是一个全局的并发队列，那这个函数便等同于dispatch_async函数的效果</li>
+</ul>
+<pre class=" language-swift"><code class="language-swift">  dispatch_queue_t concurrentQueue <span class="token operator">=</span> <span class="token function">dispatch_queue_create</span><span class="token punctuation">(</span><span class="token string">"com.queue.concurrent"</span><span class="token punctuation">,</span> <span class="token constant">DISPATCH_QUEUE_CONCURRENT</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">dispatch_async</span><span class="token punctuation">(</span>concurrentQueue<span class="token punctuation">,</span> <span class="token operator">^</span><span class="token punctuation">{</span>
+      <span class="token function">NSLog</span><span class="token punctuation">(</span>@<span class="token string">"async_1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">dispatch_async</span><span class="token punctuation">(</span>concurrentQueue<span class="token punctuation">,</span> <span class="token operator">^</span><span class="token punctuation">{</span>
+      <span class="token function">NSLog</span><span class="token punctuation">(</span>@<span class="token string">"async_2"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">dispatch_async</span><span class="token punctuation">(</span>concurrentQueue<span class="token punctuation">,</span> <span class="token operator">^</span><span class="token punctuation">{</span>
+         <span class="token function">NSLog</span><span class="token punctuation">(</span>@<span class="token string">"async_3"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">dispatch_barrier_async</span><span class="token punctuation">(</span>concurrentQueue<span class="token punctuation">,</span> <span class="token operator">^</span><span class="token punctuation">{</span><span class="token comment" spellcheck="true">//dispatch_barrier_sync效果相同</span>
+      <span class="token function">NSLog</span><span class="token punctuation">(</span>@<span class="token string">"dispatch_barrier_async"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">dispatch_async</span><span class="token punctuation">(</span>concurrentQueue<span class="token punctuation">,</span> <span class="token operator">^</span><span class="token punctuation">{</span>
+      <span class="token function">NSLog</span><span class="token punctuation">(</span>@<span class="token string">"async_4"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">/*
+01-OC底层[25009:1007376] async_1
+01-OC底层[25009:1007372] async_3
+01-OC底层[25009:1007374] async_2
+01-OC底层[25009:1007372] dispatch_barrier_async
+01-OC底层[25009:1007372] async_4
+*/</span></code></pre>
+<h2 id="10、GCD实现暂停和继续注意什么？"><a href="#10、GCD实现暂停和继续注意什么？" class="headerlink" title="10、GCD实现暂停和继续注意什么？"></a>10、GCD实现暂停和继续注意什么？</h2><pre class=" language-swift"><code class="language-swift">        dispatch_queue_t conQueue <span class="token operator">=</span> <span class="token function">dispatch_queue_create</span><span class="token punctuation">(</span><span class="token string">"com.seria.queue"</span><span class="token punctuation">,</span> <span class="token constant">DISPATCH_QUEUE_CONCURRENT</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    size_t <span class="token builtin">count</span> <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+    <span class="token function">dispatch_apply</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span> conQueue<span class="token punctuation">,</span> <span class="token operator">^</span><span class="token punctuation">(</span>size_t index<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">NSLog</span><span class="token punctuation">(</span>@<span class="token string">"numer is %zu"</span><span class="token punctuation">,</span>index<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>index <span class="token operator">==</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token comment" spellcheck="true">//            dispatch_suspend(concurrentQueue);// suspend并不能停止当前队列的任务，只能停止后面队列中的任务</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">dispatch_suspend</span><span class="token punctuation">(</span>conQueue<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// dispatch_suspend 不能单独使用，和dispatch_resume配对使用</span>
+    <span class="token function">NSLog</span><span class="token punctuation">(</span>@<span class="token string">"task1---"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token function">dispatch_async</span><span class="token punctuation">(</span>conQueue<span class="token punctuation">,</span> <span class="token operator">^</span><span class="token punctuation">{</span>
+        <span class="token function">NSLog</span><span class="token punctuation">(</span>@<span class="token string">"async1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">NSLog</span><span class="token punctuation">(</span>@<span class="token string">"task2---"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">dispatch_resume</span><span class="token punctuation">(</span>conQueue<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token function">dispatch_async</span><span class="token punctuation">(</span>conQueue<span class="token punctuation">,</span> <span class="token operator">^</span><span class="token punctuation">{</span>
+        <span class="token function">NSLog</span><span class="token punctuation">(</span>@<span class="token string">"async2"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">NSLog</span><span class="token punctuation">(</span>@<span class="token string">"task3---"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h2 id="11、案例分析"><a href="#11、案例分析" class="headerlink" title="11、案例分析"></a>11、案例分析</h2><h4 id="使用-Dispatch-Source定时器"><a href="#使用-Dispatch-Source定时器" class="headerlink" title="使用 Dispatch Source定时器"></a>使用 Dispatch Source定时器</h4><h4 id="Dispatch-Source-Timer"><a href="#Dispatch-Source-Timer" class="headerlink" title="Dispatch Source Timer"></a>Dispatch Source Timer</h4><p>利用 Dispatch Source 的 DISPATCH_SOURCE_TYPE_TIMER 类型，我们可以创建一个 跨线程的 定时器（我们平时使用的 NSTimer 是基于 Run Loop 的 timer 事件，只能在对应的线程里触发）</p>
+<pre class=" language-objective-c"><code class="language-objective-c">    dispatch_queue_t queue = dispatch_get_main_queue();
+
+    //1、创建一个 timer；
+    self.timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+
+    //2、配置 timer，从现在起，每两秒在主线程触发一次，精度为0s
+    dispatch_source_set_timer(self.timer, DISPATCH_TIME_NOW, 2 * NSEC_PER_SEC, 0 * NSEC_PER_SEC);
+
+    //3、timer 触发之后的回调 block
+    dispatch_source_set_event_handler(self.timer, ^{
+
+        NSLog(@"%ld", self.count++);
+    });
+
+    //4、启动 timer
+    dispatch_resume(self.time); </code></pre>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://mingriweiji-github.github.io" rel="external nofollow noreferrer">KM</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="https://mingriweiji-github.github.io/2018/06/01/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/">https://mingriweiji-github.github.io/2018/06/01/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="https://mingriweiji-github.github.io" target="_blank">KM</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/iOS/">
+                                    <span class="chip bg-color">iOS</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2018/12/01/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="iOS图像优化技巧">
+                        
+                        <span class="card-title">iOS图像优化技巧</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            iOS图像优化技巧
+1、如何处理大尺寸图片？
+
+2、如何处理瀑布流图片占用大量内存的问题？
+
+3、如何处理多张图片上传和下载问题？
+
+
+1、处理大尺寸图片那么，什么时候对图像进行渲染优化才有意义呢？
+当它明显大于 UIImageView 显
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2018-12-01
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%9B%BE%E5%83%8F/" class="post-category">
+                                    图像
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/iOS/">
+                        <span class="chip bg-color">iOS</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2018/06/01/Runloop/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="Runloop">
+                        
+                        <span class="card-title">Runloop</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            Runloop1.讲讲 RunLoop，项目中有用到吗？
+事件循环，在程序运行中循环做一些事情
+没有消息mach_msg()切换用户态到内核态线程休眠，有消息内核态切换到用户态
+
+runloop相关：
+Timer、performSelect
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-06-01
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%BA%90%E7%A0%81/" class="post-category">
+                                    源码
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/iOS/">
+                        <span class="chip bg-color">iOS</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+    
+    <div class="container row center-align" style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="https://mingriweiji-github.github.io" target="_blank">KM</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/blinkfox" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1181062873@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

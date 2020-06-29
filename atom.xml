@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mingriweiji-github.github.io/"/>
-  <updated>2020-05-28T23:52:47.289Z</updated>
+  <updated>2020-06-29T08:30:09.619Z</updated>
   <id>https://mingriweiji-github.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Hexo使用指南</title>
+    <link href="https://mingriweiji-github.github.io/2020/06/29/Hexo%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"/>
+    <id>https://mingriweiji-github.github.io/2020/06/29/Hexo%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</id>
+    <published>2020-06-29T08:23:44.000Z</published>
+    <updated>2020-06-29T08:30:09.619Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;1、Hexo安装指南&quot;&gt;&lt;a href=&quot;#1、Hexo安装指南&quot; class=&quot;headerlink&quot; title=&quot;1、Hexo安装指南&quot;&gt;&lt;/a&gt;1、Hexo安装指南&lt;/h1&gt;&lt;h2 id=&quot;1-1安装Node-js&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+    
+      <category term="使用指南" scheme="https://mingriweiji-github.github.io/categories/%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"/>
+    
+    
+      <category term="工具" scheme="https://mingriweiji-github.github.io/tags/%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
   
   <entry>
     <title>Flutter布局</title>
@@ -173,7 +200,7 @@
     <link href="https://mingriweiji-github.github.io/2020/02/18/Swift%E5%A4%87%E5%BF%98%E5%BD%95/"/>
     <id>https://mingriweiji-github.github.io/2020/02/18/Swift%E5%A4%87%E5%BF%98%E5%BD%95/</id>
     <published>2020-02-18T02:13:45.000Z</published>
-    <updated>2020-05-12T22:53:32.343Z</updated>
+    <updated>2020-06-09T00:05:58.883Z</updated>
     
     <summary type="html">
     
@@ -509,34 +536,6 @@
     
     
       <category term="iOS" scheme="https://mingriweiji-github.github.io/tags/iOS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>排序问题</title>
-    <link href="https://mingriweiji-github.github.io/2018/01/01/%E6%8E%92%E5%BA%8F%E9%97%AE%E9%A2%98/"/>
-    <id>https://mingriweiji-github.github.io/2018/01/01/%E6%8E%92%E5%BA%8F%E9%97%AE%E9%A2%98/</id>
-    <published>2018-01-01T03:11:45.000Z</published>
-    <updated>2020-05-01T12:40:15.172Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;带着问题去学习，是最有效的学习方法。所以按照惯例，我还是先给你出一个思考题：&lt;/p&gt;
-&lt;h3 id=&quot;问题一：为什么插入排序比冒泡排序更受欢迎？&quot;&gt;&lt;a href=&quot;#问题一：为什么插入排序比冒泡排序更受欢迎？&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="算法" scheme="https://mingriweiji-github.github.io/categories/%E7%AE%97%E6%B3%95/"/>
-    
-    
-      <category term="java" scheme="https://mingriweiji-github.github.io/tags/java/"/>
     
   </entry>
   

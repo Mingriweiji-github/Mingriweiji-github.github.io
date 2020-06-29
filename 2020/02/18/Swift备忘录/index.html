@@ -504,6 +504,42 @@
 </blockquote>
 </li>
 </ul>
+<h4 id="时间戳"><a href="#时间戳" class="headerlink" title="时间戳"></a>时间戳</h4><h5 id="毫秒"><a href="#毫秒" class="headerlink" title="毫秒"></a>毫秒</h5><pre class=" language-swift"><code class="language-swift"><span class="token keyword">let</span> mill <span class="token operator">=</span> <span class="token function">Int64</span><span class="token punctuation">(</span><span class="token function">round</span><span class="token punctuation">(</span><span class="token function">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>timeIntervalSince1970 <span class="token operator">*</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">let</span> mill <span class="token operator">=</span> <span class="token function">Int64</span><span class="token punctuation">(</span><span class="token function">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>timeIntervalSince1970 <span class="token operator">*</span> <span class="token number">1000</span><span class="token punctuation">)</span>
+</code></pre>
+<h4 id="Swift-单例"><a href="#Swift-单例" class="headerlink" title="Swift 单例"></a>Swift 单例</h4><pre class=" language-swift"><code class="language-swift"><span class="token keyword">class</span> <span class="token class-name">Manager</span>  <span class="token punctuation">{</span>
+    <span class="token keyword">static</span> <span class="token keyword">let</span> shared <span class="token operator">=</span> <span class="token function">Manager</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token keyword">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<blockquote>
+<p>这种写法不仅简洁，而且保证了单例的独一无二。</p>
+<p><strong>在初始化类变量的时候，Apple 将会把这个初始化包装在一次 swift_once_block_invoke 中，以保证它的唯一性。</strong></p>
+<p><strong>不仅如此，对于所有的全局变量，Apple 都会在底层使用这个类似 dispatch_once 的方式来确保只以 lazy 的方式初始化一次。</strong></p>
+<p>另外，我们在这个类型中加入了一个私有的初始化方法，来覆盖默认的公开初始化方法，这让项目中的其他地方不能够通过 init 来生成自己的 MyManager 实例，也保证了类型单例的唯一性。</p>
+<p>如果你需要的是类似 default 的形式的单例 (也就是说这个类的使用者可以创建自己的实例) 的话，可以去掉这个私有的 init 方法。</p>
+<p>摘录来自: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第四版)。” Apple Books. </p>
+</blockquote>
+<h4 id="Swift-闭包"><a href="#Swift-闭包" class="headerlink" title="Swift 闭包"></a>Swift 闭包</h4><pre class=" language-swift"><code class="language-swift"><span class="token comment" spellcheck="true">///定义一个闭包</span>
+<span class="token keyword">var</span> itemClickCallback<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token builtin">AnalysisSpaceInfo</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Void</span><span class="token punctuation">)</span><span class="token operator">?</span>
+<span class="token keyword">var</span> rankViewScrollCallBack<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Void</span><span class="token punctuation">)</span><span class="token operator">?</span>
+
+<span class="token comment" spellcheck="true">/// 使用</span>
+view<span class="token punctuation">.</span>itemClickCallback <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token punctuation">[</span><span class="token keyword">weak</span> <span class="token keyword">self</span><span class="token punctuation">]</span> item <span class="token keyword">in</span>
+    <span class="token keyword">guard</span> <span class="token keyword">let</span> <span class="token keyword">self</span> <span class="token operator">=</span> <span class="token keyword">self</span> <span class="token keyword">else</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token punctuation">}</span>
+    <span class="token keyword">self</span><span class="token punctuation">.</span><span class="token function">loadSpaceDetail</span><span class="token punctuation">(</span>id<span class="token punctuation">:</span> item<span class="token punctuation">.</span>id<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+view<span class="token punctuation">.</span>rankViewScrollCallBack <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token punctuation">[</span><span class="token keyword">weak</span> <span class="token keyword">self</span><span class="token punctuation">]</span> <span class="token keyword">in</span>
+    <span class="token keyword">guard</span> <span class="token keyword">let</span> <span class="token keyword">self</span> <span class="token operator">=</span> <span class="token keyword">self</span> <span class="token keyword">else</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token punctuation">}</span>
+    <span class="token keyword">self</span><span class="token punctuation">.</span>view<span class="token punctuation">.</span>isHidden <span class="token operator">=</span> <span class="token boolean">true</span>
+<span class="token punctuation">}</span></code></pre>
+<h4 id="逃逸闭包"><a href="#逃逸闭包" class="headerlink" title="逃逸闭包"></a>逃逸闭包</h4><pre class=" language-swift"><code class="language-swift"><span class="token keyword">static</span> <span class="token keyword">func</span> <span class="token function">getInfo</span><span class="token punctuation">(</span>successHandler<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token builtin">Bool</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Void</span><span class="token punctuation">)</span><span class="token operator">?</span> <span class="token operator">=</span> <span class="token constant">nil</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span>
+
+<span class="token keyword">static</span> <span class="token keyword">func</span> <span class="token function">getInfo</span><span class="token punctuation">(</span>successHandler<span class="token punctuation">:</span>@<span class="token function">escaping</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token builtin">Bool</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Void</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+<span class="token punctuation">}</span>
+</code></pre>
 <h4 id="iOS初始化核心原则"><a href="#iOS初始化核心原则" class="headerlink" title="iOS初始化核心原则"></a>iOS初始化核心原则</h4><blockquote>
 <p>iOS 的初始化最核心两条的规则：</p>
 </blockquote>
@@ -523,18 +559,6 @@
 <blockquote>
 <p><strong>在Swift中千万不要用String的count方法计算文本长度,否则当文本中有emoji时，会计算出错。</strong></p>
 <p><strong>应当转成NSString再去求length</strong></p>
-</blockquote>
-<h4 id="Swift-单例"><a href="#Swift-单例" class="headerlink" title="Swift 单例"></a>Swift 单例</h4><pre class=" language-swift"><code class="language-swift"><span class="token keyword">class</span> <span class="token class-name">Manager</span>  <span class="token punctuation">{</span>
-    <span class="token keyword">static</span> <span class="token keyword">let</span> shared <span class="token operator">=</span> <span class="token function">Manager</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-    <span class="token keyword">private</span> <span class="token keyword">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
-<blockquote>
-<p>这种写法不仅简洁，而且保证了单例的独一无二。</p>
-<p><strong>在初始化类变量的时候，Apple 将会把这个初始化包装在一次 swift_once_block_invoke 中，以保证它的唯一性。</strong></p>
-<p><strong>不仅如此，对于所有的全局变量，Apple 都会在底层使用这个类似 dispatch_once 的方式来确保只以 lazy 的方式初始化一次。</strong></p>
-<p>另外，我们在这个类型中加入了一个私有的初始化方法，来覆盖默认的公开初始化方法，这让项目中的其他地方不能够通过 init 来生成自己的 MyManager 实例，也保证了类型单例的唯一性。</p>
-<p>如果你需要的是类似 default 的形式的单例 (也就是说这个类的使用者可以创建自己的实例) 的话，可以去掉这个私有的 init 方法。</p>
-<p>摘录来自: 王巍 (onevcat). “Swifter - Swift 必备 Tips (第四版)。” Apple Books. </p>
 </blockquote>
 <h4 id="Swift访问控制权限"><a href="#Swift访问控制权限" class="headerlink" title="Swift访问控制权限"></a>Swift访问控制权限</h4><p>Swift的访问权限管理依赖于两个概念：module和文件。module是一个完整的代码单元，</p>
 <p>它可以是一个或多个框架（Framework），或者是一个App Bundle，可以被import导入到工程中。</p>

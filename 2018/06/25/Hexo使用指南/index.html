@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="iOS图像优化技巧, 明日危机">
+    <meta name="keywords" content="Hexo使用指南, 明日危机">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>iOS图像优化技巧 | 明日危机</title>
+    <title>Hexo使用指南 | 明日危机</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -307,12 +307,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">iOS图像优化技巧</h1>
+                    <h1 class="description center-align post-title">Hexo使用指南</h1>
                 </div>
             </div>
         </div>
@@ -429,8 +429,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/iOS/">
-                                <span class="chip bg-color">iOS</span>
+                            <a href="/tags/%E5%B7%A5%E5%85%B7/">
+                                <span class="chip bg-color">工具</span>
                             </a>
                         
                     </div>
@@ -441,8 +441,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E5%9B%BE%E5%83%8F/" class="post-category">
-                                图像
+                            <a href="/categories/%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" class="post-category">
+                                使用指南
                             </a>
                         
                     </div>
@@ -454,7 +454,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2018-12-01
+                    2018-06-25
                 </div>
                 
 
@@ -471,278 +471,221 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="iOS图像优化技巧"><a href="#iOS图像优化技巧" class="headerlink" title="iOS图像优化技巧"></a><a href="https://swift.gg/2019/11/01/image-resizing/" target="_blank" rel="noopener">iOS图像优化技巧</a></h1><ul>
-<li><p>1、如何处理大尺寸图片？</p>
+                <h1 id="1、Hexo安装指南"><a href="#1、Hexo安装指南" class="headerlink" title="1、Hexo安装指南"></a>1、Hexo安装指南</h1><h2 id="1-1安装Node-js"><a href="#1-1安装Node-js" class="headerlink" title="1.1安装Node.js"></a>1.1安装Node.js</h2><p>首先下载稳定版<a href="http://nodejs.cn/download/" target="_blank" rel="noopener">Node.js</a>。</p>
+<p>安装选项全部默认，一路点击<code>Next</code>。</p>
+<p>最后安装好之后，windows按<code>Win+R</code>打开命令提示符,mac打开命令行工具，输入<code>node -v</code>和<code>npm -v</code>，如果出现版本号，那么就安装成功了。</p>
+<h2 id="1-2添加国内镜像源"><a href="#1-2添加国内镜像源" class="headerlink" title="1.2添加国内镜像源"></a>1.2添加国内镜像源</h2><p>如果没有梯子的话，可以使用阿里的国内镜像进行加速。</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">npm</span> config <span class="token keyword">set</span> registry https://registry.npm.taobao.org</code></pre>
+<h2 id="1-3安装Git"><a href="#1-3安装Git" class="headerlink" title="1.3安装Git"></a>1.3安装Git</h2><p>为了把本地的网页文件上传到github上面去，我们需要用到分布式版本控制工具————Git<a href="https://git-scm.com/download/win" target="_blank" rel="noopener">[下载地址]</a>。</p>
+<p>安装选项还是全部默认，只不过最后一步添加路径时选择<code>Use Git from the Windows Command Prompt</code>，这样我们就可以直接在命令提示符里打开git了。</p>
+<p>安装完成后在命令提示符中输入<code>git --version</code>验证是否安装成功。</p>
+<h2 id="1-4-注册Github账号"><a href="#1-4-注册Github账号" class="headerlink" title="1.4 注册Github账号"></a>1.4 注册Github账号</h2><p>接下来就去注册一个github账号，用来存放我们的网站。大多数小伙伴应该都有了吧，作为一个合格的程序猿（媛）还是要有一个的。</p>
+<p>打开<a href="https://github.com/，新建一个项目，如下所示：" target="_blank" rel="noopener">https://github.com/，新建一个项目，如下所示：</a><br><img src="https://godweiyang.com/2018/04/13/hexo-blog/1.jpg" alt="img"><br>然后如下图所示，输入自己的项目名字，后面一定要加<code>.github.io</code>后缀，README初始化也要勾上。<strong>名称一定要和你的github名字完全一样，比如你github名字叫<code>abc</code>，那么仓库名字一定要是<code>abc.github.io</code>。</strong><br><img src="https://godweiyang.com/2018/04/13/hexo-blog/2.jpg" alt="img"><br>然后项目就建成了，点击<code>Settings</code>，向下拉到最后有个<code>GitHub Pages</code>，点击<code>Choose a theme</code>选择一个主题。然后等一会儿，再回到<code>GitHub Pages</code>，会变成下面这样：<br><img src="https://godweiyang.com/2018/04/13/hexo-blog/3.jpg" alt="img"><br>点击那个链接，就会出现自己的网页啦，效果如下：<br><img src="https://godweiyang.com/2018/04/13/hexo-blog/4.jpg" alt="img"></p>
+<h2 id="1-5-安装Hexo"><a href="#1-5-安装Hexo" class="headerlink" title="1.5 安装Hexo"></a>1.5 安装Hexo</h2><p>在合适的地方新建一个文件夹，用来存放自己的博客文件，比如存放到<code>~/Desktop/Dev/blog</code>目录下。</p>
+<p>在该目录下右键点击<code>Git Bash Here</code>，打开git的控制台窗口，以后我们所有的操作都在git控制台进行，就不要用Windows自带的控制台了。</p>
+<p>定位到该目录下，输入<code>npm i hexo-cli -g</code>安装Hexo。会有几个报错，无视它就行。</p>
+<h4 id="安装报错：Mac-install-hexo-use-sudo-but-sitll-permission-denied"><a href="#安装报错：Mac-install-hexo-use-sudo-but-sitll-permission-denied" class="headerlink" title="安装报错：Mac install hexo use sudo but sitll permission denied"></a>安装报错：Mac install hexo use sudo but sitll permission denied</h4><p>参照hexo官网 <a href="https://hexo.io/zh-cn/index.html" target="_blank" rel="noopener">Hexo</a> 安装hexo时,使用命令 <code>npm install hexo-cli -g</code> 却报没有权限:</p>
+<pre class=" language-nginx"><code class="language-nginx">$ npm install hexo<span class="token operator">-</span>cli <span class="token operator">-</span>g
+npm WARN checkPermissions Missing write access to <span class="token operator">/</span>usr<span class="token operator">/</span>local<span class="token operator">/</span>lib<span class="token operator">/</span>node_modules
+npm ERR<span class="token operator">!</span> path <span class="token operator">/</span>usr<span class="token operator">/</span>local<span class="token operator">/</span>lib<span class="token operator">/</span>node_modules
+npm ERR<span class="token operator">!</span> code EACCES
+npm ERR<span class="token operator">!</span> errno <span class="token operator">-</span><span class="token number">13</span>
+npm ERR<span class="token operator">!</span> syscall access
+npm ERR<span class="token operator">!</span> Error<span class="token punctuation">:</span> EACCES<span class="token punctuation">:</span> permission denied<span class="token punctuation">,</span> access <span class="token string">'/usr/local/lib/node_modules'</span>
+npm ERR<span class="token operator">!</span>  <span class="token punctuation">{</span> Error<span class="token punctuation">:</span> EACCES<span class="token punctuation">:</span> permission denied<span class="token punctuation">,</span> access <span class="token string">'/usr/local/lib/node_modules'</span>
+npm ERR<span class="token operator">!</span>   stack<span class="token punctuation">:</span> <span class="token string">'Error: EACCES: permission denied, access \'/usr/local/lib/node_modules\''</span><span class="token punctuation">,</span>
+npm ERR<span class="token operator">!</span>   errno<span class="token punctuation">:</span> <span class="token operator">-</span><span class="token number">13</span><span class="token punctuation">,</span>
+npm ERR<span class="token operator">!</span>   code<span class="token punctuation">:</span> <span class="token string">'EACCES'</span><span class="token punctuation">,</span>
+npm ERR<span class="token operator">!</span>   syscall<span class="token punctuation">:</span> <span class="token string">'access'</span><span class="token punctuation">,</span>
+npm ERR<span class="token operator">!</span>   path<span class="token punctuation">:</span> <span class="token string">'/usr/local/lib/node_modules'</span> <span class="token punctuation">}</span>
+npm ERR<span class="token operator">!</span>
+npm ERR<span class="token operator">!</span> Please try running this command again as <span class="token keyword">root</span><span class="token operator">/</span>Administrator<span class="token punctuation">.</span>
+
+npm ERR<span class="token operator">!</span> A complete log of this run can be found in<span class="token punctuation">:</span>
+npm ERR<span class="token operator">!</span>     <span class="token operator">/</span>Users<span class="token operator">/</span>xxx<span class="token operator">/</span><span class="token punctuation">.</span>npm<span class="token operator">/</span>_logs<span class="token operator">/</span><span class="token number">2017</span><span class="token operator">-</span><span class="token number">10</span><span class="token operator">-</span>27T01_21_01_871Z<span class="token operator">-</span>debug<span class="token punctuation">.</span>log</code></pre>
+<h4 id="解决permission-denied方法"><a href="#解决permission-denied方法" class="headerlink" title="解决permission denied方法"></a>解决permission denied方法</h4><p>第一步,赋予目录权限:</p>
+<pre><code>$ sudo chown -R `whoami` /usr/local/lib/node_modules</code></pre><p>第二步,安装hexo:</p>
+<pre><code>$ npm install hexo-cli -g</code></pre><blockquote>
+<p>需要注意的点: 在安装hexo时,不要用 <code>sudo</code> 命令.</p>
+</blockquote>
+<p>安装完后输入<code>hexo -v</code>验证是否安装成功。</p>
+<blockquote>
+<p>出现   INFO  Start blogging with Hexo! 表示成功安装hexo</p>
+</blockquote>
+<p>然后初始化我们的网站，依次输入</p>
+<p>$ hexo init blog</p>
+<p>$ cd blog</p>
+<p>$ npm install</p>
+<p>$ hexo g # 或者hexo generate</p>
+<p>$ hexo s # 或者hexo server，可以在<a href="http://localhost:4000/" target="_blank" rel="noopener">http://localhost:4000/</a> 查看</p>
+<p>输入<code>hexo g</code>生成静态网页，然后输入<code>hexo s</code>打开本地服务器，然后浏览器打开<a href="http://localhost:4000/，就可以看到我们的博客啦，效果如下：" target="_blank" rel="noopener">http://localhost:4000/，就可以看到我们的博客啦，效果如下：</a><br><img src="https://godweiyang.com/2018/04/13/hexo-blog/5.jpg" alt="img"></p>
+<p>按<code>ctrl+c</code>关闭本地服务器。</p>
+<h2 id="1-6连接Github与本地"><a href="#1-6连接Github与本地" class="headerlink" title="1.6连接Github与本地"></a>1.6连接Github与本地</h2><p>首先右键打开git bash，然后输入下面命令：</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">git</span> config --global user.name <span class="token string">"godweiyang"</span>
+<span class="token function">git</span> config --global user.email <span class="token string">"792321264@qq.com"</span></code></pre>
+<p>用户名和邮箱根据你注册github的信息自行修改。</p>
+<p>然后生成密钥SSH key：</p>
+<pre class=" language-bash"><code class="language-bash">ssh-keygen -t rsa -C <span class="token string">"792321264@qq.com"</span></code></pre>
+<p>打开<a href="https://github.com/" target="_blank" rel="noopener">github</a>，在头像下面点击<code>settings</code>，再点击<code>SSH and GPG keys</code>，新建一个SSH，名字随便。</p>
+<p>git bash中输入</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token function">cat</span> ~/.ssh/id_rsa.pub</code></pre>
+<p>将输出的内容复制到框中，点击确定保存。</p>
+<p>输入<code>ssh -T git@github.com</code>，如果如下图所示，出现你的用户名，那就成功了。<br><img src="https://godweiyang.com/2018/04/13/hexo-blog/6.jpg" alt="img"></p>
+<p>打开博客根目录下的<code>_config.yml</code>文件，这是博客的配置文件，在这里你可以修改与博客相关的各种信息。</p>
+<p>修改最后一行的配置：</p>
+<pre class=" language-bash"><code class="language-bash">deploy:
+  type: <span class="token function">git</span>
+  repository: https://github.com/godweiyang/godweiyang.github.io
+  branch: master</code></pre>
+<p>repository修改为你自己的github项目地址。</p>
+<h2 id="1-7-windows发布"><a href="#1-7-windows发布" class="headerlink" title="1.7 windows发布"></a>1.7 windows发布</h2><p>首先在博客根目录下右键打开git bash，安装一个扩展<code>npm i hexo-deployer-git</code>。</p>
+<p>然后输入<code>hexo new post &quot;article title&quot;</code>，新建一篇文章。</p>
+<p>然后打开<code>D:\study\program\blog\source\_posts</code>的目录，可以发现下面多了一个文件夹和一个<code>.md</code>文件，一个用来存放你的图片等数据，另一个就是你的文章文件啦。</p>
+<p>编写完markdown文件后，根目录下输入<code>hexo g</code>生成静态网页，然后输入<code>hexo s</code>可以本地预览效果，最后输入<code>hexo d</code>上传到github上。这时打开你的github.io主页就能看到发布的文章啦。</p>
+<h2 id="1-8-Hexo命令行发布总结"><a href="#1-8-Hexo命令行发布总结" class="headerlink" title="1.8 Hexo命令行发布总结"></a>1.8 Hexo命令行发布总结</h2><ul>
+<li><p>hexo clean</p>
 </li>
-<li><p>2、如何处理瀑布流图片占用大量内存的问题？</p>
+<li><p>hexo g # 或者hexo generate</p>
+<p>hexo s # 或者hexo server，用浏览器打开<a href="http://localhost:4000/" target="_blank" rel="noopener">http://localhost:4000/</a> 查看</p>
 </li>
-<li><p>3、如何处理多张图片上传和下载问题？</p>
+<li><p>hexo d</p>
 </li>
 </ul>
-<h1 id="1、处理大尺寸图片"><a href="#1、处理大尺寸图片" class="headerlink" title="1、处理大尺寸图片"></a>1、处理大尺寸图片</h1><p>那么，什么时候对图像进行渲染优化才有意义呢？</p>
-<p><strong>当它明显大于</strong> <strong><code>UIImageView</code></strong> <strong>显示尺寸的时候</strong></p>
-<p>想要完整渲染这张宽高为 12,000 px 的图片，需要高达 20 MB 的空间。对于当今的硬件来说，你可能不会在意这么少兆字节的占用。但那只是它压缩后的尺寸。要展示它，<code>UIImageView</code> 首先需要把 JPEG 数据解码成位图（bitmap），如果要在一个 <code>UIImageView</code> 上按原样设置这张全尺寸图片，你的应用内存占用将会激增到<strong>几百兆</strong>，对用户明显没有什么好处（毕竟，屏幕能显示的像素有限）。但只要在设置 <code>UIImageView</code> 的 <code>image</code> 属性之前，将图像渲染的尺寸调整成 <code>UIImageView</code> 的大小，你用到的内存就会少一个数量级：</p>
-<table>
-<thead>
-<tr>
-<th align="left"></th>
-<th align="left">内存消耗 <em>(MB)</em></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">无下采样</td>
-<td align="left">220.2</td>
-</tr>
-<tr>
-<td align="left">下采样</td>
-<td align="left">23.7</td>
-</tr>
-</tbody></table>
-<p>这个技巧就是众所周知的<em>下采样（downsampling）</em>，在这些情况下，它可以有效地优化你应用的性能表现。如果你想了解更多关于下采样的知识或者其它图形图像的最佳实践，请参照 <a href="https://developer.apple.com/videos/play/wwdc2018/219/" target="_blank" rel="noopener">来自 WWDC 2018 的精彩课程</a>。</p>
-<p>而现在，很少有应用程序会尝试一次性加载这么大的图像了，但是也跟我从设计师那里拿到的图片资源不会差<em>太</em>多。<em>（认真的吗？一张颜色渐变的</em> <em>PNG</em> <em>图片要</em> <em>3</em> <em>MB?）</em> 考虑到这一点，让我们来看看有什么不同的方法，可以让你用来对图像进行优化或者下采样。</p>
-<blockquote>
-<p>不用说，这里所有从 URL 加载的示例图像都是针对<strong>本地</strong>文件。记住，在应用的主线程同步使用网络请求图像<strong>绝不</strong>是什么好主意。</p>
-</blockquote>
-<h2 id="图像渲染优化技巧"><a href="#图像渲染优化技巧" class="headerlink" title="图像渲染优化技巧"></a>图像渲染优化技巧</h2><p>优化图像渲染的方法有很多种，每种都有不同的功能和性能特性。我们在本文看到的这些例子，架构层次跨度上从底层的 Core Graphics、vImage、Image I/O 到上层的 Core Image 和 UIKit 都有。</p>
+<p>如何用post生成一篇博客的情况的详细说明。</p>
+<p>总结Hexo发布就是三步：</p>
 <ol>
-<li><a href="https://swift.gg/2019/11/01/image-resizing/#technique-1-drawing-to-a-uigraphicsimagerenderer" target="_blank" rel="noopener">绘制到 UIGraphicsImageRenderer 上</a></li>
-<li><a href="https://swift.gg/2019/11/01/image-resizing/#technique-2-drawing-to-a-core-graphics-context" target="_blank" rel="noopener">绘制到 Core Graphics Context 上</a></li>
-<li><a href="https://swift.gg/2019/11/01/image-resizing/#technique-3-creating-a-thumbnail-with-image-io" target="_blank" rel="noopener">使用 Image I/O 创建缩略图像</a></li>
-<li><a href="https://swift.gg/2019/11/01/image-resizing/#technique-4-lanczos-resampling-with-core-image" target="_blank" rel="noopener">使用 Core Image 进行 Lanczos 重采样</a></li>
-<li><a href="https://swift.gg/2019/11/01/image-resizing/#technique-5-image-scaling-with-vimage" target="_blank" rel="noopener">使用 vImage 优化图片渲染</a></li>
+<li>执行<code>hexo new post myBlog</code>，在source/_post文件夹下生成一个 myBlog.md的文件。</li>
+<li>编辑myBlog.md，书写自己的博客内容。</li>
+<li>执行 <code>hexo g</code>生成静态页面；</li>
+<li>执行 <code>hexo s</code> 启动本地服务器浏览器打开<a href="http://localhost:4000/" target="_blank" rel="noopener">http://localhost:4000/</a> 预览效果；</li>
+<li>执行 <code>hexo d</code> 将文章部署到github实现真正的网络博客。</li>
 </ol>
-<p>下面的这些数字是多次迭代加载、优化、渲染之前那张 <a href="https://visibleearth.nasa.gov/view.php?id=78314" target="_blank" rel="noopener">超大地球图片</a> 的平均时间：</p>
-<table>
-<thead>
-<tr>
-<th align="left"></th>
-<th align="left">耗时 <em>(seconds)</em></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">技巧 #1: <code>UIKit</code></td>
-<td align="left">0.1420</td>
-</tr>
-<tr>
-<td align="left">技巧 #2: <code>Core Graphics</code> 1</td>
-<td align="left">0.1722</td>
-</tr>
-<tr>
-<td align="left">技巧 #3: <code>Image I/O</code></td>
-<td align="left">0.1616</td>
-</tr>
-<tr>
-<td align="left">技巧 #4: <code>Core Image</code> 2</td>
-<td align="left">2.4983</td>
-</tr>
-<tr>
-<td align="left">技巧 #5: <code>vImage</code></td>
-<td align="left">2.3126</td>
-</tr>
-</tbody></table>
-<p>1<br>设置不同的 <code>CGInterpolationQuality</code> 值出来的结果是一致的，在性能上的差异可以忽略不计。</p>
-<p>2<br>若在 <code>CIContext</code> 创建时设置 <code>kCIContextUseSoftwareRenderer</code> 的值为 <code>true</code>，会导致耗时相比基础结果慢一个数量级。</p>
-<h2 id="使用CGContextDrawImage"><a href="#使用CGContextDrawImage" class="headerlink" title="使用CGContextDrawImage()"></a>使用CGContextDrawImage()</h2><h2 id="异步解码图片"><a href="#异步解码图片" class="headerlink" title="异步解码图片"></a>异步解码图片</h2><pre class=" language-objc"><code class="language-objc">    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        // 1、获取CGImage
-        CGImageRef cgImage = [UIImage imageNamed:@"img"].CGImage;
-
-        // alphaInfo
-        CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(cgImage) & kCGBitmapAlphaInfoMask;
-        BOOL hasAlpha = NO;
-        if (alphaInfo == kCGImageAlphaPremultipliedLast ||
-            alphaInfo == kCGImageAlphaPremultipliedFirst ||
-            alphaInfo == kCGImageAlphaLast ||
-            alphaInfo == kCGImageAlphaFirst) {
-            hasAlpha = YES;
-        }
-
-        // bitmapInfo
-        CGBitmapInfo bitmapInfo = kCGBitmapByteOrder32Host;
-        bitmapInfo |= hasAlpha ? kCGImageAlphaPremultipliedFirst : kCGImageAlphaNoneSkipFirst;
-
-        // size
-        size_t width = CGImageGetWidth(cgImage);
-        size_t height = CGImageGetHeight(cgImage);
-
-        // 2、获取context
-        CGContextRef context = CGBitmapContextCreate(NULL, width, height, 8, 0, CGColorSpaceCreateDeviceRGB(), bitmapInfo);
-
-        //3、 draw
-        CGContextDrawImage(context, CGRectMake(0, 0, width, height), cgImage);
-
-        // get CGImage
-        cgImage = CGBitmapContextCreateImage(context);
-
-        // into UIImage
-        UIImage *newImage = [UIImage imageWithCGImage:cgImage];
-
-        // release
-        CGContextRelease(context);
-        CGImageRelease(cgImage);
-
-        // back to the main thread
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.imageView.image = newImage;
-        });
-    });
-</code></pre>
-<h3 id="技巧-1-绘制到-UIGraphicsImageRenderer-上"><a href="#技巧-1-绘制到-UIGraphicsImageRenderer-上" class="headerlink" title="技巧 #1: 绘制到 UIGraphicsImageRenderer 上"></a>技巧 #1: 绘制到 UIGraphicsImageRenderer 上</h3><p>图像渲染优化的最上层 API 位于 UIKit 框架中。给定一个 <code>UIImage</code>，你可以绘制到 <code>UIGraphicsImageRenderer</code> 的上下文（context）中以渲染缩小版本的图像：</p>
-<pre><code>import UIKit
-
-// 技巧 #1
-func resizedImage(at url: URL, for size: CGSize) -&gt; UIImage? {
-    guard let image = UIImage(contentsOfFile: url.path) else {
-        return nil
-    }
-
-    let renderer = UIGraphicsImageRenderer(size: size)
-    return renderer.image { (context) in
-        image.draw(in: CGRect(origin: .zero, size: size))
-    }
-}</code></pre><p><a href="https://developer.apple.com/documentation/uikit/uigraphicsimagerenderer" target="_blank" rel="noopener"><code>UIGraphicsImageRenderer</code></a> 是一项相对较新的技术，在 iOS 10 中被引入，用以取代旧版本的 <code>UIGraphicsBeginImageContextWithOptions</code> / <code>UIGraphicsEndImageContext</code> API。你通过指定以 <code>point</code> 计量的 <code>size</code> 创建了一个 <code>UIGraphicsImageRenderer</code>。<strong><code>image</code> 方法带有一个闭包参数，返回的是一个经过闭包处理后的位图。最终，原始图像便会在缩小到指定的范围内绘制。</strong></p>
-<h3 id="技巧-2：绘制到-Core-Graphics-Context-中"><a href="#技巧-2：绘制到-Core-Graphics-Context-中" class="headerlink" title="技巧 #2：绘制到 Core Graphics Context 中"></a>技巧 #2：绘制到 Core Graphics Context 中</h3><p>Core Graphics / Quartz 2D 提供了一系列底层 API 让我们可以进行更多高级的配置。</p>
-<p>给定一个 <code>CGImage</code> 作为暂时的位图上下文，使用 <code>draw(_:in:)</code> 方法来绘制缩放后的图像：</p>
-<pre><code>import UIKit
-import CoreGraphics
-
-// 技巧 #2
-func resizedImage(at url: URL, for size: CGSize) -&gt; UIImage? {
-    guard let imageSource = CGImageSourceCreateWithURL(url as NSURL, nil),
-        let image = CGImageSourceCreateImageAtIndex(imageSource, 0, nil)
-    else {
-        return nil
-    }
-
-    let context = CGContext(data: nil,
-                            width: Int(size.width),
-                            height: Int(size.height),
-                            bitsPerComponent: image.bitsPerComponent,
-                            bytesPerRow: image.bytesPerRow,
-                            space: image.colorSpace ?? CGColorSpace(name: CGColorSpace.sRGB)!,
-                            bitmapInfo: image.bitmapInfo.rawValue)
-    context?.interpolationQuality = .high
-    context?.draw(image, in: CGRect(origin: .zero, size: size))
-
-    guard let scaledImage = context?.makeImage() else { return nil }
-
-    return UIImage(cgImage: scaledImage)
-}</code></pre><p>这个 <code>CGContext</code> 初始化方法接收了几个参数来构造一个上下文，包括了必要的宽高参数，还有在给出的色域范围内每个颜色通道所需要的内存大小。在这个例子中，这些参数都是通过 <code>CGImage</code> 这个对象获取的。下一步，设置 <code>interpolationQuality</code> 属性为 <code>.high</code> 指示上下文在保证一定的精度上填充像素。<code>draw(_:in:)</code> 方法则是在给定的宽高和位置绘制图像，可以让图片在特定的边距下裁剪，也可以适用于一些像是人脸识别之类的图像特性。最后 <code>makeImage()</code> 从上下文获取信息并且渲染到一个 <code>CGImage</code> 值上（之后会用来构造 <code>UIImage</code> 对象）。</p>
-<h3 id="技巧-3：使用-Image-I-O-创建缩略图像"><a href="#技巧-3：使用-Image-I-O-创建缩略图像" class="headerlink" title="技巧 #3：使用 Image I/O 创建缩略图像"></a>技巧 #3：使用 Image I/O 创建缩略图像</h3><p>处理大分辨率图片时，往往容易出现OOM，<strong>原因是-[UIImage drawInRect:]在绘制时，先解码图片，再生成原始分辨率大小的bitmap，这是很耗内存的。</strong></p>
-<p>解决方法是使用更低层的ImageIO接口，避免中间bitmap产生：</p>
-<p>Image I/O 是一个强大（却鲜有人知）的图像处理框架。</p>
-<p><strong>它可以读写许多不同图像格式，访问图像的元数据，还有执行常规的图像处理操作。这个框架通过先进的缓存机制，提供了平台上最快的图片编码器和解码器，甚至可以增量加载图片。</strong></p>
-<p>这个重要的 <code>CGImageSourceCreateThumbnailAtIndex</code> 提供了一个带有许多不同配置选项的 API，比起在 Core Graphics 中等价的处理操作要简洁得多：</p>
-<pre><code>import ImageIO
-
-// 技巧 #3
-func resizedImage(at url: URL, for size: CGSize) -&gt; UIImage? {
-    let options: [CFString: Any] = [
-        kCGImageSourceCreateThumbnailFromImageIfAbsent: true,
-        kCGImageSourceCreateThumbnailWithTransform: true,
-        kCGImageSourceShouldCacheImmediately: true,
-        kCGImageSourceThumbnailMaxPixelSize: max(size.width, size.height)
-    ]
-
-    guard let imageSource = CGImageSourceCreateWithURL(url as NSURL, nil),
-        let image = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, options as CFDictionary)
-    else {
-        return nil
-    }
-
-    return UIImage(cgImage: image)
-}</code></pre><p>给定一个 <code>CGImageSource</code> 和一系列配置选项，<code>CGImageSourceCreateThumbnailAtIndex(_:_:_:)</code> 函数创建了一个图像的缩略图。优化尺寸大小的操作是通过 <code>kCGImageSourceThumbnailMaxPixelSize</code> 完成的，它根据图像原始宽高比指定的最大尺寸来缩放图像。通过设定 <code>kCGImageSourceCreateThumbnailFromImageIfAbsent</code> 或 <code>kCGImageSourceCreateThumbnailFromImageAlways</code> 选项，Image I/O 可以自动缓存优化后的结果以便后续调用。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
-<li><strong>UIKit</strong>, <strong>Core</strong> <strong>Graphics</strong>, 和 <strong>Image</strong> <strong>I/O</strong> 都能很好地用于大部分图片的优化操作。</li>
-<li>如果（在 iOS 平台，至少）要选择一个的话，<code>UIGraphicsImageRenderer</code> 是你最佳的选择。</li>
-<li><strong>Core</strong> <strong>Image</strong> 在图像优化渲染操作方面性能表现优越。实际上，根据 Apple 官方 <a href="https://developer.apple.com/library/mac/documentation/graphicsimaging/Conceptual/CoreImaging/ci_performance/ci_performance.html#//apple_ref/doc/uid/TP30001185-CH10-SW1" target="_blank" rel="noopener"><em>Core</em> <em>Image</em> <em>编程规范中的性能最佳实践单元</em></a>，你应该使用 Core Graphics 或 Image I/O 对图像进行裁剪和下采样，而不是用 Core Image。</li>
-<li>除非你已经在使用 <strong><code>vImage</code></strong>，否则在大多数情况下用到底层的 Accelerate API 所需的额外工作可能是不合理的。</li>
+<h2 id="1-9-Hexo博客主题推荐"><a href="#1-9-Hexo博客主题推荐" class="headerlink" title="1.9 Hexo博客主题推荐"></a>1.9 Hexo博客主题推荐</h2><p><a href="https://blinkfox.github.io/2018/09/28/qian-duan/hexo-bo-ke-zhu-ti-zhi-hexo-theme-matery-de-jie-shao/" target="_blank" rel="noopener">闪烁之狐 | Hexo博客主题之hexo-theme-matery的介绍</a></p>
+<p><a href="https://github.com/blinkfox/typora-vue-theme" target="_blank" rel="noopener">Vue风格的Typora主题</a></p>
+<p><a href="https://godweiyang.com/2018/04/13/hexo-blog/" target="_blank" rel="noopener">韦阳NPL|超详细Hexo+Github博客搭建小白教程</a></p>
+<h2 id="2-0-Hexo-修改主题"><a href="#2-0-Hexo-修改主题" class="headerlink" title="2.0 Hexo 修改主题"></a>2.0 Hexo 修改主题</h2><ul>
+<li>cd themes</li>
+<li>git clone <a href="https://github.com/aircloud/hexo-theme-aircloud" target="_blank" rel="noopener">https://github.com/aircloud/hexo-theme-aircloud</a></li>
+<li><strong>打开_config.yml，修改themes:hexo-theme-aircloud</strong></li>
 </ul>
+<h2 id="2-1-Hexo-技术风"><a href="#2-1-Hexo-技术风" class="headerlink" title="2.1 Hexo 技术风"></a>2.1 Hexo 技术风</h2><ul>
+<li><p>主题 - <a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">NexT.Pisces</a></p>
+</li>
+<li><p><a href="https://github.com/klugjo/hexo-theme-clean-blog" target="_blank" rel="noopener">CleanBlog</a><br> <img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200509101413.png" alt=""></p>
+</li>
+<li><p><a href="https://github.com/aircloud/hexo-theme-aircloud" target="_blank" rel="noopener">AirCloud</a></p>
+<pre><code> ![](https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200509aircloud.png)</code></pre></li>
+<li><p><a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="noopener">JSimple</a></p>
+</li>
+<li><p><a href="https://github.com/F0r3at/Lights" target="_blank" rel="noopener">Lights</a></p>
+<p> <img src="https://raw.githubusercontent.com/digitalcraftsman/hugo-cactus-theme/dev/images/screenshot.png" alt=""></p>
+</li>
+</ul>
+<h2 id="2-2唯美文艺风"><a href="#2-2唯美文艺风" class="headerlink" title="2.2唯美文艺风"></a>2.2唯美文艺风</h2><ul>
+<li><p><a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank" rel="noopener">hexo-theme-matery</a>  | <a href="https://github.com/blinkfox/hexo-theme-matery/blob/master/README_CN.md" target="_blank" rel="noopener">文档</a> | <a href="http://blinkfox.com/" target="_blank" rel="noopener">闪烁之狐</a>    <a href="https://godweiyang.com/" target="_blank" rel="noopener">韦阳的博客</a></p>
+</li>
+<li><p><a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p>
+<p><img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200509102712.png" alt=""></p>
+</li>
+<li><p><a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank" rel="noopener">Archer</a></p>
+<pre><code>![](http://firework.studio/archer-demo/2017-08-14/hexo-theme-archer/snap.png)</code></pre></li>
+<li><p><a href="https://github.com/zthxxx/hexo-theme-Wikitten" target="_blank" rel="noopener">wikitten-wiki风格</a></p>
+<pre><code>![](https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200509103151.png)</code></pre></li>
+</ul>
+<h2 id="2-3-Hexo字体"><a href="#2-3-Hexo字体" class="headerlink" title="2.3 Hexo字体"></a>2.3 Hexo字体</h2><ul>
+<li><a href="https://www.dazhuanlan.com/2020/02/02/5e367a7cdb9a5/" target="_blank" rel="noopener">Hexo博客之改字体</a></li>
+</ul>
+<h2 id="2-4-Hexo代码高亮"><a href="#2-4-Hexo代码高亮" class="headerlink" title="2.4 Hexo代码高亮"></a>2.4 Hexo代码高亮</h2><pre><code>swift语法高亮注意首字母不能大写</code></pre><h2 id="2-5-报错"><a href="#2-5-报错" class="headerlink" title="2.5 报错"></a>2.5 报错</h2><h2 id="1、Permission-denied-publickey"><a href="#1、Permission-denied-publickey" class="headerlink" title="1、Permission denied (publickey)."></a>1、Permission denied (publickey).</h2><p><strong>将SSH访问修改为https访问，修改hexo根目录下的_config.yml文件如下：</strong></p>
+<pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># Deployment</span>
+<span class="token comment" spellcheck="true">## Docs: https://hexo.io/docs/deployment.html</span>
+deploy:
+  type: <span class="token function">git</span>
+  <span class="token comment" spellcheck="true"># repo: git@github.com:YourName/YourName.io.git</span>
+  repo: https://github.com/YourName/YourName.github.io.git
+  branch: master</code></pre>
+<h2 id="2、hexo-g报错：can-not-read-a-block-mapping-entry"><a href="#2、hexo-g报错：can-not-read-a-block-mapping-entry" class="headerlink" title="2、hexo g报错：can not read a block mapping entry"></a>2、hexo g报错：can not read a block mapping entry</h2><p>hexo的文件配置是怎么样设置属性的：</p>
 <blockquote>
-<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg/" target="_blank" rel="noopener">http://swift.gg</a>。</p>
+<p>在配置文件里面，都是按照<code>属性名+英文冒号+英文空格+属性值</code>，这个形式进行属性设置的。</p>
 </blockquote>
-<h1 id="2、同时处理大量图片"><a href="#2、同时处理大量图片" class="headerlink" title="2、同时处理大量图片"></a>2、同时处理大量图片</h1><h3 id="UIScrollView滚动停止监测"><a href="#UIScrollView滚动停止监测" class="headerlink" title="UIScrollView滚动停止监测"></a><a href="https://www.codeleading.com/article/6664657606/" target="_blank" rel="noopener">UIScrollView滚动停止监测</a></h3><p>通过调查发现 <code>UIScrollView</code> 停止滚动的类型分为三种：</p>
-<ol>
-<li>快速滚动，自然停止</li>
-<li>快速滚动，手指按压突然停止</li>
-<li>慢速上下滑动停止</li>
-</ol>
-<p>第1种类型，比较简单，在 <code>UIScrollView</code> 的代理中就可以监听到。</p>
-<pre class=" language-objc"><code class="language-objc">- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView;</code></pre>
-<p>而第2种类型和第3种类型，就没有方法让我们可以直接监听到了。但是只要是滑动了，就一定会触发 <code>UIScrollView</code> 的下面代理，然后通过 <code>UIScrollView</code> 部分属性的改变，我们就可以监听到滚动停止了，后面会详细介绍方法。</p>
-<pre class=" language-objc"><code class="language-objc">- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView;
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate;</code></pre>
-<h3 id="监听UIScrollView停止滚动"><a href="#监听UIScrollView停止滚动" class="headerlink" title="监听UIScrollView停止滚动"></a>监听UIScrollView停止滚动</h3><p>通过翻阅文档，我们可以看到 <code>UIScrollView</code> 有三个属性: <strong>tracking、dragging、decelerating。</strong></p>
-<pre class=" language-objc"><code class="language-objc">// returns YES if user has touched. may not yet have started dragging
-@property(nonatomic,readonly,getter=isTracking) BOOL tracking;
-
-// returns YES if user has started scrolling. this may require some time and or distance to move to initiate dragging
-@property(nonatomic,readonly,getter=isDragging) BOOL dragging;
-
-
-// returns YES if user isn't dragging (touch up) but scroll view is still moving
-@property(nonatomic,readonly,getter=isDecelerating) BOOL decelerating;</code></pre>
-<p>在滚动和滚动结束时，这三个属性的值都不相同。我们利用这三个属性，完成对 <code>UIScrollView</code> 停止滚动的监听。</p>
-<p><strong>停止类型1：scrollViewDidEndDecelerating</strong></p>
-<pre class=" language-objc"><code class="language-objc">- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView;
-tracking:0,dragging:0,decelerating:0</code></pre>
-<p><strong>停止类型2：scrollViewDidEndDragging &amp; scrollViewDidEndDecelerating</strong></p>
-<pre><code>- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate;
-tracking:1,dragging:0,decelerating:1
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView;
-tracking:0,dragging:0,decelerating:0</code></pre><p><strong>停止类型3：scrollViewDidEndDragging</strong></p>
-<pre><code>- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate;
-tracking:1,dragging:0,decelerating:0</code></pre><p>通过上面的代码，可以发现，我们只需要对 <code>UIScrollView</code> 的这三个属性进行相应的组合，就可以监听到 <code>UIScrollView</code> 停止滚动的事件了。</p>
-<pre class=" language-objc"><code class="language-objc">- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    [self stoppedScrolling];
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    if (!decelerate) {
-        [self stoppedScrolling];
-    }
-}
-
-- (void)stoppedScrolling {
-    // ...
-      NSLog(@"停止滚动了！！！");
-}
-</code></pre>
-<pre class=" language-objc"><code class="language-objc">-(void)scrollViewDidScroll:(UIScrollView *)sender
-{
-    [NSObject cancelPreviousPerformRequestsWithTarget:self];
-    [self performSelector:@selector(scrollViewDidEndScrollingAnimation:) withObject:nil afterDelay:0.1];
-}
-
--(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
-{
-    [NSObject cancelPreviousPerformRequestsWithTarget:self];
-}</code></pre>
-<h1 id="3、处理多图上传下载问题？"><a href="#3、处理多图上传下载问题？" class="headerlink" title="3、处理多图上传下载问题？"></a>3、处理多图上传下载问题？</h1><h1 id="UI刷新问题"><a href="#UI刷新问题" class="headerlink" title="UI刷新问题"></a>UI刷新问题</h1><h4 id="layout的相关方法"><a href="#layout的相关方法" class="headerlink" title="layout的相关方法:"></a>layout的相关方法:</h4><ul>
-<li>layoutSubviews</li>
-<li>layoutIfNeeded</li>
-<li>setNeedsLayout</li>
-<li>setNeedsDisplay</li>
-<li>drawRect</li>
-<li>sizeThatFits</li>
-<li>sizeToFit</li>
+<p><img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200501170142.png" alt=""></p>
+<h2 id="3、hexo-tags-404："><a href="#3、hexo-tags-404：" class="headerlink" title="3、hexo tags 404："></a>3、hexo tags 404：</h2><h3 id="方法一（在SOURCE目录下默认无CATEGORIES和TAGS子目录）："><a href="#方法一（在SOURCE目录下默认无CATEGORIES和TAGS子目录）：" class="headerlink" title="方法一（在SOURCE目录下默认无CATEGORIES和TAGS子目录）："></a>方法一（在SOURCE目录下默认无CATEGORIES和TAGS子目录）：</h3><p>新建categories和tags子目录以及相应文件</p>
+<pre><code>hexo new page &quot;tags&quot;</code></pre><p>编辑source/tags/index.md文件,添加如下：</p>
+<pre><code>type: &quot;tags&quot;
+layout: &quot;tags&quot;</code></pre><h3 id="方法二："><a href="#方法二：" class="headerlink" title="方法二："></a>方法二：</h3><h4 id="1-编辑scaffolds-draft-md如下-hexo-clean-amp-amp-hexo-d即可"><a href="#1-编辑scaffolds-draft-md如下-hexo-clean-amp-amp-hexo-d即可" class="headerlink" title="1. 编辑scaffolds/draft.md如下, hexo clean &amp;&amp; hexo d即可"></a>1. 编辑scaffolds/draft.md如下, hexo clean &amp;&amp; hexo d即可</h4><pre><code>---
+title: {{ title }}
+tags: {{ tags }}
+---</code></pre><h4 id="2、编辑scaffolds-post-md如下"><a href="#2、编辑scaffolds-post-md如下" class="headerlink" title="2、编辑scaffolds/post.md如下"></a>2、编辑scaffolds/post.md如下</h4><pre><code>---
+title: {{ title }}
+date: {{ date }}
+tags: {{ tags }}
+---</code></pre><h4 id="3、编辑tags-index-md如下"><a href="#3、编辑tags-index-md如下" class="headerlink" title="3、编辑tags/index.md如下"></a>3、编辑tags/index.md如下</h4><pre><code>---
+title: xxx
+date: 2019-04-26 17:47:43
+type: &quot;tags&quot;
+layout: &quot;tags&quot;
+---</code></pre><h2 id="2-6-设置tag标签"><a href="#2-6-设置tag标签" class="headerlink" title="2.6 设置tag标签"></a>2.6 设置tag标签</h2><hr>
+<pre><code>title: Tagcloud
+date: 2017-04-26 17:47:43
+type: &quot;tags&quot;
+layout: &quot;tags&quot;</code></pre><h2 id="2-7-主题类博客"><a href="#2-7-主题类博客" class="headerlink" title="2.7 主题类博客"></a>2.7 主题类博客</h2><ul>
+<li><a href="https://mp.weixin.qq.com/s/15BiuDwMVerBi0liCcFL5w" target="_blank" rel="noopener">动态博客系统Halo</a></li>
 </ul>
-<h4 id="layoutSubviews"><a href="#layoutSubviews" class="headerlink" title="layoutSubviews"></a>layoutSubviews</h4><p>这个方法，默认没有做任何事情，需要子类进行重写 。 系统在很多时候会去调用这个方法：</p>
-<p>1.初始化不会触发layoutSubviews，但是如果设置了不为CGRectZero的frame的时候就会触发。<br>2.addSubview会触发layoutSubviews<br>3.设置view的Frame会触发layoutSubviews，当然前提是frame的值设置前后发生了变化<br>4.滚动一个UIScrollView会触发layoutSubviews<br>5.旋转Screen会触发父UIView上的layoutSubviews事件<br>6.改变一个UIView大小的时候也会触发父UIView上的layoutSubviews事件</p>
-<blockquote>
-<p> You should override this method only if the autoresizing behaviors of the subviews do not offer the behavior you want.layoutSubviews,</p>
-<p> 当我们在某个类的内部调整子视图位置时，需要调用。</p>
-<p> 反过来的意思就是说：<strong>如果你想要在外部设置subviews的位置，就不要重写</strong>。</p>
-</blockquote>
-<h4 id="setNeedsLayout"><a href="#setNeedsLayout" class="headerlink" title="setNeedsLayout"></a>setNeedsLayout</h4><ul>
-<li>标记为需要重新布局，不立即刷新，但layoutSubviews一定会被调用</li>
-<li>配合layoutIfNeeded立即更新</li>
+<h2 id="2-8-Hexo-Github图床问题"><a href="#2-8-Hexo-Github图床问题" class="headerlink" title="2.8 Hexo+Github图床问题"></a>2.8 Hexo+Github图床问题</h2><h4 id="使用Github图床会遇到连接WiFi时上传失败的问题，决定看下网络延时到底是多少："><a href="#使用Github图床会遇到连接WiFi时上传失败的问题，决定看下网络延时到底是多少：" class="headerlink" title="使用Github图床会遇到连接WiFi时上传失败的问题，决定看下网络延时到底是多少："></a>使用Github图床会遇到连接WiFi时上传失败的问题，决定看下网络延时到底是多少：</h4><ul>
+<li>方法：<code>ping raw.githubusercontent.com</code></li>
+<li>对比WiFi和4G热点时分别延时ms</li>
 </ul>
-<h4 id="layoutIfNeeded"><a href="#layoutIfNeeded" class="headerlink" title="layoutIfNeeded"></a>layoutIfNeeded</h4><ul>
-<li><strong>如果有需要刷新的标记，立即调用layoutSubviews进行布局</strong></li>
-</ul>
-
+<h5 id="使用WiFi网络延迟最大延时388ms"><a href="#使用WiFi网络延迟最大延时388ms" class="headerlink" title="使用WiFi网络延迟最大延时388ms"></a>使用WiFi网络延迟最大延时388ms</h5><pre class=" language-latex"><code class="language-latex">$ ping raw.githubusercontent.com
+PING github.map.fastly.net (151.101.76.133): 56 data bytes
+64 bytes from 151.101.76.133: icmp_seq=0 ttl=48 time=168.698 ms
+64 bytes from 151.101.76.133: icmp_seq=1 ttl=48 time=212.697 ms
+64 bytes from 151.101.76.133: icmp_seq=2 ttl=48 time=129.252 ms
+64 bytes from 151.101.76.133: icmp_seq=3 ttl=48 time=114.672 ms
+64 bytes from 151.101.76.133: icmp_seq=4 ttl=48 time=174.627 ms
+64 bytes from 151.101.76.133: icmp_seq=5 ttl=48 time=125.970 ms
+64 bytes from 151.101.76.133: icmp_seq=6 ttl=48 time=163.915 ms
+64 bytes from 151.101.76.133: icmp_seq=7 ttl=48 time=137.259 ms
+64 bytes from 151.101.76.133: icmp_seq=8 ttl=48 time=186.289 ms
+64 bytes from 151.101.76.133: icmp_seq=9 ttl=48 time=388.208 ms
+64 bytes from 151.101.76.133: icmp_seq=10 ttl=48 time=284.400 ms
+64 bytes from 151.101.76.133: icmp_seq=11 ttl=48 time=165.050 ms
+64 bytes from 151.101.76.133: icmp_seq=12 ttl=48 time=135.364 ms
+64 bytes from 151.101.76.133: icmp_seq=13 ttl=48 time=115.417 ms
+64 bytes from 151.101.76.133: icmp_seq=14 ttl=48 time=180.937 ms
+64 bytes from 151.101.76.133: icmp_seq=15 ttl=48 time=144.686 ms
+64 bytes from 151.101.76.133: icmp_seq=16 ttl=48 time=222.246 ms
+64 bytes from 151.101.76.133: icmp_seq=17 ttl=48 time=143.242 ms
+64 bytes from 151.101.76.133: icmp_seq=18 ttl=48 time=265.539 ms
+64 bytes from 151.101.76.133: icmp_seq=19 ttl=48 time=182.337 ms</code></pre>
+<h5 id="使用4G流量最大延迟662ms-1006ms"><a href="#使用4G流量最大延迟662ms-1006ms" class="headerlink" title="使用4G流量最大延迟662ms-1006ms"></a>使用4G流量最大延迟662ms-1006ms</h5><pre class=" language-latex"><code class="language-latex">$ ping raw.githubusercontent.com
+PING github.map.fastly.net (151.101.108.133): 56 data bytes
+Request timeout for icmp_seq 0
+64 bytes from 151.101.108.133: icmp_seq=1 ttl=49 time=116.657 ms
+64 bytes from 151.101.108.133: icmp_seq=2 ttl=49 time=161.876 ms
+64 bytes from 151.101.108.133: icmp_seq=3 ttl=49 time=251.359 ms
+Request timeout for icmp_seq 4
+64 bytes from 151.101.108.133: icmp_seq=5 ttl=49 time=341.720 ms
+64 bytes from 151.101.108.133: icmp_seq=6 ttl=49 time=163.188 ms
+64 bytes from 151.101.108.133: icmp_seq=7 ttl=49 time=175.687 ms
+64 bytes from 151.101.108.133: icmp_seq=8 ttl=49 time=559.466 ms
+64 bytes from 151.101.108.133: icmp_seq=9 ttl=49 time=111.535 ms
+64 bytes from 151.101.108.133: icmp_seq=10 ttl=49 time=250.328 ms
+64 bytes from 151.101.108.133: icmp_seq=11 ttl=49 time=113.041 ms
+64 bytes from 151.101.108.133: icmp_seq=12 ttl=49 time=110.778 ms
+64 bytes from 151.101.108.133: icmp_seq=13 ttl=49 time=377.596 ms
+64 bytes from 151.101.108.133: icmp_seq=14 ttl=49 time=143.109 ms
+64 bytes from 151.101.108.133: icmp_seq=15 ttl=49 time=482.161 ms
+Request timeout for icmp_seq 16
+64 bytes from 151.101.108.133: icmp_seq=17 ttl=49 time=279.151 ms
+64 bytes from 151.101.108.133: icmp_seq=18 ttl=49 time=141.005 ms
+Request timeout for icmp_seq 19
+64 bytes from 151.101.108.133: icmp_seq=20 ttl=49 time=662.214 ms
+64 bytes from 151.101.108.133: icmp_seq=21 ttl=49 time=282.395 ms
+64 bytes from 151.101.108.133: icmp_seq=22 ttl=49 time=149.982 ms
+64 bytes from 151.101.108.133: icmp_seq=23 ttl=49 time=419.625 ms
+64 bytes from 151.101.108.133: icmp_seq=24 ttl=49 time=641.557 ms
+64 bytes from 151.101.108.133: icmp_seq=25 ttl=49 time=264.912 ms
+64 bytes from 151.101.108.133: icmp_seq=26 ttl=49 time=106.156 ms</code></pre>
+<h5 id="为什么使用4G热点能够成功通过PigGo上传？"><a href="#为什么使用4G热点能够成功通过PigGo上传？" class="headerlink" title="为什么使用4G热点能够成功通过PigGo上传？"></a>为什么使用4G热点能够成功通过PigGo上传？</h5>
             </div>
             <hr/>
 
@@ -767,7 +710,7 @@ tracking:1,dragging:0,decelerating:0</code></pre><p>通过上面的代码，可�
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://mingriweiji-github.github.io/2018/12/01/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">https://mingriweiji-github.github.io/2018/12/01/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</a>
+                    <a href="https://mingriweiji-github.github.io/2018/06/25/Hexo%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">https://mingriweiji-github.github.io/2018/06/25/Hexo%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -805,8 +748,8 @@ tracking:1,dragging:0,decelerating:0</code></pre><p>通过上面的代码，可�
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/iOS/">
-                                    <span class="chip bg-color">iOS</span>
+                                <a href="/tags/%E5%B7%A5%E5%85%B7/">
+                                    <span class="chip bg-color">工具</span>
                                 </a>
                             
                         </div>
@@ -976,34 +919,40 @@ tracking:1,dragging:0,decelerating:0</code></pre><p>通过上面的代码，可�
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2018/12/02/iOS%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80/">
+                <a href="/2018/12/01/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="iOS汇编基础">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="iOS图像优化技巧">
                         
-                        <span class="card-title">iOS汇编基础</span>
+                        <span class="card-title">iOS图像优化技巧</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            iOS汇编基础x86_64汇编X84中原有8个32位通用寄存器%eax，%ebx，%ecx，%edx，%esi，%edi，%ebp，%esp,
-X86_64中分别被扩展为64位，并且多了8个寄存器。因此X86_64的寄存器如下：
+                            iOS图像优化技巧
+1、如何处理大尺寸图片？
 
-rax,
+2、如何处理瀑布流图片占用大量内存的问题？
+
+3、如何处理多张图片上传和下载问题？
+
+
+1、处理大尺寸图片那么，什么时候对图像进行渲染优化才有意义呢？
+当它明显大于 UIImageView 显
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2018-12-02
+                            <i class="far fa-clock fa-fw icon-date"></i>2018-12-01
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E9%80%86%E5%90%91/" class="post-category">
-                                    逆向
+                            <a href="/categories/%E5%9B%BE%E5%83%8F/" class="post-category">
+                                    图像
                                 </a>
                             
                             
@@ -1028,33 +977,33 @@ rax,
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2018/06/25/Hexo%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">
+                <a href="/2018/06/01/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="Hexo使用指南">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="iOS多线程">
                         
-                        <span class="card-title">Hexo使用指南</span>
+                        <span class="card-title">iOS多线程</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1、Hexo安装指南1.1安装Node.js首先下载稳定版Node.js。
-安装选项全部默认，一路点击Next。
-最后安装好之后，windows按Win+R打开命令提示符,mac打开命令行工具，输入node -v和npm -v，如果出现版本
+                            深入理解GCDdispatch_async 会把任务添加到队列的一个链表中，添加完后会唤醒队列，根据 vtable 中的函数指针，调用 wakeup 方法。
+
+在 wakeup 方法中，从线程池里取出工作线程(如果没有就新建)，然后在工作线
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2018-06-25
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-06-01
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" class="post-category">
-                                    使用指南
+                            <a href="/categories/%E6%BA%90%E7%A0%81/" class="post-category">
+                                    源码
                                 </a>
                             
                             
@@ -1064,8 +1013,8 @@ rax,
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E5%B7%A5%E5%85%B7/">
-                        <span class="chip bg-color">工具</span>
+                    <a href="/tags/iOS/">
+                        <span class="chip bg-color">iOS</span>
                     </a>
                     
                 </div>

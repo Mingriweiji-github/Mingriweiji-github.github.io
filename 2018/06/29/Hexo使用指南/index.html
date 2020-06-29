@@ -454,7 +454,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-06-29
+                    2018-06-29
                 </div>
                 
 
@@ -538,11 +538,11 @@ npm ERR<span class="token operator">!</span>     <span class="token operator">/<
   repository: https://github.com/godweiyang/godweiyang.github.io
   branch: master</code></pre>
 <p>repository修改为你自己的github项目地址。</p>
-<h2 id="1-7发布文章"><a href="#1-7发布文章" class="headerlink" title="1.7发布文章"></a>1.7发布文章</h2><p>首先在博客根目录下右键打开git bash，安装一个扩展<code>npm i hexo-deployer-git</code>。</p>
+<h2 id="1-7-windows发布"><a href="#1-7-windows发布" class="headerlink" title="1.7 windows发布"></a>1.7 windows发布</h2><p>首先在博客根目录下右键打开git bash，安装一个扩展<code>npm i hexo-deployer-git</code>。</p>
 <p>然后输入<code>hexo new post &quot;article title&quot;</code>，新建一篇文章。</p>
 <p>然后打开<code>D:\study\program\blog\source\_posts</code>的目录，可以发现下面多了一个文件夹和一个<code>.md</code>文件，一个用来存放你的图片等数据，另一个就是你的文章文件啦。</p>
 <p>编写完markdown文件后，根目录下输入<code>hexo g</code>生成静态网页，然后输入<code>hexo s</code>可以本地预览效果，最后输入<code>hexo d</code>上传到github上。这时打开你的github.io主页就能看到发布的文章啦。</p>
-<h1 id="二、Hexo发布"><a href="#二、Hexo发布" class="headerlink" title="二、Hexo发布"></a>二、Hexo发布</h1><ul>
+<h2 id="1-8-Hexo命令行发布总结"><a href="#1-8-Hexo命令行发布总结" class="headerlink" title="1.8 Hexo命令行发布总结"></a>1.8 Hexo命令行发布总结</h2><ul>
 <li><p>hexo clean</p>
 </li>
 <li><p>hexo g # 或者hexo generate</p>
@@ -557,20 +557,20 @@ npm ERR<span class="token operator">!</span>     <span class="token operator">/<
 <li>执行<code>hexo new post myBlog</code>，在source/_post文件夹下生成一个 myBlog.md的文件。</li>
 <li>编辑myBlog.md，书写自己的博客内容。</li>
 <li>执行 <code>hexo g</code>生成静态页面；</li>
-<li>执行 <code>hexo s</code> 启动本地服务器浏览器打开<a href="http://localhost:4000/" target="_blank" rel="noopener">http://localhost:4000/</a> 预览效果；执行 <code>hexo d</code> 将文章部署到github实现真正的网络博客。</li>
+<li>执行 <code>hexo s</code> 启动本地服务器浏览器打开<a href="http://localhost:4000/" target="_blank" rel="noopener">http://localhost:4000/</a> 预览效果；</li>
+<li>执行 <code>hexo d</code> 将文章部署到github实现真正的网络博客。</li>
 </ol>
-<h1 id="三、我的博客"><a href="#三、我的博客" class="headerlink" title="三、我的博客"></a>三、我的博客</h1><p><a href="https://blinkfox.github.io/2018/09/28/qian-duan/hexo-bo-ke-zhu-ti-zhi-hexo-theme-matery-de-jie-shao/" target="_blank" rel="noopener">闪烁之狐 | Hexo博客主题之hexo-theme-matery的介绍</a></p>
+<h2 id="1-9-Hexo博客主题推荐"><a href="#1-9-Hexo博客主题推荐" class="headerlink" title="1.9 Hexo博客主题推荐"></a>1.9 Hexo博客主题推荐</h2><p><a href="https://blinkfox.github.io/2018/09/28/qian-duan/hexo-bo-ke-zhu-ti-zhi-hexo-theme-matery-de-jie-shao/" target="_blank" rel="noopener">闪烁之狐 | Hexo博客主题之hexo-theme-matery的介绍</a></p>
 <p><a href="https://github.com/blinkfox/typora-vue-theme" target="_blank" rel="noopener">Vue风格的Typora主题</a></p>
 <p><a href="https://godweiyang.com/2018/04/13/hexo-blog/" target="_blank" rel="noopener">韦阳NPL|超详细Hexo+Github博客搭建小白教程</a></p>
-<h1 id="四、Hexo修改主题"><a href="#四、Hexo修改主题" class="headerlink" title="四、Hexo修改主题"></a>四、Hexo修改主题</h1><ul>
+<h2 id="2-0-Hexo-修改主题"><a href="#2-0-Hexo-修改主题" class="headerlink" title="2.0 Hexo 修改主题"></a>2.0 Hexo 修改主题</h2><ul>
 <li>cd themes</li>
 <li>git clone <a href="https://github.com/aircloud/hexo-theme-aircloud" target="_blank" rel="noopener">https://github.com/aircloud/hexo-theme-aircloud</a></li>
 <li><strong>打开_config.yml，修改themes:hexo-theme-aircloud</strong></li>
 </ul>
-<h2 id="技术风"><a href="#技术风" class="headerlink" title="技术风"></a>技术风</h2><ul>
-<li>主题 - <a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">NexT.Pisces</a></li>
-</ul>
-<ul>
+<h2 id="2-1-Hexo-技术风"><a href="#2-1-Hexo-技术风" class="headerlink" title="2.1 Hexo 技术风"></a>2.1 Hexo 技术风</h2><ul>
+<li><p>主题 - <a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">NexT.Pisces</a></p>
+</li>
 <li><p><a href="https://github.com/klugjo/hexo-theme-clean-blog" target="_blank" rel="noopener">CleanBlog</a><br> <img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200509101413.png" alt=""></p>
 </li>
 <li><p><a href="https://github.com/aircloud/hexo-theme-aircloud" target="_blank" rel="noopener">AirCloud</a></p>
@@ -581,8 +581,7 @@ npm ERR<span class="token operator">!</span>     <span class="token operator">/<
 <p> <img src="https://raw.githubusercontent.com/digitalcraftsman/hugo-cactus-theme/dev/images/screenshot.png" alt=""></p>
 </li>
 </ul>
-<hr>
-<h2 id="唯美文艺风"><a href="#唯美文艺风" class="headerlink" title="唯美文艺风"></a>唯美文艺风</h2><ul>
+<h2 id="2-2唯美文艺风"><a href="#2-2唯美文艺风" class="headerlink" title="2.2唯美文艺风"></a>2.2唯美文艺风</h2><ul>
 <li><p><a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank" rel="noopener">hexo-theme-matery</a>  | <a href="https://github.com/blinkfox/hexo-theme-matery/blob/master/README_CN.md" target="_blank" rel="noopener">文档</a> | <a href="http://blinkfox.com/" target="_blank" rel="noopener">闪烁之狐</a>    <a href="https://godweiyang.com/" target="_blank" rel="noopener">韦阳的博客</a></p>
 </li>
 <li><p><a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p>
@@ -593,10 +592,10 @@ npm ERR<span class="token operator">!</span>     <span class="token operator">/<
 <li><p><a href="https://github.com/zthxxx/hexo-theme-Wikitten" target="_blank" rel="noopener">wikitten-wiki风格</a></p>
 <pre><code>![](https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200509103151.png)</code></pre></li>
 </ul>
-<h2 id="Hexo字体"><a href="#Hexo字体" class="headerlink" title="Hexo字体"></a>Hexo字体</h2><ul>
+<h2 id="2-3-Hexo字体"><a href="#2-3-Hexo字体" class="headerlink" title="2.3 Hexo字体"></a>2.3 Hexo字体</h2><ul>
 <li><a href="https://www.dazhuanlan.com/2020/02/02/5e367a7cdb9a5/" target="_blank" rel="noopener">Hexo博客之改字体</a></li>
 </ul>
-<h1 id="五、Hexo代码高亮"><a href="#五、Hexo代码高亮" class="headerlink" title="五、Hexo代码高亮"></a>五、Hexo代码高亮</h1><pre><code>swift语法高亮注意首字母不能大写</code></pre><h1 id="六、报错"><a href="#六、报错" class="headerlink" title="六、报错"></a>六、报错</h1><h2 id="1、Permission-denied-publickey"><a href="#1、Permission-denied-publickey" class="headerlink" title="1、Permission denied (publickey)."></a>1、Permission denied (publickey).</h2><p><strong>将SSH访问修改为https访问，修改hexo根目录下的_config.yml文件如下：</strong></p>
+<h2 id="2-4-Hexo代码高亮"><a href="#2-4-Hexo代码高亮" class="headerlink" title="2.4 Hexo代码高亮"></a>2.4 Hexo代码高亮</h2><pre><code>swift语法高亮注意首字母不能大写</code></pre><h2 id="2-5-报错"><a href="#2-5-报错" class="headerlink" title="2.5 报错"></a>2.5 报错</h2><h2 id="1、Permission-denied-publickey"><a href="#1、Permission-denied-publickey" class="headerlink" title="1、Permission denied (publickey)."></a>1、Permission denied (publickey).</h2><p><strong>将SSH访问修改为https访问，修改hexo根目录下的_config.yml文件如下：</strong></p>
 <pre class=" language-bash"><code class="language-bash"><span class="token comment" spellcheck="true"># Deployment</span>
 <span class="token comment" spellcheck="true">## Docs: https://hexo.io/docs/deployment.html</span>
 deploy:
@@ -624,14 +623,14 @@ title: xxx
 date: 2019-04-26 17:47:43
 type: &quot;tags&quot;
 layout: &quot;tags&quot;
----</code></pre><h1 id="七、设置tag标签"><a href="#七、设置tag标签" class="headerlink" title="七、设置tag标签"></a>七、设置tag标签</h1><hr>
+---</code></pre><h2 id="2-6-设置tag标签"><a href="#2-6-设置tag标签" class="headerlink" title="2.6 设置tag标签"></a>2.6 设置tag标签</h2><hr>
 <pre><code>title: Tagcloud
 date: 2017-04-26 17:47:43
 type: &quot;tags&quot;
-layout: &quot;tags&quot;</code></pre><h1 id="八、主题类博客"><a href="#八、主题类博客" class="headerlink" title="八、主题类博客"></a>八、主题类博客</h1><ul>
+layout: &quot;tags&quot;</code></pre><h2 id="2-7-主题类博客"><a href="#2-7-主题类博客" class="headerlink" title="2.7 主题类博客"></a>2.7 主题类博客</h2><ul>
 <li><a href="https://mp.weixin.qq.com/s/15BiuDwMVerBi0liCcFL5w" target="_blank" rel="noopener">动态博客系统Halo</a></li>
 </ul>
-<h1 id="Hexo-Github图床问题"><a href="#Hexo-Github图床问题" class="headerlink" title="Hexo+Github图床问题"></a>Hexo+Github图床问题</h1><h4 id="使用Github图床会遇到连接WiFi时上传失败的问题，决定看下网络延时到底是多少："><a href="#使用Github图床会遇到连接WiFi时上传失败的问题，决定看下网络延时到底是多少：" class="headerlink" title="使用Github图床会遇到连接WiFi时上传失败的问题，决定看下网络延时到底是多少："></a>使用Github图床会遇到连接WiFi时上传失败的问题，决定看下网络延时到底是多少：</h4><ul>
+<h2 id="2-8-Hexo-Github图床问题"><a href="#2-8-Hexo-Github图床问题" class="headerlink" title="2.8 Hexo+Github图床问题"></a>2.8 Hexo+Github图床问题</h2><h4 id="使用Github图床会遇到连接WiFi时上传失败的问题，决定看下网络延时到底是多少："><a href="#使用Github图床会遇到连接WiFi时上传失败的问题，决定看下网络延时到底是多少：" class="headerlink" title="使用Github图床会遇到连接WiFi时上传失败的问题，决定看下网络延时到底是多少："></a>使用Github图床会遇到连接WiFi时上传失败的问题，决定看下网络延时到底是多少：</h4><ul>
 <li>方法：<code>ping raw.githubusercontent.com</code></li>
 <li>对比WiFi和4G热点时分别延时ms</li>
 </ul>
@@ -711,7 +710,7 @@ Request timeout for icmp_seq 19
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://mingriweiji-github.github.io/2020/06/29/Hexo%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">https://mingriweiji-github.github.io/2020/06/29/Hexo%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</a>
+                    <a href="https://mingriweiji-github.github.io/2018/06/29/Hexo%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">https://mingriweiji-github.github.io/2018/06/29/Hexo%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -916,50 +915,55 @@ Request timeout for icmp_seq 19
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/06/29/Hexo%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">
+                <a href="/2018/12/01/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="Hexo使用指南">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="iOS图像优化技巧">
                         
-                        <span class="card-title">Hexo使用指南</span>
+                        <span class="card-title">iOS图像优化技巧</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            1、Hexo安装指南1.1安装Node.js首先下载稳定版Node.js。
-安装选项全部默认，一路点击Next。
-最后安装好之后，windows按Win+R打开命令提示符,mac打开命令行工具，输入node -v和npm -v，如果出现版本
+                            iOS图像优化技巧
+1、如何处理大尺寸图片？
+
+2、如何处理瀑布流图片占用大量内存的问题？
+
+3、如何处理多张图片上传和下载问题？
+
+
+1、处理大尺寸图片那么，什么时候对图像进行渲染优化才有意义呢？
+当它明显大于 UIImageView 显
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-06-29
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2018-12-01
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" class="post-category">
-                                    使用指南
+                            <a href="/categories/%E5%9B%BE%E5%83%8F/" class="post-category">
+                                    图像
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E5%B7%A5%E5%85%B7/">
-                        <span class="chip bg-color">工具</span>
+                    <a href="/tags/iOS/">
+                        <span class="chip bg-color">iOS</span>
                     </a>
                     
                 </div>
@@ -973,36 +977,46 @@ Request timeout for icmp_seq 19
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/05/29/Flutter%E5%B8%83%E5%B1%80/">
+                <a href="/2018/06/01/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Flutter布局">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="iOS多线程">
                         
-                        <span class="card-title">Flutter布局</span>
+                        <span class="card-title">iOS多线程</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Flutter布局实现布局如下
-/// Line 3
-new Container(
-  margin: const EdgeInsets.fromLTRB(6.0, 24.0, 6.0, 30.0),
-  child: new RoundI
+                            深入理解GCDdispatch_async 会把任务添加到队列的一个链表中，添加完后会唤醒队列，根据 vtable 中的函数指针，调用 wakeup 方法。
+
+在 wakeup 方法中，从线程池里取出工作线程(如果没有就新建)，然后在工作线
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-29
+                                <i class="far fa-clock fa-fw icon-date"></i>2018-06-01
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            KM
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%BA%90%E7%A0%81/" class="post-category">
+                                    源码
+                                </a>
+                            
                             
                         </span>
                     </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/iOS/">
+                        <span class="chip bg-color">iOS</span>
+                    </a>
+                    
                 </div>
                 
             </div>

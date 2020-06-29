@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="数据结构思想, 明日危机">
+    <meta name="keywords" content="(五)Swift内存布局初探, 明日危机">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>数据结构思想 | 明日危机</title>
+    <title>(五)Swift内存布局初探 | 明日危机</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -307,12 +307,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">数据结构思想</h1>
+                    <h1 class="description center-align post-title">(五)Swift内存布局初探</h1>
                 </div>
             </div>
         </div>
@@ -429,8 +429,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/java/">
-                                <span class="chip bg-color">java</span>
+                            <a href="/tags/Swift%E4%B8%93%E9%A2%98/">
+                                <span class="chip bg-color">Swift专题</span>
                             </a>
                         
                     </div>
@@ -441,8 +441,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
-                                算法
+                            <a href="/categories/Swift/" class="post-category">
+                                Swift
                             </a>
                         
                     </div>
@@ -454,7 +454,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-06-22
+                    2020-06-25
                 </div>
                 
 
@@ -471,118 +471,142 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="第一篇数据结构"><a href="#第一篇数据结构" class="headerlink" title="第一篇数据结构"></a>第一篇数据结构</h3><h4 id="数组和链表"><a href="#数组和链表" class="headerlink" title="数组和链表"></a>数组和链表</h4><hr>
-<p><img src="https://static001.geekbang.org/resource/image/4f/68/4f63e92598ec2551069a0eef69db7168.jpg" alt="数组和链表对比"></p>
-<h4 id="思考题：-1-如何分别用链表和数组实现LRU缓冲淘汰策略？"><a href="#思考题：-1-如何分别用链表和数组实现LRU缓冲淘汰策略？" class="headerlink" title="思考题： 1.如何分别用链表和数组实现LRU缓冲淘汰策略？"></a>思考题： 1.如何分别用链表和数组实现LRU缓冲淘汰策略？</h4><p><strong>1）什么是缓存？</strong></p>
-<ul>
-<li>缓存是一种提高数据读取性能的技术，在硬件设计、软件开发中都有着非广泛的应用，比如常见的CPU缓存、数据库缓存、浏览器缓存等等。</li>
-</ul>
-<blockquote>
-<p>什么是C CPU在从内存读取数据的时候，会先把读取到的数据加载到CPU的缓存中。而CPU每次从内存读取数据并不是只读取那个特定要访问的地址，而是读取一个数据块(这个大小我不太确定。。)并保存到CPU缓存中，然后下次访问内存数据的时候就会先从CPU缓存开始查找，如果找到就不需要再从内存中取。这样就实现了比内存访问速度更快的机制，也就是CPU缓存存在的意义:为了弥补内存访问速度过慢与CPU执行速度快之间的差异而引入。</p>
+                <h1 id="Swift内存布局初探"><a href="#Swift内存布局初探" class="headerlink" title="Swift内存布局初探"></a>Swift内存布局初探</h1><h2 id="enum"><a href="#enum" class="headerlink" title="enum"></a>enum</h2><blockquote>
+<p>问题实际分配内存为何是25？</p>
 </blockquote>
-<p><strong>2）为什么使用缓存？即缓存的特点</strong></p>
+<pre class=" language-swift"><code class="language-swift"><span class="token comment" spellcheck="true">///带有关联值的枚举</span>
+<span class="token keyword">enum</span> <span class="token builtin">TestEnum</span> <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> <span class="token function">t1</span><span class="token punctuation">(</span><span class="token builtin">Int</span><span class="token punctuation">,</span> <span class="token builtin">Int</span><span class="token punctuation">,</span> <span class="token builtin">Int</span><span class="token punctuation">)</span>
+    <span class="token keyword">case</span> <span class="token function">t2</span><span class="token punctuation">(</span><span class="token builtin">Int</span><span class="token punctuation">,</span> <span class="token builtin">Int</span><span class="token punctuation">)</span>
+    <span class="token keyword">case</span> <span class="token function">t3</span><span class="token punctuation">(</span><span class="token builtin">Int</span><span class="token punctuation">)</span>
+    <span class="token keyword">case</span> <span class="token function">t4</span><span class="token punctuation">(</span><span class="token builtin">Bool</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token builtin">MemoryLayout</span><span class="token operator">&lt;</span><span class="token builtin">TestEnum</span><span class="token operator">></span><span class="token punctuation">.</span>alignment<span class="token punctuation">)</span><span class="token comment" spellcheck="true">//Int类型内存对齐：8</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token builtin">MemoryLayout</span><span class="token operator">&lt;</span><span class="token builtin">TestEnum</span><span class="token operator">></span><span class="token punctuation">.</span>size<span class="token punctuation">)</span><span class="token comment" spellcheck="true">//实际大小:24 + 1</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token builtin">MemoryLayout</span><span class="token operator">&lt;</span><span class="token builtin">TestEnum</span><span class="token operator">></span><span class="token punctuation">.</span><span class="token builtin">stride</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//系统分配：24 + 8</span>
+
+
+<span class="token comment" spellcheck="true">///带有关联值的枚举</span>
+<span class="token keyword">enum</span> <span class="token builtin">Password</span> <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> <span class="token function">num</span><span class="token punctuation">(</span><span class="token builtin">Int</span><span class="token punctuation">,</span> <span class="token builtin">Int</span><span class="token punctuation">)</span>
+    <span class="token keyword">case</span> str
+<span class="token punctuation">}</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token builtin">MemoryLayout</span><span class="token operator">&lt;</span><span class="token builtin">Password</span><span class="token operator">></span><span class="token punctuation">.</span>alignment<span class="token punctuation">)</span><span class="token comment" spellcheck="true">//Int类型内存对齐：8</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token builtin">MemoryLayout</span><span class="token operator">&lt;</span><span class="token builtin">Password</span><span class="token operator">></span><span class="token punctuation">.</span>size<span class="token punctuation">)</span><span class="token comment" spellcheck="true">//实际大小:16 + 1</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token builtin">MemoryLayout</span><span class="token operator">&lt;</span><span class="token builtin">Password</span><span class="token operator">></span><span class="token punctuation">.</span><span class="token builtin">stride</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//系统分配：16 + 8</span></code></pre>
+<h2 id="Struct"><a href="#Struct" class="headerlink" title="Struct"></a>Struct</h2><blockquote>
+<p>实际分配内存是多少？实际大小是多少？</p>
+</blockquote>
+<pre class=" language-swift"><code class="language-swift"><span class="token comment" spellcheck="true">///结构体</span>
+<span class="token keyword">struct</span> <span class="token builtin">Point</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> x<span class="token punctuation">:</span> <span class="token builtin">Int</span>
+    <span class="token keyword">let</span> y<span class="token punctuation">:</span> <span class="token builtin">Int</span>
+    <span class="token keyword">var</span> isHit<span class="token punctuation">:</span> <span class="token builtin">Bool</span>
+<span class="token punctuation">}</span>
+
+
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token builtin">MemoryLayout</span><span class="token operator">&lt;</span><span class="token builtin">Point</span><span class="token operator">></span><span class="token punctuation">.</span>alignment<span class="token punctuation">)</span><span class="token comment" spellcheck="true">//Int类型内存对齐：8</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token builtin">MemoryLayout</span><span class="token operator">&lt;</span><span class="token builtin">Point</span><span class="token operator">></span><span class="token punctuation">.</span>size<span class="token punctuation">)</span><span class="token comment" spellcheck="true">//实际大小:16 + 1</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token builtin">MemoryLayout</span><span class="token operator">&lt;</span><span class="token builtin">Point</span><span class="token operator">></span><span class="token punctuation">.</span><span class="token builtin">stride</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">//系统分配：16 + 8</span></code></pre>
+<h2 id="Class的内存管理"><a href="#Class的内存管理" class="headerlink" title="Class的内存管理"></a>Class的内存管理</h2><blockquote>
+<p>Class 本身也是分配在栈上，在堆上保留class的type信息，type信息里面有一个函数表，class的函数在派发时会按照type信息里面的函数表进行派发。</p>
+<p>当子类需要继承父类时，子类只要在自己的type信息中记录自己的信息即可。</p>
+</blockquote>
+<pre class=" language-swift"><code class="language-swift"><span class="token keyword">class</span> <span class="token class-name">Man</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> name <span class="token operator">=</span> <span class="token string">"Jack"</span>
+    <span class="token keyword">var</span> year <span class="token operator">=</span> <span class="token number">18</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">let</span> m <span class="token operator">=</span> <span class="token function">Man</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token builtin">MemoryLayout</span><span class="token operator">&lt;</span><span class="token builtin">Man</span><span class="token operator">></span><span class="token punctuation">.</span>alignment<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// 8</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token builtin">MemoryLayout</span><span class="token operator">&lt;</span><span class="token builtin">Man</span><span class="token operator">></span><span class="token punctuation">.</span>size<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//8</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token builtin">MemoryLayout</span><span class="token operator">&lt;</span><span class="token builtin">Man</span><span class="token operator">></span><span class="token punctuation">.</span><span class="token builtin">stride</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// 8</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token function">class_getInstanceSize</span><span class="token punctuation">(</span><span class="token builtin">Man</span><span class="token punctuation">.</span><span class="token keyword">self</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// 32 + 8对齐 = 40</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token function">class_getInstanceSize</span><span class="token punctuation">(</span><span class="token function">type</span><span class="token punctuation">(</span>of<span class="token punctuation">:</span> m<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// 32 + 8对齐 = 40</span>
+
+<span class="token keyword">class</span> <span class="token class-name">Woman</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> name <span class="token operator">=</span> <span class="token string">"Rose"</span>
+    <span class="token keyword">var</span> year <span class="token operator">=</span> <span class="token number">20</span>
+    <span class="token keyword">var</span> isMan <span class="token operator">=</span> <span class="token boolean">false</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">let</span> woman <span class="token operator">=</span> <span class="token function">Woman</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token builtin">MemoryLayout</span><span class="token operator">&lt;</span><span class="token builtin">Woman</span><span class="token operator">></span><span class="token punctuation">.</span>alignment<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// 8</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token builtin">MemoryLayout</span><span class="token operator">&lt;</span><span class="token builtin">Woman</span><span class="token operator">></span><span class="token punctuation">.</span>size<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">//8</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token builtin">MemoryLayout</span><span class="token operator">&lt;</span><span class="token builtin">Woman</span><span class="token operator">></span><span class="token punctuation">.</span><span class="token builtin">stride</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// 8</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token function">class_getInstanceSize</span><span class="token punctuation">(</span><span class="token builtin">Woman</span><span class="token punctuation">.</span><span class="token keyword">self</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// 32 + 16对齐 = 48</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token function">class_getInstanceSize</span><span class="token punctuation">(</span><span class="token function">type</span><span class="token punctuation">(</span>of<span class="token punctuation">:</span> woman<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// 32 + 16对齐 = 48</span></code></pre>
+<blockquote>
+<p>问题：Swift中最小的class内存对齐是8还是16？  </p>
+<p>分情况</p>
 <ul>
-<li>缓存的大小是有限的，当缓存被用满时，哪些数据应该被清理出去，哪些数据应该被保留？就需要用到缓存淘汰策略。</li>
+<li><strong>对于Man不需要分配内存8对齐</strong></li>
+<li><strong>iOS/macOS中malloc函数分配内存大小总是16的倍数，所以对于woman需要分配内存16对齐</strong></li>
 </ul>
-<p><strong>3）什么是缓存淘汰策略？</strong></p>
+</blockquote>
+<pre class=" language-swift"><code class="language-swift"><span class="token comment" spellcheck="true">// 类size</span>
+<span class="token keyword">class</span> <span class="token class-name">Size</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 16 类型信息+引用计数</span>
+    <span class="token keyword">var</span> width <span class="token operator">=</span> <span class="token number">1</span> <span class="token comment" spellcheck="true">//8</span>
+    <span class="token keyword">var</span> height <span class="token operator">=</span> <span class="token number">2</span> <span class="token comment" spellcheck="true">//8</span>
+    <span class="token keyword">var</span> isBig <span class="token operator">=</span> <span class="token boolean">false</span> <span class="token comment" spellcheck="true">// 1</span>
+<span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">// 变量 size 接收类Size</span>
+<span class="token keyword">var</span> size <span class="token operator">=</span> <span class="token function">Size</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token function">class_getInstanceSize</span><span class="token punctuation">(</span><span class="token function">type</span><span class="token punctuation">(</span>of<span class="token punctuation">:</span> size<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// 32 + 8 = 40</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token function">class_getInstanceSize</span><span class="token punctuation">(</span><span class="token builtin">Size</span><span class="token punctuation">.</span><span class="token keyword">self</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// 32 + 8 = 40</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token builtin">Mems</span><span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span>ofRef<span class="token punctuation">:</span> size<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// 实际分配：48</span></code></pre>
+<p><strong>汇编跟踪查看堆内存分布：</strong></p>
 <ul>
-<li>指的是当缓存被用满时清理数据的优先顺序。</li>
+<li><strong>查找：allocating_init</strong>()</li>
 </ul>
-<p><strong>4）有哪些缓存淘汰策略？</strong></p>
+<pre><code>callq  0x100001da0; xxx.Size.__allocating_init()</code></pre><ul>
+<li>debug控制台输入:  si </li>
+<li>debug控制台输入: finish 到<strong>swift_allocObject</strong></li>
+</ul>
+<pre><code>callq  0x10000298e; symbol stub for: swift_allocObject</code></pre><ul>
+<li>debug控制台输入:  si </li>
+</ul>
+<pre><code>callq  0x7fff666246c0; swift_slowAlloc</code></pre><ul>
+<li>进入<strong>swift_slowAlloc，找到malloc</strong></li>
+</ul>
+<pre><code>callq  0x7fff6669e722; symbol stub for: malloc</code></pre><ul>
+<li>进入call malloc可以看到<strong>malloc_zone_malloc</strong></li>
+</ul>
+<pre><code>callq  0x7fff670ab002; malloc_zone_malloc</code></pre><p><strong>总结Class对象的堆空间申请过程：</strong></p>
 <ul>
-<li>先进先出策略FIFO（First In，First Out）</li>
-<li>最少使用策略LFU（Least Frenquently Used）</li>
-<li>最近最少使用策略LRU（Least Recently Used）。</li>
+<li><strong>1、allocating_init()</strong></li>
+<li><strong>2、swift_allocObject</strong></li>
+<li><strong>3、swift_slowAlloc</strong></li>
+<li><strong>4、malloc</strong></li>
+<li><strong>5、malloc_zone_malloc</strong></li>
 </ul>
-<p><strong>5）链表实现LRU缓存淘汰策略</strong></p>
-<p>我们维护一个有序单链表，越靠近链表尾部的结点是越早之前访问的。当有一个新的数据被访问时，我们从链表头开始顺序遍历链表。</p>
-<ul>
-<li><ol>
-<li>如果此数据之前已经被缓存在链表中了，我们遍历得到这个数据对应的结点，并将其从原来的位置删除，然后再插入到链表的头部。</li>
-</ol>
-</li>
-<li><ol start="2">
-<li>如果此数据没有在缓存链表中，又可以分为两种情况：</li>
-</ol>
-<ul>
-<li>如果此时缓存未满，则将此结点直接插入到链表的头部；</li>
-<li>如果此时缓存已满，则链表尾结点删除，将新的数据结点插入链表的头部。</li>
-</ul>
-</li>
-</ul>
-<p><strong>6）数组实现LRU缓存淘汰策略</strong></p>
-<p><strong>方式一</strong></p>
-<ul>
-<li>首位置保存最新访问数据，末尾位置优先清理</li>
-<li>当访问的数据未存在于缓存的数组中时，直接将数据插入数组第一个元素位置，此时数组所有元素需要向后移动1个位置，时间复杂度为O(n)；</li>
-<li>当访问的数据存在于缓存的数组中时，查找到数据并将其插入数组的第一个位置，此时亦需移动数组元素，时间复杂度为O(n)。</li>
-<li>缓存用满时，则清理掉末尾的数据，时间复杂度为O(1)。</li>
-</ul>
-<p><strong>方式二</strong></p>
-<ul>
-<li><p>首位置优先清理，末尾位置保存最新访问数据</p>
-</li>
-<li><p>当访问的数据未存在于缓存的数组中时，直接将数据添加进数组作为当前最有一个元素时间复杂度为O(1)；</p>
-</li>
-<li><p>当访问的数据存在于缓存的数组中时，查找到数据并将其插入当前数组最后一个元素的位置，此时亦需移动数组元素，时间复杂度为O(n)。</p>
-</li>
-<li><p>缓存用满时，则清理掉数组首位置的元素，且剩余数组元素需整体前移一位，时间复杂度为O(n)。（优化：清理的时候可以考虑一次性清理一定数量，从而降低清理次数，提高性能。）</p>
-</li>
-</ul>
-<h4 id="2-如何通过单链表实现“判断某个字符串是否为回文字符串”？"><a href="#2-如何通过单链表实现“判断某个字符串是否为回文字符串”？" class="headerlink" title="2.如何通过单链表实现“判断某个字符串是否为回文字符串”？"></a>2.如何通过单链表实现“判断某个字符串是否为回文字符串”？</h4><h4 id="方法一：半栈法"><a href="#方法一：半栈法" class="headerlink" title="方法一：半栈法"></a>方法一：半栈法</h4><ul>
-<li>１．用快慢两个指针遍历，同时用栈copy慢指针指向的data。</li>
-<li>２．完成后，慢指针指向中间节点，耗时为N/2.</li>
-<li>３．最后用pop栈中的data和慢指针指向的data比较，耗时也是N/2.</li>
-<li>所以时间复杂度为：Ｏ(N)，空间复杂度因栈额外存储了一半的data，故为O(N/2)</li>
-</ul>
-<h4 id="方法二：全栈法"><a href="#方法二：全栈法" class="headerlink" title="方法二：全栈法"></a>方法二：全栈法</h4><ul>
-<li>1）前提：字符串以单个字符的形式存储在单链表中。</li>
-<li>2）遍历链表，判断字符个数是否为奇数，若为偶数，则不是。</li>
-<li>3）将链表中的字符倒序存储一份在另一个链表中。</li>
-<li>4）同步遍历2个链表，比较对应的字符是否相等，若相等，则是回文字串，否则，不是。</li>
-</ul>
-<h4 id="方法三：硬干法"><a href="#方法三：硬干法" class="headerlink" title="方法三：硬干法"></a>方法三：硬干法</h4><ul>
-<li><ol>
-<li>一个指针从头取data，另一个指针遍历到底取data，比较二者</li>
-</ol>
-</li>
-<li>２．删除尾部节点，重复１．</li>
-<li>时间复杂度高达　O(N^2)，空间复杂度却最低Ｏ(1)</li>
-</ul>
-<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><ul>
-<li><p><a href="https://mp.weixin.qq.com/s/0nubI8XPcUJYAaEk-Eomrg" target="_blank" rel="noopener">动画| 什么是二分搜索树？</a></p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/h_mO28pmE_uNbHA5GVmWPA" target="_blank" rel="noopener">动画| 二叉树有几种存储方式？</a></p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/tFJqwKa-adXW0kXGxldisg" target="_blank" rel="noopener">动画| 二叉树在实际生活中的应用？</a></p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/XqxOp5jXqDg6fez6GphLCA" target="_blank" rel="noopener">红黑树</a></p>
-</li>
-</ul>
-<h2 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h2><ul>
-<li><p><a href="https://mp.weixin.qq.com/s/DFLD41tFVtlXVYgg2QJcsQ" target="_blank" rel="noopener">什么是递归？</a></p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/G7hlvXeW_qNDPOwnIFteug" target="_blank" rel="noopener">什么是分支？</a></p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/Q0w59YQmZN7tWxSXPR1vrA" target="_blank" rel="noopener">Hash算法原理及应用</a></p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/Rh0O3ifxOtmHocr4NNNSYw" target="_blank" rel="noopener">动画 | 什么是快速排序？</a></p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/WOpU112IcvRed078mQ8ovA" target="_blank" rel="noopener">动画：面试官问我插入排序和冒泡排序哪个更牛逼？</a></p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/-9mD9LC4OrN5dl5DQSHyNA" target="_blank" rel="noopener">动画: 快速排序 | 如何求第 K 大元素？</a></p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/nXo4A-_NX_JKmTAbbTYVRg" target="_blank" rel="noopener">动画| 什么是堆排序？</a></p>
-</li>
-<li><p><a href="https://mp.weixin.qq.com/s/u397yZKJzuyTuzQDCcE7mw" target="_blank" rel="noopener">动画| 什么是希尔排序</a></p>
-</li>
-</ul>
-<h2 id="算法题目推荐"><a href="#算法题目推荐" class="headerlink" title="算法题目推荐"></a>算法题目推荐</h2><ul>
-<li><a href="https://leetcode-cn.com/explore/interview/card/top-interview-questions-easy" target="_blank" rel="noopener">初级算法</a></li>
-<li><a href="https://leetcode-cn.com/explore/interview/card/top-interview-questions-medium/" target="_blank" rel="noopener">中级算法</a></li>
-<li><a href="https://leetcode-cn.com/explore/interview/card/top-interview-questions-hard/" target="_blank" rel="noopener">高级算法</a></li>
-</ul>
-<h2 id=""><a href="#" class="headerlink" title=""></a></h2>
+<h2 id="协议的内存管理"><a href="#协议的内存管理" class="headerlink" title="协议的内存管理"></a>协议的内存管理</h2><pre class=" language-swift"><code class="language-swift">protocol <span class="token builtin">DragonFire</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token keyword">extension</span> <span class="token builtin">DragonFire</span> <span class="token punctuation">{</span>
+    <span class="token keyword">func</span> <span class="token function">fire</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">struct</span> <span class="token builtin">YellowDragon</span><span class="token punctuation">:</span> <span class="token builtin">DragonFire</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> year <span class="token operator">=</span> <span class="token string">"8"</span>
+    <span class="token keyword">let</span> teeth <span class="token operator">=</span> <span class="token number">48</span>
+<span class="token punctuation">}</span>
+
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token builtin">MemoryLayout</span><span class="token operator">&lt;</span><span class="token builtin">YellowDragon</span><span class="token operator">></span><span class="token punctuation">.</span>size<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// 24</span>
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token builtin">MemoryLayout</span><span class="token operator">&lt;</span><span class="token builtin">DragonFire</span><span class="token operator">></span><span class="token punctuation">.</span>size<span class="token punctuation">)</span> <span class="token comment" spellcheck="true">// 40</span></code></pre>
+<blockquote>
+<p>协议类型内存管理使用Existential Container 内存模型。</p>
+<p>前三个word使用Value buffer 来存储inline的值</p>
+<p>第四个word使用Value Witness Table 存储各种操作如allocate、copy、destruct、deallocate等</p>
+<p>第五个word使用Protocol Witness Table 来存储协议的函数</p>
+</blockquote>
+<h2 id="泛型的内存管理"><a href="#泛型的内存管理" class="headerlink" title="泛型的内存管理"></a>泛型的内存管理</h2><blockquote>
+<p>泛型采用是和Exsistential Container原理类似的内存管理。</p>
+<p>Value Witness Table 和 Protocol Witness Table是作为隐形参数传递到泛型方法里。</p>
+<p>不过经过编辑器的层层inline优化后，最终类型会被推导出来，也就不再需要Existential Container 这一套方法了。</p>
+</blockquote>
+
             </div>
             <hr/>
 
@@ -607,7 +631,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://mingriweiji-github.github.io/2019/06/22/2020%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">https://mingriweiji-github.github.io/2019/06/22/2020%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</a>
+                    <a href="https://mingriweiji-github.github.io/2020/06/25/(%E4%BA%94)Swift%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E5%88%9D%E6%8E%A2/">https://mingriweiji-github.github.io/2020/06/25/(%E4%BA%94)Swift%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E5%88%9D%E6%8E%A2/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -645,8 +669,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/java/">
-                                    <span class="chip bg-color">java</span>
+                                <a href="/tags/Swift%E4%B8%93%E9%A2%98/">
+                                    <span class="chip bg-color">Swift专题</span>
                                 </a>
                             
                         </div>
@@ -816,40 +840,33 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/">
+                <a href="/2020/06/30/(%E5%85%AD)Kingfisher%E6%BA%90%E7%A0%81/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="算法基础">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="(六)Kingfisher源码">
                         
-                        <span class="card-title">算法基础</span>
+                        <span class="card-title">(六)Kingfisher源码</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            算法基础为什么要学习算法？
-算法是内功，决定你武功的高度
-
-算法能让你更好更快理解一门语言系统的设计理念
-
-算法能让你触类旁通
-
-
-1 、数组
-func merge(_ nums1: inout [Int], _ m: Int, _ num
+                            Kingfisher源码Kingfisher3架构kf命名空间
+类 Kingfisher 是一个范型类，类型是 Base 
+协议 KingfisherCompatible，声明属性 kf，类型是范型 CompatibleType 。并要求遵
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2019-06-22
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-06-30
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
-                                    算法
+                            <a href="/categories/%E6%BA%90%E7%A0%81/" class="post-category">
+                                    源码
                                 </a>
                             
                             
@@ -859,8 +876,8 @@ func merge(_ nums1: inout [Int], _ m: Int, _ num
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E7%AE%97%E6%B3%95/">
-                        <span class="chip bg-color">算法</span>
+                    <a href="/tags/Swift%E4%B8%93%E9%A2%98/">
+                        <span class="chip bg-color">Swift专题</span>
                     </a>
                     
                 </div>
@@ -874,47 +891,36 @@ func merge(_ nums1: inout [Int], _ m: Int, _ num
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/06/08/%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">
+                <a href="/2020/05/29/Flutter%E5%B8%83%E5%B1%80/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="红黑树前世今生">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Flutter布局">
                         
-                        <span class="card-title">红黑树前世今生</span>
+                        <span class="card-title">Flutter布局</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            红黑树前世今生关键词：二叉搜索树、前驱节点、后继节点、B树、红黑树
-什么是B树前世B树是一种相对于来说特殊二叉搜索树，多用于数据库和文件搜索系统中。
-n阶B树的性质
-B树是一种平衡的多路搜索树，拥有平衡二叉树的一些特性，与平衡二叉树的最大区
+                            Flutter布局实现布局如下
+/// Line 3
+new Container(
+  margin: const EdgeInsets.fromLTRB(6.0, 24.0, 6.0, 30.0),
+  child: new RoundI
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-06-08
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-29
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
-                                    算法
-                                </a>
-                            
+                            <i class="fas fa-user fa-fw"></i>
+                            KM
                             
                         </span>
                     </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/java/">
-                        <span class="chip bg-color">java</span>
-                    </a>
-                    
                 </div>
                 
             </div>

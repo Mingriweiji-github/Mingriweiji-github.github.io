@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mingriweiji-github.github.io/"/>
-  <updated>2020-05-28T23:52:47.289Z</updated>
+  <updated>2020-06-29T11:52:55.302Z</updated>
   <id>https://mingriweiji-github.github.io/</id>
   
   <author>
@@ -15,6 +15,87 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>(七)Alamfire源码</title>
+    <link href="https://mingriweiji-github.github.io/2020/06/30/(%E4%B8%83)Alamfire%E6%BA%90%E7%A0%81/"/>
+    <id>https://mingriweiji-github.github.io/2020/06/30/(%E4%B8%83)Alamfire%E6%BA%90%E7%A0%81/</id>
+    <published>2020-06-30T02:13:45.000Z</published>
+    <updated>2020-06-29T11:52:55.302Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;Alamfire-Github地址&quot;&gt;&lt;a href=&quot;#Alamfire-Github地址&quot; class=&quot;headerlink&quot; title=&quot;Alamfire Github地址&quot;&gt;&lt;/a&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+    
+      <category term="源码" scheme="https://mingriweiji-github.github.io/categories/%E6%BA%90%E7%A0%81/"/>
+    
+    
+      <category term="Swift专题" scheme="https://mingriweiji-github.github.io/tags/Swift%E4%B8%93%E9%A2%98/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>(六)Kingfisher源码</title>
+    <link href="https://mingriweiji-github.github.io/2020/06/30/(%E5%85%AD)Kingfisher%E6%BA%90%E7%A0%81/"/>
+    <id>https://mingriweiji-github.github.io/2020/06/30/(%E5%85%AD)Kingfisher%E6%BA%90%E7%A0%81/</id>
+    <published>2020-06-30T01:13:45.000Z</published>
+    <updated>2020-06-29T11:53:03.298Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;Kingfisher源码&quot;&gt;&lt;a href=&quot;#Kingfisher源码&quot; class=&quot;headerlink&quot; title=&quot;Kingfisher源码&quot;&gt;&lt;/a&gt;Kingfisher源码&lt;/h1&gt;&lt;h4 id=&quot;Kingfisher3架构&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+    
+      <category term="源码" scheme="https://mingriweiji-github.github.io/categories/%E6%BA%90%E7%A0%81/"/>
+    
+    
+      <category term="Swift专题" scheme="https://mingriweiji-github.github.io/tags/Swift%E4%B8%93%E9%A2%98/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>(五)Swift内存布局初探</title>
+    <link href="https://mingriweiji-github.github.io/2020/06/25/(%E4%BA%94)Swift%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E5%88%9D%E6%8E%A2/"/>
+    <id>https://mingriweiji-github.github.io/2020/06/25/(%E4%BA%94)Swift%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E5%88%9D%E6%8E%A2/</id>
+    <published>2020-06-25T03:13:45.000Z</published>
+    <updated>2020-06-29T11:50:00.879Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;Swift内存布局初探&quot;&gt;&lt;a href=&quot;#Swift内存布局初探&quot; class=&quot;headerlink&quot; title=&quot;Swift内存布局初探&quot;&gt;&lt;/a&gt;Swift内存布局初探&lt;/h1&gt;&lt;h2 id=&quot;enum&quot;&gt;&lt;a href=&quot;#enum&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="Swift" scheme="https://mingriweiji-github.github.io/categories/Swift/"/>
+    
+    
+      <category term="Swift专题" scheme="https://mingriweiji-github.github.io/tags/Swift%E4%B8%93%E9%A2%98/"/>
+    
+  </entry>
   
   <entry>
     <title>Flutter布局</title>
@@ -40,11 +121,11 @@
   </entry>
   
   <entry>
-    <title>Swift标准库源码</title>
-    <link href="https://mingriweiji-github.github.io/2020/04/18/Swift%E6%A0%87%E5%87%86%E5%BA%93%E6%BA%90%E7%A0%81/"/>
-    <id>https://mingriweiji-github.github.io/2020/04/18/Swift%E6%A0%87%E5%87%86%E5%BA%93%E6%BA%90%E7%A0%81/</id>
+    <title>(四)Swift标准库源码</title>
+    <link href="https://mingriweiji-github.github.io/2020/04/18/(%E5%9B%9B)Swift%E6%A0%87%E5%87%86%E5%BA%93%E6%BA%90%E7%A0%81/"/>
+    <id>https://mingriweiji-github.github.io/2020/04/18/(%E5%9B%9B)Swift%E6%A0%87%E5%87%86%E5%BA%93%E6%BA%90%E7%A0%81/</id>
     <published>2020-04-18T02:13:45.000Z</published>
-    <updated>2020-05-01T12:54:08.124Z</updated>
+    <updated>2020-06-29T11:49:30.951Z</updated>
     
     <summary type="html">
     
@@ -60,19 +141,19 @@
     </summary>
     
     
-      <category term="源码" scheme="https://mingriweiji-github.github.io/categories/%E6%BA%90%E7%A0%81/"/>
+      <category term="Swift" scheme="https://mingriweiji-github.github.io/categories/Swift/"/>
     
     
-      <category term="swift" scheme="https://mingriweiji-github.github.io/tags/swift/"/>
+      <category term="Swift专题" scheme="https://mingriweiji-github.github.io/tags/Swift%E4%B8%93%E9%A2%98/"/>
     
   </entry>
   
   <entry>
-    <title>Swift集合源码</title>
-    <link href="https://mingriweiji-github.github.io/2020/04/18/Swift%E9%9B%86%E5%90%88%E6%BA%90%E7%A0%81/"/>
-    <id>https://mingriweiji-github.github.io/2020/04/18/Swift%E9%9B%86%E5%90%88%E6%BA%90%E7%A0%81/</id>
+    <title>(三)Swift集合源码</title>
+    <link href="https://mingriweiji-github.github.io/2020/04/18/(%E4%B8%89)Swift%E9%9B%86%E5%90%88%E6%BA%90%E7%A0%81/"/>
+    <id>https://mingriweiji-github.github.io/2020/04/18/(%E4%B8%89)Swift%E9%9B%86%E5%90%88%E6%BA%90%E7%A0%81/</id>
     <published>2020-04-18T00:08:23.000Z</published>
-    <updated>2020-05-01T13:42:32.507Z</updated>
+    <updated>2020-06-29T11:47:35.516Z</updated>
     
     <summary type="html">
     
@@ -87,73 +168,19 @@
     </summary>
     
     
-      <category term="源码" scheme="https://mingriweiji-github.github.io/categories/%E6%BA%90%E7%A0%81/"/>
+      <category term="Swift" scheme="https://mingriweiji-github.github.io/categories/Swift/"/>
     
     
-      <category term="swift" scheme="https://mingriweiji-github.github.io/tags/swift/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Alamfire源码</title>
-    <link href="https://mingriweiji-github.github.io/2020/04/16/Alamfire%E6%BA%90%E7%A0%81/"/>
-    <id>https://mingriweiji-github.github.io/2020/04/16/Alamfire%E6%BA%90%E7%A0%81/</id>
-    <published>2020-04-16T02:13:45.000Z</published>
-    <updated>2020-05-01T12:53:31.548Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;Alamfire-Github地址&quot;&gt;&lt;a href=&quot;#Alamfire-Github地址&quot; class=&quot;headerlink&quot; title=&quot;Alamfire Github地址&quot;&gt;&lt;/a&gt;&lt;a
-        
-      
-    
-    </summary>
-    
-    
-      <category term="源码" scheme="https://mingriweiji-github.github.io/categories/%E6%BA%90%E7%A0%81/"/>
-    
-    
-      <category term="swift" scheme="https://mingriweiji-github.github.io/tags/swift/"/>
+      <category term="Swift专题" scheme="https://mingriweiji-github.github.io/tags/Swift%E4%B8%93%E9%A2%98/"/>
     
   </entry>
   
   <entry>
-    <title>Kingfisher源码</title>
-    <link href="https://mingriweiji-github.github.io/2020/04/16/Kingfisher%E6%BA%90%E7%A0%81/"/>
-    <id>https://mingriweiji-github.github.io/2020/04/16/Kingfisher%E6%BA%90%E7%A0%81/</id>
-    <published>2020-04-16T02:13:45.000Z</published>
-    <updated>2020-05-01T12:42:09.782Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;Kingfisher源码&quot;&gt;&lt;a href=&quot;#Kingfisher源码&quot; class=&quot;headerlink&quot; title=&quot;Kingfisher源码&quot;&gt;&lt;/a&gt;Kingfisher源码&lt;/h1&gt;&lt;h4 id=&quot;Kingfisher3架构&quot;&gt;&lt;a
-        
-      
-    
-    </summary>
-    
-    
-      <category term="源码" scheme="https://mingriweiji-github.github.io/categories/%E6%BA%90%E7%A0%81/"/>
-    
-    
-      <category term="swift" scheme="https://mingriweiji-github.github.io/tags/swift/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Swift函数式编程</title>
-    <link href="https://mingriweiji-github.github.io/2020/02/20/Swift%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/"/>
-    <id>https://mingriweiji-github.github.io/2020/02/20/Swift%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/</id>
+    <title>(二)Swift函数式编程</title>
+    <link href="https://mingriweiji-github.github.io/2020/02/20/(%E4%BA%8C)Swift%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/"/>
+    <id>https://mingriweiji-github.github.io/2020/02/20/(%E4%BA%8C)Swift%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/</id>
     <published>2020-02-20T02:13:45.000Z</published>
-    <updated>2020-05-01T12:42:53.935Z</updated>
+    <updated>2020-06-29T11:47:40.567Z</updated>
     
     <summary type="html">
     
@@ -163,17 +190,19 @@
     </summary>
     
     
+      <category term="Swift" scheme="https://mingriweiji-github.github.io/categories/Swift/"/>
     
-      <category term="swift" scheme="https://mingriweiji-github.github.io/tags/swift/"/>
+    
+      <category term="Swift专题" scheme="https://mingriweiji-github.github.io/tags/Swift%E4%B8%93%E9%A2%98/"/>
     
   </entry>
   
   <entry>
-    <title>Swift备忘录</title>
-    <link href="https://mingriweiji-github.github.io/2020/02/18/Swift%E5%A4%87%E5%BF%98%E5%BD%95/"/>
-    <id>https://mingriweiji-github.github.io/2020/02/18/Swift%E5%A4%87%E5%BF%98%E5%BD%95/</id>
+    <title>(一)Swift备忘录</title>
+    <link href="https://mingriweiji-github.github.io/2020/02/18/(%E4%B8%80)Swift%E5%A4%87%E5%BF%98%E5%BD%95/"/>
+    <id>https://mingriweiji-github.github.io/2020/02/18/(%E4%B8%80)Swift%E5%A4%87%E5%BF%98%E5%BD%95/</id>
     <published>2020-02-18T02:13:45.000Z</published>
-    <updated>2020-06-09T00:05:58.883Z</updated>
+    <updated>2020-06-29T11:46:09.356Z</updated>
     
     <summary type="html">
     
@@ -182,8 +211,10 @@
     </summary>
     
     
+      <category term="Swift" scheme="https://mingriweiji-github.github.io/categories/Swift/"/>
     
-      <category term="swift" scheme="https://mingriweiji-github.github.io/tags/swift/"/>
+    
+      <category term="Swift专题" scheme="https://mingriweiji-github.github.io/tags/Swift%E4%B8%93%E9%A2%98/"/>
     
   </entry>
   
@@ -273,7 +304,7 @@
     <link href="https://mingriweiji-github.github.io/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%AE%9E%E6%88%98100%E9%81%93/"/>
     <id>https://mingriweiji-github.github.io/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%AE%9E%E6%88%98100%E9%81%93/</id>
     <published>2019-06-21T19:18:15.000Z</published>
-    <updated>2020-05-01T12:51:26.234Z</updated>
+    <updated>2020-06-29T11:54:54.139Z</updated>
     
     <summary type="html">
     
@@ -291,7 +322,7 @@
       <category term="算法" scheme="https://mingriweiji-github.github.io/categories/%E7%AE%97%E6%B3%95/"/>
     
     
-      <category term="swift" scheme="https://mingriweiji-github.github.io/tags/swift/"/>
+      <category term="算法" scheme="https://mingriweiji-github.github.io/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
@@ -300,7 +331,7 @@
     <link href="https://mingriweiji-github.github.io/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/"/>
     <id>https://mingriweiji-github.github.io/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/</id>
     <published>2019-06-21T18:18:15.000Z</published>
-    <updated>2020-05-01T12:39:17.673Z</updated>
+    <updated>2020-06-29T11:53:57.355Z</updated>
     
     <summary type="html">
     
@@ -318,7 +349,7 @@
       <category term="算法" scheme="https://mingriweiji-github.github.io/categories/%E7%AE%97%E6%B3%95/"/>
     
     
-      <category term="swift" scheme="https://mingriweiji-github.github.io/tags/swift/"/>
+      <category term="算法" scheme="https://mingriweiji-github.github.io/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
@@ -460,10 +491,10 @@
   
   <entry>
     <title>Hexo使用指南</title>
-    <link href="https://mingriweiji-github.github.io/2018/06/25/Hexo%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"/>
-    <id>https://mingriweiji-github.github.io/2018/06/25/Hexo%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</id>
-    <published>2018-06-25T08:23:44.000Z</published>
-    <updated>2020-06-29T09:40:24.104Z</updated>
+    <link href="https://mingriweiji-github.github.io/2018/06/02/Hexo%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"/>
+    <id>https://mingriweiji-github.github.io/2018/06/02/Hexo%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</id>
+    <published>2018-06-02T03:13:45.000Z</published>
+    <updated>2020-06-29T11:56:10.349Z</updated>
     
     <summary type="html">
     
@@ -478,10 +509,10 @@
     </summary>
     
     
-      <category term="使用指南" scheme="https://mingriweiji-github.github.io/categories/%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"/>
+      <category term="指南" scheme="https://mingriweiji-github.github.io/categories/%E6%8C%87%E5%8D%97/"/>
     
     
-      <category term="工具" scheme="https://mingriweiji-github.github.io/tags/%E5%B7%A5%E5%85%B7/"/>
+      <category term="开发工具" scheme="https://mingriweiji-github.github.io/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
     
   </entry>
   
@@ -499,33 +530,6 @@
         
         
           &lt;h2 id=&quot;深入理解GCD&quot;&gt;&lt;a href=&quot;#深入理解GCD&quot; class=&quot;headerlink&quot; title=&quot;深入理解GCD&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://bestswifter.com/deep-gcd/&quot; target=&quot;_blank&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="源码" scheme="https://mingriweiji-github.github.io/categories/%E6%BA%90%E7%A0%81/"/>
-    
-    
-      <category term="iOS" scheme="https://mingriweiji-github.github.io/tags/iOS/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Runloop</title>
-    <link href="https://mingriweiji-github.github.io/2018/06/01/Runloop/"/>
-    <id>https://mingriweiji-github.github.io/2018/06/01/Runloop/</id>
-    <published>2018-06-01T02:13:45.000Z</published>
-    <updated>2020-05-01T12:42:19.350Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h1 id=&quot;Runloop&quot;&gt;&lt;a href=&quot;#Runloop&quot; class=&quot;headerlink&quot; title=&quot;Runloop&quot;&gt;&lt;/a&gt;Runloop&lt;/h1&gt;&lt;h2 id=&quot;1-讲讲-RunLoop，项目中有用到吗？&quot;&gt;&lt;a
         
       
     

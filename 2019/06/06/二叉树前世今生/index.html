@@ -1,477 +1,242 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="zh-CN">
-
-
 <head>
-    <meta charset="utf-8">
-    <meta name="keywords" content="二叉树今生, 明日危机">
-    <meta name="description" content="">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="renderer" content="webkit|ie-stand|ie-comp">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <!-- Global site tag (gtag.js) - Google Analytics -->
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-    <title>二叉树今生 | 明日危机</title>
-    <link rel="icon" type="image/png" href="/favicon.png">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
-    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
-    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/matery.css">
-    <link rel="stylesheet" type="text/css" href="/css/my.css">
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mingriweiji-github.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
 
-    <script src="/libs/jquery/jquery.min.js"></script>
-    
+  <meta name="description" content="二叉树今生 为什么会有二叉树这种数据结构？  思考一个问题：如果一个集合中有42亿个元素，让你从这42亿个元素中搜索某一个元素，你需要多少次操作？  如果使用数组链表的话最多可能需要42亿次比较，而如果使用二叉树我们只需要32次比较即可，这就是二叉树存在的价值。Java中的HashSet使用的就是二叉树  前驱与后继 前驱节点  1. 若一个节点有左子树，那么该节点的前驱节点是其左子树中val值最">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二叉树今生">
+<meta property="og:url" content="https://mingriweiji-github.github.io/2019/06/06/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/index.html">
+<meta property="og:site_name" content="明日危机">
+<meta property="og:description" content="二叉树今生 为什么会有二叉树这种数据结构？  思考一个问题：如果一个集合中有42亿个元素，让你从这42亿个元素中搜索某一个元素，你需要多少次操作？  如果使用数组链表的话最多可能需要42亿次比较，而如果使用二叉树我们只需要32次比较即可，这就是二叉树存在的价值。Java中的HashSet使用的就是二叉树  前驱与后继 前驱节点  1. 若一个节点有左子树，那么该节点的前驱节点是其左子树中val值最">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-06-06T02:13:45.000Z">
+<meta property="article:modified_time" content="2020-05-01T12:39:39.000Z">
+<meta property="article:author" content="KM">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://mingriweiji-github.github.io/2019/06/06/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>二叉树今生 | 明日危机</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
 <link rel="alternate" href="/atom.xml" title="明日危机" type="application/atom+xml">
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+</head>
 
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-<body>
-    <header class="navbar-fixed">
-    <nav id="headNav" class="bg-color nav-transparent">
-        <div id="navContainer" class="nav-wrapper container">
-            <div class="brand-logo">
-                <a href="/" class="waves-effect waves-light">
-                    
-                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
-                    
-                    <span class="logo-span">明日危机</span>
-                </a>
-            </div>
-            
-
-<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
-<ul class="right nav-menu">
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/" class="waves-effect waves-light">
-      
-      <i class="fas fa-home" style="zoom: 0.6;"></i>
-      
-      <span>首页</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/tags" class="waves-effect waves-light">
-      
-      <i class="fas fa-tags" style="zoom: 0.6;"></i>
-      
-      <span>标签</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/categories" class="waves-effect waves-light">
-      
-      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
-      
-      <span>分类</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/archives" class="waves-effect waves-light">
-      
-      <i class="fas fa-archive" style="zoom: 0.6;"></i>
-      
-      <span>归档</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/about" class="waves-effect waves-light">
-      
-      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
-      
-      <span>关于</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/contact" class="waves-effect waves-light">
-      
-      <i class="fas fa-comments" style="zoom: 0.6;"></i>
-      
-      <span>留言板</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/friends" class="waves-effect waves-light">
-      
-      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
-      
-      <span>友情链接</span>
-    </a>
-    
-  </li>
-  
-  <li>
-    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
-      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
-    </a>
-  </li>
-</ul>
-
-<div id="mobile-nav" class="side-nav sidenav">
-
-    <div class="mobile-head bg-color">
-        
-        <img src="/medias/logo.png" class="logo-img circle responsive-img">
-        
-        <div class="logo-name">明日危机</div>
-        <div class="logo-desc">
-            
-            Never really desperate, only the lost of the soul.
-            
-        </div>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
+  </div>
 
-    
+  <div class="site-meta">
 
-    <ul class="menu-list mobile-menu-list">
-        
-        <li class="m-nav-item">
-	  
-		<a href="/" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-home"></i>
-			
-			首页
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/tags" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-tags"></i>
-			
-			标签
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/categories" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-bookmark"></i>
-			
-			分类
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/archives" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-archive"></i>
-			
-			归档
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/about" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-user-circle"></i>
-			
-			关于
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/contact" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-comments"></i>
-			
-			留言板
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/friends" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-address-book"></i>
-			
-			友情链接
-		</a>
-          
-        </li>
-        
-        
-        <li><div class="divider"></div></li>
-        <li>
-            <a href="https://github.com/Mingriweiji-github" class="waves-effect waves-light" target="_blank">
-                <i class="fab fa-github-square fa-fw"></i>Fork Me
-            </a>
-        </li>
-        
-    </ul>
-</div>
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">明日危机</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">iOS & Swifter</p>
+  </div>
 
-        </div>
-
-        
-            <style>
-    .nav-transparent .github-corner {
-        display: none !important;
-    }
-
-    .github-corner {
-        position: absolute;
-        z-index: 10;
-        top: 0;
-        right: 0;
-        border: 0;
-        transform: scale(1.1);
-    }
-
-    .github-corner svg {
-        color: #0f9d58;
-        fill: #fff;
-        height: 64px;
-        width: 64px;
-    }
-
-    .github-corner:hover .octo-arm {
-        animation: a 0.56s ease-in-out;
-    }
-
-    .github-corner .octo-arm {
-        animation: none;
-    }
-
-    @keyframes a {
-        0%,
-        to {
-            transform: rotate(0);
-        }
-        20%,
-        60% {
-            transform: rotate(-25deg);
-        }
-        40%,
-        80% {
-            transform: rotate(10deg);
-        }
-    }
-</style>
-
-<a href="https://github.com/Mingriweiji-github" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
-   data-tooltip="Fork Me" data-position="left" data-delay="50">
-    <svg viewBox="0 0 250 250" aria-hidden="true">
-        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
-        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
-              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
-        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
-              fill="currentColor" class="octo-body"></path>
-    </svg>
-</a>
-        
-    </nav>
-
-</header>
-
-    
-
-
-
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
-    <div class="container" style="right: 0px;left: 0px;">
-        <div class="row">
-            <div class="col s12 m12 l12">
-                <div class="brand">
-                    <h1 class="description center-align post-title">二叉树今生</h1>
-                </div>
-            </div>
-        </div>
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
     </div>
+  </div>
 </div>
 
 
 
 
-<main class="post-container content">
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
 
     
-    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
-<style>
-    #articleContent h1::before,
-    #articleContent h2::before,
-    #articleContent h3::before,
-    #articleContent h4::before,
-    #articleContent h5::before,
-    #articleContent h6::before {
-        display: block;
-        content: " ";
-        height: 100px;
-        margin-top: -100px;
-        visibility: hidden;
-    }
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
-    #articleContent :focus {
-        outline: none;
-    }
 
-    .toc-fixed {
-        position: fixed;
-        top: 64px;
-    }
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
 
-    .toc-widget {
-        width: 345px;
-        padding-left: 20px;
-    }
+          <div class="content post posts-expand">
+            
 
-    .toc-widget .toc-title {
-        margin: 35px 0 15px 0;
-        padding-left: 17px;
-        font-size: 1.5rem;
-        font-weight: bold;
-        line-height: 1.5rem;
-    }
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mingriweiji-github.github.io/2019/06/06/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">
 
-    .toc-widget ol {
-        padding: 0;
-        list-style: none;
-    }
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="KM">
+      <meta itemprop="description" content="">
+    </span>
 
-    #toc-content {
-        height: calc(100vh - 250px);
-        overflow: auto;
-    }
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="明日危机">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          二叉树今生
+        </h1>
 
-    #toc-content ol {
-        padding-left: 10px;
-    }
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
 
-    #toc-content ol li {
-        padding-left: 10px;
-    }
+              <time title="创建时间：2019-06-06 10:13:45" itemprop="dateCreated datePublished" datetime="2019-06-06T10:13:45+08:00">2019-06-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-01 20:39:39" itemprop="dateModified" datetime="2020-05-01T20:39:39+08:00">2020-05-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
 
-    #toc-content .toc-link:hover {
-        color: #42b983;
-        font-weight: 700;
-        text-decoration: underline;
-    }
-
-    #toc-content .toc-link::before {
-        background-color: transparent;
-        max-height: 25px;
-    }
-
-    #toc-content .is-active-link {
-        color: #42b983;
-    }
-
-    #toc-content .is-active-link::before {
-        background-color: #42b983;
-    }
-
-    #floating-toc-btn {
-        position: fixed;
-        right: 15px;
-        bottom: 76px;
-        padding-top: 15px;
-        margin-bottom: 0;
-        z-index: 998;
-    }
-
-    #floating-toc-btn .btn-floating {
-        width: 48px;
-        height: 48px;
-    }
-
-    #floating-toc-btn .btn-floating i {
-        line-height: 48px;
-        font-size: 1.4rem;
-    }
-</style>
-<div class="row">
-    <div id="main-content" class="col s12 m12 l9">
-        <!-- 文章内容详情 -->
-<div id="artDetail">
-    <div class="card">
-        <div class="card-content article-info">
-            <div class="row tag-cate">
-                <div class="col s7">
-                    
-                    <div class="article-tag">
-                        
-                            <a href="/tags/java/">
-                                <span class="chip bg-color">java</span>
-                            </a>
-                        
-                    </div>
-                    
-                </div>
-                <div class="col s5 right-align">
-                    
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
-                                算法
-                            </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-
-            <div class="post-info">
-                
-                <div class="post-date info-break-policy">
-                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-06-06
-                </div>
-                
-
-                
-
-                
-
-                
-
-                
-            </div>
+          
 
         </div>
-        <hr class="clearfix">
-        <div class="card-content article-card-content">
-            <div id="articleContent">
-                <h1 id="二叉树今生"><a href="#二叉树今生" class="headerlink" title="二叉树今生"></a>二叉树今生</h1><p>为什么会有二叉树这种数据结构？</p>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="二叉树今生"><a href="#二叉树今生" class="headerlink" title="二叉树今生"></a>二叉树今生</h1><p>为什么会有二叉树这种数据结构？</p>
 <p>思考一个问题：如果一个集合中有42亿个元素，让你从这42亿个元素中搜索某一个元素，你需要多少次操作？</p>
 <p><strong>如果使用数组链表的话最多可能需要42亿次比较，而如果使用二叉树我们只需要32次比较即可，这就是二叉树存在的价值。Java中的HashSet使用的就是二叉树</strong></p>
 <h2 id="前驱与后继"><a href="#前驱与后继" class="headerlink" title="前驱与后继"></a>前驱与后继</h2><h3 id="前驱节点"><a href="#前驱节点" class="headerlink" title="前驱节点"></a>前驱节点</h3><ol>
@@ -488,705 +253,207 @@
 </ol>
 <p>如何判断两个二叉树是否相同？</p>
 <p><strong>递归法</strong></p>
-<pre class=" language-Java"><code class="language-Java">static public bool IsSameTree(TreeNode root1, TreeNode root2) {
-    if (root1 == null && root2 == null) {
-        return true;
-    }
-    if ((root1 == null && root2 != null) || (root1 != null && root2 == null)) {
-        return false;
-    }
-    if (root1.val != root2.val) {//判断每个节点的值是否相等，如果去除此判断，则判断两个二叉树是否结构相等
-        return false;
-    }
-    return IsSameTree(root1.left, root2.left) && IsSameTree(root1.right, root2.right);
-}</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">public</span> bool <span class="title">IsSameTree</span><span class="params">(TreeNode root1, TreeNode root2)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (root1 == <span class="keyword">null</span> &amp;&amp; root2 == <span class="keyword">null</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> ((root1 == <span class="keyword">null</span> &amp;&amp; root2 != <span class="keyword">null</span>) || (root1 != <span class="keyword">null</span> &amp;&amp; root2 == <span class="keyword">null</span>)) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (root1.val != root2.val) &#123;<span class="comment">//判断每个节点的值是否相等，如果去除此判断，则判断两个二叉树是否结构相等</span></span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> IsSameTree(root1.left, root2.left) &amp;&amp; IsSameTree(root1.right, root2.right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p><strong>非递归法</strong></p>
-<pre class=" language-Java"><code class="language-Java">bool  BTreeCompare（BTreeNode_t *pRoot1, BTreeNode_t *pRoot2)  
-{  
-    if( pRoot1 == NULL && pRoot2 == NULL )  
-        return false;  
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line">bool  BTreeCompare（BTreeNode_t *pRoot1, BTreeNode_t *pRoot2)  </span><br><span class="line">&#123;  </span><br><span class="line">    <span class="keyword">if</span>( pRoot1 == NULL &amp;&amp; pRoot2 == NULL )  </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">    queue &lt;BTreeNode_t *&gt; que1;  </span><br><span class="line">    queue &lt;BTreeNode_t *&gt; que2;  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">    que1.push(pRoot1);  </span><br><span class="line">    que2.push(pRoot2);  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">int</span> curLevelNodeTotal1 = <span class="number">0</span>;  </span><br><span class="line">    <span class="keyword">int</span> curLevelNodeTotal2 = <span class="number">0</span>;  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">    bool flag = <span class="keyword">true</span>; <span class="comment">//作为比较不一致时跳出标识  </span></span><br><span class="line">    <span class="keyword">while</span>( ( !que1.empty()) &amp;&amp; ( !que2.empty())) <span class="comment">//当两个队列均不为空时，才进行比较  </span></span><br><span class="line">    &#123;  </span><br><span class="line">        curLevelNodeTotal1 = que1.size();  <span class="comment">//获取树1的当前层节点总数  </span></span><br><span class="line">        curLevelNodeTotal2 = que2.size(); <span class="comment">//获取树2的当前层节点总数  </span></span><br><span class="line">        <span class="keyword">if</span>( curLevelNodeTotal1 != curLevelNodeTotal2)&#123;  </span><br><span class="line">            flag = <span class="keyword">false</span>;<span class="comment">//当前层节点总数都不一致，不需要比较了，直接跳出  </span></span><br><span class="line">            <span class="keyword">break</span>;  </span><br><span class="line">        &#125;  </span><br><span class="line">        <span class="keyword">int</span> cnt1 = <span class="number">0</span>;<span class="comment">//遍历本层节点时的计数器  </span></span><br><span class="line">        <span class="keyword">int</span> cnt2 = <span class="number">0</span>;  </span><br><span class="line">        <span class="keyword">while</span>( cnt1 &lt; curLevelNodeTotal1  &amp;&amp; cnt2 &lt; curLevelNodeTotal2)&#123;  </span><br><span class="line">            ++cnt1;  </span><br><span class="line">            ++cnt2;  </span><br><span class="line">            pRoot1 = que1.front();  </span><br><span class="line">            que1.pop();  </span><br><span class="line">            pRoot2 = que2.front();  </span><br><span class="line">            que2.pop();  </span><br><span class="line">  </span><br><span class="line">            <span class="comment">//比较当前节点中数据是否一致  </span></span><br><span class="line">            <span class="keyword">if</span>( pRoot1-&gt;m_pElemt != pRoot2-&gt;m_pElemt )&#123;  </span><br><span class="line">                flag = <span class="keyword">false</span>;  </span><br><span class="line">                <span class="keyword">break</span>;  </span><br><span class="line">            &#125;  </span><br><span class="line">            <span class="comment">//判断pRoot1和pRoot2左右节点结构是否相同  </span></span><br><span class="line">            <span class="keyword">if</span>( ( pRoot1-&gt;m_pLeft != NULL &amp;&amp; pRoot2-&gt;m_pLeft == NULL )    ||  </span><br><span class="line">                ( pRoot1-&gt;m_pLeft == NULL &amp;&amp; pRoot2-&gt;m_pLeft != NULL )    ||  </span><br><span class="line">                ( pRoot1-&gt;m_pRight != NULL &amp;&amp; pRoot2-&gt;m_pRight == NULL )    ||  </span><br><span class="line">                ( pRoot1-&gt;m_pRight == NULL &amp;&amp; pRoot2-&gt;m_pRight != NULL )  </span><br><span class="line">            )&#123;  </span><br><span class="line">                flag = <span class="keyword">false</span>;  </span><br><span class="line">                <span class="keyword">break</span>;  </span><br><span class="line">            &#125;  </span><br><span class="line">   </span><br><span class="line">            <span class="comment">//将左右节点入队  </span></span><br><span class="line">            <span class="keyword">if</span>( pRoot1-&gt;m_pLeft != NULL )  </span><br><span class="line">                que1.push( pRoot1-&gt;m_pLeft);  </span><br><span class="line">            <span class="keyword">if</span>( pRoot1-&gt;m_pRight != NULL )  </span><br><span class="line">                que1.push( pRoot1-&gt;m_pRight);  </span><br><span class="line">            <span class="keyword">if</span>( pRoot2-&gt;m_pLeft != NULL )  </span><br><span class="line">                que2.push( pRoot2-&gt;m_pLeft);  </span><br><span class="line">            <span class="keyword">if</span>( pRoot2-&gt;m_pRight != NULL )  </span><br><span class="line">                que2.push( pRoot2-&gt;m_pRight);  </span><br><span class="line">        &#125;  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">        <span class="keyword">if</span>( flag == <span class="keyword">false</span> )  </span><br><span class="line">            <span class="keyword">break</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">//如果比较标志为false，则不相同  </span></span><br><span class="line">    <span class="keyword">if</span>( flag == <span class="keyword">false</span> )&#123;  </span><br><span class="line">        <span class="keyword">while</span>( !que1.empty() )  </span><br><span class="line">            que1.pop();  </span><br><span class="line">        <span class="keyword">while</span>( !que2.empty())  </span><br><span class="line">            que2.pop();  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
-    queue <BTreeNode_t *> que1;  
-    queue <BTreeNode_t *> que2;  
-
-
-    que1.push(pRoot1);  
-    que2.push(pRoot2);  
-
-
-    int curLevelNodeTotal1 = 0;  
-    int curLevelNodeTotal2 = 0;  
-
-
-    bool flag = true; //作为比较不一致时跳出标识  
-    while( ( !que1.empty()) && ( !que2.empty())) //当两个队列均不为空时，才进行比较  
-    {  
-        curLevelNodeTotal1 = que1.size();  //获取树1的当前层节点总数  
-        curLevelNodeTotal2 = que2.size(); //获取树2的当前层节点总数  
-        if( curLevelNodeTotal1 != curLevelNodeTotal2){  
-            flag = false;//当前层节点总数都不一致，不需要比较了，直接跳出  
-            break;  
-        }  
-        int cnt1 = 0;//遍历本层节点时的计数器  
-        int cnt2 = 0;  
-        while( cnt1 < curLevelNodeTotal1  && cnt2 < curLevelNodeTotal2){  
-            ++cnt1;  
-            ++cnt2;  
-            pRoot1 = que1.front();  
-            que1.pop();  
-            pRoot2 = que2.front();  
-            que2.pop();  
-
-            //比较当前节点中数据是否一致  
-            if( pRoot1->m_pElemt != pRoot2->m_pElemt ){  
-                flag = false;  
-                break;  
-            }  
-            //判断pRoot1和pRoot2左右节点结构是否相同  
-            if( ( pRoot1->m_pLeft != NULL && pRoot2->m_pLeft == NULL )    ||  
-                ( pRoot1->m_pLeft == NULL && pRoot2->m_pLeft != NULL )    ||  
-                ( pRoot1->m_pRight != NULL && pRoot2->m_pRight == NULL )    ||  
-                ( pRoot1->m_pRight == NULL && pRoot2->m_pRight != NULL )  
-            ){  
-                flag = false;  
-                break;  
-            }  
-
-            //将左右节点入队  
-            if( pRoot1->m_pLeft != NULL )  
-                que1.push( pRoot1->m_pLeft);  
-            if( pRoot1->m_pRight != NULL )  
-                que1.push( pRoot1->m_pRight);  
-            if( pRoot2->m_pLeft != NULL )  
-                que2.push( pRoot2->m_pLeft);  
-            if( pRoot2->m_pRight != NULL )  
-                que2.push( pRoot2->m_pRight);  
-        }  
-
-
-        if( flag == false )  
-            break;  
-    }  
-
-    //如果比较标志为false，则不相同  
-    if( flag == false ){  
-        while( !que1.empty() )  
-            que1.pop();  
-        while( !que2.empty())  
-            que2.pop();  
-
-
-        return false;  
-    }  
-
-
-    return true;  
-}</code></pre>
-
-            </div>
-            <hr/>
-
-            
-
-    <div class="reprint" id="reprint-statement">
-        
-            <div class="reprint__author">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-user">
-                        文章作者:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    <a href="https://mingriweiji-github.github.io" rel="external nofollow noreferrer">KM</a>
-                </span>
-            </div>
-            <div class="reprint__type">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-link">
-                        文章链接:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    <a href="https://mingriweiji-github.github.io/2019/06/06/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">https://mingriweiji-github.github.io/2019/06/06/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/</a>
-                </span>
-            </div>
-            <div class="reprint__notice">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-copyright">
-                        版权声明:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    本博客所有文章除特別声明外，均采用
-                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
-                    许可协议。转载请注明来源
-                    <a href="https://mingriweiji-github.github.io" target="_blank">KM</a>
-                    !
-                </span>
-            </div>
-        
     </div>
 
-    <script async defer>
-      document.addEventListener("copy", function (e) {
-        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
-        M.toast({html: toastHTML})
-      });
+    
+    
+    
 
-      function navToReprintStatement() {
-        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/12/02/iOS%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80/" rel="prev" title="iOS汇编基础">
+      <i class="fa fa-chevron-left"></i> iOS汇编基础
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/06/08/%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/" rel="next" title="红黑树前世今生">
+      红黑树前世今生 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
       }
-    </script>
-
-
-
-            <div class="tag_share" style="display: block;">
-                <div class="post-meta__tag-list" style="display: inline-block;">
-                    
-                        <div class="article-tag">
-                            
-                                <a href="/tags/java/">
-                                    <span class="chip bg-color">java</span>
-                                </a>
-                            
-                        </div>
-                    
-                </div>
-                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
-                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
-
-<div id="article-share">
-    
-    
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
-    <script src="/libs/share/js/social-share.min.js"></script>
-    
-
-    
-
-</div>
-
-                </div>
-            </div>
-            
-                <style>
-    #reward {
-        margin: 40px 0;
-        text-align: center;
     }
-
-    #reward .reward-link {
-        font-size: 1.4rem;
-        line-height: 38px;
-    }
-
-    #reward .btn-floating:hover {
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    #rewardModal {
-        width: 320px;
-        height: 350px;
-    }
-
-    #rewardModal .reward-title {
-        margin: 15px auto;
-        padding-bottom: 5px;
-    }
-
-    #rewardModal .modal-content {
-        padding: 10px;
-    }
-
-    #rewardModal .close {
-        position: absolute;
-        right: 15px;
-        top: 15px;
-        color: rgba(0, 0, 0, 0.5);
-        font-size: 1.3rem;
-        line-height: 20px;
-        cursor: pointer;
-    }
-
-    #rewardModal .close:hover {
-        color: #ef5350;
-        transform: scale(1.3);
-        -moz-transform:scale(1.3);
-        -webkit-transform:scale(1.3);
-        -o-transform:scale(1.3);
-    }
-
-    #rewardModal .reward-tabs {
-        margin: 0 auto;
-        width: 210px;
-    }
-
-    .reward-tabs .tabs {
-        height: 38px;
-        margin: 10px auto;
-        padding-left: 0;
-    }
-
-    .reward-content ul {
-        padding-left: 0 !important;
-    }
-
-    .reward-tabs .tabs .tab {
-        height: 38px;
-        line-height: 38px;
-    }
-
-    .reward-tabs .tab a {
-        color: #fff;
-        background-color: #ccc;
-    }
-
-    .reward-tabs .tab a:hover {
-        background-color: #ccc;
-        color: #fff;
-    }
-
-    .reward-tabs .wechat-tab .active {
-        color: #fff !important;
-        background-color: #22AB38 !important;
-    }
-
-    .reward-tabs .alipay-tab .active {
-        color: #fff !important;
-        background-color: #019FE8 !important;
-    }
-
-    .reward-tabs .reward-img {
-        width: 210px;
-        height: 210px;
-    }
-</style>
-
-<div id="reward">
-    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
-
-    <!-- Modal Structure -->
-    <div id="rewardModal" class="modal">
-        <div class="modal-content">
-            <a class="close modal-close"><i class="fas fa-times"></i></a>
-            <h4 class="reward-title">你的赏识是我前进的动力</h4>
-            <div class="reward-content">
-                <div class="reward-tabs">
-                    <ul class="tabs row">
-                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
-                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
-                    </ul>
-                    <div id="alipay">
-                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
-                    </div>
-                    <div id="wechat">
-                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    $(function () {
-        $('.tabs').tabs();
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
     });
-</script>
-            
-        </div>
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-<article id="prenext-posts" class="prev-next articles">
-    <div class="row article-row">
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
-            <div class="card">
-                <a href="/2019/06/08/%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="红黑树前世今生">
-                        
-                        <span class="card-title">红黑树前世今生</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            红黑树前世今生关键词：二叉搜索树、前驱节点、后继节点、B树、红黑树
-什么是B树前世B树是一种相对于来说特殊二叉搜索树，多用于数据库和文件搜索系统中。
-n阶B树的性质
-B树是一种平衡的多路搜索树，拥有平衡二叉树的一些特性，与平衡二叉树的最大区
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2019-06-08
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
-                                    算法
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/java/">
-                        <span class="chip bg-color">java</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2018/12/02/iOS%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="iOS汇编基础">
-                        
-                        <span class="card-title">iOS汇编基础</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            iOS汇编基础x86_64汇编X84中原有8个32位通用寄存器%eax，%ebx，%ecx，%edx，%esi，%edi，%ebp，%esp,
-X86_64中分别被扩展为64位，并且多了8个寄存器。因此X86_64的寄存器如下：
-
-rax,
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2018-12-02
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E9%80%86%E5%90%91/" class="post-category">
-                                    逆向
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/iOS/">
-                        <span class="chip bg-color">iOS</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-    </div>
-</article>
-
-</div>
-
-
-
-<!-- 代码块功能依赖 -->
-<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
-
-<!-- 代码语言 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
-
-
-<!-- 代码块复制 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
-
-
-<!-- 代码块收缩 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
-
-
-<!-- 代码块折行 -->
-
-<style type="text/css">
-code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
-</style>
-
-
-    </div>
-    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
-        <div class="toc-widget">
-            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
-            <div id="toc-content"></div>
-        </div>
-    </div>
-</div>
-
-<!-- TOC 悬浮按钮. -->
-
-<div id="floating-toc-btn" class="hide-on-med-and-down">
-    <a class="btn-floating btn-large bg-color">
-        <i class="fas fa-list-ul"></i>
-    </a>
-</div>
-
-
-<script src="/libs/tocbot/tocbot.min.js"></script>
-<script>
-    $(function () {
-        tocbot.init({
-            tocSelector: '#toc-content',
-            contentSelector: '#articleContent',
-            headingsOffset: -($(window).height() * 0.4 - 45),
-            collapseDepth: Number('true'),
-            headingSelector: 'h2, h3, h4'
-        });
-
-        // modify the toc link href to support Chinese.
-        let i = 0;
-        let tocHeading = 'toc-heading-';
-        $('#toc-content a').each(function () {
-            $(this).attr('href', '#' + tocHeading + (++i));
-        });
-
-        // modify the heading title id to support Chinese.
-        i = 0;
-        $('#articleContent').children('h2, h3, h4').each(function () {
-            $(this).attr('id', tocHeading + (++i));
-        });
-
-        // Set scroll toc fixed.
-        let tocHeight = parseInt($(window).height() * 0.4 - 64);
-        let $tocWidget = $('.toc-widget');
-        $(window).scroll(function () {
-            let scroll = $(window).scrollTop();
-            /* add post toc fixed. */
-            if (scroll > tocHeight) {
-                $tocWidget.addClass('toc-fixed');
-            } else {
-                $tocWidget.removeClass('toc-fixed');
-            }
-        });
-
-        
-        /* 修复文章卡片 div 的宽度. */
-        let fixPostCardWidth = function (srcId, targetId) {
-            let srcDiv = $('#' + srcId);
-            if (srcDiv.length === 0) {
-                return;
-            }
-
-            let w = srcDiv.width();
-            if (w >= 450) {
-                w = w + 21;
-            } else if (w >= 350 && w < 450) {
-                w = w + 18;
-            } else if (w >= 300 && w < 350) {
-                w = w + 16;
-            } else {
-                w = w + 14;
-            }
-            $('#' + targetId).width(w);
-        };
-
-        // 切换TOC目录展开收缩的相关操作.
-        const expandedClass = 'expanded';
-        let $tocAside = $('#toc-aside');
-        let $mainContent = $('#main-content');
-        $('#floating-toc-btn .btn-floating').click(function () {
-            if ($tocAside.hasClass(expandedClass)) {
-                $tocAside.removeClass(expandedClass).hide();
-                $mainContent.removeClass('l9');
-            } else {
-                $tocAside.addClass(expandedClass).show();
-                $mainContent.addClass('l9');
-            }
-            fixPostCardWidth('artDetail', 'prenext-posts');
-        });
-        
-    });
+  }
 </script>
 
-    
-
-</main>
-
-
-
-    <footer class="page-footer bg-color">
-    
-    <div class="container row center-align" style="margin-bottom: 0px !important;">
-        <div class="col s12 m8 l8 copy-right">
-            Copyright&nbsp;&copy;
-            <span id="year">2018</span>
-            <a href="https://mingriweiji-github.github.io" target="_blank">KM</a>
-            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
-            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
-            <br>
-            
-            
-            
-            
-            
-            
-            <span id="busuanzi_container_site_pv">
-                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
-                    class="white-color"></span>&nbsp;次
-            </span>
-            
-            
-            <span id="busuanzi_container_site_uv">
-                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
-                    class="white-color"></span>&nbsp;人
-            </span>
-            
-            <br>
-            
-            <br>
-            
         </div>
-        <div class="col s12 m4 l4 social-link social-statis">
-    <a href="https://mingriweiji-github.github.io/" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
-        <i class="fab fa-github"></i>
-    </a>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
 
+  <aside class="sidebar">
+    <div class="sidebar-inner">
 
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
 
-    <a href="mailto:2822072760@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
-        <i class="fas fa-envelope-open"></i>
-    </a>
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91%E4%BB%8A%E7%94%9F"><span class="nav-number">1.</span> <span class="nav-text">二叉树今生</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E9%A9%B1%E4%B8%8E%E5%90%8E%E7%BB%A7"><span class="nav-number">1.1.</span> <span class="nav-text">前驱与后继</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E9%A9%B1%E8%8A%82%E7%82%B9"><span class="nav-number">1.1.1.</span> <span class="nav-text">前驱节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8E%E7%BB%A7%E8%8A%82%E7%82%B9"><span class="nav-number">1.1.2.</span> <span class="nav-text">后继节点</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
 
-
-
-
-
-
-
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
-        <i class="fab fa-qq"></i>
-    </a>
-
-
-
-
-
-
-
-    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
-        <i class="fas fa-rss"></i>
-    </a>
-
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">KM</p>
+  <div class="site-description" itemprop="description"></div>
 </div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
     </div>
-</footer>
+  </aside>
+  <div id="sidebar-dimmer"></div>
 
-<div class="progress-bar"></div>
 
+      </div>
+    </main>
 
-    <!-- 搜索遮罩框 -->
-<div id="searchModal" class="modal">
-    <div class="modal-content">
-        <div class="search-header">
-            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
-            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
-                   class="search-input">
-        </div>
-        <div id="searchResult"></div>
-    </div>
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">KM</span>
 </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
 
-<script src="/js/search.js"></script>
-<script type="text/javascript">
-$(function () {
-    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
-});
-</script>
-    <!-- 回到顶部按钮 -->
-<div id="backTop" class="top-scroll">
-    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
-        <i class="fas fa-arrow-up"></i>
-    </a>
-</div>
+        
 
 
-    <script src="/libs/materialize/materialize.min.js"></script>
-    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
-    <script src="/libs/aos/aos.js"></script>
-    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
-    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
-    <script src="/js/matery.js"></script>
 
-    <!-- Baidu Analytics -->
 
-    <!-- Baidu Push -->
 
-<script>
-    (function () {
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https') {
-            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-        } else {
-            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-        }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
-</script>
 
-    
-    
-    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
-    
 
-    
 
-    
+      </div>
+    </footer>
+  </div>
 
-    
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
-    
+<script src="/js/utils.js"></script>
 
-    
-    
-    
-    <script src="/libs/instantpage/instantpage.js" type="module"></script>
-    
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
 
 </body>
-
 </html>

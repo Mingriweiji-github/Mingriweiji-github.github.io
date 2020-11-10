@@ -1,1155 +1,1544 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="zh-CN">
-
-
 <head>
-    <meta charset="utf-8">
-    <meta name="keywords" content="明日危机">
-    <meta name="description" content="">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="renderer" content="webkit|ie-stand|ie-comp">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <!-- Global site tag (gtag.js) - Google Analytics -->
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-    <title>明日危机</title>
-    <link rel="icon" type="image/png" href="/favicon.png">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
-    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
-    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/matery.css">
-    <link rel="stylesheet" type="text/css" href="/css/my.css">
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mingriweiji-github.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
 
-    <script src="/libs/jquery/jquery.min.js"></script>
-    
-<link rel="alternate" href="/atom.xml" title="明日危机" type="application/atom+xml">
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+  <meta property="og:type" content="website">
+<meta property="og:title" content="明日危机">
+<meta property="og:url" content="https://mingriweiji-github.github.io/page/2/index.html">
+<meta property="og:site_name" content="明日危机">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="KM">
+<meta name="twitter:card" content="summary">
 
-
-<body>
-    <header class="navbar-fixed">
-    <nav id="headNav" class="bg-color nav-transparent">
-        <div id="navContainer" class="nav-wrapper container">
-            <div class="brand-logo">
-                <a href="/" class="waves-effect waves-light">
-                    
-                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
-                    
-                    <span class="logo-span">明日危机</span>
-                </a>
-            </div>
-            
-
-<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
-<ul class="right nav-menu">
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/" class="waves-effect waves-light">
-      
-      <i class="fas fa-home" style="zoom: 0.6;"></i>
-      
-      <span>首页</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/tags" class="waves-effect waves-light">
-      
-      <i class="fas fa-tags" style="zoom: 0.6;"></i>
-      
-      <span>标签</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/categories" class="waves-effect waves-light">
-      
-      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
-      
-      <span>分类</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/archives" class="waves-effect waves-light">
-      
-      <i class="fas fa-archive" style="zoom: 0.6;"></i>
-      
-      <span>归档</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/about" class="waves-effect waves-light">
-      
-      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
-      
-      <span>关于</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/contact" class="waves-effect waves-light">
-      
-      <i class="fas fa-comments" style="zoom: 0.6;"></i>
-      
-      <span>留言板</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/friends" class="waves-effect waves-light">
-      
-      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
-      
-      <span>友情链接</span>
-    </a>
-    
-  </li>
-  
-  <li>
-    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
-      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
-    </a>
-  </li>
-</ul>
-
-<div id="mobile-nav" class="side-nav sidenav">
-
-    <div class="mobile-head bg-color">
-        
-        <img src="/medias/logo.png" class="logo-img circle responsive-img">
-        
-        <div class="logo-name">明日危机</div>
-        <div class="logo-desc">
-            
-            Never really desperate, only the lost of the soul.
-            
-        </div>
-    </div>
-
-    
-
-    <ul class="menu-list mobile-menu-list">
-        
-        <li class="m-nav-item">
-	  
-		<a href="/" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-home"></i>
-			
-			首页
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/tags" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-tags"></i>
-			
-			标签
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/categories" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-bookmark"></i>
-			
-			分类
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/archives" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-archive"></i>
-			
-			归档
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/about" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-user-circle"></i>
-			
-			关于
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/contact" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-comments"></i>
-			
-			留言板
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/friends" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-address-book"></i>
-			
-			友情链接
-		</a>
-          
-        </li>
-        
-        
-        <li><div class="divider"></div></li>
-        <li>
-            <a href="https://github.com/Mingriweiji-github" class="waves-effect waves-light" target="_blank">
-                <i class="fab fa-github-square fa-fw"></i>Fork Me
-            </a>
-        </li>
-        
-    </ul>
-</div>
-
-        </div>
-
-        
-            <style>
-    .nav-transparent .github-corner {
-        display: none !important;
-    }
-
-    .github-corner {
-        position: absolute;
-        z-index: 10;
-        top: 0;
-        right: 0;
-        border: 0;
-        transform: scale(1.1);
-    }
-
-    .github-corner svg {
-        color: #0f9d58;
-        fill: #fff;
-        height: 64px;
-        width: 64px;
-    }
-
-    .github-corner:hover .octo-arm {
-        animation: a 0.56s ease-in-out;
-    }
-
-    .github-corner .octo-arm {
-        animation: none;
-    }
-
-    @keyframes a {
-        0%,
-        to {
-            transform: rotate(0);
-        }
-        20%,
-        60% {
-            transform: rotate(-25deg);
-        }
-        40%,
-        80% {
-            transform: rotate(10deg);
-        }
-    }
-</style>
-
-<a href="https://github.com/Mingriweiji-github" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
-   data-tooltip="Fork Me" data-position="left" data-delay="50">
-    <svg viewBox="0 0 250 250" aria-hidden="true">
-        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
-        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
-              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
-        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
-              fill="currentColor" class="octo-body"></path>
-    </svg>
-</a>
-        
-    </nav>
-
-</header>
-
-    
-    <div class="bg-cover pd-header about-cover">
-    <div class="container">
-    <div class="row">
-    <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
-        <div class="brand">
-            <div class="title center-align">
-                
-                iOS &amp; Swifter
-                
-            </div>
-
-            <div class="description center-align">
-                
-                <span id="subtitle"></span>
-                <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
-                <script>
-                    var typed = new Typed("#subtitle", {
-                        strings: ['从来没有真正的绝境, 只有心灵的迷途','Never really desperate, only the lost of the soul'],
-                        startDelay: 300,
-                        typeSpeed: 100,
-                        loop: true,
-                        backSpeed: 50,
-                        showCursor: true
-                    });
-                </script>
-                
-            </div>
-        </div>
-    </div>
-</div>
+<link rel="canonical" href="https://mingriweiji-github.github.io/page/2/">
 
 
-<script>
-    // 每天切换 banner 图.  Switch banner image every day.
-    $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay() + '.jpg)');
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
 </script>
 
+  <title>明日危机</title>
+  
 
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="明日危机" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">明日危机</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">iOS & Swifter</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
 </div>
 
 
-<main class="content">
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
 
     
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
-    
 
-    <!-- 所有文章卡片 -->
-    <article id="articles" class="container articles">
-        <div class="row article-row">
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
             
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%AE%9E%E6%88%98100%E9%81%93/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="//medias/featureimages/0.jpg" class="responsive-img" alt="算法实战">
-                            
-                            <span class="card-title">算法实战</span>
-                        </div>
-                    </a>
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mingriweiji-github.github.io/2020/01/15/iOS%E8%B6%8A%E7%8B%B1%E5%88%9D%E4%BD%93%E9%AA%8C/">
 
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                为什么学算法？为什么要学习算法？
-算法是内功，决定你武功的高度
-算法能让你更好更快理解一门语言系统的设计理念
-算法能让你触类旁通
-momo算法题：接雨水  反转链表II  旋转矩阵
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="KM">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="明日危机">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/15/iOS%E8%B6%8A%E7%8B%B1%E5%88%9D%E4%BD%93%E9%AA%8C/" class="post-title-link" itemprop="url">iOS越狱初体验</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-01-15 10:13:45" itemprop="dateCreated datePublished" datetime="2020-01-15T10:13:45+08:00">2020-01-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-01 20:44:13" itemprop="dateModified" datetime="2020-05-01T20:44:13+08:00">2020-05-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BA%90%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">源码</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          iOS越狱初体验
+iOS越狱能做到什么？
+ * 查看 第三方APP UI 排版方式、布局实现技术
+ * 获取三方App内部资源 .assets/.plist/icon…
+ * 修改APP 功能重新打包 (EX: 去广告)
+ * 反编译推测原始工程代码内容
+ * dump 出 .h 头文件 / keycahin / db
+
+越狱环境
+macOS 版本：10.15 Catalina
+iOS 版本：iPhone 5s (iOS 9.0.1/ *完美越狱****必要**)
+Cydia: Open SSH
+
+逆向工程大致流程：
+ 1. 解密并导出应用程序、class-dump导出头文件
+ 2. 从当面界
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/01/15/iOS%E8%B6%8A%E7%8B%B1%E5%88%9D%E4%BD%93%E9%AA%8C/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mingriweiji-github.github.io/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%AE%9E%E6%88%98100%E9%81%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="KM">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="明日危机">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%AE%9E%E6%88%98100%E9%81%93/" class="post-title-link" itemprop="url">算法实战</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-06-22 03:18:15" itemprop="dateCreated datePublished" datetime="2019-06-22T03:18:15+08:00">2019-06-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-29 19:54:54" itemprop="dateModified" datetime="2020-06-29T19:54:54+08:00">2020-06-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          为什么学算法？
+为什么要学习算法？
+ * 算法是内功，决定你武功的高度
+ * 算法能让你更好更快理解一门语言系统的设计理念
+ * 算法能让你触类旁通
+ * momo算法题：接雨水 反转链表II 旋转矩阵
 
 主要算法
-基础技巧：分治、二分、贪心
-排序算法：快速排序
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-06-22
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
-                                    算法
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
+ * 基础技巧：分治、二分、贪心
+ * 排序算法：快速排序、归并排序、计数排序
+ * 搜索算法：回溯算法、递归、深度优先遍历，BFS广度优先遍历，二叉搜索树等
+ * 图论：最短路径、最小生成树
+ * 动态规划：背包问题、最长子序列
 
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/%E7%AE%97%E6%B3%95/">
-                            <span class="chip bg-color">算法</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
+数据结构
+ * 数组与链表：单 / 双向链表
+ * 栈与队列
+ * 哈希表
+ * 堆：最大堆 ／ 最小堆
+ * 树与图：最近公共祖先、并查集
+ * 字
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%AE%9E%E6%88%98100%E9%81%93/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
             </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="//medias/featureimages/12.jpg" class="responsive-img" alt="算法基础">
-                            
-                            <span class="card-title">算法基础</span>
-                        </div>
-                    </a>
+          <!--/noindex-->
+        
+      
+    </div>
 
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                算法基础为什么要学习算法？
-算法是内功，决定你武功的高度
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
 
-算法能让你更好更快理解一门语言系统的设计理念
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mingriweiji-github.github.io/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/">
 
-算法能让你触类旁通
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="KM">
+      <meta itemprop="description" content="">
+    </span>
 
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="明日危机">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/" class="post-title-link" itemprop="url">算法基础</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-06-22 02:18:15" itemprop="dateCreated datePublished" datetime="2019-06-22T02:18:15+08:00">2019-06-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-29 19:53:57" itemprop="dateModified" datetime="2020-06-29T19:53:57+08:00">2020-06-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          算法基础
+为什么要学习算法？
+ * 算法是内功，决定你武功的高度
+   
+   
+ * 算法能让你更好更快理解一门语言系统的设计理念
+   
+   
+ * 算法能让你触类旁通
+   
+   
 
 1 、数组
-func merge(_ nums1: inout [Int], _ m: Int, _ num
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-06-22
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
-                                    算法
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
 
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/%E7%AE%97%E6%B3%95/">
-                            <span class="chip bg-color">算法</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
+
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+
+
+func merge(_ nums1: inout [Int], _ m: Int, _ nums2: [Int], _ n: Int) {
+     var p1 = m - 1, p2 = n - 1
+     var cur = m + n - 1
+     while (p2 >= 0) {
+        
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
             </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2019/06/22/2020%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="//medias/featureimages/11.jpg" class="responsive-img" alt="数据结构思想">
-                            
-                            <span class="card-title">数据结构思想</span>
-                        </div>
-                    </a>
+          <!--/noindex-->
+        
+      
+    </div>
 
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                第一篇数据结构数组和链表
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
 
-思考题： 1.如何分别用链表和数组实现LRU缓冲淘汰策略？1）什么是缓存？
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mingriweiji-github.github.io/2019/06/22/2020%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
 
-缓存是一种提高数据读取性能的技术，在硬件设计、软件开发中都有着非广泛的应用，比如常见的CPU缓存、数据库缓存、浏览器缓存等等。
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="KM">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="明日危机">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/06/22/2020%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="post-title-link" itemprop="url">数据结构思想</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-06-22 01:18:15" itemprop="dateCreated datePublished" datetime="2019-06-22T01:18:15+08:00">2019-06-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-01 20:39:01" itemprop="dateModified" datetime="2020-05-01T20:39:01+08:00">2020-05-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          第一篇数据结构
+数组和链表
 
 
-什
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-06-22
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
-                                    算法
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
 
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/java/">
-                            <span class="chip bg-color">java</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
+
+
+思考题： 1.如何分别用链表和数组实现LRU缓冲淘汰策略？
+1）什么是缓存？
+
+ * 缓存是一种提高数据读取性能的技术，在硬件设计、软件开发中都有着非广泛的应用，比如常见的CPU缓存、数据库缓存、浏览器缓存等等。
+
+什么是C CPU在从内存读取数据的时候，会先把读取到的数据加载到CPU的缓存中。而CPU每次从内存读取数据并不是只读取那个特定要访问的地址，而是读取一个数据块(这个大小我不太确定。。)并保存到CPU缓存中，然后下次访问内存数据的时候就会先从CPU缓存开始查找，如果找到就不需要再从内存中取。这样就实现了比内存访问速度更快的机制，也就是CPU缓存存
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/06/22/2020%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
             </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2019/06/08/%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="//medias/featureimages/8.jpg" class="responsive-img" alt="红黑树前世今生">
-                            
-                            <span class="card-title">红黑树前世今生</span>
-                        </div>
-                    </a>
+          <!--/noindex-->
+        
+      
+    </div>
 
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                红黑树前世今生关键词：二叉搜索树、前驱节点、后继节点、B树、红黑树
-什么是B树前世B树是一种相对于来说特殊二叉搜索树，多用于数据库和文件搜索系统中。
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mingriweiji-github.github.io/2019/06/08/%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="KM">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="明日危机">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/06/08/%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/" class="post-title-link" itemprop="url">红黑树前世今生</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-06-08 10:13:45" itemprop="dateCreated datePublished" datetime="2019-06-08T10:13:45+08:00">2019-06-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-01 21:42:10" itemprop="dateModified" datetime="2020-05-01T21:42:10+08:00">2020-05-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          红黑树前世今生
+关键词：二叉搜索树、前驱节点、后继节点、B树、红黑树
+
+什么是B树
+前世
+B树是一种相对于来说特殊二叉搜索树，多用于数据库和文件搜索系统中。
+
 n阶B树的性质
-B树是一种平衡的多路搜索树，拥有平衡二叉树的一些特性，与平衡二叉树的最大区
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-06-08
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
-                                    算法
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
+B树是一种平衡的多路搜索树，拥有平衡二叉树的一些特性，与平衡二叉树的最大区别在于每个节点不再是只能存储一个元素，而且每个节点可以拥有多个子节点而像二叉平衡树只能拥有两个。
 
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/java/">
-                            <span class="chip bg-color">java</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
+ 1. B树每个节点最多可以存储超过2个元素，可以拥有超过2个子节点
+ 2. B树每个子节点的子树高度一致
+ 3. B树和二叉搜索树一样，左子树<根节点<右子树
+ 4. 根节点元素个数: 1≤ X ≤ n - 1
+ 5. 非根节点元素个数: n/2 
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/06/08/%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
             </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2019/06/06/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="//medias/featureimages/9.jpg" class="responsive-img" alt="二叉树今生">
-                            
-                            <span class="card-title">二叉树今生</span>
-                        </div>
-                    </a>
+          <!--/noindex-->
+        
+      
+    </div>
 
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                二叉树今生为什么会有二叉树这种数据结构？
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mingriweiji-github.github.io/2019/06/06/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="KM">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="明日危机">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/06/06/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/" class="post-title-link" itemprop="url">二叉树今生</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-06-06 10:13:45" itemprop="dateCreated datePublished" datetime="2019-06-06T10:13:45+08:00">2019-06-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-01 20:39:39" itemprop="dateModified" datetime="2020-05-01T20:39:39+08:00">2020-05-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          二叉树今生
+为什么会有二叉树这种数据结构？
+
 思考一个问题：如果一个集合中有42亿个元素，让你从这42亿个元素中搜索某一个元素，你需要多少次操作？
-如果使用数组链表的话最多可能需要42亿次比较，而如果使用二叉树我们只需要32次比较即可，这就是二
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2019-06-06
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
-                                    算法
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
 
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/java/">
-                            <span class="chip bg-color">java</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
+如果使用数组链表的话最多可能需要42亿次比较，而如果使用二叉树我们只需要32次比较即可，这就是二叉树存在的价值。Java中的HashSet使用的就是二叉树
+
+前驱与后继
+前驱节点
+ 1. 若一个节点有左子树，那么该节点的前驱节点是其左子树中val值最大的节点（也就是左子树中所谓的rightMostNode）
+    
+    
+ 2. 若一个节点没有左子树，那么判断该节点和其父节点的关系 
+    
+    2.1 若该节点是其父节点的右边孩子，
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/06/06/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
             </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/12/02/iOS%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="//medias/featureimages/2.jpg" class="responsive-img" alt="iOS汇编基础">
-                            
-                            <span class="card-title">iOS汇编基础</span>
-                        </div>
-                    </a>
+          <!--/noindex-->
+        
+      
+    </div>
 
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                iOS汇编基础x86_64汇编X84中原有8个32位通用寄存器%eax，%ebx，%ecx，%edx，%esi，%edi，%ebp，%esp,
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mingriweiji-github.github.io/2018/12/02/iOS%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="KM">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="明日危机">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/12/02/iOS%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80/" class="post-title-link" itemprop="url">iOS汇编基础</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-12-02 11:15:40" itemprop="dateCreated datePublished" datetime="2018-12-02T11:15:40+08:00">2018-12-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-01 20:34:27" itemprop="dateModified" datetime="2020-05-01T20:34:27+08:00">2020-05-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%80%86%E5%90%91/" itemprop="url" rel="index"><span itemprop="name">逆向</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          iOS汇编基础
+x86_64汇编
+X84中原有8个32位通用寄存器%eax，%ebx，%ecx，%edx，%esi，%edi，%ebp，%esp,
+
 X86_64中分别被扩展为64位，并且多了8个寄存器。因此X86_64的寄存器如下：
 
-rax,
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2018-12-02
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/%E9%80%86%E5%90%91/" class="post-category">
-                                    逆向
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
+ * rax, eax, ax, ah, al;
+ * rbx, ebx, bx, bh, bl;
+ * rcx, ecx, cx, ch, cl;
+ * rdx, edx, dx, dh, dl;
+ * rsi, esi, si;
+ * rdi, edi, di;
+ * rbp, ebp;
+ * rsp, esp;
+ * r8-r15;
 
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/iOS/">
-                            <span class="chip bg-color">iOS</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
+GCC中对这些寄存
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/12/02/iOS%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
             </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/12/01/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="//medias/featureimages/3.jpg" class="responsive-img" alt="iOS图像优化技巧">
-                            
-                            <span class="card-title">iOS图像优化技巧</span>
-                        </div>
-                    </a>
+          <!--/noindex-->
+        
+      
+    </div>
 
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                iOS图像优化技巧
-1、如何处理大尺寸图片？
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
 
-2、如何处理瀑布流图片占用大量内存的问题？
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mingriweiji-github.github.io/2018/12/01/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">
 
-3、如何处理多张图片上传和下载问题？
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="KM">
+      <meta itemprop="description" content="">
+    </span>
 
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="明日危机">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/12/01/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" class="post-title-link" itemprop="url">iOS图像优化技巧</a>
+        </h2>
 
-1、处理大尺寸图片那么，什么时候对图像进行渲染优化才有意义呢？
-当它明显大于 UIImageView 显
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2018-12-01
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/%E5%9B%BE%E5%83%8F/" class="post-category">
-                                    图像
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
 
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/iOS/">
-                            <span class="chip bg-color">iOS</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
+              <time title="创建时间：2018-12-01 11:15:40" itemprop="dateCreated datePublished" datetime="2018-12-01T11:15:40+08:00">2018-12-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-01 20:41:59" itemprop="dateModified" datetime="2020-05-01T20:41:59+08:00">2020-05-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9B%BE%E5%83%8F/" itemprop="url" rel="index"><span itemprop="name">图像</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          iOS图像优化技巧
+ * 1、如何处理大尺寸图片？
+   
+   
+ * 2、如何处理瀑布流图片占用大量内存的问题？
+   
+   
+ * 3、如何处理多张图片上传和下载问题？
+   
+   
+
+1、处理大尺寸图片
+那么，什么时候对图像进行渲染优化才有意义呢？
+
+当它明显大于 UIImageView 显示尺寸的时候
+
+想要完整渲染这张宽高为 12,000 px 的图片，需要高达 20 MB 的空间。对于当今的硬件来说，你可能不会在意这么少兆字节的占用。但那只是它压缩后的尺寸。要展示它，UIImageView 首先需要把 JPEG 数据解码成位图（bitmap），如果要在一个 UIImageVi
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/12/01/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
             </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/06/02/Hexo%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="//medias/featureimages/5.jpg" class="responsive-img" alt="Hexo使用指南">
-                            
-                            <span class="card-title">Hexo使用指南</span>
-                        </div>
-                    </a>
+          <!--/noindex-->
+        
+      
+    </div>
 
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                1、Hexo安装指南1.1安装Node.js首先下载稳定版Node.js。
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mingriweiji-github.github.io/2018/06/02/Hexo%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="KM">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="明日危机">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/06/02/Hexo%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" class="post-title-link" itemprop="url">Hexo使用指南</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-06-02 11:13:45" itemprop="dateCreated datePublished" datetime="2018-06-02T11:13:45+08:00">2018-06-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-29 22:23:55" itemprop="dateModified" datetime="2020-06-29T22:23:55+08:00">2020-06-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8C%87%E5%8D%97/" itemprop="url" rel="index"><span itemprop="name">指南</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          1、Hexo安装指南
+1.1安装Node.js
+首先下载稳定版Node.js。
+
 安装选项全部默认，一路点击Next。
-最后安装好之后，windows按Win+R打开命令提示符,mac打开命令行工具，输入node -v和npm -v，如果出现版本
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2018-06-02
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/%E6%8C%87%E5%8D%97/" class="post-category">
-                                    指南
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
 
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">
-                            <span class="chip bg-color">开发工具</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
+最后安装好之后，windows按Win+R打开命令提示符,mac打开命令行工具，输入node -v和npm -v，如果出现版本号，那么就安装成功了。
+
+1.2添加国内镜像源
+如果没有梯子的话，可以使用阿里的国内镜像进行加速。
+
+1
+
+
+npm config set registry https://registry.npm.taobao.org
+
+
+1.3安装Git
+为了把本地的网页文件上传到github上面去，我们需要用到分布式版本控制工具————Git[下载地址]。
+
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/06/02/Hexo%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
             </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/06/01/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="//medias/featureimages/15.jpg" class="responsive-img" alt="iOS多线程">
-                            
-                            <span class="card-title">iOS多线程</span>
-                        </div>
-                    </a>
+          <!--/noindex-->
+        
+      
+    </div>
 
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                深入理解GCDdispatch_async 会把任务添加到队列的一个链表中，添加完后会唤醒队列，根据 vtable 中的函数指针，调用 wakeup 方法。
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
 
-在 wakeup 方法中，从线程池里取出工作线程(如果没有就新建)，然后在工作线
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2018-06-01
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/%E6%BA%90%E7%A0%81/" class="post-category">
-                                    源码
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mingriweiji-github.github.io/2018/06/01/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
 
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/iOS/">
-                            <span class="chip bg-color">iOS</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="KM">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="明日危机">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/06/01/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/" class="post-title-link" itemprop="url">iOS多线程</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-06-01 11:13:45" itemprop="dateCreated datePublished" datetime="2018-06-01T11:13:45+08:00">2018-06-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-01 20:41:19" itemprop="dateModified" datetime="2020-05-01T20:41:19+08:00">2020-05-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BA%90%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">源码</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          深入理解GCD
+dispatch_async 会把任务添加到队列的一个链表中，添加完后会唤醒队列，根据 vtable 中的函数指针，调用 wakeup 方法。
+
+ * 在 wakeup 方法中，从线程池里取出工作线程(如果没有就新建)，然后在工作线程中取出链表头部指向的 block 并执行。
+
+dispatch_sync 的实现略简单一些，它不涉及线程池(因此一般都在当前线程执行)，而是利用与线程绑定的信号量来实现串行。
+
+分发到不同队列时，代码进入的分支也不一样，比如 dispatch_async 到主队列的任务由 runloop 处理，而分发到其他队列的任务由线程池处理。
+
+在当前串行队列
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/06/01/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
             </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/06/01/Runloop/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="//medias/featureimages/17.jpg" class="responsive-img" alt="Runloop">
-                            
-                            <span class="card-title">Runloop</span>
-                        </div>
-                    </a>
+          <!--/noindex-->
+        
+      
+    </div>
 
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                Runloop1.讲讲 RunLoop，项目中有用到吗？
-事件循环，在程序运行中循环做一些事情
-没有消息mach_msg()切换用户态到内核态线程休眠，有消息内核态切换到用户态
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mingriweiji-github.github.io/2018/06/01/Runloop/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="KM">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="明日危机">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/06/01/Runloop/" class="post-title-link" itemprop="url">Runloop</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-06-01 10:13:45" itemprop="dateCreated datePublished" datetime="2018-06-01T10:13:45+08:00">2018-06-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-01 20:42:19" itemprop="dateModified" datetime="2020-05-01T20:42:19+08:00">2020-05-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BA%90%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">源码</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          Runloop
+1.讲讲 RunLoop，项目中有用到吗？
+ * 事件循环，在程序运行中循环做一些事情
+ * 没有消息mach_msg()切换用户态到内核态线程休眠，有消息内核态切换到用户态
 
 runloop相关：
-Timer、performSelect
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2018-06-01
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/%E6%BA%90%E7%A0%81/" class="post-category">
-                                    源码
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
+ * Timer、performSelector
+ * GCD、AutoreleasePool
+ * 事件响应、收拾识别、网络请求
 
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/iOS/">
-                            <span class="chip bg-color">iOS</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
+runloop的应用：
+ * 线程包活
+ * 解决timer滑动停止问题
+ * 监听主线程卡顿
+ * 性能优化
+
+2.runloop的6种状态和runloop内部实现逻辑？
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+
+
+/* Run Loop Obs
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/06/01/Runloop/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
             </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/01/01/%E6%8E%92%E5%BA%8F%E9%97%AE%E9%A2%98/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="//medias/featureimages/15.jpg" class="responsive-img" alt="排序问题">
-                            
-                            <span class="card-title">排序问题</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                带着问题去学习，是最有效的学习方法。所以按照惯例，我还是先给你出一个思考题：
-问题一：为什么插入排序比冒泡排序更受欢迎？如何分析一个“排序算法”？
-
-最好情况、最坏情况、平均情况时间复杂度
-
-时间复杂度的系数、常数、低阶
-
-比较次数和交换次
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2018-01-01
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
-                                    算法
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/java/">
-                            <span class="chip bg-color">java</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2018/01/01/%E8%80%81%E9%BC%A0%E6%AF%92%E8%8D%AF%E9%97%AE%E9%A2%98/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="//medias/featureimages/14.jpg" class="responsive-img" alt="老鼠毒药问题">
-                            
-                            <span class="card-title">老鼠毒药问题</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                老鼠毒药问题1、有两个水桶， 一个装 3L 的水， 一个可装 5L 的水， 问:如何利用这两个桶， 量出 4L 的水来？解法一加法：操作两次3L的桶，得到1L的水，然后倒入5L的桶里面，此时5L桶里有1L的水，再次用3L的桶倒入5L桶，1L
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2018-01-01
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
-                                    算法
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/java/">
-                            <span class="chip bg-color">java</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-        </div>
-    </article>
-
-</main>
-
-
-<div class="container paging">
-    <div class="row">
-        <div class="col s6 m4 l4">
-            
-            <a href="/"
-               class="left btn-floating btn-large waves-effect waves-light bg-color">
-                <i class="fas fa-angle-left"></i>
-            </a>
-            
-        </div>
-        <div class="page-info col m4 l4 hide-on-small-only">
-            <div class="center-align b-text-gray">2 / 3</div>
-        </div>
-        <div class="col s6 m4 l4">
-            
-            <a href="/page/3/"
-               class="right btn-floating btn-large waves-effect waves-light bg-color">
-                <i class="fas fa-angle-right"></i>
-            </a>
-            
-        </div>
+          <!--/noindex-->
+        
+      
     </div>
-</div>
 
-
-
-
-    <footer class="page-footer bg-color">
     
-    <div class="container row center-align" style="margin-bottom: 0px !important;">
-        <div class="col s12 m8 l8 copy-right">
-            Copyright&nbsp;&copy;
-            <span id="year">2018</span>
-            <a href="https://mingriweiji-github.github.io" target="_blank">KM</a>
-            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
-            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
-            <br>
-            
-            
-            
-            
-            
-            
-            <span id="busuanzi_container_site_pv">
-                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
-                    class="white-color"></span>&nbsp;次
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mingriweiji-github.github.io/2018/01/01/%E6%8E%92%E5%BA%8F%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="KM">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="明日危机">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/01/%E6%8E%92%E5%BA%8F%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">排序问题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-01-01 11:11:45" itemprop="dateCreated datePublished" datetime="2018-01-01T11:11:45+08:00">2018-01-01</time>
             </span>
-            
-            
-            <span id="busuanzi_container_site_uv">
-                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
-                    class="white-color"></span>&nbsp;人
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-01 20:40:15" itemprop="dateModified" datetime="2020-05-01T20:40:15+08:00">2020-05-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
             </span>
-            
-            <br>
-            
-            <br>
-            
+
+          
+
         </div>
-        <div class="col s12 m4 l4 social-link social-statis">
-    <a href="https://mingriweiji-github.github.io/" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
-        <i class="fab fa-github"></i>
-    </a>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          带着问题去学习，是最有效的学习方法。所以按照惯例，我还是先给你出一个思考题：
+
+问题一：为什么插入排序比冒泡排序更受欢迎？
+如何分析一个“排序算法”？
 
 
 
-    <a href="mailto:2822072760@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
-        <i class="fas fa-envelope-open"></i>
-    </a>
+ * 最好情况、最坏情况、平均情况时间复杂度
+   
+   
+ * 时间复杂度的系数、常数、低阶
+   
+   
+ * 比较次数和交换次数
+   
+   
+
+内存消耗
 
 
 
+原地排序算法，就是特指空间复杂度是 O(1) 的排序算法。(冒泡排序、插入排序)
 
-
-
-
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
-        <i class="fab fa-qq"></i>
-    </a>
-
-
-
-
-
-
-
-    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
-        <i class="fas fa-rss"></i>
-    </a>
-
-</div>
+稳定性
+ * 经过某种排序算法排序之后，如果两个相同数值的前后顺序没有改变，那我们就把这种排序算法叫作稳定的排序算法；
+ * 如果前后顺序发生变化，那对应的排序算法就叫作不稳定的排序算
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/01/01/%E6%8E%92%E5%BA%8F%E9%97%AE%E9%A2%98/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
     </div>
-</footer>
 
-<div class="progress-bar"></div>
-
-
-    <!-- 搜索遮罩框 -->
-<div id="searchModal" class="modal">
-    <div class="modal-content">
-        <div class="search-header">
-            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
-            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
-                   class="search-input">
-        </div>
-        <div id="searchResult"></div>
-    </div>
-</div>
-
-<script src="/js/search.js"></script>
-<script type="text/javascript">
-$(function () {
-    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
-});
-</script>
-    <!-- 回到顶部按钮 -->
-<div id="backTop" class="top-scroll">
-    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
-        <i class="fas fa-arrow-up"></i>
-    </a>
-</div>
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
 
 
-    <script src="/libs/materialize/materialize.min.js"></script>
-    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
-    <script src="/libs/aos/aos.js"></script>
-    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
-    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
-    <script src="/js/matery.js"></script>
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
 
-    <!-- Baidu Analytics -->
 
-    <!-- Baidu Push -->
+
+          </div>
+          
 
 <script>
-    (function () {
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https') {
-            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-        } else {
-            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-        }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
 </script>
 
-    
-    
-    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
-    
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
 
-    
+  <aside class="sidebar">
+    <div class="sidebar-inner">
 
-    
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
 
-    
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
 
-    
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">KM</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
 
-    
-    
-    
-    <script src="/libs/instantpage/instantpage.js" type="module"></script>
-    
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">KM</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
 
 </body>
-
 </html>

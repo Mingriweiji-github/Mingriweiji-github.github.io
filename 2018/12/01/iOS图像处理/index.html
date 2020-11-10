@@ -1,477 +1,242 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="zh-CN">
-
-
 <head>
-    <meta charset="utf-8">
-    <meta name="keywords" content="iOS图像优化技巧, 明日危机">
-    <meta name="description" content="">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="renderer" content="webkit|ie-stand|ie-comp">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <!-- Global site tag (gtag.js) - Google Analytics -->
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-    <title>iOS图像优化技巧 | 明日危机</title>
-    <link rel="icon" type="image/png" href="/favicon.png">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
-    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
-    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/matery.css">
-    <link rel="stylesheet" type="text/css" href="/css/my.css">
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mingriweiji-github.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
 
-    <script src="/libs/jquery/jquery.min.js"></script>
-    
+  <meta name="description" content="iOS图像优化技巧  * 1、如何处理大尺寸图片？          * 2、如何处理瀑布流图片占用大量内存的问题？          * 3、如何处理多张图片上传和下载问题？          1、处理大尺寸图片 那么，什么时候对图像进行渲染优化才有意义呢？  当它明显大于 UIImageView 显示尺寸的时候  想要完整渲染这张宽高为 12,000 px 的图片，需要高达 20 MB 的空间">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS图像优化技巧">
+<meta property="og:url" content="https://mingriweiji-github.github.io/2018/12/01/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/index.html">
+<meta property="og:site_name" content="明日危机">
+<meta property="og:description" content="iOS图像优化技巧  * 1、如何处理大尺寸图片？          * 2、如何处理瀑布流图片占用大量内存的问题？          * 3、如何处理多张图片上传和下载问题？          1、处理大尺寸图片 那么，什么时候对图像进行渲染优化才有意义呢？  当它明显大于 UIImageView 显示尺寸的时候  想要完整渲染这张宽高为 12,000 px 的图片，需要高达 20 MB 的空间">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-12-01T03:15:40.000Z">
+<meta property="article:modified_time" content="2020-05-01T12:41:59.000Z">
+<meta property="article:author" content="KM">
+<meta property="article:tag" content="iOS">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://mingriweiji-github.github.io/2018/12/01/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>iOS图像优化技巧 | 明日危机</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
 <link rel="alternate" href="/atom.xml" title="明日危机" type="application/atom+xml">
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+</head>
 
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-<body>
-    <header class="navbar-fixed">
-    <nav id="headNav" class="bg-color nav-transparent">
-        <div id="navContainer" class="nav-wrapper container">
-            <div class="brand-logo">
-                <a href="/" class="waves-effect waves-light">
-                    
-                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
-                    
-                    <span class="logo-span">明日危机</span>
-                </a>
-            </div>
-            
-
-<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
-<ul class="right nav-menu">
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/" class="waves-effect waves-light">
-      
-      <i class="fas fa-home" style="zoom: 0.6;"></i>
-      
-      <span>首页</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/tags" class="waves-effect waves-light">
-      
-      <i class="fas fa-tags" style="zoom: 0.6;"></i>
-      
-      <span>标签</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/categories" class="waves-effect waves-light">
-      
-      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
-      
-      <span>分类</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/archives" class="waves-effect waves-light">
-      
-      <i class="fas fa-archive" style="zoom: 0.6;"></i>
-      
-      <span>归档</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/about" class="waves-effect waves-light">
-      
-      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
-      
-      <span>关于</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/contact" class="waves-effect waves-light">
-      
-      <i class="fas fa-comments" style="zoom: 0.6;"></i>
-      
-      <span>留言板</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/friends" class="waves-effect waves-light">
-      
-      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
-      
-      <span>友情链接</span>
-    </a>
-    
-  </li>
-  
-  <li>
-    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
-      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
-    </a>
-  </li>
-</ul>
-
-<div id="mobile-nav" class="side-nav sidenav">
-
-    <div class="mobile-head bg-color">
-        
-        <img src="/medias/logo.png" class="logo-img circle responsive-img">
-        
-        <div class="logo-name">明日危机</div>
-        <div class="logo-desc">
-            
-            Never really desperate, only the lost of the soul.
-            
-        </div>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
+  </div>
 
-    
+  <div class="site-meta">
 
-    <ul class="menu-list mobile-menu-list">
-        
-        <li class="m-nav-item">
-	  
-		<a href="/" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-home"></i>
-			
-			首页
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/tags" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-tags"></i>
-			
-			标签
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/categories" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-bookmark"></i>
-			
-			分类
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/archives" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-archive"></i>
-			
-			归档
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/about" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-user-circle"></i>
-			
-			关于
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/contact" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-comments"></i>
-			
-			留言板
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/friends" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-address-book"></i>
-			
-			友情链接
-		</a>
-          
-        </li>
-        
-        
-        <li><div class="divider"></div></li>
-        <li>
-            <a href="https://github.com/Mingriweiji-github" class="waves-effect waves-light" target="_blank">
-                <i class="fab fa-github-square fa-fw"></i>Fork Me
-            </a>
-        </li>
-        
-    </ul>
-</div>
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">明日危机</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">iOS & Swifter</p>
+  </div>
 
-        </div>
-
-        
-            <style>
-    .nav-transparent .github-corner {
-        display: none !important;
-    }
-
-    .github-corner {
-        position: absolute;
-        z-index: 10;
-        top: 0;
-        right: 0;
-        border: 0;
-        transform: scale(1.1);
-    }
-
-    .github-corner svg {
-        color: #0f9d58;
-        fill: #fff;
-        height: 64px;
-        width: 64px;
-    }
-
-    .github-corner:hover .octo-arm {
-        animation: a 0.56s ease-in-out;
-    }
-
-    .github-corner .octo-arm {
-        animation: none;
-    }
-
-    @keyframes a {
-        0%,
-        to {
-            transform: rotate(0);
-        }
-        20%,
-        60% {
-            transform: rotate(-25deg);
-        }
-        40%,
-        80% {
-            transform: rotate(10deg);
-        }
-    }
-</style>
-
-<a href="https://github.com/Mingriweiji-github" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
-   data-tooltip="Fork Me" data-position="left" data-delay="50">
-    <svg viewBox="0 0 250 250" aria-hidden="true">
-        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
-        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
-              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
-        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
-              fill="currentColor" class="octo-body"></path>
-    </svg>
-</a>
-        
-    </nav>
-
-</header>
-
-    
-
-
-
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
-    <div class="container" style="right: 0px;left: 0px;">
-        <div class="row">
-            <div class="col s12 m12 l12">
-                <div class="brand">
-                    <h1 class="description center-align post-title">iOS图像优化技巧</h1>
-                </div>
-            </div>
-        </div>
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
     </div>
+  </div>
 </div>
 
 
 
 
-<main class="post-container content">
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
 
     
-    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
-<style>
-    #articleContent h1::before,
-    #articleContent h2::before,
-    #articleContent h3::before,
-    #articleContent h4::before,
-    #articleContent h5::before,
-    #articleContent h6::before {
-        display: block;
-        content: " ";
-        height: 100px;
-        margin-top: -100px;
-        visibility: hidden;
-    }
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
-    #articleContent :focus {
-        outline: none;
-    }
 
-    .toc-fixed {
-        position: fixed;
-        top: 64px;
-    }
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
 
-    .toc-widget {
-        width: 345px;
-        padding-left: 20px;
-    }
+          <div class="content post posts-expand">
+            
 
-    .toc-widget .toc-title {
-        margin: 35px 0 15px 0;
-        padding-left: 17px;
-        font-size: 1.5rem;
-        font-weight: bold;
-        line-height: 1.5rem;
-    }
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mingriweiji-github.github.io/2018/12/01/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">
 
-    .toc-widget ol {
-        padding: 0;
-        list-style: none;
-    }
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="KM">
+      <meta itemprop="description" content="">
+    </span>
 
-    #toc-content {
-        height: calc(100vh - 250px);
-        overflow: auto;
-    }
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="明日危机">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iOS图像优化技巧
+        </h1>
 
-    #toc-content ol {
-        padding-left: 10px;
-    }
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
 
-    #toc-content ol li {
-        padding-left: 10px;
-    }
+              <time title="创建时间：2018-12-01 11:15:40" itemprop="dateCreated datePublished" datetime="2018-12-01T11:15:40+08:00">2018-12-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-01 20:41:59" itemprop="dateModified" datetime="2020-05-01T20:41:59+08:00">2020-05-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9B%BE%E5%83%8F/" itemprop="url" rel="index"><span itemprop="name">图像</span></a>
+                </span>
+            </span>
 
-    #toc-content .toc-link:hover {
-        color: #42b983;
-        font-weight: 700;
-        text-decoration: underline;
-    }
-
-    #toc-content .toc-link::before {
-        background-color: transparent;
-        max-height: 25px;
-    }
-
-    #toc-content .is-active-link {
-        color: #42b983;
-    }
-
-    #toc-content .is-active-link::before {
-        background-color: #42b983;
-    }
-
-    #floating-toc-btn {
-        position: fixed;
-        right: 15px;
-        bottom: 76px;
-        padding-top: 15px;
-        margin-bottom: 0;
-        z-index: 998;
-    }
-
-    #floating-toc-btn .btn-floating {
-        width: 48px;
-        height: 48px;
-    }
-
-    #floating-toc-btn .btn-floating i {
-        line-height: 48px;
-        font-size: 1.4rem;
-    }
-</style>
-<div class="row">
-    <div id="main-content" class="col s12 m12 l9">
-        <!-- 文章内容详情 -->
-<div id="artDetail">
-    <div class="card">
-        <div class="card-content article-info">
-            <div class="row tag-cate">
-                <div class="col s7">
-                    
-                    <div class="article-tag">
-                        
-                            <a href="/tags/iOS/">
-                                <span class="chip bg-color">iOS</span>
-                            </a>
-                        
-                    </div>
-                    
-                </div>
-                <div class="col s5 right-align">
-                    
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/%E5%9B%BE%E5%83%8F/" class="post-category">
-                                图像
-                            </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-
-            <div class="post-info">
-                
-                <div class="post-date info-break-policy">
-                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2018-12-01
-                </div>
-                
-
-                
-
-                
-
-                
-
-                
-            </div>
+          
 
         </div>
-        <hr class="clearfix">
-        <div class="card-content article-card-content">
-            <div id="articleContent">
-                <h1 id="iOS图像优化技巧"><a href="#iOS图像优化技巧" class="headerlink" title="iOS图像优化技巧"></a><a href="https://swift.gg/2019/11/01/image-resizing/" target="_blank" rel="noopener">iOS图像优化技巧</a></h1><ul>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="iOS图像优化技巧"><a href="#iOS图像优化技巧" class="headerlink" title="iOS图像优化技巧"></a><a target="_blank" rel="noopener" href="https://swift.gg/2019/11/01/image-resizing/">iOS图像优化技巧</a></h1><ul>
 <li><p>1、如何处理大尺寸图片？</p>
 </li>
 <li><p>2、如何处理瀑布流图片占用大量内存的问题？</p>
@@ -498,20 +263,20 @@
 <td align="left">23.7</td>
 </tr>
 </tbody></table>
-<p>这个技巧就是众所周知的<em>下采样（downsampling）</em>，在这些情况下，它可以有效地优化你应用的性能表现。如果你想了解更多关于下采样的知识或者其它图形图像的最佳实践，请参照 <a href="https://developer.apple.com/videos/play/wwdc2018/219/" target="_blank" rel="noopener">来自 WWDC 2018 的精彩课程</a>。</p>
+<p>这个技巧就是众所周知的<em>下采样（downsampling）</em>，在这些情况下，它可以有效地优化你应用的性能表现。如果你想了解更多关于下采样的知识或者其它图形图像的最佳实践，请参照 <a target="_blank" rel="noopener" href="https://developer.apple.com/videos/play/wwdc2018/219/">来自 WWDC 2018 的精彩课程</a>。</p>
 <p>而现在，很少有应用程序会尝试一次性加载这么大的图像了，但是也跟我从设计师那里拿到的图片资源不会差<em>太</em>多。<em>（认真的吗？一张颜色渐变的</em> <em>PNG</em> <em>图片要</em> <em>3</em> <em>MB?）</em> 考虑到这一点，让我们来看看有什么不同的方法，可以让你用来对图像进行优化或者下采样。</p>
 <blockquote>
 <p>不用说，这里所有从 URL 加载的示例图像都是针对<strong>本地</strong>文件。记住，在应用的主线程同步使用网络请求图像<strong>绝不</strong>是什么好主意。</p>
 </blockquote>
 <h2 id="图像渲染优化技巧"><a href="#图像渲染优化技巧" class="headerlink" title="图像渲染优化技巧"></a>图像渲染优化技巧</h2><p>优化图像渲染的方法有很多种，每种都有不同的功能和性能特性。我们在本文看到的这些例子，架构层次跨度上从底层的 Core Graphics、vImage、Image I/O 到上层的 Core Image 和 UIKit 都有。</p>
 <ol>
-<li><a href="https://swift.gg/2019/11/01/image-resizing/#technique-1-drawing-to-a-uigraphicsimagerenderer" target="_blank" rel="noopener">绘制到 UIGraphicsImageRenderer 上</a></li>
-<li><a href="https://swift.gg/2019/11/01/image-resizing/#technique-2-drawing-to-a-core-graphics-context" target="_blank" rel="noopener">绘制到 Core Graphics Context 上</a></li>
-<li><a href="https://swift.gg/2019/11/01/image-resizing/#technique-3-creating-a-thumbnail-with-image-io" target="_blank" rel="noopener">使用 Image I/O 创建缩略图像</a></li>
-<li><a href="https://swift.gg/2019/11/01/image-resizing/#technique-4-lanczos-resampling-with-core-image" target="_blank" rel="noopener">使用 Core Image 进行 Lanczos 重采样</a></li>
-<li><a href="https://swift.gg/2019/11/01/image-resizing/#technique-5-image-scaling-with-vimage" target="_blank" rel="noopener">使用 vImage 优化图片渲染</a></li>
+<li><a target="_blank" rel="noopener" href="https://swift.gg/2019/11/01/image-resizing/#technique-1-drawing-to-a-uigraphicsimagerenderer">绘制到 UIGraphicsImageRenderer 上</a></li>
+<li><a target="_blank" rel="noopener" href="https://swift.gg/2019/11/01/image-resizing/#technique-2-drawing-to-a-core-graphics-context">绘制到 Core Graphics Context 上</a></li>
+<li><a target="_blank" rel="noopener" href="https://swift.gg/2019/11/01/image-resizing/#technique-3-creating-a-thumbnail-with-image-io">使用 Image I/O 创建缩略图像</a></li>
+<li><a target="_blank" rel="noopener" href="https://swift.gg/2019/11/01/image-resizing/#technique-4-lanczos-resampling-with-core-image">使用 Core Image 进行 Lanczos 重采样</a></li>
+<li><a target="_blank" rel="noopener" href="https://swift.gg/2019/11/01/image-resizing/#technique-5-image-scaling-with-vimage">使用 vImage 优化图片渲染</a></li>
 </ol>
-<p>下面的这些数字是多次迭代加载、优化、渲染之前那张 <a href="https://visibleearth.nasa.gov/view.php?id=78314" target="_blank" rel="noopener">超大地球图片</a> 的平均时间：</p>
+<p>下面的这些数字是多次迭代加载、优化、渲染之前那张 <a target="_blank" rel="noopener" href="https://visibleearth.nasa.gov/view.php?id=78314">超大地球图片</a> 的平均时间：</p>
 <table>
 <thead>
 <tr>
@@ -542,183 +307,68 @@
 </tbody></table>
 <p>1<br>设置不同的 <code>CGInterpolationQuality</code> 值出来的结果是一致的，在性能上的差异可以忽略不计。</p>
 <p>2<br>若在 <code>CIContext</code> 创建时设置 <code>kCIContextUseSoftwareRenderer</code> 的值为 <code>true</code>，会导致耗时相比基础结果慢一个数量级。</p>
-<h2 id="使用CGContextDrawImage"><a href="#使用CGContextDrawImage" class="headerlink" title="使用CGContextDrawImage()"></a>使用CGContextDrawImage()</h2><h2 id="异步解码图片"><a href="#异步解码图片" class="headerlink" title="异步解码图片"></a>异步解码图片</h2><pre class=" language-objc"><code class="language-objc">    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        // 1、获取CGImage
-        CGImageRef cgImage = [UIImage imageNamed:@"img"].CGImage;
+<h2 id="使用CGContextDrawImage"><a href="#使用CGContextDrawImage" class="headerlink" title="使用CGContextDrawImage()"></a>使用CGContextDrawImage()</h2><h2 id="异步解码图片"><a href="#异步解码图片" class="headerlink" title="异步解码图片"></a>异步解码图片</h2><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dispatch_async</span>(dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>), ^&#123;</span><br><span class="line">    <span class="comment">// 1、获取CGImage</span></span><br><span class="line">    <span class="built_in">CGImageRef</span> cgImage = [<span class="built_in">UIImage</span> imageNamed:<span class="string">@&quot;img&quot;</span>].CGImage;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// alphaInfo</span></span><br><span class="line">    <span class="built_in">CGImageAlphaInfo</span> alphaInfo = <span class="built_in">CGImageGetAlphaInfo</span>(cgImage) &amp; kCGBitmapAlphaInfoMask;</span><br><span class="line">    <span class="built_in">BOOL</span> hasAlpha = <span class="literal">NO</span>;</span><br><span class="line">    <span class="keyword">if</span> (alphaInfo == kCGImageAlphaPremultipliedLast ||</span><br><span class="line">        alphaInfo == kCGImageAlphaPremultipliedFirst ||</span><br><span class="line">        alphaInfo == kCGImageAlphaLast ||</span><br><span class="line">        alphaInfo == kCGImageAlphaFirst) &#123;</span><br><span class="line">        hasAlpha = <span class="literal">YES</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// bitmapInfo</span></span><br><span class="line">    <span class="built_in">CGBitmapInfo</span> bitmapInfo = kCGBitmapByteOrder32Host;</span><br><span class="line">    bitmapInfo |= hasAlpha ? kCGImageAlphaPremultipliedFirst : kCGImageAlphaNoneSkipFirst;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// size</span></span><br><span class="line">    size_t width = <span class="built_in">CGImageGetWidth</span>(cgImage);</span><br><span class="line">    size_t height = <span class="built_in">CGImageGetHeight</span>(cgImage);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2、获取context</span></span><br><span class="line">    <span class="built_in">CGContextRef</span> context = <span class="built_in">CGBitmapContextCreate</span>(<span class="literal">NULL</span>, width, height, <span class="number">8</span>, <span class="number">0</span>, <span class="built_in">CGColorSpaceCreateDeviceRGB</span>(), bitmapInfo);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//3、 draw</span></span><br><span class="line">    <span class="built_in">CGContextDrawImage</span>(context, <span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, width, height), cgImage);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// get CGImage</span></span><br><span class="line">    cgImage = <span class="built_in">CGBitmapContextCreateImage</span>(context);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// into UIImage</span></span><br><span class="line">    <span class="built_in">UIImage</span> *newImage = [<span class="built_in">UIImage</span> imageWithCGImage:cgImage];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// release</span></span><br><span class="line">    <span class="built_in">CGContextRelease</span>(context);</span><br><span class="line">    <span class="built_in">CGImageRelease</span>(cgImage);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// back to the main thread</span></span><br><span class="line">    <span class="built_in">dispatch_async</span>(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">        <span class="keyword">self</span>.imageView.image = newImage;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-        // alphaInfo
-        CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(cgImage) & kCGBitmapAlphaInfoMask;
-        BOOL hasAlpha = NO;
-        if (alphaInfo == kCGImageAlphaPremultipliedLast ||
-            alphaInfo == kCGImageAlphaPremultipliedFirst ||
-            alphaInfo == kCGImageAlphaLast ||
-            alphaInfo == kCGImageAlphaFirst) {
-            hasAlpha = YES;
-        }
 
-        // bitmapInfo
-        CGBitmapInfo bitmapInfo = kCGBitmapByteOrder32Host;
-        bitmapInfo |= hasAlpha ? kCGImageAlphaPremultipliedFirst : kCGImageAlphaNoneSkipFirst;
 
-        // size
-        size_t width = CGImageGetWidth(cgImage);
-        size_t height = CGImageGetHeight(cgImage);
-
-        // 2、获取context
-        CGContextRef context = CGBitmapContextCreate(NULL, width, height, 8, 0, CGColorSpaceCreateDeviceRGB(), bitmapInfo);
-
-        //3、 draw
-        CGContextDrawImage(context, CGRectMake(0, 0, width, height), cgImage);
-
-        // get CGImage
-        cgImage = CGBitmapContextCreateImage(context);
-
-        // into UIImage
-        UIImage *newImage = [UIImage imageWithCGImage:cgImage];
-
-        // release
-        CGContextRelease(context);
-        CGImageRelease(cgImage);
-
-        // back to the main thread
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.imageView.image = newImage;
-        });
-    });
-</code></pre>
 <h3 id="技巧-1-绘制到-UIGraphicsImageRenderer-上"><a href="#技巧-1-绘制到-UIGraphicsImageRenderer-上" class="headerlink" title="技巧 #1: 绘制到 UIGraphicsImageRenderer 上"></a>技巧 #1: 绘制到 UIGraphicsImageRenderer 上</h3><p>图像渲染优化的最上层 API 位于 UIKit 框架中。给定一个 <code>UIImage</code>，你可以绘制到 <code>UIGraphicsImageRenderer</code> 的上下文（context）中以渲染缩小版本的图像：</p>
-<pre><code>import UIKit
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import UIKit</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 技巧 #1</span><br><span class="line">func resizedImage(at url: URL, for size: CGSize) -&gt; UIImage? &#123;</span><br><span class="line">    guard let image &#x3D; UIImage(contentsOfFile: url.path) else &#123;</span><br><span class="line">        return nil</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    let renderer &#x3D; UIGraphicsImageRenderer(size: size)</span><br><span class="line">    return renderer.image &#123; (context) in</span><br><span class="line">        image.draw(in: CGRect(origin: .zero, size: size))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-// 技巧 #1
-func resizedImage(at url: URL, for size: CGSize) -&gt; UIImage? {
-    guard let image = UIImage(contentsOfFile: url.path) else {
-        return nil
-    }
-
-    let renderer = UIGraphicsImageRenderer(size: size)
-    return renderer.image { (context) in
-        image.draw(in: CGRect(origin: .zero, size: size))
-    }
-}</code></pre><p><a href="https://developer.apple.com/documentation/uikit/uigraphicsimagerenderer" target="_blank" rel="noopener"><code>UIGraphicsImageRenderer</code></a> 是一项相对较新的技术，在 iOS 10 中被引入，用以取代旧版本的 <code>UIGraphicsBeginImageContextWithOptions</code> / <code>UIGraphicsEndImageContext</code> API。你通过指定以 <code>point</code> 计量的 <code>size</code> 创建了一个 <code>UIGraphicsImageRenderer</code>。<strong><code>image</code> 方法带有一个闭包参数，返回的是一个经过闭包处理后的位图。最终，原始图像便会在缩小到指定的范围内绘制。</strong></p>
+<p><a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/uikit/uigraphicsimagerenderer"><code>UIGraphicsImageRenderer</code></a> 是一项相对较新的技术，在 iOS 10 中被引入，用以取代旧版本的 <code>UIGraphicsBeginImageContextWithOptions</code> / <code>UIGraphicsEndImageContext</code> API。你通过指定以 <code>point</code> 计量的 <code>size</code> 创建了一个 <code>UIGraphicsImageRenderer</code>。**<code>image</code> 方法带有一个闭包参数，返回的是一个经过闭包处理后的位图。最终，原始图像便会在缩小到指定的范围内绘制。**</p>
 <h3 id="技巧-2：绘制到-Core-Graphics-Context-中"><a href="#技巧-2：绘制到-Core-Graphics-Context-中" class="headerlink" title="技巧 #2：绘制到 Core Graphics Context 中"></a>技巧 #2：绘制到 Core Graphics Context 中</h3><p>Core Graphics / Quartz 2D 提供了一系列底层 API 让我们可以进行更多高级的配置。</p>
 <p>给定一个 <code>CGImage</code> 作为暂时的位图上下文，使用 <code>draw(_:in:)</code> 方法来绘制缩放后的图像：</p>
-<pre><code>import UIKit
-import CoreGraphics
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">import UIKit</span><br><span class="line">import CoreGraphics</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 技巧 #2</span><br><span class="line">func resizedImage(at url: URL, for size: CGSize) -&gt; UIImage? &#123;</span><br><span class="line">    guard let imageSource &#x3D; CGImageSourceCreateWithURL(url as NSURL, nil),</span><br><span class="line">        let image &#x3D; CGImageSourceCreateImageAtIndex(imageSource, 0, nil)</span><br><span class="line">    else &#123;</span><br><span class="line">        return nil</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    let context &#x3D; CGContext(data: nil,</span><br><span class="line">                            width: Int(size.width),</span><br><span class="line">                            height: Int(size.height),</span><br><span class="line">                            bitsPerComponent: image.bitsPerComponent,</span><br><span class="line">                            bytesPerRow: image.bytesPerRow,</span><br><span class="line">                            space: image.colorSpace ?? CGColorSpace(name: CGColorSpace.sRGB)!,</span><br><span class="line">                            bitmapInfo: image.bitmapInfo.rawValue)</span><br><span class="line">    context?.interpolationQuality &#x3D; .high</span><br><span class="line">    context?.draw(image, in: CGRect(origin: .zero, size: size))</span><br><span class="line"></span><br><span class="line">    guard let scaledImage &#x3D; context?.makeImage() else &#123; return nil &#125;</span><br><span class="line"></span><br><span class="line">    return UIImage(cgImage: scaledImage)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-// 技巧 #2
-func resizedImage(at url: URL, for size: CGSize) -&gt; UIImage? {
-    guard let imageSource = CGImageSourceCreateWithURL(url as NSURL, nil),
-        let image = CGImageSourceCreateImageAtIndex(imageSource, 0, nil)
-    else {
-        return nil
-    }
-
-    let context = CGContext(data: nil,
-                            width: Int(size.width),
-                            height: Int(size.height),
-                            bitsPerComponent: image.bitsPerComponent,
-                            bytesPerRow: image.bytesPerRow,
-                            space: image.colorSpace ?? CGColorSpace(name: CGColorSpace.sRGB)!,
-                            bitmapInfo: image.bitmapInfo.rawValue)
-    context?.interpolationQuality = .high
-    context?.draw(image, in: CGRect(origin: .zero, size: size))
-
-    guard let scaledImage = context?.makeImage() else { return nil }
-
-    return UIImage(cgImage: scaledImage)
-}</code></pre><p>这个 <code>CGContext</code> 初始化方法接收了几个参数来构造一个上下文，包括了必要的宽高参数，还有在给出的色域范围内每个颜色通道所需要的内存大小。在这个例子中，这些参数都是通过 <code>CGImage</code> 这个对象获取的。下一步，设置 <code>interpolationQuality</code> 属性为 <code>.high</code> 指示上下文在保证一定的精度上填充像素。<code>draw(_:in:)</code> 方法则是在给定的宽高和位置绘制图像，可以让图片在特定的边距下裁剪，也可以适用于一些像是人脸识别之类的图像特性。最后 <code>makeImage()</code> 从上下文获取信息并且渲染到一个 <code>CGImage</code> 值上（之后会用来构造 <code>UIImage</code> 对象）。</p>
+<p>这个 <code>CGContext</code> 初始化方法接收了几个参数来构造一个上下文，包括了必要的宽高参数，还有在给出的色域范围内每个颜色通道所需要的内存大小。在这个例子中，这些参数都是通过 <code>CGImage</code> 这个对象获取的。下一步，设置 <code>interpolationQuality</code> 属性为 <code>.high</code> 指示上下文在保证一定的精度上填充像素。<code>draw(_:in:)</code> 方法则是在给定的宽高和位置绘制图像，可以让图片在特定的边距下裁剪，也可以适用于一些像是人脸识别之类的图像特性。最后 <code>makeImage()</code> 从上下文获取信息并且渲染到一个 <code>CGImage</code> 值上（之后会用来构造 <code>UIImage</code> 对象）。</p>
 <h3 id="技巧-3：使用-Image-I-O-创建缩略图像"><a href="#技巧-3：使用-Image-I-O-创建缩略图像" class="headerlink" title="技巧 #3：使用 Image I/O 创建缩略图像"></a>技巧 #3：使用 Image I/O 创建缩略图像</h3><p>处理大分辨率图片时，往往容易出现OOM，<strong>原因是-[UIImage drawInRect:]在绘制时，先解码图片，再生成原始分辨率大小的bitmap，这是很耗内存的。</strong></p>
 <p>解决方法是使用更低层的ImageIO接口，避免中间bitmap产生：</p>
 <p>Image I/O 是一个强大（却鲜有人知）的图像处理框架。</p>
 <p><strong>它可以读写许多不同图像格式，访问图像的元数据，还有执行常规的图像处理操作。这个框架通过先进的缓存机制，提供了平台上最快的图片编码器和解码器，甚至可以增量加载图片。</strong></p>
 <p>这个重要的 <code>CGImageSourceCreateThumbnailAtIndex</code> 提供了一个带有许多不同配置选项的 API，比起在 Core Graphics 中等价的处理操作要简洁得多：</p>
-<pre><code>import ImageIO
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">import ImageIO</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 技巧 #3</span><br><span class="line">func resizedImage(at url: URL, for size: CGSize) -&gt; UIImage? &#123;</span><br><span class="line">    let options: [CFString: Any] &#x3D; [</span><br><span class="line">        kCGImageSourceCreateThumbnailFromImageIfAbsent: true,</span><br><span class="line">        kCGImageSourceCreateThumbnailWithTransform: true,</span><br><span class="line">        kCGImageSourceShouldCacheImmediately: true,</span><br><span class="line">        kCGImageSourceThumbnailMaxPixelSize: max(size.width, size.height)</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    guard let imageSource &#x3D; CGImageSourceCreateWithURL(url as NSURL, nil),</span><br><span class="line">        let image &#x3D; CGImageSourceCreateThumbnailAtIndex(imageSource, 0, options as CFDictionary)</span><br><span class="line">    else &#123;</span><br><span class="line">        return nil</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return UIImage(cgImage: image)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-// 技巧 #3
-func resizedImage(at url: URL, for size: CGSize) -&gt; UIImage? {
-    let options: [CFString: Any] = [
-        kCGImageSourceCreateThumbnailFromImageIfAbsent: true,
-        kCGImageSourceCreateThumbnailWithTransform: true,
-        kCGImageSourceShouldCacheImmediately: true,
-        kCGImageSourceThumbnailMaxPixelSize: max(size.width, size.height)
-    ]
-
-    guard let imageSource = CGImageSourceCreateWithURL(url as NSURL, nil),
-        let image = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, options as CFDictionary)
-    else {
-        return nil
-    }
-
-    return UIImage(cgImage: image)
-}</code></pre><p>给定一个 <code>CGImageSource</code> 和一系列配置选项，<code>CGImageSourceCreateThumbnailAtIndex(_:_:_:)</code> 函数创建了一个图像的缩略图。优化尺寸大小的操作是通过 <code>kCGImageSourceThumbnailMaxPixelSize</code> 完成的，它根据图像原始宽高比指定的最大尺寸来缩放图像。通过设定 <code>kCGImageSourceCreateThumbnailFromImageIfAbsent</code> 或 <code>kCGImageSourceCreateThumbnailFromImageAlways</code> 选项，Image I/O 可以自动缓存优化后的结果以便后续调用。</p>
+<p>给定一个 <code>CGImageSource</code> 和一系列配置选项，<code>CGImageSourceCreateThumbnailAtIndex(_:_:_:)</code> 函数创建了一个图像的缩略图。优化尺寸大小的操作是通过 <code>kCGImageSourceThumbnailMaxPixelSize</code> 完成的，它根据图像原始宽高比指定的最大尺寸来缩放图像。通过设定 <code>kCGImageSourceCreateThumbnailFromImageIfAbsent</code> 或 <code>kCGImageSourceCreateThumbnailFromImageAlways</code> 选项，Image I/O 可以自动缓存优化后的结果以便后续调用。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
 <li><strong>UIKit</strong>, <strong>Core</strong> <strong>Graphics</strong>, 和 <strong>Image</strong> <strong>I/O</strong> 都能很好地用于大部分图片的优化操作。</li>
 <li>如果（在 iOS 平台，至少）要选择一个的话，<code>UIGraphicsImageRenderer</code> 是你最佳的选择。</li>
-<li><strong>Core</strong> <strong>Image</strong> 在图像优化渲染操作方面性能表现优越。实际上，根据 Apple 官方 <a href="https://developer.apple.com/library/mac/documentation/graphicsimaging/Conceptual/CoreImaging/ci_performance/ci_performance.html#//apple_ref/doc/uid/TP30001185-CH10-SW1" target="_blank" rel="noopener"><em>Core</em> <em>Image</em> <em>编程规范中的性能最佳实践单元</em></a>，你应该使用 Core Graphics 或 Image I/O 对图像进行裁剪和下采样，而不是用 Core Image。</li>
-<li>除非你已经在使用 <strong><code>vImage</code></strong>，否则在大多数情况下用到底层的 Accelerate API 所需的额外工作可能是不合理的。</li>
+<li><strong>Core</strong> <strong>Image</strong> 在图像优化渲染操作方面性能表现优越。实际上，根据 Apple 官方 <a target="_blank" rel="noopener" href="https://developer.apple.com/library/mac/documentation/graphicsimaging/Conceptual/CoreImaging/ci_performance/ci_performance.html#//apple_ref/doc/uid/TP30001185-CH10-SW1"><em>Core</em> <em>Image</em> <em>编程规范中的性能最佳实践单元</em></a>，你应该使用 Core Graphics 或 Image I/O 对图像进行裁剪和下采样，而不是用 Core Image。</li>
+<li>除非你已经在使用 **<code>vImage</code>**，否则在大多数情况下用到底层的 Accelerate API 所需的额外工作可能是不合理的。</li>
 </ul>
 <blockquote>
-<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a href="http://swift.gg/" target="_blank" rel="noopener">http://swift.gg</a>。</p>
+<p>本文由 SwiftGG 翻译组翻译，已经获得作者翻译授权，最新文章请访问 <a target="_blank" rel="noopener" href="http://swift.gg/">http://swift.gg</a>。</p>
 </blockquote>
-<h1 id="2、同时处理大量图片"><a href="#2、同时处理大量图片" class="headerlink" title="2、同时处理大量图片"></a>2、同时处理大量图片</h1><h3 id="UIScrollView滚动停止监测"><a href="#UIScrollView滚动停止监测" class="headerlink" title="UIScrollView滚动停止监测"></a><a href="https://www.codeleading.com/article/6664657606/" target="_blank" rel="noopener">UIScrollView滚动停止监测</a></h3><p>通过调查发现 <code>UIScrollView</code> 停止滚动的类型分为三种：</p>
+<h1 id="2、同时处理大量图片"><a href="#2、同时处理大量图片" class="headerlink" title="2、同时处理大量图片"></a>2、同时处理大量图片</h1><h3 id="UIScrollView滚动停止监测"><a href="#UIScrollView滚动停止监测" class="headerlink" title="UIScrollView滚动停止监测"></a><a target="_blank" rel="noopener" href="https://www.codeleading.com/article/6664657606/">UIScrollView滚动停止监测</a></h3><p>通过调查发现 <code>UIScrollView</code> 停止滚动的类型分为三种：</p>
 <ol>
 <li>快速滚动，自然停止</li>
 <li>快速滚动，手指按压突然停止</li>
 <li>慢速上下滑动停止</li>
 </ol>
 <p>第1种类型，比较简单，在 <code>UIScrollView</code> 的代理中就可以监听到。</p>
-<pre class=" language-objc"><code class="language-objc">- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView;</code></pre>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)scrollViewWillBeginDecelerating:(<span class="built_in">UIScrollView</span> *)scrollView;</span><br></pre></td></tr></table></figure>
+
 <p>而第2种类型和第3种类型，就没有方法让我们可以直接监听到了。但是只要是滑动了，就一定会触发 <code>UIScrollView</code> 的下面代理，然后通过 <code>UIScrollView</code> 部分属性的改变，我们就可以监听到滚动停止了，后面会详细介绍方法。</p>
-<pre class=" language-objc"><code class="language-objc">- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView;
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)scrollViewDidEndDecelerating:(<span class="built_in">UIScrollView</span> *)scrollView;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)scrollViewDidEndDragging:(<span class="built_in">UIScrollView</span> *)scrollView willDecelerate:(<span class="built_in">BOOL</span>)decelerate;</span><br></pre></td></tr></table></figure>
 
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate;</code></pre>
 <h3 id="监听UIScrollView停止滚动"><a href="#监听UIScrollView停止滚动" class="headerlink" title="监听UIScrollView停止滚动"></a>监听UIScrollView停止滚动</h3><p>通过翻阅文档，我们可以看到 <code>UIScrollView</code> 有三个属性: <strong>tracking、dragging、decelerating。</strong></p>
-<pre class=" language-objc"><code class="language-objc">// returns YES if user has touched. may not yet have started dragging
-@property(nonatomic,readonly,getter=isTracking) BOOL tracking;
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// returns YES if user has touched. may not yet have started dragging</span></span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">readonly</span>,<span class="keyword">getter</span>=isTracking) <span class="built_in">BOOL</span> tracking;</span><br><span class="line"></span><br><span class="line"><span class="comment">// returns YES if user has started scrolling. this may require some time and or distance to move to initiate dragging</span></span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">readonly</span>,<span class="keyword">getter</span>=isDragging) <span class="built_in">BOOL</span> dragging;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// returns YES if user isn&#x27;t dragging (touch up) but scroll view is still moving</span></span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nonatomic</span>,<span class="keyword">readonly</span>,<span class="keyword">getter</span>=isDecelerating) <span class="built_in">BOOL</span> decelerating;</span><br></pre></td></tr></table></figure>
 
-// returns YES if user has started scrolling. this may require some time and or distance to move to initiate dragging
-@property(nonatomic,readonly,getter=isDragging) BOOL dragging;
-
-
-// returns YES if user isn't dragging (touch up) but scroll view is still moving
-@property(nonatomic,readonly,getter=isDecelerating) BOOL decelerating;</code></pre>
 <p>在滚动和滚动结束时，这三个属性的值都不相同。我们利用这三个属性，完成对 <code>UIScrollView</code> 停止滚动的监听。</p>
 <p><strong>停止类型1：scrollViewDidEndDecelerating</strong></p>
-<pre class=" language-objc"><code class="language-objc">- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView;
-tracking:0,dragging:0,decelerating:0</code></pre>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)scrollViewDidEndDecelerating:(<span class="built_in">UIScrollView</span> *)scrollView;</span><br><span class="line">tracking:<span class="number">0</span>,dragging:<span class="number">0</span>,decelerating:<span class="number">0</span></span><br></pre></td></tr></table></figure>
+
 <p><strong>停止类型2：scrollViewDidEndDragging &amp; scrollViewDidEndDecelerating</strong></p>
-<pre><code>- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate;
-tracking:1,dragging:0,decelerating:1
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate;</span><br><span class="line">tracking:1,dragging:0,decelerating:1</span><br><span class="line"></span><br><span class="line">- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView;</span><br><span class="line">tracking:0,dragging:0,decelerating:0</span><br></pre></td></tr></table></figure>
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView;
-tracking:0,dragging:0,decelerating:0</code></pre><p><strong>停止类型3：scrollViewDidEndDragging</strong></p>
-<pre><code>- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate;
-tracking:1,dragging:0,decelerating:0</code></pre><p>通过上面的代码，可以发现，我们只需要对 <code>UIScrollView</code> 的这三个属性进行相应的组合，就可以监听到 <code>UIScrollView</code> 停止滚动的事件了。</p>
-<pre class=" language-objc"><code class="language-objc">- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    [self stoppedScrolling];
-}
+<p><strong>停止类型3：scrollViewDidEndDragging</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate;</span><br><span class="line">tracking:1,dragging:0,decelerating:0</span><br></pre></td></tr></table></figure>
 
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    if (!decelerate) {
-        [self stoppedScrolling];
-    }
-}
+<p>通过上面的代码，可以发现，我们只需要对 <code>UIScrollView</code> 的这三个属性进行相应的组合，就可以监听到 <code>UIScrollView</code> 停止滚动的事件了。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)scrollViewDidEndDecelerating:(<span class="built_in">UIScrollView</span> *)scrollView &#123;</span><br><span class="line">    [<span class="keyword">self</span> stoppedScrolling];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)scrollViewDidEndDragging:(<span class="built_in">UIScrollView</span> *)scrollView willDecelerate:(<span class="built_in">BOOL</span>)decelerate &#123;</span><br><span class="line">    <span class="keyword">if</span> (!decelerate) &#123;</span><br><span class="line">        [<span class="keyword">self</span> stoppedScrolling];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)stoppedScrolling &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">      <span class="built_in">NSLog</span>(<span class="string">@&quot;停止滚动了！！！&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-- (void)stoppedScrolling {
-    // ...
-      NSLog(@"停止滚动了！！！");
-}
-</code></pre>
-<pre class=" language-objc"><code class="language-objc">-(void)scrollViewDidScroll:(UIScrollView *)sender
-{
-    [NSObject cancelPreviousPerformRequestsWithTarget:self];
-    [self performSelector:@selector(scrollViewDidEndScrollingAnimation:) withObject:nil afterDelay:0.1];
-}
 
--(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
-{
-    [NSObject cancelPreviousPerformRequestsWithTarget:self];
-}</code></pre>
+
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">-(<span class="keyword">void</span>)scrollViewDidScroll:(<span class="built_in">UIScrollView</span> *)sender</span><br><span class="line">&#123;</span><br><span class="line">    [<span class="built_in">NSObject</span> cancelPreviousPerformRequestsWithTarget:<span class="keyword">self</span>];</span><br><span class="line">    [<span class="keyword">self</span> performSelector:<span class="keyword">@selector</span>(scrollViewDidEndScrollingAnimation:) withObject:<span class="literal">nil</span> afterDelay:<span class="number">0.1</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(<span class="keyword">void</span>)scrollViewDidEndScrollingAnimation:(<span class="built_in">UIScrollView</span> *)scrollView</span><br><span class="line">&#123;</span><br><span class="line">    [<span class="built_in">NSObject</span> cancelPreviousPerformRequestsWithTarget:<span class="keyword">self</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h1 id="3、处理多图上传下载问题？"><a href="#3、处理多图上传下载问题？" class="headerlink" title="3、处理多图上传下载问题？"></a>3、处理多图上传下载问题？</h1><h1 id="UI刷新问题"><a href="#UI刷新问题" class="headerlink" title="UI刷新问题"></a>UI刷新问题</h1><h4 id="layout的相关方法"><a href="#layout的相关方法" class="headerlink" title="layout的相关方法:"></a>layout的相关方法:</h4><ul>
 <li>layoutSubviews</li>
 <li>layoutIfNeeded</li>
@@ -743,608 +393,201 @@ tracking:1,dragging:0,decelerating:0</code></pre><p>通过上面的代码，可�
 <li><strong>如果有需要刷新的标记，立即调用layoutSubviews进行布局</strong></li>
 </ul>
 
-            </div>
-            <hr/>
-
-            
-
-    <div class="reprint" id="reprint-statement">
-        
-            <div class="reprint__author">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-user">
-                        文章作者:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    <a href="https://mingriweiji-github.github.io" rel="external nofollow noreferrer">KM</a>
-                </span>
-            </div>
-            <div class="reprint__type">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-link">
-                        文章链接:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    <a href="https://mingriweiji-github.github.io/2018/12/01/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">https://mingriweiji-github.github.io/2018/12/01/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</a>
-                </span>
-            </div>
-            <div class="reprint__notice">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-copyright">
-                        版权声明:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    本博客所有文章除特別声明外，均采用
-                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
-                    许可协议。转载请注明来源
-                    <a href="https://mingriweiji-github.github.io" target="_blank">KM</a>
-                    !
-                </span>
-            </div>
-        
     </div>
 
-    <script async defer>
-      document.addEventListener("copy", function (e) {
-        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
-        M.toast({html: toastHTML})
-      });
+    
+    
+    
 
-      function navToReprintStatement() {
-        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/iOS/" rel="tag"># iOS</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/06/02/Hexo%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" rel="prev" title="Hexo使用指南">
+      <i class="fa fa-chevron-left"></i> Hexo使用指南
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/12/02/iOS%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80/" rel="next" title="iOS汇编基础">
+      iOS汇编基础 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
       }
-    </script>
-
-
-
-            <div class="tag_share" style="display: block;">
-                <div class="post-meta__tag-list" style="display: inline-block;">
-                    
-                        <div class="article-tag">
-                            
-                                <a href="/tags/iOS/">
-                                    <span class="chip bg-color">iOS</span>
-                                </a>
-                            
-                        </div>
-                    
-                </div>
-                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
-                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
-
-<div id="article-share">
-    
-    
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
-    <script src="/libs/share/js/social-share.min.js"></script>
-    
-
-    
-
-</div>
-
-                </div>
-            </div>
-            
-                <style>
-    #reward {
-        margin: 40px 0;
-        text-align: center;
     }
-
-    #reward .reward-link {
-        font-size: 1.4rem;
-        line-height: 38px;
-    }
-
-    #reward .btn-floating:hover {
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    #rewardModal {
-        width: 320px;
-        height: 350px;
-    }
-
-    #rewardModal .reward-title {
-        margin: 15px auto;
-        padding-bottom: 5px;
-    }
-
-    #rewardModal .modal-content {
-        padding: 10px;
-    }
-
-    #rewardModal .close {
-        position: absolute;
-        right: 15px;
-        top: 15px;
-        color: rgba(0, 0, 0, 0.5);
-        font-size: 1.3rem;
-        line-height: 20px;
-        cursor: pointer;
-    }
-
-    #rewardModal .close:hover {
-        color: #ef5350;
-        transform: scale(1.3);
-        -moz-transform:scale(1.3);
-        -webkit-transform:scale(1.3);
-        -o-transform:scale(1.3);
-    }
-
-    #rewardModal .reward-tabs {
-        margin: 0 auto;
-        width: 210px;
-    }
-
-    .reward-tabs .tabs {
-        height: 38px;
-        margin: 10px auto;
-        padding-left: 0;
-    }
-
-    .reward-content ul {
-        padding-left: 0 !important;
-    }
-
-    .reward-tabs .tabs .tab {
-        height: 38px;
-        line-height: 38px;
-    }
-
-    .reward-tabs .tab a {
-        color: #fff;
-        background-color: #ccc;
-    }
-
-    .reward-tabs .tab a:hover {
-        background-color: #ccc;
-        color: #fff;
-    }
-
-    .reward-tabs .wechat-tab .active {
-        color: #fff !important;
-        background-color: #22AB38 !important;
-    }
-
-    .reward-tabs .alipay-tab .active {
-        color: #fff !important;
-        background-color: #019FE8 !important;
-    }
-
-    .reward-tabs .reward-img {
-        width: 210px;
-        height: 210px;
-    }
-</style>
-
-<div id="reward">
-    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
-
-    <!-- Modal Structure -->
-    <div id="rewardModal" class="modal">
-        <div class="modal-content">
-            <a class="close modal-close"><i class="fas fa-times"></i></a>
-            <h4 class="reward-title">你的赏识是我前进的动力</h4>
-            <div class="reward-content">
-                <div class="reward-tabs">
-                    <ul class="tabs row">
-                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
-                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
-                    </ul>
-                    <div id="alipay">
-                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
-                    </div>
-                    <div id="wechat">
-                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    $(function () {
-        $('.tabs').tabs();
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
     });
-</script>
-            
-        </div>
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-<article id="prenext-posts" class="prev-next articles">
-    <div class="row article-row">
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
-            <div class="card">
-                <a href="/2018/12/02/iOS%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="iOS汇编基础">
-                        
-                        <span class="card-title">iOS汇编基础</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            iOS汇编基础x86_64汇编X84中原有8个32位通用寄存器%eax，%ebx，%ecx，%edx，%esi，%edi，%ebp，%esp,
-X86_64中分别被扩展为64位，并且多了8个寄存器。因此X86_64的寄存器如下：
-
-rax,
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2018-12-02
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E9%80%86%E5%90%91/" class="post-category">
-                                    逆向
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/iOS/">
-                        <span class="chip bg-color">iOS</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2018/06/02/Hexo%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="Hexo使用指南">
-                        
-                        <span class="card-title">Hexo使用指南</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            1、Hexo安装指南1.1安装Node.js首先下载稳定版Node.js。
-安装选项全部默认，一路点击Next。
-最后安装好之后，windows按Win+R打开命令提示符,mac打开命令行工具，输入node -v和npm -v，如果出现版本
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2018-06-02
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E6%8C%87%E5%8D%97/" class="post-category">
-                                    指南
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/">
-                        <span class="chip bg-color">开发工具</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-    </div>
-</article>
-
-</div>
-
-
-
-<!-- 代码块功能依赖 -->
-<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
-
-<!-- 代码语言 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
-
-
-<!-- 代码块复制 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
-
-
-<!-- 代码块收缩 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
-
-
-<!-- 代码块折行 -->
-
-<style type="text/css">
-code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
-</style>
-
-
-    </div>
-    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
-        <div class="toc-widget">
-            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
-            <div id="toc-content"></div>
-        </div>
-    </div>
-</div>
-
-<!-- TOC 悬浮按钮. -->
-
-<div id="floating-toc-btn" class="hide-on-med-and-down">
-    <a class="btn-floating btn-large bg-color">
-        <i class="fas fa-list-ul"></i>
-    </a>
-</div>
-
-
-<script src="/libs/tocbot/tocbot.min.js"></script>
-<script>
-    $(function () {
-        tocbot.init({
-            tocSelector: '#toc-content',
-            contentSelector: '#articleContent',
-            headingsOffset: -($(window).height() * 0.4 - 45),
-            collapseDepth: Number('true'),
-            headingSelector: 'h2, h3, h4'
-        });
-
-        // modify the toc link href to support Chinese.
-        let i = 0;
-        let tocHeading = 'toc-heading-';
-        $('#toc-content a').each(function () {
-            $(this).attr('href', '#' + tocHeading + (++i));
-        });
-
-        // modify the heading title id to support Chinese.
-        i = 0;
-        $('#articleContent').children('h2, h3, h4').each(function () {
-            $(this).attr('id', tocHeading + (++i));
-        });
-
-        // Set scroll toc fixed.
-        let tocHeight = parseInt($(window).height() * 0.4 - 64);
-        let $tocWidget = $('.toc-widget');
-        $(window).scroll(function () {
-            let scroll = $(window).scrollTop();
-            /* add post toc fixed. */
-            if (scroll > tocHeight) {
-                $tocWidget.addClass('toc-fixed');
-            } else {
-                $tocWidget.removeClass('toc-fixed');
-            }
-        });
-
-        
-        /* 修复文章卡片 div 的宽度. */
-        let fixPostCardWidth = function (srcId, targetId) {
-            let srcDiv = $('#' + srcId);
-            if (srcDiv.length === 0) {
-                return;
-            }
-
-            let w = srcDiv.width();
-            if (w >= 450) {
-                w = w + 21;
-            } else if (w >= 350 && w < 450) {
-                w = w + 18;
-            } else if (w >= 300 && w < 350) {
-                w = w + 16;
-            } else {
-                w = w + 14;
-            }
-            $('#' + targetId).width(w);
-        };
-
-        // 切换TOC目录展开收缩的相关操作.
-        const expandedClass = 'expanded';
-        let $tocAside = $('#toc-aside');
-        let $mainContent = $('#main-content');
-        $('#floating-toc-btn .btn-floating').click(function () {
-            if ($tocAside.hasClass(expandedClass)) {
-                $tocAside.removeClass(expandedClass).hide();
-                $mainContent.removeClass('l9');
-            } else {
-                $tocAside.addClass(expandedClass).show();
-                $mainContent.addClass('l9');
-            }
-            fixPostCardWidth('artDetail', 'prenext-posts');
-        });
-        
-    });
+  }
 </script>
 
-    
-
-</main>
-
-
-
-    <footer class="page-footer bg-color">
-    
-    <div class="container row center-align" style="margin-bottom: 0px !important;">
-        <div class="col s12 m8 l8 copy-right">
-            Copyright&nbsp;&copy;
-            <span id="year">2018</span>
-            <a href="https://mingriweiji-github.github.io" target="_blank">KM</a>
-            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
-            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
-            <br>
-            
-            
-            
-            
-            
-            
-            <span id="busuanzi_container_site_pv">
-                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
-                    class="white-color"></span>&nbsp;次
-            </span>
-            
-            
-            <span id="busuanzi_container_site_uv">
-                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
-                    class="white-color"></span>&nbsp;人
-            </span>
-            
-            <br>
-            
-            <br>
-            
         </div>
-        <div class="col s12 m4 l4 social-link social-statis">
-    <a href="https://mingriweiji-github.github.io/" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
-        <i class="fab fa-github"></i>
-    </a>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
 
+  <aside class="sidebar">
+    <div class="sidebar-inner">
 
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
 
-    <a href="mailto:2822072760@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
-        <i class="fas fa-envelope-open"></i>
-    </a>
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#iOS%E5%9B%BE%E5%83%8F%E4%BC%98%E5%8C%96%E6%8A%80%E5%B7%A7"><span class="nav-number">1.</span> <span class="nav-text">iOS图像优化技巧</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1%E3%80%81%E5%A4%84%E7%90%86%E5%A4%A7%E5%B0%BA%E5%AF%B8%E5%9B%BE%E7%89%87"><span class="nav-number">2.</span> <span class="nav-text">1、处理大尺寸图片</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E5%83%8F%E6%B8%B2%E6%9F%93%E4%BC%98%E5%8C%96%E6%8A%80%E5%B7%A7"><span class="nav-number">2.1.</span> <span class="nav-text">图像渲染优化技巧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8CGContextDrawImage"><span class="nav-number">2.2.</span> <span class="nav-text">使用CGContextDrawImage()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E8%A7%A3%E7%A0%81%E5%9B%BE%E7%89%87"><span class="nav-number">2.3.</span> <span class="nav-text">异步解码图片</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%80%E5%B7%A7-1-%E7%BB%98%E5%88%B6%E5%88%B0-UIGraphicsImageRenderer-%E4%B8%8A"><span class="nav-number">2.3.1.</span> <span class="nav-text">技巧 #1: 绘制到 UIGraphicsImageRenderer 上</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%80%E5%B7%A7-2%EF%BC%9A%E7%BB%98%E5%88%B6%E5%88%B0-Core-Graphics-Context-%E4%B8%AD"><span class="nav-number">2.3.2.</span> <span class="nav-text">技巧 #2：绘制到 Core Graphics Context 中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%80%E5%B7%A7-3%EF%BC%9A%E4%BD%BF%E7%94%A8-Image-I-O-%E5%88%9B%E5%BB%BA%E7%BC%A9%E7%95%A5%E5%9B%BE%E5%83%8F"><span class="nav-number">2.3.3.</span> <span class="nav-text">技巧 #3：使用 Image I&#x2F;O 创建缩略图像</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">2.4.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2%E3%80%81%E5%90%8C%E6%97%B6%E5%A4%84%E7%90%86%E5%A4%A7%E9%87%8F%E5%9B%BE%E7%89%87"><span class="nav-number">3.</span> <span class="nav-text">2、同时处理大量图片</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#UIScrollView%E6%BB%9A%E5%8A%A8%E5%81%9C%E6%AD%A2%E7%9B%91%E6%B5%8B"><span class="nav-number">3.0.1.</span> <span class="nav-text">UIScrollView滚动停止监测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%91%E5%90%ACUIScrollView%E5%81%9C%E6%AD%A2%E6%BB%9A%E5%8A%A8"><span class="nav-number">3.0.2.</span> <span class="nav-text">监听UIScrollView停止滚动</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3%E3%80%81%E5%A4%84%E7%90%86%E5%A4%9A%E5%9B%BE%E4%B8%8A%E4%BC%A0%E4%B8%8B%E8%BD%BD%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="nav-number">4.</span> <span class="nav-text">3、处理多图上传下载问题？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UI%E5%88%B7%E6%96%B0%E9%97%AE%E9%A2%98"><span class="nav-number">5.</span> <span class="nav-text">UI刷新问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#layout%E7%9A%84%E7%9B%B8%E5%85%B3%E6%96%B9%E6%B3%95"><span class="nav-number">5.0.0.1.</span> <span class="nav-text">layout的相关方法:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#layoutSubviews"><span class="nav-number">5.0.0.2.</span> <span class="nav-text">layoutSubviews</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#setNeedsLayout"><span class="nav-number">5.0.0.3.</span> <span class="nav-text">setNeedsLayout</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#layoutIfNeeded"><span class="nav-number">5.0.0.4.</span> <span class="nav-text">layoutIfNeeded</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
 
-
-
-
-
-
-
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
-        <i class="fab fa-qq"></i>
-    </a>
-
-
-
-
-
-
-
-    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
-        <i class="fas fa-rss"></i>
-    </a>
-
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">KM</p>
+  <div class="site-description" itemprop="description"></div>
 </div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
     </div>
-</footer>
+  </aside>
+  <div id="sidebar-dimmer"></div>
 
-<div class="progress-bar"></div>
 
+      </div>
+    </main>
 
-    <!-- 搜索遮罩框 -->
-<div id="searchModal" class="modal">
-    <div class="modal-content">
-        <div class="search-header">
-            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
-            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
-                   class="search-input">
-        </div>
-        <div id="searchResult"></div>
-    </div>
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">KM</span>
 </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
 
-<script src="/js/search.js"></script>
-<script type="text/javascript">
-$(function () {
-    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
-});
-</script>
-    <!-- 回到顶部按钮 -->
-<div id="backTop" class="top-scroll">
-    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
-        <i class="fas fa-arrow-up"></i>
-    </a>
-</div>
+        
 
 
-    <script src="/libs/materialize/materialize.min.js"></script>
-    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
-    <script src="/libs/aos/aos.js"></script>
-    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
-    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
-    <script src="/js/matery.js"></script>
 
-    <!-- Baidu Analytics -->
 
-    <!-- Baidu Push -->
 
-<script>
-    (function () {
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https') {
-            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-        } else {
-            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-        }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
-</script>
 
-    
-    
-    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
-    
 
-    
 
-    
+      </div>
+    </footer>
+  </div>
 
-    
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
-    
+<script src="/js/utils.js"></script>
 
-    
-    
-    
-    <script src="/libs/instantpage/instantpage.js" type="module"></script>
-    
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
 
 </body>
-
 </html>

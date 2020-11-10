@@ -1,477 +1,249 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="zh-CN">
-
-
 <head>
-    <meta charset="utf-8">
-    <meta name="keywords" content="排序问题, 明日危机">
-    <meta name="description" content="">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="renderer" content="webkit|ie-stand|ie-comp">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <!-- Global site tag (gtag.js) - Google Analytics -->
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-    <title>排序问题 | 明日危机</title>
-    <link rel="icon" type="image/png" href="/favicon.png">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
-    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
-    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/matery.css">
-    <link rel="stylesheet" type="text/css" href="/css/my.css">
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mingriweiji-github.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
 
-    <script src="/libs/jquery/jquery.min.js"></script>
-    
+  <meta name="description" content="带着问题去学习，是最有效的学习方法。所以按照惯例，我还是先给你出一个思考题：  问题一：为什么插入排序比冒泡排序更受欢迎？ 如何分析一个“排序算法”？     * 最好情况、最坏情况、平均情况时间复杂度          * 时间复杂度的系数、常数、低阶          * 比较次数和交换次数          内存消耗    原地排序算法，就是特指空间复杂度是 O(1) 的排序算法。(冒泡排序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="排序问题">
+<meta property="og:url" content="https://mingriweiji-github.github.io/2018/01/01/%E6%8E%92%E5%BA%8F%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="明日危机">
+<meta property="og:description" content="带着问题去学习，是最有效的学习方法。所以按照惯例，我还是先给你出一个思考题：  问题一：为什么插入排序比冒泡排序更受欢迎？ 如何分析一个“排序算法”？     * 最好情况、最坏情况、平均情况时间复杂度          * 时间复杂度的系数、常数、低阶          * 比较次数和交换次数          内存消耗    原地排序算法，就是特指空间复杂度是 O(1) 的排序算法。(冒泡排序">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://static001.geekbang.org/resource/image/92/09/9246f12cca22e5d872cbfce302ef4d09.jpg">
+<meta property="og:image" content="https://static001.geekbang.org/resource/image/b6/e1/b60f61ec487358ac037bf2b6974d2de1.jpg">
+<meta property="og:image" content="https://static001.geekbang.org/resource/image/32/1d/32371475a0b08f0db9861d102474181d.jpg">
+<meta property="og:image" content="https://static001.geekbang.org/resource/image/34/50/348604caaf0a1b1d7fee0512822f0e50.jpg">
+<meta property="og:image" content="https://static001.geekbang.org/resource/image/db/2b/db7f892d3355ef74da9cd64aa926dc2b.jpg">
+<meta property="og:image" content="https://static001.geekbang.org/resource/image/4d/81/4d892c3a2e08a17f16097d07ea088a81.jpg">
+<meta property="article:published_time" content="2018-01-01T03:11:45.000Z">
+<meta property="article:modified_time" content="2020-05-01T12:40:15.000Z">
+<meta property="article:author" content="KM">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://static001.geekbang.org/resource/image/92/09/9246f12cca22e5d872cbfce302ef4d09.jpg">
+
+<link rel="canonical" href="https://mingriweiji-github.github.io/2018/01/01/%E6%8E%92%E5%BA%8F%E9%97%AE%E9%A2%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>排序问题 | 明日危机</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
 <link rel="alternate" href="/atom.xml" title="明日危机" type="application/atom+xml">
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+</head>
 
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-<body>
-    <header class="navbar-fixed">
-    <nav id="headNav" class="bg-color nav-transparent">
-        <div id="navContainer" class="nav-wrapper container">
-            <div class="brand-logo">
-                <a href="/" class="waves-effect waves-light">
-                    
-                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
-                    
-                    <span class="logo-span">明日危机</span>
-                </a>
-            </div>
-            
-
-<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
-<ul class="right nav-menu">
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/" class="waves-effect waves-light">
-      
-      <i class="fas fa-home" style="zoom: 0.6;"></i>
-      
-      <span>首页</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/tags" class="waves-effect waves-light">
-      
-      <i class="fas fa-tags" style="zoom: 0.6;"></i>
-      
-      <span>标签</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/categories" class="waves-effect waves-light">
-      
-      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
-      
-      <span>分类</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/archives" class="waves-effect waves-light">
-      
-      <i class="fas fa-archive" style="zoom: 0.6;"></i>
-      
-      <span>归档</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/about" class="waves-effect waves-light">
-      
-      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
-      
-      <span>关于</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/contact" class="waves-effect waves-light">
-      
-      <i class="fas fa-comments" style="zoom: 0.6;"></i>
-      
-      <span>留言板</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/friends" class="waves-effect waves-light">
-      
-      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
-      
-      <span>友情链接</span>
-    </a>
-    
-  </li>
-  
-  <li>
-    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
-      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
-    </a>
-  </li>
-</ul>
-
-<div id="mobile-nav" class="side-nav sidenav">
-
-    <div class="mobile-head bg-color">
-        
-        <img src="/medias/logo.png" class="logo-img circle responsive-img">
-        
-        <div class="logo-name">明日危机</div>
-        <div class="logo-desc">
-            
-            Never really desperate, only the lost of the soul.
-            
-        </div>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
+  </div>
 
-    
+  <div class="site-meta">
 
-    <ul class="menu-list mobile-menu-list">
-        
-        <li class="m-nav-item">
-	  
-		<a href="/" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-home"></i>
-			
-			首页
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/tags" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-tags"></i>
-			
-			标签
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/categories" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-bookmark"></i>
-			
-			分类
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/archives" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-archive"></i>
-			
-			归档
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/about" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-user-circle"></i>
-			
-			关于
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/contact" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-comments"></i>
-			
-			留言板
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/friends" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-address-book"></i>
-			
-			友情链接
-		</a>
-          
-        </li>
-        
-        
-        <li><div class="divider"></div></li>
-        <li>
-            <a href="https://github.com/Mingriweiji-github" class="waves-effect waves-light" target="_blank">
-                <i class="fab fa-github-square fa-fw"></i>Fork Me
-            </a>
-        </li>
-        
-    </ul>
-</div>
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">明日危机</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">iOS & Swifter</p>
+  </div>
 
-        </div>
-
-        
-            <style>
-    .nav-transparent .github-corner {
-        display: none !important;
-    }
-
-    .github-corner {
-        position: absolute;
-        z-index: 10;
-        top: 0;
-        right: 0;
-        border: 0;
-        transform: scale(1.1);
-    }
-
-    .github-corner svg {
-        color: #0f9d58;
-        fill: #fff;
-        height: 64px;
-        width: 64px;
-    }
-
-    .github-corner:hover .octo-arm {
-        animation: a 0.56s ease-in-out;
-    }
-
-    .github-corner .octo-arm {
-        animation: none;
-    }
-
-    @keyframes a {
-        0%,
-        to {
-            transform: rotate(0);
-        }
-        20%,
-        60% {
-            transform: rotate(-25deg);
-        }
-        40%,
-        80% {
-            transform: rotate(10deg);
-        }
-    }
-</style>
-
-<a href="https://github.com/Mingriweiji-github" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
-   data-tooltip="Fork Me" data-position="left" data-delay="50">
-    <svg viewBox="0 0 250 250" aria-hidden="true">
-        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
-        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
-              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
-        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
-              fill="currentColor" class="octo-body"></path>
-    </svg>
-</a>
-        
-    </nav>
-
-</header>
-
-    
-
-
-
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
-    <div class="container" style="right: 0px;left: 0px;">
-        <div class="row">
-            <div class="col s12 m12 l12">
-                <div class="brand">
-                    <h1 class="description center-align post-title">排序问题</h1>
-                </div>
-            </div>
-        </div>
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
     </div>
+  </div>
 </div>
 
 
 
 
-<main class="post-container content">
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
 
     
-    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
-<style>
-    #articleContent h1::before,
-    #articleContent h2::before,
-    #articleContent h3::before,
-    #articleContent h4::before,
-    #articleContent h5::before,
-    #articleContent h6::before {
-        display: block;
-        content: " ";
-        height: 100px;
-        margin-top: -100px;
-        visibility: hidden;
-    }
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
-    #articleContent :focus {
-        outline: none;
-    }
 
-    .toc-fixed {
-        position: fixed;
-        top: 64px;
-    }
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
 
-    .toc-widget {
-        width: 345px;
-        padding-left: 20px;
-    }
+          <div class="content post posts-expand">
+            
 
-    .toc-widget .toc-title {
-        margin: 35px 0 15px 0;
-        padding-left: 17px;
-        font-size: 1.5rem;
-        font-weight: bold;
-        line-height: 1.5rem;
-    }
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mingriweiji-github.github.io/2018/01/01/%E6%8E%92%E5%BA%8F%E9%97%AE%E9%A2%98/">
 
-    .toc-widget ol {
-        padding: 0;
-        list-style: none;
-    }
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="KM">
+      <meta itemprop="description" content="">
+    </span>
 
-    #toc-content {
-        height: calc(100vh - 250px);
-        overflow: auto;
-    }
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="明日危机">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          排序问题
+        </h1>
 
-    #toc-content ol {
-        padding-left: 10px;
-    }
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
 
-    #toc-content ol li {
-        padding-left: 10px;
-    }
+              <time title="创建时间：2018-01-01 11:11:45" itemprop="dateCreated datePublished" datetime="2018-01-01T11:11:45+08:00">2018-01-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-05-01 20:40:15" itemprop="dateModified" datetime="2020-05-01T20:40:15+08:00">2020-05-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
 
-    #toc-content .toc-link:hover {
-        color: #42b983;
-        font-weight: 700;
-        text-decoration: underline;
-    }
-
-    #toc-content .toc-link::before {
-        background-color: transparent;
-        max-height: 25px;
-    }
-
-    #toc-content .is-active-link {
-        color: #42b983;
-    }
-
-    #toc-content .is-active-link::before {
-        background-color: #42b983;
-    }
-
-    #floating-toc-btn {
-        position: fixed;
-        right: 15px;
-        bottom: 76px;
-        padding-top: 15px;
-        margin-bottom: 0;
-        z-index: 998;
-    }
-
-    #floating-toc-btn .btn-floating {
-        width: 48px;
-        height: 48px;
-    }
-
-    #floating-toc-btn .btn-floating i {
-        line-height: 48px;
-        font-size: 1.4rem;
-    }
-</style>
-<div class="row">
-    <div id="main-content" class="col s12 m12 l9">
-        <!-- 文章内容详情 -->
-<div id="artDetail">
-    <div class="card">
-        <div class="card-content article-info">
-            <div class="row tag-cate">
-                <div class="col s7">
-                    
-                    <div class="article-tag">
-                        
-                            <a href="/tags/java/">
-                                <span class="chip bg-color">java</span>
-                            </a>
-                        
-                    </div>
-                    
-                </div>
-                <div class="col s5 right-align">
-                    
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
-                                算法
-                            </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-
-            <div class="post-info">
-                
-                <div class="post-date info-break-policy">
-                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2018-01-01
-                </div>
-                
-
-                
-
-                
-
-                
-
-                
-            </div>
+          
 
         </div>
-        <hr class="clearfix">
-        <div class="card-content article-card-content">
-            <div id="articleContent">
-                <p>带着问题去学习，是最有效的学习方法。所以按照惯例，我还是先给你出一个思考题：</p>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>带着问题去学习，是最有效的学习方法。所以按照惯例，我还是先给你出一个思考题：</p>
 <h3 id="问题一：为什么插入排序比冒泡排序更受欢迎？"><a href="#问题一：为什么插入排序比冒泡排序更受欢迎？" class="headerlink" title="问题一：为什么插入排序比冒泡排序更受欢迎？"></a>问题一：为什么插入排序比冒泡排序更受欢迎？</h3><h4 id="如何分析一个“排序算法”？"><a href="#如何分析一个“排序算法”？" class="headerlink" title="如何分析一个“排序算法”？"></a>如何分析一个“排序算法”？</h4><hr>
 <ul>
 <li><p>最好情况、最坏情况、平均情况时间复杂度</p>
@@ -493,30 +265,9 @@
 <li>第二轮循环后，倒数第二个元素就是第二大元素</li>
 <li>直到所有元素都是有序的停止排序</li>
 </ul>
-<p><strong>冒泡排序图示：</strong><br><img src="https://static001.geekbang.org/resource/image/92/09/9246f12cca22e5d872cbfce302ef4d09.jpg" alt=""></p>
-<pre class=" language-swift"><code class="language-swift"><span class="token comment" spellcheck="true">/// 冒泡排序</span>
-<span class="token keyword">func</span> bubbleSort<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span><span class="token number">_</span> array<span class="token punctuation">:</span> <span class="token punctuation">[</span>T<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">[</span>T<span class="token punctuation">]</span> <span class="token keyword">where</span> T<span class="token punctuation">:</span> <span class="token builtin">Comparable</span><span class="token punctuation">{</span>
-    <span class="token keyword">var</span> array <span class="token operator">=</span> array
-    <span class="token keyword">guard</span> array<span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token operator">></span> <span class="token number">1</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-        <span class="token keyword">return</span> array
-    <span class="token punctuation">}</span>
-    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token operator">&lt;</span>array<span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token punctuation">{</span>
-        <span class="token comment" spellcheck="true">//提前退出标志</span>
-        <span class="token keyword">var</span> flag<span class="token punctuation">:</span> <span class="token builtin">Bool</span> <span class="token operator">=</span> <span class="token boolean">false</span>
-        <span class="token keyword">for</span> j <span class="token keyword">in</span> <span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token operator">&lt;</span>array<span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token operator">-</span> i <span class="token operator">-</span> <span class="token number">1</span> <span class="token punctuation">{</span>
-            <span class="token keyword">if</span> array<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">></span> array<span class="token punctuation">[</span>j <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>
-                array<span class="token punctuation">.</span><span class="token function">swapAt</span><span class="token punctuation">(</span>j <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> j<span class="token punctuation">)</span>
-                <span class="token comment" spellcheck="true">//有数据交换</span>
-                flag <span class="token operator">=</span> <span class="token boolean">true</span>
-            <span class="token punctuation">}</span>
-        <span class="token punctuation">}</span>
-        <span class="token comment" spellcheck="true">//没有数据交换-提前退出</span>
-        <span class="token keyword">if</span> flag <span class="token operator">==</span> <span class="token boolean">false</span> <span class="token punctuation">{</span>
-            <span class="token keyword">break</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">return</span> array
-<span class="token punctuation">}</span></code></pre>
+<p><strong>冒泡排序图示：</strong><br><img src="https://static001.geekbang.org/resource/image/92/09/9246f12cca22e5d872cbfce302ef4d09.jpg"></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// 冒泡排序</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">bubbleSort</span>&lt;T&gt;<span class="params">(<span class="number">_</span> array: [T])</span></span> -&gt; [<span class="type">T</span>] <span class="keyword">where</span> <span class="type">T</span>: <span class="type">Comparable</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> array = array</span><br><span class="line">    <span class="keyword">guard</span> array.<span class="built_in">count</span> &gt; <span class="number">1</span> <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> array</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>..&lt;array.<span class="built_in">count</span> &#123;</span><br><span class="line">        <span class="comment">//提前退出标志</span></span><br><span class="line">        <span class="keyword">var</span> flag: <span class="type">Bool</span> = <span class="literal">false</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="number">0</span>..&lt;array.<span class="built_in">count</span> - i - <span class="number">1</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> array[j] &gt; array[j + <span class="number">1</span>] &#123;</span><br><span class="line">                array.swapAt(j + <span class="number">1</span>, j)</span><br><span class="line">                <span class="comment">//有数据交换</span></span><br><span class="line">                flag = <span class="literal">true</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//没有数据交换-提前退出</span></span><br><span class="line">        <span class="keyword">if</span> flag == <span class="literal">false</span> &#123;</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> array</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>现在，结合刚才我分析排序算法的三个方面，我有三个问题要问你。</p>
 <h4 id="第一，冒泡排序是原地排序算法吗？"><a href="#第一，冒泡排序是原地排序算法吗？" class="headerlink" title="第一，冒泡排序是原地排序算法吗？"></a>第一，冒泡排序是原地排序算法吗？</h4><p><strong>冒泡的过程只涉及相邻数据的交换操作，只需要常量级的临时空间，所以它的空间复杂度为 O(1)，是一个原地排序算法。</strong></p>
 <h4 id="第二，冒泡排序是稳定的排序算法吗？"><a href="#第二，冒泡排序是稳定的排序算法吗？" class="headerlink" title="第二，冒泡排序是稳定的排序算法吗？"></a>第二，冒泡排序是稳定的排序算法吗？</h4><p><strong>在冒泡排序中，只有交换才可以改变两个元素的前后顺序。为了保证冒泡排序算法的稳定性，当有相邻的两个元素大小相等的时候，我们不做交换，相同大小的数据在排序前后不会改变顺序，所以冒泡排序是稳定的排序算法。</strong></p>
@@ -526,28 +277,9 @@
 <li>初始化已排序部分只有一个元素就是数组第一个元素</li>
 <li>插入排序的核心思想就是<strong>取出未排序部分的元素</strong>，在已排序区间中找到<strong>合适的插入位置插入，保证已排序区间的数据一直是有序的。</strong></li>
 </ul>
-<h4 id="插入排序如下图："><a href="#插入排序如下图：" class="headerlink" title="插入排序如下图："></a>插入排序如下图：</h4><p><img src="https://static001.geekbang.org/resource/image/b6/e1/b60f61ec487358ac037bf2b6974d2de1.jpg" alt=""></p>
-<pre class=" language-swift"><code class="language-swift"><span class="token comment" spellcheck="true">///插入排序</span>
-<span class="token keyword">func</span> insertSort<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">(</span><span class="token number">_</span> elements<span class="token punctuation">:</span> <span class="token punctuation">[</span>T<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">[</span>T<span class="token punctuation">]</span> <span class="token keyword">where</span> T<span class="token punctuation">:</span> <span class="token builtin">Comparable</span> <span class="token punctuation">{</span>
-    <span class="token keyword">var</span> array <span class="token operator">=</span> elements
-    <span class="token keyword">guard</span> array<span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token operator">></span> <span class="token number">1</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-        <span class="token keyword">return</span> array
-    <span class="token punctuation">}</span>
-    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token number">1</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token operator">&lt;</span>array<span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token punctuation">{</span>
-        <span class="token keyword">let</span> value <span class="token operator">=</span> array<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
-        <span class="token keyword">var</span> j <span class="token operator">=</span> i <span class="token operator">-</span> <span class="token number">1</span>
-        <span class="token comment" spellcheck="true">//查找要插入的位置</span>
-        <span class="token keyword">for</span> p <span class="token keyword">in</span> <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>j<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">reversed</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            <span class="token keyword">if</span> array<span class="token punctuation">[</span>p<span class="token punctuation">]</span> <span class="token operator">></span> value <span class="token punctuation">{</span>
-                array<span class="token punctuation">[</span>p<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> array<span class="token punctuation">[</span>p<span class="token punctuation">]</span><span class="token comment" spellcheck="true">//移动数据</span>
-            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-                <span class="token keyword">break</span>
-            <span class="token punctuation">}</span>
-        <span class="token punctuation">}</span>
-        array<span class="token punctuation">[</span>j<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> value<span class="token comment" spellcheck="true">// 插入数据</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">return</span> array
-<span class="token punctuation">}</span></code></pre>
+<h4 id="插入排序如下图："><a href="#插入排序如下图：" class="headerlink" title="插入排序如下图："></a>插入排序如下图：</h4><p><img src="https://static001.geekbang.org/resource/image/b6/e1/b60f61ec487358ac037bf2b6974d2de1.jpg"></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">///插入排序</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">insertSort</span>&lt;T&gt;<span class="params">(<span class="number">_</span> elements: [T])</span></span> -&gt; [<span class="type">T</span>] <span class="keyword">where</span> <span class="type">T</span>: <span class="type">Comparable</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> array = elements</span><br><span class="line">    <span class="keyword">guard</span> array.<span class="built_in">count</span> &gt; <span class="number">1</span> <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> array</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">1</span>..&lt;array.<span class="built_in">count</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> value = array[i]</span><br><span class="line">        <span class="keyword">var</span> j = i - <span class="number">1</span></span><br><span class="line">        <span class="comment">//查找要插入的位置</span></span><br><span class="line">        <span class="keyword">for</span> p <span class="keyword">in</span> (<span class="number">0</span>...j).reversed() &#123;</span><br><span class="line">            <span class="keyword">if</span> array[p] &gt; value &#123;</span><br><span class="line">                array[p+<span class="number">1</span>] = array[p]<span class="comment">//移动数据</span></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        array[j+<span class="number">1</span>] = value<span class="comment">// 插入数据</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> array</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <blockquote>
 <p>插入排序也包含两种操作，一种是<strong>元素的比较</strong>，一种是<strong>元素的移动</strong>。当我们需要将一个数据 a 插入到已排序区间时，需要拿 a 与已排序区间的元素依次比较大小，找到合适的插入位置。找到插入点之后，我们还需要将插入点之后的元素顺序往后移动一位，这样才能腾出位置给元素 a 插入。</p>
 </blockquote>
@@ -563,7 +295,7 @@
 <li>还记得我们在数组中插入一个数据的平均时间复杂度是多少吗？没错，是 O(n)。所以，对于插入排序来说，每次插入操作都相当于在数组中插入一个数据，循环执行 n 次插入操作，所以平均时间复杂度为 O(n2)。</li>
 </ul>
 <h2 id="3、选择排序（Selection-Sort）"><a href="#3、选择排序（Selection-Sort）" class="headerlink" title="3、选择排序（Selection Sort）"></a>3、选择排序（Selection Sort）</h2><p>选择排序算法的实现思路有点类似插入排序，也分已排序区间和未排序区间。但是选择排序每次会从<strong>未排序区间中找到最小的元素，将其放到已排序区间的末尾。</strong></p>
-<p><img src="https://static001.geekbang.org/resource/image/32/1d/32371475a0b08f0db9861d102474181d.jpg" alt=""></p>
+<p><img src="https://static001.geekbang.org/resource/image/32/1d/32371475a0b08f0db9861d102474181d.jpg"></p>
 <h4 id="第一，选择排序是原地排序算法吗？"><a href="#第一，选择排序是原地排序算法吗？" class="headerlink" title="第一，选择排序是原地排序算法吗？"></a>第一，选择排序是原地排序算法吗？</h4><p>选择排序的时间复杂度是O(1)所以是原地排序</p>
 <h4 id="第二，选择排序是稳定的排序算法吗？"><a href="#第二，选择排序是稳定的排序算法吗？" class="headerlink" title="第二，选择排序是稳定的排序算法吗？"></a>第二，选择排序是稳定的排序算法吗？</h4><p><strong>不是稳定排序，对于选择排序来说每次都是从未排序序列中找到最小的插入到已排序序列的末尾处，和前面的元素交换，这样会破坏稳定性</strong></p>
 <blockquote>
@@ -573,7 +305,7 @@
 <h2 id="总结三种时间复杂度是-O-n2-的排序算法"><a href="#总结三种时间复杂度是-O-n2-的排序算法" class="headerlink" title="总结三种时间复杂度是 O(n2) 的排序算法"></a>总结三种时间复杂度是 O(n2) 的排序算法</h2><blockquote>
 <p>这三种排序算法，实现代码都非常简单，对于小规模数据的排序，用起来非常高效。但是在大规模数据排序的时候，这个时间复杂度还是稍微有点高，所以我们更倾向于用下一节要讲的时间复杂度为 O(nlogn) 的排序算法。</p>
 </blockquote>
-<p><img src="https://static001.geekbang.org/resource/image/34/50/348604caaf0a1b1d7fee0512822f0e50.jpg" alt=""></p>
+<p><img src="https://static001.geekbang.org/resource/image/34/50/348604caaf0a1b1d7fee0512822f0e50.jpg"></p>
 <hr>
 <hr>
 <h3 id="问题二：如何在-O-n-的时间复杂度内查找一个无序数组中的第-K-大元素"><a href="#问题二：如何在-O-n-的时间复杂度内查找一个无序数组中的第-K-大元素" class="headerlink" title="问题二：如何在 O(n) 的时间复杂度内查找一个无序数组中的第 K 大元素?"></a>问题二：如何在 O(n) 的时间复杂度内查找一个无序数组中的第 K 大元素?</h3><h2 id="1、归并排序"><a href="#1、归并排序" class="headerlink" title="1、归并排序"></a>1、归并排序</h2><blockquote>
@@ -586,77 +318,18 @@
 <li>3、这个while循环将比较左侧和右侧的元素，并将它们添加到orderedPile，同时确保结果保持有序。</li>
 <li>4、如果前一个while循环完成，则意味着leftPile或rightPile中的一个的内容已经完全合并到orderedPile中。此时，您不再需要进行比较。只需依次添加剩下一个数组的其余内容到orderedPile。</li>
 </ul>
-<p><img src="https://static001.geekbang.org/resource/image/db/2b/db7f892d3355ef74da9cd64aa926dc2b.jpg" alt=""></p>
+<p><img src="https://static001.geekbang.org/resource/image/db/2b/db7f892d3355ef74da9cd64aa926dc2b.jpg"></p>
 <ul>
 <li>归并排序使用的就是分治思想。分治，顾名思义，就是分而治之，将一个大问题分解成小的子问题来解决。小的子问题解决了，大问题也就解决了。</li>
 <li>从我刚才的描述，你有没有感觉到，分治思想跟我们前面讲的递归思想很像。是的，分治算法一般都是用递归来实现的。<strong>分治是一种解决问题的处理思想，递归是一种编程技巧，这两者并不冲突。</strong></li>
 </ul>
 <p>所以归并排序的核心就是递归写法：</p>
-<pre><code>
-递推公式：
-merge_sort(p…r) = merge(merge_sort(p…q), merge_sort(q+1…r))
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">递推公式：</span><br><span class="line">merge_sort(p…r) &#x3D; merge(merge_sort(p…q), merge_sort(q+1…r))</span><br><span class="line"></span><br><span class="line">终止条件：</span><br><span class="line">p &gt;&#x3D; r 不用再继续分解</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-终止条件：
-p &gt;= r 不用再继续分解
-</code></pre><p>有了递推公式，转化成代码就简单多了:</p>
-<pre class=" language-swift"><code class="language-swift">
-<span class="token keyword">func</span> <span class="token function">merge</span><span class="token punctuation">(</span><span class="token number">_</span> leftArray<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token builtin">Int</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">_</span> rightArray<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token builtin">Int</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">[</span><span class="token builtin">Int</span><span class="token punctuation">]</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">//1</span>
-    <span class="token keyword">var</span> l <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> r <span class="token operator">=</span> <span class="token number">0</span>
-    <span class="token comment" spellcheck="true">//2</span>
-    <span class="token keyword">var</span> mergeArr<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token builtin">Int</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
-    <span class="token comment" spellcheck="true">//3</span>
-    <span class="token keyword">while</span> l <span class="token operator">&lt;</span> leftArray<span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token operator">&amp;&amp;</span> r <span class="token operator">&lt;</span> rightArray<span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token punctuation">{</span>
-        <span class="token keyword">if</span> leftArray<span class="token punctuation">[</span>l<span class="token punctuation">]</span> <span class="token operator">></span> rightArray<span class="token punctuation">[</span>r<span class="token punctuation">]</span> <span class="token punctuation">{</span>
-            mergeArr<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>rightArray<span class="token punctuation">[</span>r<span class="token punctuation">]</span><span class="token punctuation">)</span>
-            r <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">1</span>
-        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> leftArray<span class="token punctuation">[</span>l<span class="token punctuation">]</span> <span class="token operator">&lt;</span> rightArray<span class="token punctuation">[</span>r<span class="token punctuation">]</span> <span class="token punctuation">{</span>
-            mergeArr<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>leftArray<span class="token punctuation">[</span>l<span class="token punctuation">]</span><span class="token punctuation">)</span>
-            l <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">1</span>
-        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-            mergeArr<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>leftArray<span class="token punctuation">[</span>l<span class="token punctuation">]</span><span class="token punctuation">)</span>
-            l <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">1</span>
-            mergeArr<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>rightArray<span class="token punctuation">[</span>r<span class="token punctuation">]</span><span class="token punctuation">)</span>
-            r <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">1</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
-    <span class="token comment" spellcheck="true">//4</span>
-    <span class="token keyword">while</span> l <span class="token operator">&lt;</span> leftArray<span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token punctuation">{</span>
-        mergeArr<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>leftArray<span class="token punctuation">[</span>l<span class="token punctuation">]</span><span class="token punctuation">)</span>
-        l <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">1</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">while</span> r <span class="token operator">&lt;</span> rightArray<span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token punctuation">{</span>
-        mergeArr<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>rightArray<span class="token punctuation">[</span>r<span class="token punctuation">]</span><span class="token punctuation">)</span>
-        r <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">1</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">return</span> mergeArr
-<span class="token punctuation">}</span>
-<span class="token comment" spellcheck="true">/*
- 1、如果数组为空或包含单个元素，则无法将其拆分为更小的部分，返回数组就行。
+<p>有了递推公式，转化成代码就简单多了:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">merge</span><span class="params">(<span class="number">_</span> leftArray: [Int], <span class="number">_</span> rightArray: [Int])</span></span> -&gt; [<span class="type">Int</span>] &#123;</span><br><span class="line">    <span class="comment">//1</span></span><br><span class="line">    <span class="keyword">var</span> l = <span class="number">0</span>, r = <span class="number">0</span></span><br><span class="line">    <span class="comment">//2</span></span><br><span class="line">    <span class="keyword">var</span> mergeArr: [<span class="type">Int</span>] = []</span><br><span class="line">    <span class="comment">//3</span></span><br><span class="line">    <span class="keyword">while</span> l &lt; leftArray.<span class="built_in">count</span> &amp;&amp; r &lt; rightArray.<span class="built_in">count</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> leftArray[l] &gt; rightArray[r] &#123;</span><br><span class="line">            mergeArr.append(rightArray[r])</span><br><span class="line">            r += <span class="number">1</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> leftArray[l] &lt; rightArray[r] &#123;</span><br><span class="line">            mergeArr.append(leftArray[l])</span><br><span class="line">            l += <span class="number">1</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            mergeArr.append(leftArray[l])</span><br><span class="line">            l += <span class="number">1</span></span><br><span class="line">            mergeArr.append(rightArray[r])</span><br><span class="line">            r += <span class="number">1</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//4</span></span><br><span class="line">    <span class="keyword">while</span> l &lt; leftArray.<span class="built_in">count</span> &#123;</span><br><span class="line">        mergeArr.append(leftArray[l])</span><br><span class="line">        l += <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> r &lt; rightArray.<span class="built_in">count</span> &#123;</span><br><span class="line">        mergeArr.append(rightArray[r])</span><br><span class="line">        r += <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> mergeArr</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 1、如果数组为空或包含单个元素，则无法将其拆分为更小的部分，返回数组就行。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> 2、找到中间索引。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> 3、使用上一步中的中间索引，递归地分割数组的左侧。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> 4、递归地分割数组的右侧。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> 5、最后，将所有值合并在一起，确保它始终排序。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">mergeSort</span><span class="params">(<span class="number">_</span> array: Array&lt;Int&gt;)</span></span> -&gt; <span class="type">Array</span>&lt;<span class="type">Int</span>&gt; &#123;</span><br><span class="line">    <span class="comment">//1</span></span><br><span class="line">    <span class="keyword">guard</span> array.<span class="built_in">count</span> &gt; <span class="number">1</span> <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> array</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//2</span></span><br><span class="line">    <span class="keyword">let</span> middle = array.<span class="built_in">count</span> / <span class="number">2</span></span><br><span class="line">    <span class="comment">//3</span></span><br><span class="line">    <span class="keyword">let</span> leftPart = mergeSort(<span class="type">Array</span>(array[<span class="number">0</span>..&lt;middle]))</span><br><span class="line">    <span class="comment">//4</span></span><br><span class="line">    <span class="keyword">let</span> rightPart = mergeSort(<span class="type">Array</span>(array[middle..&lt;array.<span class="built_in">count</span>]))</span><br><span class="line">    <span class="comment">//5</span></span><br><span class="line">    <span class="keyword">return</span> merge(leftPart, rightPart)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
- 2、找到中间索引。
-
- 3、使用上一步中的中间索引，递归地分割数组的左侧。
-
- 4、递归地分割数组的右侧。
-
- 5、最后，将所有值合并在一起，确保它始终排序。
- */</span>
-<span class="token keyword">func</span> <span class="token function">mergeSort</span><span class="token punctuation">(</span><span class="token number">_</span> array<span class="token punctuation">:</span> <span class="token builtin">Array</span><span class="token operator">&lt;</span><span class="token builtin">Int</span><span class="token operator">></span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Array</span><span class="token operator">&lt;</span><span class="token builtin">Int</span><span class="token operator">></span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">//1</span>
-    <span class="token keyword">guard</span> array<span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token operator">></span> <span class="token number">1</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-        <span class="token keyword">return</span> array
-    <span class="token punctuation">}</span>
-    <span class="token comment" spellcheck="true">//2</span>
-    <span class="token keyword">let</span> middle <span class="token operator">=</span> array<span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token operator">/</span> <span class="token number">2</span>
-    <span class="token comment" spellcheck="true">//3</span>
-    <span class="token keyword">let</span> leftPart <span class="token operator">=</span> <span class="token function">mergeSort</span><span class="token punctuation">(</span><span class="token function">Array</span><span class="token punctuation">(</span>array<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token operator">&lt;</span>middle<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-    <span class="token comment" spellcheck="true">//4</span>
-    <span class="token keyword">let</span> rightPart <span class="token operator">=</span> <span class="token function">mergeSort</span><span class="token punctuation">(</span><span class="token function">Array</span><span class="token punctuation">(</span>array<span class="token punctuation">[</span>middle<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token operator">&lt;</span>array<span class="token punctuation">.</span><span class="token builtin">count</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-    <span class="token comment" spellcheck="true">//5</span>
-    <span class="token keyword">return</span> <span class="token function">merge</span><span class="token punctuation">(</span>leftPart<span class="token punctuation">,</span> rightPart<span class="token punctuation">)</span>
-<span class="token punctuation">}</span></code></pre>
-<h2 id="2、快速排序"><a href="#2、快速排序" class="headerlink" title="2、快速排序"></a>2、快速排序</h2><p><a href="https://github.com/andyRon/swift-algorithm-club-cn/tree/master/Quicksort" target="_blank" rel="noopener">快速排序是原地排序，也是递归实现，但快速排序不是稳定排序</a></p>
+<h2 id="2、快速排序"><a href="#2、快速排序" class="headerlink" title="2、快速排序"></a>2、快速排序</h2><p><a target="_blank" rel="noopener" href="https://github.com/andyRon/swift-algorithm-club-cn/tree/master/Quicksort">快速排序是原地排序，也是递归实现，但快速排序不是稳定排序</a></p>
 <blockquote>
 <p>归并排序虽然是稳定的、时间复杂度为 O(nlogn) 的排序算法，但是它是非原地排序算法。<br>归并之所以是非原地排序算法，主要原因是合并函数无法在原地执行。<br> 快速排序通过设计巧妙的原地分区函数，可以实现原地排序，解决了归并排序占用太多内存的问题。</p>
 </blockquote>
@@ -666,32 +339,8 @@ p &gt;= r 不用再继续分解
 <blockquote>
 <p>我们遍历 p 到 r 之间的数据，将小于 pivot 的放到左边，将大于 pivot 的放到右边，将 pivot 放到中间。经过这一步骤之后，数组 p 到 r 之间的数据就被分成了三个部分，前面 p 到 q-1 之间都是小于 pivot 的，中间是 pivot，后面的 q+1 到 r 之间是大于 pivot 的。</p>
 </blockquote>
-<p><img src="https://static001.geekbang.org/resource/image/4d/81/4d892c3a2e08a17f16097d07ea088a81.jpg" alt=""><br> 直接递归：<br> 1、设置中间位置元素为轴点元素pivot<br> 2、分区：less equal more<br> 3、递归合并分区</p>
-<pre class=" language-swift"><code class="language-swift"><span class="token keyword">func</span> quickSort<span class="token operator">&lt;</span>T<span class="token punctuation">:</span> <span class="token builtin">Comparable</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token number">_</span> array<span class="token punctuation">:</span> <span class="token punctuation">[</span>T<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">[</span>T<span class="token punctuation">]</span><span class="token punctuation">{</span>
-
-    <span class="token keyword">let</span> pivot <span class="token operator">=</span> array<span class="token punctuation">[</span>array<span class="token punctuation">.</span><span class="token builtin">count</span> <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">]</span>
-
-    <span class="token keyword">let</span> less <span class="token operator">=</span> array<span class="token punctuation">.</span><span class="token builtin">filter</span> <span class="token punctuation">{</span> $<span class="token number">0</span> <span class="token operator">&lt;</span> pivot <span class="token punctuation">}</span>
-    <span class="token keyword">let</span> <span class="token builtin">equal</span> <span class="token operator">=</span> array<span class="token punctuation">.</span><span class="token builtin">filter</span> <span class="token punctuation">{</span> $<span class="token number">0</span> <span class="token operator">==</span> pivot <span class="token punctuation">}</span>
-    <span class="token keyword">let</span> more <span class="token operator">=</span> array<span class="token punctuation">.</span><span class="token builtin">filter</span> <span class="token punctuation">{</span> $<span class="token number">0</span> <span class="token operator">></span> pivot <span class="token punctuation">}</span>
-
-    <span class="token keyword">return</span> <span class="token function">quickSort</span><span class="token punctuation">(</span>less<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token builtin">equal</span> <span class="token operator">+</span> <span class="token function">quickSort</span><span class="token punctuation">(</span>more<span class="token punctuation">)</span>
-<span class="token punctuation">}</span>
-
-<span class="token comment" spellcheck="true">/*
- 1、从序列中选择中轴点pivot（假设选择位置为0的元素）
- 2、利用pivot中轴点把序列分成两个子序列
- 3、分别对左右子序列递归进行快速排序，直到元素不能分割位置
-   快速排序的本质是把每一个元素都转换成中轴点。
- */</span>
-<span class="token keyword">public</span> <span class="token keyword">func</span> quickSortDutch<span class="token operator">&lt;</span>T<span class="token punctuation">:</span> <span class="token builtin">Comparable</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token number">_</span> a<span class="token punctuation">:</span> <span class="token keyword">inout</span> <span class="token punctuation">[</span>T<span class="token punctuation">]</span><span class="token punctuation">,</span> low<span class="token punctuation">:</span> <span class="token builtin">Int</span><span class="token punctuation">,</span> high<span class="token punctuation">:</span> <span class="token builtin">Int</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">if</span> low <span class="token operator">&lt;</span> high <span class="token punctuation">{</span>
-        <span class="token keyword">let</span> pivot <span class="token operator">=</span> <span class="token builtin">Int</span><span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token keyword">in</span><span class="token punctuation">:</span> low<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>high<span class="token punctuation">)</span>
-        <span class="token keyword">let</span> <span class="token punctuation">(</span>p<span class="token punctuation">,</span> q<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token function">partationDutch</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>a<span class="token punctuation">,</span> low<span class="token punctuation">:</span> low<span class="token punctuation">,</span> high<span class="token punctuation">:</span> high<span class="token punctuation">,</span> pivotIndex<span class="token punctuation">:</span> pivot<span class="token punctuation">)</span>
-        <span class="token function">quickSortDutch</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>a<span class="token punctuation">,</span> low<span class="token punctuation">:</span> low<span class="token punctuation">,</span> high<span class="token punctuation">:</span> p <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span>
-        <span class="token function">quickSortDutch</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>a<span class="token punctuation">,</span> low<span class="token punctuation">:</span> q <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> high<span class="token punctuation">:</span> high<span class="token punctuation">)</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
+<p><img src="https://static001.geekbang.org/resource/image/4d/81/4d892c3a2e08a17f16097d07ea088a81.jpg"><br> 直接递归：<br> 1、设置中间位置元素为轴点元素pivot<br> 2、分区：less equal more<br> 3、递归合并分区</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">quickSort</span>&lt;T: Comparable&gt;<span class="params">(<span class="number">_</span> array: [T])</span></span> -&gt; [<span class="type">T</span>]&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> pivot = array[array.<span class="built_in">count</span> / <span class="number">2</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> less = array.<span class="built_in">filter</span> &#123; $<span class="number">0</span> &lt; pivot &#125;</span><br><span class="line">    <span class="keyword">let</span> <span class="built_in">equal</span> = array.<span class="built_in">filter</span> &#123; $<span class="number">0</span> == pivot &#125;</span><br><span class="line">    <span class="keyword">let</span> more = array.<span class="built_in">filter</span> &#123; $<span class="number">0</span> &gt; pivot &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">quickSort</span>(less) + <span class="built_in">equal</span> + <span class="built_in">quickSort</span>(more)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> 1、从序列中选择中轴点pivot（假设选择位置为0的元素）</span></span><br><span class="line"><span class="comment"> 2、利用pivot中轴点把序列分成两个子序列</span></span><br><span class="line"><span class="comment"> 3、分别对左右子序列递归进行快速排序，直到元素不能分割位置</span></span><br><span class="line"><span class="comment">   快速排序的本质是把每一个元素都转换成中轴点。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">quickSortDutch</span>&lt;T: Comparable&gt;<span class="params">(<span class="number">_</span> a: <span class="keyword">inout</span> [T], low: Int, high: Int)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> low &lt; high &#123;</span><br><span class="line">        <span class="keyword">let</span> pivot = <span class="type">Int</span>.random(<span class="keyword">in</span>: low...high)</span><br><span class="line">        <span class="keyword">let</span> (p, q) = partationDutch(&amp;a, low: low, high: high, pivotIndex: pivot)</span><br><span class="line">        quickSortDutch(&amp;a, low: low, high: p - <span class="number">1</span>)</span><br><span class="line">        quickSortDutch(&amp;a, low: q + <span class="number">1</span>, high: high)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="Lomuto分区-Vs-Hoare分区-Vs-荷兰国旗分区"><a href="#Lomuto分区-Vs-Hoare分区-Vs-荷兰国旗分区" class="headerlink" title="Lomuto分区 Vs Hoare分区 Vs 荷兰国旗分区"></a>Lomuto分区 Vs Hoare分区 Vs 荷兰国旗分区</h4><blockquote>
 <p>Lomuto分区法:是用数组最后一个元素作为基准元素对数组分区，区域为[low…p-1] [p+1…high]，然后递归调用quickLomutoSort分别对左右区排序，一直到数组有序</p>
 </blockquote>
@@ -699,39 +348,7 @@ p &gt;= r 不用再继续分解
 <blockquote>
 <p>Hoare分区：选择数组的first元素作为基准，数组划分区域为[low…p] [p+1…high]，然后递归调用quickSortHoare分别对左右区排序，一直到数组有序</p>
 </blockquote>
-<pre class=" language-swift"><code class="language-swift"><span class="token comment" spellcheck="true">/*
-
- 3 荷兰国旗分区：将前部和后部各排在数组的前边和后边，中部自然就排好了,分区函数返回(p, q)
-
- 设置两个标志位begin和end分别指向这个数组的开始和末尾，然后用一个标志位current从头开始进行遍历：
-
- 1）若遍历到的current &lt; pivot，于是就和begin位置进行交换，然后current向前进，begin也向前进（表示前边的已经都排好了）。
-
- 2）若遍历到current == pivot，则说明它一定属于中部，根据总思路，中部的我们都不动，然后current向前进。
-
- 3）若遍历到current > pivot，则说明它一定属于后部，于是就和end位置进行交换，
-    由于交换完毕后current指向的可能是属于前部的，若此时current前进则会导致该位置不能被交换到前部，所以此时current不前进。
-    end向后退1。
-
- 4) 返回分区（begin, end）
- */</span>
-<span class="token keyword">func</span> partationDutch<span class="token operator">&lt;</span>T<span class="token punctuation">:</span> <span class="token builtin">Comparable</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token number">_</span> a<span class="token punctuation">:</span> <span class="token keyword">inout</span> <span class="token punctuation">[</span>T<span class="token punctuation">]</span><span class="token punctuation">,</span> low<span class="token punctuation">:</span> <span class="token builtin">Int</span><span class="token punctuation">,</span> high<span class="token punctuation">:</span> <span class="token builtin">Int</span><span class="token punctuation">,</span> pivotIndex<span class="token punctuation">:</span> <span class="token builtin">Int</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token punctuation">(</span><span class="token builtin">Int</span><span class="token punctuation">,</span> <span class="token builtin">Int</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">var</span> begin <span class="token operator">=</span> low<span class="token punctuation">,</span> end <span class="token operator">=</span> high
-    <span class="token keyword">var</span> current <span class="token operator">=</span> low<span class="token punctuation">,</span> pivot <span class="token operator">=</span> a<span class="token punctuation">[</span>pivotIndex<span class="token punctuation">]</span>
-    <span class="token keyword">while</span> current <span class="token operator">&lt;=</span> end <span class="token punctuation">{</span>
-        <span class="token keyword">if</span> a<span class="token punctuation">[</span>current<span class="token punctuation">]</span> <span class="token operator">&lt;</span> pivot <span class="token punctuation">{</span>
-            a<span class="token punctuation">.</span><span class="token function">swapAt</span><span class="token punctuation">(</span>begin<span class="token punctuation">,</span> current<span class="token punctuation">)</span>
-            begin <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">1</span>
-            current <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">1</span>
-        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> a<span class="token punctuation">[</span>current<span class="token punctuation">]</span> <span class="token operator">==</span> pivot <span class="token punctuation">{</span>
-            current <span class="token operator">+</span><span class="token operator">=</span> <span class="token number">1</span>
-        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-            a<span class="token punctuation">.</span><span class="token function">swapAt</span><span class="token punctuation">(</span>current<span class="token punctuation">,</span> end<span class="token punctuation">)</span>
-            end <span class="token operator">-</span><span class="token operator">=</span> <span class="token number">1</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">return</span> <span class="token punctuation">(</span>begin<span class="token punctuation">,</span> end<span class="token punctuation">)</span>
-<span class="token punctuation">}</span></code></pre>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> 3 荷兰国旗分区：将前部和后部各排在数组的前边和后边，中部自然就排好了,分区函数返回(p, q)</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> 设置两个标志位begin和end分别指向这个数组的开始和末尾，然后用一个标志位current从头开始进行遍历：</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> 1）若遍历到的current &lt; pivot，于是就和begin位置进行交换，然后current向前进，begin也向前进（表示前边的已经都排好了）。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> 2）若遍历到current == pivot，则说明它一定属于中部，根据总思路，中部的我们都不动，然后current向前进。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> 3）若遍历到current &gt; pivot，则说明它一定属于后部，于是就和end位置进行交换，</span></span><br><span class="line"><span class="comment">    由于交换完毕后current指向的可能是属于前部的，若此时current前进则会导致该位置不能被交换到前部，所以此时current不前进。</span></span><br><span class="line"><span class="comment">    end向后退1。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> 4) 返回分区（begin, end）</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">partationDutch</span>&lt;T: Comparable&gt;<span class="params">(<span class="number">_</span> a: <span class="keyword">inout</span> [T], low: Int, high: Int, pivotIndex: Int)</span></span> -&gt; (<span class="type">Int</span>, <span class="type">Int</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> begin = low, end = high</span><br><span class="line">    <span class="keyword">var</span> current = low, pivot = a[pivotIndex]</span><br><span class="line">    <span class="keyword">while</span> current &lt;= end &#123;</span><br><span class="line">        <span class="keyword">if</span> a[current] &lt; pivot &#123;</span><br><span class="line">            a.swapAt(begin, current)</span><br><span class="line">            begin += <span class="number">1</span></span><br><span class="line">            current += <span class="number">1</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> a[current] == pivot &#123;</span><br><span class="line">            current += <span class="number">1</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            a.swapAt(current, end)</span><br><span class="line">            end -= <span class="number">1</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (begin, end)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>解答问题二：</p>
 <ul>
 <li><p>快排核心思想就是分治和分区，我们可以利用分区的思想，来解答开这个问题：O(n) 时间复杂度内求无序数组中的第 K 大元素。比如，4， 2， 5， 12， 3 这样一组数据，第 3 大元素就是 4。</p>
@@ -741,610 +358,203 @@ p &gt;= r 不用再继续分解
 <li><p>如果 p+1=K，那 A[p]就是要求解的元素；如果 K&gt;p+1, 说明第 K 大元素出现在 A[p+1…n-1]区间，我们再按照上面的思路递归地在 A[p+1…n-1]这个区间内查找。同理，如果 K&lt;p+1，那我们就在 A[0…p-1]区间查找。</p>
 </li>
 </ul>
-<p>本文参考：<a href="https://time.geekbang.org/column/article/41913" target="_blank" rel="noopener">王争-数据结构与算法之美</a></p>
+<p>本文参考：<a target="_blank" rel="noopener" href="https://time.geekbang.org/column/article/41913">王争-数据结构与算法之美</a></p>
 
-            </div>
-            <hr/>
-
-            
-
-    <div class="reprint" id="reprint-statement">
-        
-            <div class="reprint__author">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-user">
-                        文章作者:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    <a href="https://mingriweiji-github.github.io" rel="external nofollow noreferrer">KM</a>
-                </span>
-            </div>
-            <div class="reprint__type">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-link">
-                        文章链接:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    <a href="https://mingriweiji-github.github.io/2018/01/01/%E6%8E%92%E5%BA%8F%E9%97%AE%E9%A2%98/">https://mingriweiji-github.github.io/2018/01/01/%E6%8E%92%E5%BA%8F%E9%97%AE%E9%A2%98/</a>
-                </span>
-            </div>
-            <div class="reprint__notice">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-copyright">
-                        版权声明:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    本博客所有文章除特別声明外，均采用
-                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
-                    许可协议。转载请注明来源
-                    <a href="https://mingriweiji-github.github.io" target="_blank">KM</a>
-                    !
-                </span>
-            </div>
-        
     </div>
 
-    <script async defer>
-      document.addEventListener("copy", function (e) {
-        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
-        M.toast({html: toastHTML})
-      });
+    
+    
+    
 
-      function navToReprintStatement() {
-        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/01/01/%E5%8F%8D%E8%BD%AC%E9%97%AE%E9%A2%98/" rel="prev" title="反转问题">
+      <i class="fa fa-chevron-left"></i> 反转问题
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/06/01/Runloop/" rel="next" title="Runloop">
+      Runloop <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
       }
-    </script>
-
-
-
-            <div class="tag_share" style="display: block;">
-                <div class="post-meta__tag-list" style="display: inline-block;">
-                    
-                        <div class="article-tag">
-                            
-                                <a href="/tags/java/">
-                                    <span class="chip bg-color">java</span>
-                                </a>
-                            
-                        </div>
-                    
-                </div>
-                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
-                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
-
-<div id="article-share">
-    
-    
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
-    <script src="/libs/share/js/social-share.min.js"></script>
-    
-
-    
-
-</div>
-
-                </div>
-            </div>
-            
-                <style>
-    #reward {
-        margin: 40px 0;
-        text-align: center;
     }
-
-    #reward .reward-link {
-        font-size: 1.4rem;
-        line-height: 38px;
-    }
-
-    #reward .btn-floating:hover {
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    #rewardModal {
-        width: 320px;
-        height: 350px;
-    }
-
-    #rewardModal .reward-title {
-        margin: 15px auto;
-        padding-bottom: 5px;
-    }
-
-    #rewardModal .modal-content {
-        padding: 10px;
-    }
-
-    #rewardModal .close {
-        position: absolute;
-        right: 15px;
-        top: 15px;
-        color: rgba(0, 0, 0, 0.5);
-        font-size: 1.3rem;
-        line-height: 20px;
-        cursor: pointer;
-    }
-
-    #rewardModal .close:hover {
-        color: #ef5350;
-        transform: scale(1.3);
-        -moz-transform:scale(1.3);
-        -webkit-transform:scale(1.3);
-        -o-transform:scale(1.3);
-    }
-
-    #rewardModal .reward-tabs {
-        margin: 0 auto;
-        width: 210px;
-    }
-
-    .reward-tabs .tabs {
-        height: 38px;
-        margin: 10px auto;
-        padding-left: 0;
-    }
-
-    .reward-content ul {
-        padding-left: 0 !important;
-    }
-
-    .reward-tabs .tabs .tab {
-        height: 38px;
-        line-height: 38px;
-    }
-
-    .reward-tabs .tab a {
-        color: #fff;
-        background-color: #ccc;
-    }
-
-    .reward-tabs .tab a:hover {
-        background-color: #ccc;
-        color: #fff;
-    }
-
-    .reward-tabs .wechat-tab .active {
-        color: #fff !important;
-        background-color: #22AB38 !important;
-    }
-
-    .reward-tabs .alipay-tab .active {
-        color: #fff !important;
-        background-color: #019FE8 !important;
-    }
-
-    .reward-tabs .reward-img {
-        width: 210px;
-        height: 210px;
-    }
-</style>
-
-<div id="reward">
-    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
-
-    <!-- Modal Structure -->
-    <div id="rewardModal" class="modal">
-        <div class="modal-content">
-            <a class="close modal-close"><i class="fas fa-times"></i></a>
-            <h4 class="reward-title">你的赏识是我前进的动力</h4>
-            <div class="reward-content">
-                <div class="reward-tabs">
-                    <ul class="tabs row">
-                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
-                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
-                    </ul>
-                    <div id="alipay">
-                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
-                    </div>
-                    <div id="wechat">
-                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    $(function () {
-        $('.tabs').tabs();
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
     });
-</script>
-            
-        </div>
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-<article id="prenext-posts" class="prev-next articles">
-    <div class="row article-row">
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
-            <div class="card">
-                <a href="/2018/06/01/Runloop/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="Runloop">
-                        
-                        <span class="card-title">Runloop</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            Runloop1.讲讲 RunLoop，项目中有用到吗？
-事件循环，在程序运行中循环做一些事情
-没有消息mach_msg()切换用户态到内核态线程休眠，有消息内核态切换到用户态
-
-runloop相关：
-Timer、performSelect
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2018-06-01
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E6%BA%90%E7%A0%81/" class="post-category">
-                                    源码
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/iOS/">
-                        <span class="chip bg-color">iOS</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2018/01/01/%E8%80%81%E9%BC%A0%E6%AF%92%E8%8D%AF%E9%97%AE%E9%A2%98/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="老鼠毒药问题">
-                        
-                        <span class="card-title">老鼠毒药问题</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            老鼠毒药问题1、有两个水桶， 一个装 3L 的水， 一个可装 5L 的水， 问:如何利用这两个桶， 量出 4L 的水来？解法一加法：操作两次3L的桶，得到1L的水，然后倒入5L的桶里面，此时5L桶里有1L的水，再次用3L的桶倒入5L桶，1L
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2018-01-01
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
-                                    算法
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/java/">
-                        <span class="chip bg-color">java</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-    </div>
-</article>
-
-</div>
-
-
-
-<!-- 代码块功能依赖 -->
-<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
-
-<!-- 代码语言 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
-
-
-<!-- 代码块复制 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
-
-
-<!-- 代码块收缩 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
-
-
-<!-- 代码块折行 -->
-
-<style type="text/css">
-code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
-</style>
-
-
-    </div>
-    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
-        <div class="toc-widget">
-            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
-            <div id="toc-content"></div>
-        </div>
-    </div>
-</div>
-
-<!-- TOC 悬浮按钮. -->
-
-<div id="floating-toc-btn" class="hide-on-med-and-down">
-    <a class="btn-floating btn-large bg-color">
-        <i class="fas fa-list-ul"></i>
-    </a>
-</div>
-
-
-<script src="/libs/tocbot/tocbot.min.js"></script>
-<script>
-    $(function () {
-        tocbot.init({
-            tocSelector: '#toc-content',
-            contentSelector: '#articleContent',
-            headingsOffset: -($(window).height() * 0.4 - 45),
-            collapseDepth: Number('true'),
-            headingSelector: 'h2, h3, h4'
-        });
-
-        // modify the toc link href to support Chinese.
-        let i = 0;
-        let tocHeading = 'toc-heading-';
-        $('#toc-content a').each(function () {
-            $(this).attr('href', '#' + tocHeading + (++i));
-        });
-
-        // modify the heading title id to support Chinese.
-        i = 0;
-        $('#articleContent').children('h2, h3, h4').each(function () {
-            $(this).attr('id', tocHeading + (++i));
-        });
-
-        // Set scroll toc fixed.
-        let tocHeight = parseInt($(window).height() * 0.4 - 64);
-        let $tocWidget = $('.toc-widget');
-        $(window).scroll(function () {
-            let scroll = $(window).scrollTop();
-            /* add post toc fixed. */
-            if (scroll > tocHeight) {
-                $tocWidget.addClass('toc-fixed');
-            } else {
-                $tocWidget.removeClass('toc-fixed');
-            }
-        });
-
-        
-        /* 修复文章卡片 div 的宽度. */
-        let fixPostCardWidth = function (srcId, targetId) {
-            let srcDiv = $('#' + srcId);
-            if (srcDiv.length === 0) {
-                return;
-            }
-
-            let w = srcDiv.width();
-            if (w >= 450) {
-                w = w + 21;
-            } else if (w >= 350 && w < 450) {
-                w = w + 18;
-            } else if (w >= 300 && w < 350) {
-                w = w + 16;
-            } else {
-                w = w + 14;
-            }
-            $('#' + targetId).width(w);
-        };
-
-        // 切换TOC目录展开收缩的相关操作.
-        const expandedClass = 'expanded';
-        let $tocAside = $('#toc-aside');
-        let $mainContent = $('#main-content');
-        $('#floating-toc-btn .btn-floating').click(function () {
-            if ($tocAside.hasClass(expandedClass)) {
-                $tocAside.removeClass(expandedClass).hide();
-                $mainContent.removeClass('l9');
-            } else {
-                $tocAside.addClass(expandedClass).show();
-                $mainContent.addClass('l9');
-            }
-            fixPostCardWidth('artDetail', 'prenext-posts');
-        });
-        
-    });
+  }
 </script>
 
-    
-
-</main>
-
-
-
-    <footer class="page-footer bg-color">
-    
-    <div class="container row center-align" style="margin-bottom: 0px !important;">
-        <div class="col s12 m8 l8 copy-right">
-            Copyright&nbsp;&copy;
-            <span id="year">2018</span>
-            <a href="https://mingriweiji-github.github.io" target="_blank">KM</a>
-            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
-            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
-            <br>
-            
-            
-            
-            
-            
-            
-            <span id="busuanzi_container_site_pv">
-                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
-                    class="white-color"></span>&nbsp;次
-            </span>
-            
-            
-            <span id="busuanzi_container_site_uv">
-                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
-                    class="white-color"></span>&nbsp;人
-            </span>
-            
-            <br>
-            
-            <br>
-            
         </div>
-        <div class="col s12 m4 l4 social-link social-statis">
-    <a href="https://mingriweiji-github.github.io/" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
-        <i class="fab fa-github"></i>
-    </a>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
 
+  <aside class="sidebar">
+    <div class="sidebar-inner">
 
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
 
-    <a href="mailto:2822072760@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
-        <i class="fas fa-envelope-open"></i>
-    </a>
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E4%B8%80%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F%E6%AF%94%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F%E6%9B%B4%E5%8F%97%E6%AC%A2%E8%BF%8E%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">问题一：为什么插入排序比冒泡排序更受欢迎？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%88%86%E6%9E%90%E4%B8%80%E4%B8%AA%E2%80%9C%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E2%80%9D%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">如何分析一个“排序算法”？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E6%B6%88%E8%80%97"><span class="nav-number">1.2.</span> <span class="nav-text">内存消耗</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A8%B3%E5%AE%9A%E6%80%A7"><span class="nav-number">1.3.</span> <span class="nav-text">稳定性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F"><span class="nav-number"></span> <span class="nav-text">1、冒泡排序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%EF%BC%8C%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F%E6%98%AF%E5%8E%9F%E5%9C%B0%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%90%97%EF%BC%9F"><span class="nav-number">0.1.</span> <span class="nav-text">第一，冒泡排序是原地排序算法吗？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%EF%BC%8C%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F%E6%98%AF%E7%A8%B3%E5%AE%9A%E7%9A%84%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%90%97%EF%BC%9F"><span class="nav-number">0.2.</span> <span class="nav-text">第二，冒泡排序是稳定的排序算法吗？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%EF%BC%8C%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F%E7%9A%84%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E6%98%AF%E5%A4%9A%E5%B0%91%EF%BC%9F"><span class="nav-number">0.3.</span> <span class="nav-text">第三，冒泡排序的时间复杂度是多少？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F"><span class="nav-number"></span> <span class="nav-text">2、插入排序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F%E5%A6%82%E4%B8%8B%E5%9B%BE%EF%BC%9A"><span class="nav-number">0.1.</span> <span class="nav-text">插入排序如下图：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%EF%BC%8C%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F%E6%98%AF%E5%8E%9F%E5%9C%B0%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%90%97%EF%BC%9F"><span class="nav-number">0.2.</span> <span class="nav-text">第一，插入排序是原地排序算法吗？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%EF%BC%8C%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F%E6%98%AF%E7%A8%B3%E5%AE%9A%E7%9A%84%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%90%97%EF%BC%9F"><span class="nav-number">0.3.</span> <span class="nav-text">第二，插入排序是稳定的排序算法吗？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%EF%BC%8C%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F%E7%9A%84%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E6%98%AF%E5%A4%9A%E5%B0%91%EF%BC%9F"><span class="nav-number">0.4.</span> <span class="nav-text">第三，插入排序的时间复杂度是多少？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F%EF%BC%88Selection-Sort%EF%BC%89"><span class="nav-number"></span> <span class="nav-text">3、选择排序（Selection Sort）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%EF%BC%8C%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F%E6%98%AF%E5%8E%9F%E5%9C%B0%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%90%97%EF%BC%9F"><span class="nav-number">0.1.</span> <span class="nav-text">第一，选择排序是原地排序算法吗？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%EF%BC%8C%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F%E6%98%AF%E7%A8%B3%E5%AE%9A%E7%9A%84%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E5%90%97%EF%BC%9F"><span class="nav-number">0.2.</span> <span class="nav-text">第二，选择排序是稳定的排序算法吗？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%EF%BC%8C%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F%E7%9A%84%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E6%98%AF%E5%A4%9A%E5%B0%91%EF%BC%9F"><span class="nav-number">0.3.</span> <span class="nav-text">第三，选择排序的时间复杂度是多少？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93%E4%B8%89%E7%A7%8D%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E6%98%AF-O-n2-%E7%9A%84%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95"><span class="nav-number"></span> <span class="nav-text">总结三种时间复杂度是 O(n2) 的排序算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E4%BA%8C%EF%BC%9A%E5%A6%82%E4%BD%95%E5%9C%A8-O-n-%E7%9A%84%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%86%85%E6%9F%A5%E6%89%BE%E4%B8%80%E4%B8%AA%E6%97%A0%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E7%AC%AC-K-%E5%A4%A7%E5%85%83%E7%B4%A0"><span class="nav-number">1.</span> <span class="nav-text">问题二：如何在 O(n) 的时间复杂度内查找一个无序数组中的第 K 大元素?</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F"><span class="nav-number"></span> <span class="nav-text">1、归并排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F"><span class="nav-number"></span> <span class="nav-text">2、快速排序</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Lomuto%E5%88%86%E5%8C%BA-Vs-Hoare%E5%88%86%E5%8C%BA-Vs-%E8%8D%B7%E5%85%B0%E5%9B%BD%E6%97%97%E5%88%86%E5%8C%BA"><span class="nav-number">0.1.</span> <span class="nav-text">Lomuto分区 Vs Hoare分区 Vs 荷兰国旗分区</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
 
-
-
-
-
-
-
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
-        <i class="fab fa-qq"></i>
-    </a>
-
-
-
-
-
-
-
-    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
-        <i class="fas fa-rss"></i>
-    </a>
-
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">KM</p>
+  <div class="site-description" itemprop="description"></div>
 </div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
     </div>
-</footer>
+  </aside>
+  <div id="sidebar-dimmer"></div>
 
-<div class="progress-bar"></div>
 
+      </div>
+    </main>
 
-    <!-- 搜索遮罩框 -->
-<div id="searchModal" class="modal">
-    <div class="modal-content">
-        <div class="search-header">
-            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
-            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
-                   class="search-input">
-        </div>
-        <div id="searchResult"></div>
-    </div>
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">KM</span>
 </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
 
-<script src="/js/search.js"></script>
-<script type="text/javascript">
-$(function () {
-    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
-});
-</script>
-    <!-- 回到顶部按钮 -->
-<div id="backTop" class="top-scroll">
-    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
-        <i class="fas fa-arrow-up"></i>
-    </a>
-</div>
+        
 
 
-    <script src="/libs/materialize/materialize.min.js"></script>
-    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
-    <script src="/libs/aos/aos.js"></script>
-    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
-    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
-    <script src="/js/matery.js"></script>
 
-    <!-- Baidu Analytics -->
 
-    <!-- Baidu Push -->
 
-<script>
-    (function () {
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https') {
-            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-        } else {
-            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-        }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
-</script>
 
-    
-    
-    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
-    
 
-    
 
-    
+      </div>
+    </footer>
+  </div>
 
-    
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
-    
+<script src="/js/utils.js"></script>
 
-    
-    
-    
-    <script src="/libs/instantpage/instantpage.js" type="module"></script>
-    
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
 
 </body>
-
 </html>

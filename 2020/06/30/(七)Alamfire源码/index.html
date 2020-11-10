@@ -1,477 +1,242 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="zh-CN">
-
-
 <head>
-    <meta charset="utf-8">
-    <meta name="keywords" content="(七)Alamfire源码, 明日危机">
-    <meta name="description" content="">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="renderer" content="webkit|ie-stand|ie-comp">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <!-- Global site tag (gtag.js) - Google Analytics -->
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-    <title>(七)Alamfire源码 | 明日危机</title>
-    <link rel="icon" type="image/png" href="/favicon.png">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
-    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
-    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/matery.css">
-    <link rel="stylesheet" type="text/css" href="/css/my.css">
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"mingriweiji-github.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
 
-    <script src="/libs/jquery/jquery.min.js"></script>
-    
+  <meta name="description" content="Alamfire Github地址 1、Request分析 Request准守的Protocol  * Equatable          * Hashable          * CustomStringConvertible          * Downloadable          * UploadableConvertible          Equatable 1 2 3 4">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(七)Alamfire源码">
+<meta property="og:url" content="https://mingriweiji-github.github.io/2020/06/30/(%E4%B8%83)Alamfire%E6%BA%90%E7%A0%81/index.html">
+<meta property="og:site_name" content="明日危机">
+<meta property="og:description" content="Alamfire Github地址 1、Request分析 Request准守的Protocol  * Equatable          * Hashable          * CustomStringConvertible          * Downloadable          * UploadableConvertible          Equatable 1 2 3 4">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-06-30T02:13:45.000Z">
+<meta property="article:modified_time" content="2020-06-29T15:16:06.000Z">
+<meta property="article:author" content="KM">
+<meta property="article:tag" content="Swift专题">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://mingriweiji-github.github.io/2020/06/30/(%E4%B8%83)Alamfire%E6%BA%90%E7%A0%81/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>(七)Alamfire源码 | 明日危机</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
 <link rel="alternate" href="/atom.xml" title="明日危机" type="application/atom+xml">
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
+</head>
 
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
 
-<body>
-    <header class="navbar-fixed">
-    <nav id="headNav" class="bg-color nav-transparent">
-        <div id="navContainer" class="nav-wrapper container">
-            <div class="brand-logo">
-                <a href="/" class="waves-effect waves-light">
-                    
-                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
-                    
-                    <span class="logo-span">明日危机</span>
-                </a>
-            </div>
-            
-
-<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
-<ul class="right nav-menu">
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/" class="waves-effect waves-light">
-      
-      <i class="fas fa-home" style="zoom: 0.6;"></i>
-      
-      <span>首页</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/tags" class="waves-effect waves-light">
-      
-      <i class="fas fa-tags" style="zoom: 0.6;"></i>
-      
-      <span>标签</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/categories" class="waves-effect waves-light">
-      
-      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
-      
-      <span>分类</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/archives" class="waves-effect waves-light">
-      
-      <i class="fas fa-archive" style="zoom: 0.6;"></i>
-      
-      <span>归档</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/about" class="waves-effect waves-light">
-      
-      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
-      
-      <span>关于</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/contact" class="waves-effect waves-light">
-      
-      <i class="fas fa-comments" style="zoom: 0.6;"></i>
-      
-      <span>留言板</span>
-    </a>
-    
-  </li>
-  
-  <li class="hide-on-med-and-down nav-item">
-    
-    <a href="/friends" class="waves-effect waves-light">
-      
-      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
-      
-      <span>友情链接</span>
-    </a>
-    
-  </li>
-  
-  <li>
-    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
-      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
-    </a>
-  </li>
-</ul>
-
-<div id="mobile-nav" class="side-nav sidenav">
-
-    <div class="mobile-head bg-color">
-        
-        <img src="/medias/logo.png" class="logo-img circle responsive-img">
-        
-        <div class="logo-name">明日危机</div>
-        <div class="logo-desc">
-            
-            Never really desperate, only the lost of the soul.
-            
-        </div>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
+  </div>
 
-    
+  <div class="site-meta">
 
-    <ul class="menu-list mobile-menu-list">
-        
-        <li class="m-nav-item">
-	  
-		<a href="/" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-home"></i>
-			
-			首页
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/tags" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-tags"></i>
-			
-			标签
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/categories" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-bookmark"></i>
-			
-			分类
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/archives" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-archive"></i>
-			
-			归档
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/about" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-user-circle"></i>
-			
-			关于
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/contact" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-comments"></i>
-			
-			留言板
-		</a>
-          
-        </li>
-        
-        <li class="m-nav-item">
-	  
-		<a href="/friends" class="waves-effect waves-light">
-			
-			    <i class="fa-fw fas fa-address-book"></i>
-			
-			友情链接
-		</a>
-          
-        </li>
-        
-        
-        <li><div class="divider"></div></li>
-        <li>
-            <a href="https://github.com/Mingriweiji-github" class="waves-effect waves-light" target="_blank">
-                <i class="fab fa-github-square fa-fw"></i>Fork Me
-            </a>
-        </li>
-        
-    </ul>
-</div>
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">明日危机</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">iOS & Swifter</p>
+  </div>
 
-        </div>
-
-        
-            <style>
-    .nav-transparent .github-corner {
-        display: none !important;
-    }
-
-    .github-corner {
-        position: absolute;
-        z-index: 10;
-        top: 0;
-        right: 0;
-        border: 0;
-        transform: scale(1.1);
-    }
-
-    .github-corner svg {
-        color: #0f9d58;
-        fill: #fff;
-        height: 64px;
-        width: 64px;
-    }
-
-    .github-corner:hover .octo-arm {
-        animation: a 0.56s ease-in-out;
-    }
-
-    .github-corner .octo-arm {
-        animation: none;
-    }
-
-    @keyframes a {
-        0%,
-        to {
-            transform: rotate(0);
-        }
-        20%,
-        60% {
-            transform: rotate(-25deg);
-        }
-        40%,
-        80% {
-            transform: rotate(10deg);
-        }
-    }
-</style>
-
-<a href="https://github.com/Mingriweiji-github" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
-   data-tooltip="Fork Me" data-position="left" data-delay="50">
-    <svg viewBox="0 0 250 250" aria-hidden="true">
-        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
-        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
-              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
-        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
-              fill="currentColor" class="octo-body"></path>
-    </svg>
-</a>
-        
-    </nav>
-
-</header>
-
-    
-
-
-
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
-    <div class="container" style="right: 0px;left: 0px;">
-        <div class="row">
-            <div class="col s12 m12 l12">
-                <div class="brand">
-                    <h1 class="description center-align post-title">(七)Alamfire源码</h1>
-                </div>
-            </div>
-        </div>
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
     </div>
+  </div>
 </div>
 
 
 
 
-<main class="post-container content">
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
 
     
-    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
-<style>
-    #articleContent h1::before,
-    #articleContent h2::before,
-    #articleContent h3::before,
-    #articleContent h4::before,
-    #articleContent h5::before,
-    #articleContent h6::before {
-        display: block;
-        content: " ";
-        height: 100px;
-        margin-top: -100px;
-        visibility: hidden;
-    }
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
-    #articleContent :focus {
-        outline: none;
-    }
 
-    .toc-fixed {
-        position: fixed;
-        top: 64px;
-    }
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
 
-    .toc-widget {
-        width: 345px;
-        padding-left: 20px;
-    }
+          <div class="content post posts-expand">
+            
 
-    .toc-widget .toc-title {
-        margin: 35px 0 15px 0;
-        padding-left: 17px;
-        font-size: 1.5rem;
-        font-weight: bold;
-        line-height: 1.5rem;
-    }
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://mingriweiji-github.github.io/2020/06/30/(%E4%B8%83)Alamfire%E6%BA%90%E7%A0%81/">
 
-    .toc-widget ol {
-        padding: 0;
-        list-style: none;
-    }
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="KM">
+      <meta itemprop="description" content="">
+    </span>
 
-    #toc-content {
-        height: calc(100vh - 250px);
-        overflow: auto;
-    }
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="明日危机">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          (七)Alamfire源码
+        </h1>
 
-    #toc-content ol {
-        padding-left: 10px;
-    }
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
 
-    #toc-content ol li {
-        padding-left: 10px;
-    }
+              <time title="创建时间：2020-06-30 10:13:45" itemprop="dateCreated datePublished" datetime="2020-06-30T10:13:45+08:00">2020-06-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-06-29 23:16:06" itemprop="dateModified" datetime="2020-06-29T23:16:06+08:00">2020-06-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BA%90%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">源码</span></a>
+                </span>
+            </span>
 
-    #toc-content .toc-link:hover {
-        color: #42b983;
-        font-weight: 700;
-        text-decoration: underline;
-    }
-
-    #toc-content .toc-link::before {
-        background-color: transparent;
-        max-height: 25px;
-    }
-
-    #toc-content .is-active-link {
-        color: #42b983;
-    }
-
-    #toc-content .is-active-link::before {
-        background-color: #42b983;
-    }
-
-    #floating-toc-btn {
-        position: fixed;
-        right: 15px;
-        bottom: 76px;
-        padding-top: 15px;
-        margin-bottom: 0;
-        z-index: 998;
-    }
-
-    #floating-toc-btn .btn-floating {
-        width: 48px;
-        height: 48px;
-    }
-
-    #floating-toc-btn .btn-floating i {
-        line-height: 48px;
-        font-size: 1.4rem;
-    }
-</style>
-<div class="row">
-    <div id="main-content" class="col s12 m12 l9">
-        <!-- 文章内容详情 -->
-<div id="artDetail">
-    <div class="card">
-        <div class="card-content article-info">
-            <div class="row tag-cate">
-                <div class="col s7">
-                    
-                    <div class="article-tag">
-                        
-                            <a href="/tags/Swift%E4%B8%93%E9%A2%98/">
-                                <span class="chip bg-color">Swift专题</span>
-                            </a>
-                        
-                    </div>
-                    
-                </div>
-                <div class="col s5 right-align">
-                    
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/%E6%BA%90%E7%A0%81/" class="post-category">
-                                源码
-                            </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-
-            <div class="post-info">
-                
-                <div class="post-date info-break-policy">
-                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-06-30
-                </div>
-                
-
-                
-
-                
-
-                
-
-                
-            </div>
+          
 
         </div>
-        <hr class="clearfix">
-        <div class="card-content article-card-content">
-            <div id="articleContent">
-                <h2 id="Alamfire-Github地址"><a href="#Alamfire-Github地址" class="headerlink" title="Alamfire Github地址"></a><a href="https://github.com/Alamofire/Alamofire" target="_blank" rel="noopener">Alamfire Github地址</a></h2><h2 id="1、Request分析"><a href="#1、Request分析" class="headerlink" title="1、Request分析"></a>1、Request分析</h2><h4 id="Request准守的Protocol"><a href="#Request准守的Protocol" class="headerlink" title="Request准守的Protocol"></a>Request准守的Protocol</h4><ul>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Alamfire-Github地址"><a href="#Alamfire-Github地址" class="headerlink" title="Alamfire Github地址"></a><a target="_blank" rel="noopener" href="https://github.com/Alamofire/Alamofire">Alamfire Github地址</a></h2><h2 id="1、Request分析"><a href="#1、Request分析" class="headerlink" title="1、Request分析"></a>1、Request分析</h2><h4 id="Request准守的Protocol"><a href="#Request准守的Protocol" class="headerlink" title="Request准守的Protocol"></a>Request准守的Protocol</h4><ul>
 <li><p><strong>Equatable</strong></p>
 </li>
 <li><p><strong>Hashable</strong></p>
@@ -483,243 +248,38 @@
 <li><p><strong>UploadableConvertible</strong></p>
 </li>
 </ul>
-<h5 id="Equatable"><a href="#Equatable" class="headerlink" title="Equatable"></a>Equatable</h5><pre class=" language-swift"><code class="language-swift"><span class="token keyword">extension</span> <span class="token builtin">Request</span><span class="token punctuation">:</span> <span class="token builtin">Equatable</span> <span class="token punctuation">{</span>
-    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">func</span> <span class="token operator">==</span><span class="token punctuation">(</span>lhs<span class="token punctuation">:</span> <span class="token builtin">Request</span><span class="token punctuation">,</span> rhs<span class="token punctuation">:</span> <span class="token builtin">Request</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Bool</span> <span class="token punctuation">{</span>
-        <span class="token keyword">return</span> lhs<span class="token punctuation">.</span>id <span class="token operator">==</span> rhs<span class="token punctuation">.</span>id
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
-<h5 id="Hashable"><a href="#Hashable" class="headerlink" title="Hashable"></a>Hashable</h5><pre class=" language-swift"><code class="language-swift"><span class="token keyword">extension</span> <span class="token builtin">Request</span><span class="token punctuation">:</span> <span class="token builtin">Hashable</span> <span class="token punctuation">{</span>
-    <span class="token keyword">public</span> <span class="token keyword">func</span> <span class="token function">hash</span><span class="token punctuation">(</span>into hasher<span class="token punctuation">:</span> <span class="token keyword">inout</span> <span class="token builtin">Hasher</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        hasher<span class="token punctuation">.</span><span class="token function">combine</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
-<h5 id="CustomStringConvertible"><a href="#CustomStringConvertible" class="headerlink" title="CustomStringConvertible"></a>CustomStringConvertible</h5><pre class=" language-swift"><code class="language-swift">
+<h5 id="Equatable"><a href="#Equatable" class="headerlink" title="Equatable"></a>Equatable</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Request</span>: <span class="title">Equatable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> ==<span class="params">(lhs: Request, rhs: Request)</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> lhs.id == rhs.id</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<span class="token keyword">extension</span> <span class="token builtin">Request</span><span class="token punctuation">:</span> <span class="token builtin">CustomStringConvertible</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">/// A textual representation of this instance, including the `HTTPMethod` and `URL` if the `URLRequest` has been</span>
-    <span class="token comment" spellcheck="true">/// created, as well as the response status code, if a response has been received.</span>
-    <span class="token keyword">public</span> <span class="token keyword">var</span> description<span class="token punctuation">:</span> <span class="token builtin">String</span> <span class="token punctuation">{</span>
-        <span class="token keyword">guard</span> <span class="token keyword">let</span> request <span class="token operator">=</span> performedRequests<span class="token punctuation">.</span><span class="token builtin">last</span> <span class="token operator">?</span><span class="token operator">?</span> lastRequest<span class="token punctuation">,</span>
-            <span class="token keyword">let</span> url <span class="token operator">=</span> request<span class="token punctuation">.</span>url<span class="token punctuation">,</span>
-            <span class="token keyword">let</span> method <span class="token operator">=</span> request<span class="token punctuation">.</span>httpMethod <span class="token keyword">else</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token string">"No request created yet."</span> <span class="token punctuation">}</span>
+<h5 id="Hashable"><a href="#Hashable" class="headerlink" title="Hashable"></a>Hashable</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Request</span>: <span class="title">Hashable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">hash</span><span class="params">(into hasher: <span class="keyword">inout</span> Hasher)</span></span> &#123;</span><br><span class="line">        hasher.combine(id)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-        <span class="token keyword">let</span> requestDescription <span class="token operator">=</span> <span class="token string">"<span class="token interpolation"><span class="token delimiter variable">\(</span>method<span class="token delimiter variable">)</span></span> <span class="token interpolation"><span class="token delimiter variable">\(</span>url<span class="token punctuation">.</span>absoluteString<span class="token delimiter variable">)</span></span>"</span>
+<h5 id="CustomStringConvertible"><a href="#CustomStringConvertible" class="headerlink" title="CustomStringConvertible"></a>CustomStringConvertible</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Request</span>: <span class="title">CustomStringConvertible</span> </span>&#123;</span><br><span class="line">    <span class="comment">/// A textual representation of this instance, including the `HTTPMethod` and `URL` if the `URLRequest` has been</span></span><br><span class="line">    <span class="comment">/// created, as well as the response status code, if a response has been received.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">var</span> description: <span class="type">String</span> &#123;</span><br><span class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> request = performedRequests.last ?? lastRequest,</span><br><span class="line">            <span class="keyword">let</span> url = request.url,</span><br><span class="line">            <span class="keyword">let</span> method = request.httpMethod <span class="keyword">else</span> &#123; <span class="keyword">return</span> <span class="string">&quot;No request created yet.&quot;</span> &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> requestDescription = <span class="string">&quot;\(method) \(url.absoluteString)&quot;</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> response.<span class="built_in">map</span> &#123; <span class="string">&quot;\(requestDescription) (\($0.statusCode))&quot;</span> &#125; ?? requestDescription</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-        <span class="token keyword">return</span> response<span class="token punctuation">.</span><span class="token builtin">map</span> <span class="token punctuation">{</span> <span class="token string">"<span class="token interpolation"><span class="token delimiter variable">\(</span>requestDescription<span class="token delimiter variable">)</span></span> (<span class="token interpolation"><span class="token delimiter variable">\(</span>$<span class="token number">0</span><span class="token punctuation">.</span>statusCode<span class="token delimiter variable">)</span></span>)"</span> <span class="token punctuation">}</span> <span class="token operator">?</span><span class="token operator">?</span> requestDescription
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
-<h5 id="Downloadable"><a href="#Downloadable" class="headerlink" title="Downloadable"></a>Downloadable</h5><pre class=" language-swift"><code class="language-swift"> <span class="token comment" spellcheck="true">/// Type describing the source used to create the underlying `URLSessionDownloadTask`.</span>
+<h5 id="Downloadable"><a href="#Downloadable" class="headerlink" title="Downloadable"></a>Downloadable</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">/// Type describing the source used to create the underlying `URLSessionDownloadTask`.</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">Downloadable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">​    <span class="comment">/// Download should be started from the `URLRequest` produced by the associated `URLRequestConvertible` value.</span></span><br><span class="line"></span><br><span class="line">​    <span class="keyword">case</span> request(<span class="type">URLRequestConvertible</span>)</span><br><span class="line"></span><br><span class="line">​    <span class="comment">/// Download should be started from the associated resume `Data` value.</span></span><br><span class="line"></span><br><span class="line">​    <span class="keyword">case</span> resumeData(<span class="type">Data</span>)</span><br><span class="line"></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 
-  <span class="token keyword">public</span> <span class="token keyword">enum</span> <span class="token builtin">Downloadable</span> <span class="token punctuation">{</span>
+<h5 id="UploadableConvertible"><a href="#UploadableConvertible" class="headerlink" title="UploadableConvertible"></a>UploadableConvertible</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// A type that can produce an `UploadRequest.Uploadable` value.</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">protocol</span> <span class="title">UploadableConvertible</span> </span>&#123;</span><br><span class="line">    <span class="comment">/// Produces an `UploadRequest.Uploadable` value from the instance.</span></span><br><span class="line">    <span class="comment">///</span></span><br><span class="line">    <span class="comment">/// - Returns: The `UploadRequest.Uploadable`.</span></span><br><span class="line">    <span class="comment">/// - Throws:  Any `Error` produced during creation.</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">createUploadable</span><span class="params">()</span></span> <span class="keyword">throws</span> -&gt; <span class="type">UploadRequest</span>.<span class="type">Uploadable</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">UploadRequest</span>.<span class="title">Uploadable</span>: <span class="title">UploadableConvertible</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">createUploadable</span><span class="params">()</span></span> <span class="keyword">throws</span> -&gt; <span class="type">UploadRequest</span>.<span class="type">Uploadable</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">self</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// A type that can be converted to an upload, whether from an `UploadRequest.Uploadable` or `URLRequestConvertible`.</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">protocol</span> <span class="title">UploadConvertible</span>: <span class="title">UploadableConvertible</span> &amp; <span class="title">URLRequestConvertible</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
 
-​    <span class="token comment" spellcheck="true">/// Download should be started from the `URLRequest` produced by the associated `URLRequestConvertible` value.</span>
 
-​    <span class="token keyword">case</span> <span class="token function">request</span><span class="token punctuation">(</span><span class="token builtin">URLRequestConvertible</span><span class="token punctuation">)</span>
 
-​    <span class="token comment" spellcheck="true">/// Download should be started from the associated resume `Data` value.</span>
-
-​    <span class="token keyword">case</span> <span class="token function">resumeData</span><span class="token punctuation">(</span><span class="token builtin">Data</span><span class="token punctuation">)</span>
-
-  <span class="token punctuation">}</span></code></pre>
-<h5 id="UploadableConvertible"><a href="#UploadableConvertible" class="headerlink" title="UploadableConvertible"></a>UploadableConvertible</h5><pre class=" language-swift"><code class="language-swift"><span class="token comment" spellcheck="true">/// A type that can produce an `UploadRequest.Uploadable` value.</span>
-<span class="token keyword">public</span> protocol <span class="token builtin">UploadableConvertible</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">/// Produces an `UploadRequest.Uploadable` value from the instance.</span>
-    <span class="token comment" spellcheck="true">///</span>
-    <span class="token comment" spellcheck="true">/// - Returns: The `UploadRequest.Uploadable`.</span>
-    <span class="token comment" spellcheck="true">/// - Throws:  Any `Error` produced during creation.</span>
-    <span class="token keyword">func</span> <span class="token function">createUploadable</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">UploadRequest</span><span class="token punctuation">.</span><span class="token builtin">Uploadable</span>
-<span class="token punctuation">}</span>
-
-<span class="token keyword">extension</span> <span class="token builtin">UploadRequest</span><span class="token punctuation">.</span><span class="token builtin">Uploadable</span><span class="token punctuation">:</span> <span class="token builtin">UploadableConvertible</span> <span class="token punctuation">{</span>
-    <span class="token keyword">public</span> <span class="token keyword">func</span> <span class="token function">createUploadable</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">UploadRequest</span><span class="token punctuation">.</span><span class="token builtin">Uploadable</span> <span class="token punctuation">{</span>
-        <span class="token keyword">return</span> <span class="token keyword">self</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-
-<span class="token comment" spellcheck="true">/// A type that can be converted to an upload, whether from an `UploadRequest.Uploadable` or `URLRequestConvertible`.</span>
-<span class="token keyword">public</span> protocol <span class="token builtin">UploadConvertible</span><span class="token punctuation">:</span> <span class="token builtin">UploadableConvertible</span> <span class="token operator">&amp;</span> <span class="token builtin">URLRequestConvertible</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
 <h4 id="初始化字段"><a href="#初始化字段" class="headerlink" title="初始化字段"></a>初始化字段</h4><p><code>id</code>: <code>UUID为request提供唯一标识，用于hash、相等</code><br><code>underlyingQueue</code>: DispatchQueue 内部异步操作的串行队列<br><code>serializationQueue</code>: DispatchQueue 序列化使用的队列<br><code>eventMonitor</code>: EventMonitor?   事件监控<br><code>interceptor</code>: RequestInterceptor? 拦截器(重试器、适配器)<br><code>delegate</code>: RequestDelegate?</p>
-<h4 id="Result定义State枚举"><a href="#Result定义State枚举" class="headerlink" title="Result定义State枚举"></a>Result定义State枚举</h4><pre class=" language-swift"><code class="language-swift"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Request</span> <span class="token punctuation">{</span>
+<h4 id="Result定义State枚举"><a href="#Result定义State枚举" class="headerlink" title="Result定义State枚举"></a>Result定义State枚举</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Request</span> </span>&#123;</span><br><span class="line">      </span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">State</span> </span>&#123;</span><br><span class="line">        <span class="keyword">case</span> initialized <span class="comment">//初始化</span></span><br><span class="line">        <span class="keyword">case</span> resumed <span class="comment">//恢复</span></span><br><span class="line">        <span class="keyword">case</span> suspended <span class="comment">//挂起</span></span><br><span class="line">        <span class="keyword">case</span> cancelled <span class="comment">// 取消</span></span><br><span class="line">        <span class="keyword">case</span> finished <span class="comment">//完成</span></span><br><span class="line">				<span class="function"><span class="keyword">func</span> <span class="title">canTransitionTo</span><span class="params">(<span class="number">_</span> state: State)</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">            <span class="keyword">switch</span> (<span class="keyword">self</span>, state) &#123;</span><br><span class="line">            <span class="keyword">case</span> (.initialized, <span class="number">_</span>):</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">            <span class="keyword">case</span> (<span class="number">_</span>, .initialized), (.cancelled, <span class="number">_</span>), (.finished, <span class="number">_</span>):</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">            <span class="keyword">case</span> (.resumed, .cancelled), (.suspended, .cancelled), (.resumed, .suspended), (.suspended, .resumed):</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">            <span class="keyword">case</span> (.suspended, .suspended), (.resumed, .resumed):</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">            <span class="keyword">case</span> (<span class="number">_</span>, .finished):</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">      <span class="comment">// MARK: - Initial State</span></span><br><span class="line">		  <span class="comment">// MARK: - Mutable State</span></span><br><span class="line">      <span class="comment">// MARK: Progress</span></span><br><span class="line">      <span class="comment">// MARK: Redirect Handling</span></span><br><span class="line">      <span class="comment">// MARK: Cached Response Handling</span></span><br><span class="line">      <span class="comment">// MARK: URLCredential</span></span><br><span class="line">      <span class="comment">// MARK: Validators</span></span><br><span class="line">      <span class="comment">// MARK: URLRequests</span></span><br><span class="line">      <span class="comment">// MARK: HTTPURLResponse</span></span><br><span class="line">      </span><br><span class="line">      <span class="comment">// MARK: Tasks</span></span><br><span class="line">      <span class="comment">/// All `URLSessionTask`s created on behalf of the `Request`.</span></span><br><span class="line">      <span class="keyword">public</span> <span class="keyword">var</span> tasks: [<span class="type">URLSessionTask</span>] &#123; <span class="keyword">return</span> protectedMutableState.directValue.tasks &#125;</span><br><span class="line">      <span class="comment">/// First `URLSessionTask` created on behalf of the `Request`.</span></span><br><span class="line">      <span class="keyword">public</span> <span class="keyword">var</span> firstTask: <span class="type">URLSessionTask?</span> &#123; <span class="keyword">return</span> tasks.first &#125;</span><br><span class="line">      <span class="comment">/// Last `URLSessionTask` crated on behalf of the `Request`.</span></span><br><span class="line">      <span class="keyword">public</span> <span class="keyword">var</span> lastTask: <span class="type">URLSessionTask?</span> &#123; <span class="keyword">return</span> tasks.last &#125;</span><br><span class="line">      <span class="comment">/// Current `URLSessionTask` created on behalf of the `Request`.</span></span><br><span class="line">      <span class="keyword">public</span> <span class="keyword">var</span> task: <span class="type">URLSessionTask?</span> &#123; <span class="keyword">return</span> lastTask &#125;</span><br><span class="line">      </span><br><span class="line">      <span class="comment">///MARK: Metrics</span></span><br><span class="line">      </span><br><span class="line">      <span class="comment">///MARK: Retry Count</span></span><br><span class="line">      <span class="keyword">public</span> <span class="keyword">var</span> retryCount: <span class="type">Int</span> &#123; <span class="keyword">return</span> protectedMutableState.directValue.retryCount &#125;</span><br><span class="line">      <span class="comment">///MARK: Error</span></span><br><span class="line">      <span class="keyword">public</span> <span class="keyword">fileprivate</span>(<span class="keyword">set</span>) <span class="keyword">var</span> error: <span class="type">AFError?</span> &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123; <span class="keyword">return</span> protectedMutableState.directValue.error &#125;</span><br><span class="line">        <span class="keyword">set</span> &#123; protectedMutableState.write &#123; $<span class="number">0</span>.error = newValue &#125; &#125;</span><br><span class="line">     &#125;</span><br><span class="line">      </span><br><span class="line">     <span class="comment">// MARK: - Internal Event API</span></span><br><span class="line">     <span class="comment">// All API must be called from underlyingQueue.(所有的API必须从底层队列调用)      </span></span><br><span class="line">      </span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    <span class="token keyword">public</span> <span class="token keyword">enum</span> <span class="token builtin">State</span> <span class="token punctuation">{</span>
-        <span class="token keyword">case</span> initialized <span class="token comment" spellcheck="true">//初始化</span>
-        <span class="token keyword">case</span> resumed <span class="token comment" spellcheck="true">//恢复</span>
-        <span class="token keyword">case</span> suspended <span class="token comment" spellcheck="true">//挂起</span>
-        <span class="token keyword">case</span> cancelled <span class="token comment" spellcheck="true">// 取消</span>
-        <span class="token keyword">case</span> finished <span class="token comment" spellcheck="true">//完成</span>
-                <span class="token keyword">func</span> <span class="token function">canTransitionTo</span><span class="token punctuation">(</span><span class="token number">_</span> state<span class="token punctuation">:</span> <span class="token builtin">State</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Bool</span> <span class="token punctuation">{</span>
-            <span class="token keyword">switch</span> <span class="token punctuation">(</span><span class="token keyword">self</span><span class="token punctuation">,</span> state<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            <span class="token keyword">case</span> <span class="token punctuation">(</span><span class="token punctuation">.</span>initialized<span class="token punctuation">,</span> <span class="token number">_</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-                <span class="token keyword">return</span> <span class="token boolean">true</span>
-            <span class="token keyword">case</span> <span class="token punctuation">(</span><span class="token number">_</span><span class="token punctuation">,</span> <span class="token punctuation">.</span>initialized<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">.</span>cancelled<span class="token punctuation">,</span> <span class="token number">_</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">.</span>finished<span class="token punctuation">,</span> <span class="token number">_</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-                <span class="token keyword">return</span> <span class="token boolean">false</span>
-            <span class="token keyword">case</span> <span class="token punctuation">(</span><span class="token punctuation">.</span>resumed<span class="token punctuation">,</span> <span class="token punctuation">.</span>cancelled<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">.</span>suspended<span class="token punctuation">,</span> <span class="token punctuation">.</span>cancelled<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">.</span>resumed<span class="token punctuation">,</span> <span class="token punctuation">.</span>suspended<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">.</span>suspended<span class="token punctuation">,</span> <span class="token punctuation">.</span>resumed<span class="token punctuation">)</span><span class="token punctuation">:</span>
-                <span class="token keyword">return</span> <span class="token boolean">true</span>
-            <span class="token keyword">case</span> <span class="token punctuation">(</span><span class="token punctuation">.</span>suspended<span class="token punctuation">,</span> <span class="token punctuation">.</span>suspended<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token punctuation">.</span>resumed<span class="token punctuation">,</span> <span class="token punctuation">.</span>resumed<span class="token punctuation">)</span><span class="token punctuation">:</span>
-                <span class="token keyword">return</span> <span class="token boolean">false</span>
-            <span class="token keyword">case</span> <span class="token punctuation">(</span><span class="token number">_</span><span class="token punctuation">,</span> <span class="token punctuation">.</span>finished<span class="token punctuation">)</span><span class="token punctuation">:</span>
-                <span class="token keyword">return</span> <span class="token boolean">true</span>
-            <span class="token punctuation">}</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
 
-      <span class="token comment" spellcheck="true">// MARK: - Initial State</span>
-          <span class="token comment" spellcheck="true">// MARK: - Mutable State</span>
-      <span class="token comment" spellcheck="true">// MARK: Progress</span>
-      <span class="token comment" spellcheck="true">// MARK: Redirect Handling</span>
-      <span class="token comment" spellcheck="true">// MARK: Cached Response Handling</span>
-      <span class="token comment" spellcheck="true">// MARK: URLCredential</span>
-      <span class="token comment" spellcheck="true">// MARK: Validators</span>
-      <span class="token comment" spellcheck="true">// MARK: URLRequests</span>
-      <span class="token comment" spellcheck="true">// MARK: HTTPURLResponse</span>
 
-      <span class="token comment" spellcheck="true">// MARK: Tasks</span>
-      <span class="token comment" spellcheck="true">/// All `URLSessionTask`s created on behalf of the `Request`.</span>
-      <span class="token keyword">public</span> <span class="token keyword">var</span> tasks<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token builtin">URLSessionTask</span><span class="token punctuation">]</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> protectedMutableState<span class="token punctuation">.</span>directValue<span class="token punctuation">.</span>tasks <span class="token punctuation">}</span>
-      <span class="token comment" spellcheck="true">/// First `URLSessionTask` created on behalf of the `Request`.</span>
-      <span class="token keyword">public</span> <span class="token keyword">var</span> firstTask<span class="token punctuation">:</span> <span class="token builtin">URLSessionTask</span><span class="token operator">?</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> tasks<span class="token punctuation">.</span><span class="token builtin">first</span> <span class="token punctuation">}</span>
-      <span class="token comment" spellcheck="true">/// Last `URLSessionTask` crated on behalf of the `Request`.</span>
-      <span class="token keyword">public</span> <span class="token keyword">var</span> lastTask<span class="token punctuation">:</span> <span class="token builtin">URLSessionTask</span><span class="token operator">?</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> tasks<span class="token punctuation">.</span><span class="token builtin">last</span> <span class="token punctuation">}</span>
-      <span class="token comment" spellcheck="true">/// Current `URLSessionTask` created on behalf of the `Request`.</span>
-      <span class="token keyword">public</span> <span class="token keyword">var</span> task<span class="token punctuation">:</span> <span class="token builtin">URLSessionTask</span><span class="token operator">?</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> lastTask <span class="token punctuation">}</span>
+<h4 id="Task相关-cancle-resume-suspend"><a href="#Task相关-cancle-resume-suspend" class="headerlink" title="Task相关: cancle/resume/suspend"></a>Task相关: cancle/resume/suspend</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// MARK: Task Creation</span></span><br><span class="line"><span class="comment">/// - Returns:   The `URLSessionTask` created.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">task</span><span class="params">(<span class="keyword">for</span> request: URLRequest, using session: URLSession)</span></span> -&gt; <span class="type">URLSessionTask</span> &#123;</span><br><span class="line">    <span class="built_in">fatalError</span>(<span class="string">&quot;Subclasses must override.&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// MARK: State</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@discardableResult</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">cancel</span><span class="params">()</span></span> -&gt; <span class="type">Self</span> &#123;</span><br><span class="line">        protectedMutableState.write &#123; mutableState <span class="keyword">in</span></span><br><span class="line">            <span class="keyword">guard</span> mutableState.state.canTransitionTo(.cancelled) <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line"></span><br><span class="line">            mutableState.state = .cancelled</span><br><span class="line"></span><br><span class="line">            underlyingQueue.async &#123; <span class="keyword">self</span>.didCancel() &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">guard</span> <span class="keyword">let</span> task = mutableState.tasks.last, task.state != .completed <span class="keyword">else</span> &#123;</span><br><span class="line">                underlyingQueue.async &#123; <span class="keyword">self</span>.finish() &#125;</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Resume to ensure metrics are gathered.</span></span><br><span class="line">            task.resume()</span><br><span class="line">            task.cancel()</span><br><span class="line">            underlyingQueue.async &#123; <span class="keyword">self</span>.didCancelTask(task) &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">self</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Suspends the instance.</span></span><br><span class="line">    <span class="comment">///</span></span><br><span class="line">    <span class="comment">/// - Returns: The instance.</span></span><br><span class="line">    <span class="meta">@discardableResult</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">suspend</span><span class="params">()</span></span> -&gt; <span class="type">Self</span> &#123;</span><br><span class="line">        protectedMutableState.write &#123; mutableState <span class="keyword">in</span></span><br><span class="line">            <span class="keyword">guard</span> mutableState.state.canTransitionTo(.suspended) <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line"></span><br><span class="line">            mutableState.state = .suspended</span><br><span class="line"></span><br><span class="line">            underlyingQueue.async &#123; <span class="keyword">self</span>.didSuspend() &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">guard</span> <span class="keyword">let</span> task = mutableState.tasks.last, task.state != .completed <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line"></span><br><span class="line">            task.suspend()</span><br><span class="line">            underlyingQueue.async &#123; <span class="keyword">self</span>.didSuspendTask(task) &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">self</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Resumes the instance.</span></span><br><span class="line">    <span class="comment">///</span></span><br><span class="line">    <span class="comment">/// - Returns: The instance.</span></span><br><span class="line">    <span class="meta">@discardableResult</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">resume</span><span class="params">()</span></span> -&gt; <span class="type">Self</span> &#123;</span><br><span class="line">        protectedMutableState.write &#123; mutableState <span class="keyword">in</span></span><br><span class="line">            <span class="keyword">guard</span> mutableState.state.canTransitionTo(.resumed) <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line"></span><br><span class="line">            mutableState.state = .resumed</span><br><span class="line"></span><br><span class="line">            underlyingQueue.async &#123; <span class="keyword">self</span>.didResume() &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">guard</span> <span class="keyword">let</span> task = mutableState.tasks.last, task.state != .completed <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line"></span><br><span class="line">            task.resume()</span><br><span class="line">            underlyingQueue.async &#123; <span class="keyword">self</span>.didResumeTask(task) &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">self</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
-      <span class="token comment" spellcheck="true">///MARK: Metrics</span>
 
-      <span class="token comment" spellcheck="true">///MARK: Retry Count</span>
-      <span class="token keyword">public</span> <span class="token keyword">var</span> retryCount<span class="token punctuation">:</span> <span class="token builtin">Int</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> protectedMutableState<span class="token punctuation">.</span>directValue<span class="token punctuation">.</span>retryCount <span class="token punctuation">}</span>
-      <span class="token comment" spellcheck="true">///MARK: Error</span>
-      <span class="token keyword">public</span> <span class="token function">fileprivate</span><span class="token punctuation">(</span><span class="token keyword">set</span><span class="token punctuation">)</span> <span class="token keyword">var</span> error<span class="token punctuation">:</span> <span class="token builtin">AFError</span><span class="token operator">?</span> <span class="token punctuation">{</span>
-        <span class="token keyword">get</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> protectedMutableState<span class="token punctuation">.</span>directValue<span class="token punctuation">.</span>error <span class="token punctuation">}</span>
-        <span class="token keyword">set</span> <span class="token punctuation">{</span> protectedMutableState<span class="token punctuation">.</span>write <span class="token punctuation">{</span> $<span class="token number">0</span><span class="token punctuation">.</span>error <span class="token operator">=</span> newValue <span class="token punctuation">}</span> <span class="token punctuation">}</span>
-     <span class="token punctuation">}</span>
 
-     <span class="token comment" spellcheck="true">// MARK: - Internal Event API</span>
-     <span class="token comment" spellcheck="true">// All API must be called from underlyingQueue.(所有的API必须从底层队列调用)      </span>
+<h4 id="State"><a href="#State" class="headerlink" title="State"></a>State</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// Protected `MutableState` value that provides thread-safe access to state values.</span></span><br><span class="line">   <span class="keyword">fileprivate</span> <span class="keyword">let</span> protectedMutableState: <span class="type">Protector</span>&lt;<span class="type">MutableState</span>&gt; = <span class="type">Protector</span>(<span class="type">MutableState</span>())</span><br><span class="line"></span><br><span class="line">   <span class="comment">/// `State` of the `Request`.</span></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">var</span> state: <span class="type">State</span> &#123; <span class="keyword">return</span> protectedMutableState.directValue.state &#125;</span><br><span class="line">   <span class="comment">/// Returns whether `state` is `.initialized`.</span></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">var</span> isInitialized: <span class="type">Bool</span> &#123; <span class="keyword">return</span> state == .initialized &#125;</span><br><span class="line">   <span class="comment">/// Returns whether `state is `.resumed`.</span></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">var</span> isResumed: <span class="type">Bool</span> &#123; <span class="keyword">return</span> state == .resumed &#125;</span><br><span class="line">   <span class="comment">/// Returns whether `state` is `.suspended`.</span></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">var</span> isSuspended: <span class="type">Bool</span> &#123; <span class="keyword">return</span> state == .suspended &#125;</span><br><span class="line">   <span class="comment">/// Returns whether `state` is `.cancelled`.</span></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">var</span> isCancelled: <span class="type">Bool</span> &#123; <span class="keyword">return</span> state == .cancelled &#125;</span><br><span class="line">   <span class="comment">/// Returns whether `state` is `.finished`.</span></span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">var</span> isFinished: <span class="type">Bool</span> &#123; <span class="keyword">return</span> state == .finished &#125;</span><br></pre></td></tr></table></figure>
 
-<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
-<span class="token punctuation">}</span></code></pre>
-<h4 id="Task相关-cancle-resume-suspend"><a href="#Task相关-cancle-resume-suspend" class="headerlink" title="Task相关: cancle/resume/suspend"></a>Task相关: cancle/resume/suspend</h4><pre class=" language-swift"><code class="language-swift"><span class="token comment" spellcheck="true">// MARK: Task Creation</span>
-<span class="token comment" spellcheck="true">/// - Returns:   The `URLSessionTask` created.</span>
-<span class="token keyword">func</span> <span class="token function">task</span><span class="token punctuation">(</span><span class="token keyword">for</span> request<span class="token punctuation">:</span> <span class="token builtin">URLRequest</span><span class="token punctuation">,</span> using session<span class="token punctuation">:</span> <span class="token builtin">URLSession</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">URLSessionTask</span> <span class="token punctuation">{</span>
-    <span class="token function">fatalError</span><span class="token punctuation">(</span><span class="token string">"Subclasses must override."</span><span class="token punctuation">)</span>
-<span class="token punctuation">}</span>
-<span class="token comment" spellcheck="true">// MARK: State</span>
-
-    @discardableResult
-    <span class="token keyword">public</span> <span class="token keyword">func</span> <span class="token function">cancel</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token keyword">Self</span> <span class="token punctuation">{</span>
-        protectedMutableState<span class="token punctuation">.</span>write <span class="token punctuation">{</span> mutableState <span class="token keyword">in</span>
-            <span class="token keyword">guard</span> mutableState<span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">canTransitionTo</span><span class="token punctuation">(</span><span class="token punctuation">.</span>cancelled<span class="token punctuation">)</span> <span class="token keyword">else</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token punctuation">}</span>
-
-            mutableState<span class="token punctuation">.</span>state <span class="token operator">=</span> <span class="token punctuation">.</span>cancelled
-
-            underlyingQueue<span class="token punctuation">.</span>async <span class="token punctuation">{</span> <span class="token keyword">self</span><span class="token punctuation">.</span><span class="token function">didCancel</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">}</span>
-
-            <span class="token keyword">guard</span> <span class="token keyword">let</span> task <span class="token operator">=</span> mutableState<span class="token punctuation">.</span>tasks<span class="token punctuation">.</span><span class="token builtin">last</span><span class="token punctuation">,</span> task<span class="token punctuation">.</span>state <span class="token operator">!=</span> <span class="token punctuation">.</span>completed <span class="token keyword">else</span> <span class="token punctuation">{</span>
-                underlyingQueue<span class="token punctuation">.</span>async <span class="token punctuation">{</span> <span class="token keyword">self</span><span class="token punctuation">.</span><span class="token function">finish</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">}</span>
-                <span class="token keyword">return</span>
-            <span class="token punctuation">}</span>
-
-            <span class="token comment" spellcheck="true">// Resume to ensure metrics are gathered.</span>
-            task<span class="token punctuation">.</span><span class="token function">resume</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-            task<span class="token punctuation">.</span><span class="token function">cancel</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-            underlyingQueue<span class="token punctuation">.</span>async <span class="token punctuation">{</span> <span class="token keyword">self</span><span class="token punctuation">.</span><span class="token function">didCancelTask</span><span class="token punctuation">(</span>task<span class="token punctuation">)</span> <span class="token punctuation">}</span>
-        <span class="token punctuation">}</span>
-
-        <span class="token keyword">return</span> <span class="token keyword">self</span>
-    <span class="token punctuation">}</span>
-
-    <span class="token comment" spellcheck="true">/// Suspends the instance.</span>
-    <span class="token comment" spellcheck="true">///</span>
-    <span class="token comment" spellcheck="true">/// - Returns: The instance.</span>
-    @discardableResult
-    <span class="token keyword">public</span> <span class="token keyword">func</span> <span class="token function">suspend</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token keyword">Self</span> <span class="token punctuation">{</span>
-        protectedMutableState<span class="token punctuation">.</span>write <span class="token punctuation">{</span> mutableState <span class="token keyword">in</span>
-            <span class="token keyword">guard</span> mutableState<span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">canTransitionTo</span><span class="token punctuation">(</span><span class="token punctuation">.</span>suspended<span class="token punctuation">)</span> <span class="token keyword">else</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token punctuation">}</span>
-
-            mutableState<span class="token punctuation">.</span>state <span class="token operator">=</span> <span class="token punctuation">.</span>suspended
-
-            underlyingQueue<span class="token punctuation">.</span>async <span class="token punctuation">{</span> <span class="token keyword">self</span><span class="token punctuation">.</span><span class="token function">didSuspend</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">}</span>
-
-            <span class="token keyword">guard</span> <span class="token keyword">let</span> task <span class="token operator">=</span> mutableState<span class="token punctuation">.</span>tasks<span class="token punctuation">.</span><span class="token builtin">last</span><span class="token punctuation">,</span> task<span class="token punctuation">.</span>state <span class="token operator">!=</span> <span class="token punctuation">.</span>completed <span class="token keyword">else</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token punctuation">}</span>
-
-            task<span class="token punctuation">.</span><span class="token function">suspend</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-            underlyingQueue<span class="token punctuation">.</span>async <span class="token punctuation">{</span> <span class="token keyword">self</span><span class="token punctuation">.</span><span class="token function">didSuspendTask</span><span class="token punctuation">(</span>task<span class="token punctuation">)</span> <span class="token punctuation">}</span>
-        <span class="token punctuation">}</span>
-
-        <span class="token keyword">return</span> <span class="token keyword">self</span>
-    <span class="token punctuation">}</span>
-
-    <span class="token comment" spellcheck="true">/// Resumes the instance.</span>
-    <span class="token comment" spellcheck="true">///</span>
-    <span class="token comment" spellcheck="true">/// - Returns: The instance.</span>
-    @discardableResult
-    <span class="token keyword">public</span> <span class="token keyword">func</span> <span class="token function">resume</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token keyword">Self</span> <span class="token punctuation">{</span>
-        protectedMutableState<span class="token punctuation">.</span>write <span class="token punctuation">{</span> mutableState <span class="token keyword">in</span>
-            <span class="token keyword">guard</span> mutableState<span class="token punctuation">.</span>state<span class="token punctuation">.</span><span class="token function">canTransitionTo</span><span class="token punctuation">(</span><span class="token punctuation">.</span>resumed<span class="token punctuation">)</span> <span class="token keyword">else</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token punctuation">}</span>
-
-            mutableState<span class="token punctuation">.</span>state <span class="token operator">=</span> <span class="token punctuation">.</span>resumed
-
-            underlyingQueue<span class="token punctuation">.</span>async <span class="token punctuation">{</span> <span class="token keyword">self</span><span class="token punctuation">.</span><span class="token function">didResume</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">}</span>
-
-            <span class="token keyword">guard</span> <span class="token keyword">let</span> task <span class="token operator">=</span> mutableState<span class="token punctuation">.</span>tasks<span class="token punctuation">.</span><span class="token builtin">last</span><span class="token punctuation">,</span> task<span class="token punctuation">.</span>state <span class="token operator">!=</span> <span class="token punctuation">.</span>completed <span class="token keyword">else</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> <span class="token punctuation">}</span>
-
-            task<span class="token punctuation">.</span><span class="token function">resume</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-            underlyingQueue<span class="token punctuation">.</span>async <span class="token punctuation">{</span> <span class="token keyword">self</span><span class="token punctuation">.</span><span class="token function">didResumeTask</span><span class="token punctuation">(</span>task<span class="token punctuation">)</span> <span class="token punctuation">}</span>
-        <span class="token punctuation">}</span>
-
-        <span class="token keyword">return</span> <span class="token keyword">self</span>
-    <span class="token punctuation">}</span></code></pre>
-<h4 id="State"><a href="#State" class="headerlink" title="State"></a>State</h4><pre class=" language-swift"><code class="language-swift"> <span class="token comment" spellcheck="true">/// Protected `MutableState` value that provides thread-safe access to state values.</span>
-    fileprivate <span class="token keyword">let</span> protectedMutableState<span class="token punctuation">:</span> <span class="token builtin">Protector</span><span class="token operator">&lt;</span><span class="token builtin">MutableState</span><span class="token operator">></span> <span class="token operator">=</span> <span class="token function">Protector</span><span class="token punctuation">(</span><span class="token function">MutableState</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-
-    <span class="token comment" spellcheck="true">/// `State` of the `Request`.</span>
-    <span class="token keyword">public</span> <span class="token keyword">var</span> state<span class="token punctuation">:</span> <span class="token builtin">State</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> protectedMutableState<span class="token punctuation">.</span>directValue<span class="token punctuation">.</span>state <span class="token punctuation">}</span>
-    <span class="token comment" spellcheck="true">/// Returns whether `state` is `.initialized`.</span>
-    <span class="token keyword">public</span> <span class="token keyword">var</span> isInitialized<span class="token punctuation">:</span> <span class="token builtin">Bool</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> state <span class="token operator">==</span> <span class="token punctuation">.</span>initialized <span class="token punctuation">}</span>
-    <span class="token comment" spellcheck="true">/// Returns whether `state is `.resumed`.</span>
-    <span class="token keyword">public</span> <span class="token keyword">var</span> isResumed<span class="token punctuation">:</span> <span class="token builtin">Bool</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> state <span class="token operator">==</span> <span class="token punctuation">.</span>resumed <span class="token punctuation">}</span>
-    <span class="token comment" spellcheck="true">/// Returns whether `state` is `.suspended`.</span>
-    <span class="token keyword">public</span> <span class="token keyword">var</span> isSuspended<span class="token punctuation">:</span> <span class="token builtin">Bool</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> state <span class="token operator">==</span> <span class="token punctuation">.</span>suspended <span class="token punctuation">}</span>
-    <span class="token comment" spellcheck="true">/// Returns whether `state` is `.cancelled`.</span>
-    <span class="token keyword">public</span> <span class="token keyword">var</span> isCancelled<span class="token punctuation">:</span> <span class="token builtin">Bool</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> state <span class="token operator">==</span> <span class="token punctuation">.</span>cancelled <span class="token punctuation">}</span>
-    <span class="token comment" spellcheck="true">/// Returns whether `state` is `.finished`.</span>
-    <span class="token keyword">public</span> <span class="token keyword">var</span> isFinished<span class="token punctuation">:</span> <span class="token builtin">Bool</span> <span class="token punctuation">{</span> <span class="token keyword">return</span> state <span class="token operator">==</span> <span class="token punctuation">.</span>finished <span class="token punctuation">}</span></code></pre>
 <h4 id="可变状态MutableState"><a href="#可变状态MutableState" class="headerlink" title="可变状态MutableState"></a>可变状态MutableState</h4><p>通过结构体MutableState封装，包括进度、重定向、缓存、cURL、响应序列化、凭证、请求、task、metrics、重试次数、错误。</p>
-<pre class=" language-swift"><code class="language-swift"><span class="token comment" spellcheck="true">/// Protected `MutableState` value that provides thread-safe access to state values.</span>
-    fileprivate <span class="token keyword">let</span> protectedMutableState<span class="token punctuation">:</span> <span class="token builtin">Protector</span><span class="token operator">&lt;</span><span class="token builtin">MutableState</span><span class="token operator">></span> <span class="token operator">=</span> <span class="token function">Protector</span><span class="token punctuation">(</span><span class="token function">MutableState</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
-<pre class=" language-swift"><code class="language-swift">    <span class="token keyword">struct</span> <span class="token builtin">MutableState</span> <span class="token punctuation">{</span>
-        <span class="token comment" spellcheck="true">/// State of the `Request`.</span>
-        <span class="token keyword">var</span> state<span class="token punctuation">:</span> <span class="token builtin">State</span> <span class="token operator">=</span> <span class="token punctuation">.</span>initialized
-        <span class="token comment" spellcheck="true">/// `ProgressHandler` and `DispatchQueue` provided for upload progress callbacks.</span>
-        <span class="token keyword">var</span> uploadProgressHandler<span class="token punctuation">:</span> <span class="token punctuation">(</span>handler<span class="token punctuation">:</span> <span class="token builtin">ProgressHandler</span><span class="token punctuation">,</span> queue<span class="token punctuation">:</span> <span class="token builtin">DispatchQueue</span><span class="token punctuation">)</span><span class="token operator">?</span>
-        <span class="token comment" spellcheck="true">/// `ProgressHandler` and `DispatchQueue` provided for download progress callbacks.</span>
-        <span class="token keyword">var</span> downloadProgressHandler<span class="token punctuation">:</span> <span class="token punctuation">(</span>handler<span class="token punctuation">:</span> <span class="token builtin">ProgressHandler</span><span class="token punctuation">,</span> queue<span class="token punctuation">:</span> <span class="token builtin">DispatchQueue</span><span class="token punctuation">)</span><span class="token operator">?</span>
-        <span class="token comment" spellcheck="true">/// `RedirectHandler` provided for to handle request redirection.</span>
-        <span class="token keyword">var</span> redirectHandler<span class="token punctuation">:</span> <span class="token builtin">RedirectHandler</span><span class="token operator">?</span>
-        <span class="token comment" spellcheck="true">/// `CachedResponseHandler` provided to handle response caching.</span>
-        <span class="token keyword">var</span> cachedResponseHandler<span class="token punctuation">:</span> <span class="token builtin">CachedResponseHandler</span><span class="token operator">?</span>
-        <span class="token comment" spellcheck="true">/// Closure called when the `Request` is able to create a cURL description of itself.</span>
-        <span class="token keyword">var</span> cURLHandler<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token builtin">String</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Void</span><span class="token punctuation">)</span><span class="token operator">?</span>
-        <span class="token comment" spellcheck="true">/// Response serialization closures that handle response parsing.</span>
-        <span class="token keyword">var</span> responseSerializers<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Void</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
-        <span class="token comment" spellcheck="true">/// Response serialization completion closures executed once all response serializers are complete.</span>
-        <span class="token keyword">var</span> responseSerializerCompletions<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-</span><span class="token operator">></span> <span class="token builtin">Void</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
-        <span class="token comment" spellcheck="true">/// Whether response serializer processing is finished.</span>
-        <span class="token keyword">var</span> responseSerializerProcessingFinished <span class="token operator">=</span> <span class="token boolean">false</span>
-        <span class="token comment" spellcheck="true">/// `URLCredential` used for authentication challenges.</span>
-        <span class="token keyword">var</span> credential<span class="token punctuation">:</span> <span class="token builtin">URLCredential</span><span class="token operator">?</span>
-        <span class="token comment" spellcheck="true">/// All `URLRequest`s created by Alamofire on behalf of the `Request`.</span>
-        <span class="token keyword">var</span> requests<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token builtin">URLRequest</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
-        <span class="token comment" spellcheck="true">/// All `URLSessionTask`s created by Alamofire on behalf of the `Request`.</span>
-        <span class="token keyword">var</span> tasks<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token builtin">URLSessionTask</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
-        <span class="token comment" spellcheck="true">/// All `URLSessionTaskMetrics` values gathered by Alamofire on behalf of the `Request`. Should correspond</span>
-        <span class="token comment" spellcheck="true">/// exactly the the `tasks` created.</span>
-        <span class="token keyword">var</span> metrics<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token builtin">URLSessionTaskMetrics</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
-        <span class="token comment" spellcheck="true">/// Number of times any retriers provided retried the `Request`.</span>
-        <span class="token keyword">var</span> retryCount <span class="token operator">=</span> <span class="token number">0</span>
-        <span class="token comment" spellcheck="true">/// Final `AFError` for the `Request`, whether from various internal Alamofire calls or as a result of a `task`.</span>
-        <span class="token keyword">var</span> error<span class="token punctuation">:</span> <span class="token builtin">AFError</span><span class="token operator">?</span>
-    <span class="token punctuation">}</span></code></pre>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// Protected `MutableState` value that provides thread-safe access to state values.</span></span><br><span class="line">    <span class="keyword">fileprivate</span> <span class="keyword">let</span> protectedMutableState: <span class="type">Protector</span>&lt;<span class="type">MutableState</span>&gt; = <span class="type">Protector</span>(<span class="type">MutableState</span>())</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">MutableState</span> </span>&#123;</span><br><span class="line">    <span class="comment">/// State of the `Request`.</span></span><br><span class="line">    <span class="keyword">var</span> state: <span class="type">State</span> = .initialized</span><br><span class="line">    <span class="comment">/// `ProgressHandler` and `DispatchQueue` provided for upload progress callbacks.</span></span><br><span class="line">    <span class="keyword">var</span> uploadProgressHandler: (handler: <span class="type">ProgressHandler</span>, queue: <span class="type">DispatchQueue</span>)?</span><br><span class="line">    <span class="comment">/// `ProgressHandler` and `DispatchQueue` provided for download progress callbacks.</span></span><br><span class="line">    <span class="keyword">var</span> downloadProgressHandler: (handler: <span class="type">ProgressHandler</span>, queue: <span class="type">DispatchQueue</span>)?</span><br><span class="line">    <span class="comment">/// `RedirectHandler` provided for to handle request redirection.</span></span><br><span class="line">    <span class="keyword">var</span> redirectHandler: <span class="type">RedirectHandler?</span></span><br><span class="line">    <span class="comment">/// `CachedResponseHandler` provided to handle response caching.</span></span><br><span class="line">    <span class="keyword">var</span> cachedResponseHandler: <span class="type">CachedResponseHandler?</span></span><br><span class="line">    <span class="comment">/// Closure called when the `Request` is able to create a cURL description of itself.</span></span><br><span class="line">    <span class="keyword">var</span> cURLHandler: ((<span class="type">String</span>) -&gt; <span class="type">Void</span>)?</span><br><span class="line">    <span class="comment">/// Response serialization closures that handle response parsing.</span></span><br><span class="line">    <span class="keyword">var</span> responseSerializers: [() -&gt; <span class="type">Void</span>] = []</span><br><span class="line">    <span class="comment">/// Response serialization completion closures executed once all response serializers are complete.</span></span><br><span class="line">    <span class="keyword">var</span> responseSerializerCompletions: [() -&gt; <span class="type">Void</span>] = []</span><br><span class="line">    <span class="comment">/// Whether response serializer processing is finished.</span></span><br><span class="line">    <span class="keyword">var</span> responseSerializerProcessingFinished = <span class="literal">false</span></span><br><span class="line">    <span class="comment">/// `URLCredential` used for authentication challenges.</span></span><br><span class="line">    <span class="keyword">var</span> credential: <span class="type">URLCredential?</span></span><br><span class="line">    <span class="comment">/// All `URLRequest`s created by Alamofire on behalf of the `Request`.</span></span><br><span class="line">    <span class="keyword">var</span> requests: [<span class="type">URLRequest</span>] = []</span><br><span class="line">    <span class="comment">/// All `URLSessionTask`s created by Alamofire on behalf of the `Request`.</span></span><br><span class="line">    <span class="keyword">var</span> tasks: [<span class="type">URLSessionTask</span>] = []</span><br><span class="line">    <span class="comment">/// All `URLSessionTaskMetrics` values gathered by Alamofire on behalf of the `Request`. Should correspond</span></span><br><span class="line">    <span class="comment">/// exactly the the `tasks` created.</span></span><br><span class="line">    <span class="keyword">var</span> metrics: [<span class="type">URLSessionTaskMetrics</span>] = []</span><br><span class="line">    <span class="comment">/// Number of times any retriers provided retried the `Request`.</span></span><br><span class="line">    <span class="keyword">var</span> retryCount = <span class="number">0</span></span><br><span class="line">    <span class="comment">/// Final `AFError` for the `Request`, whether from various internal Alamofire calls or as a result of a `task`.</span></span><br><span class="line">    <span class="keyword">var</span> error: <span class="type">AFError?</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
 <h5 id="Redirects"><a href="#Redirects" class="headerlink" title="Redirects"></a>Redirects</h5><ul>
 <li>如果多次设置重定向hander是逻辑错误的而且会引起crash</li>
 <li>如果设置了redirect handler,当redirect response 响应的话，会使用到实例Request</li>
@@ -730,836 +290,243 @@
 <li><p>Note: Attempting to set the cache handler more than once is a logic error and will crash.</p>
 </li>
 </ul>
-<h4 id="Clearup"><a href="#Clearup" class="headerlink" title="Clearup"></a>Clearup</h4><pre class=" language-swift"><code class="language-swift"><span class="token comment" spellcheck="true">/// Final cleanup step executed when the instance finishes response serialization.</span>
-    <span class="token keyword">func</span> <span class="token function">cleanup</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        delegate<span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">cleanup</span><span class="token punctuation">(</span>after<span class="token punctuation">:</span> <span class="token keyword">self</span><span class="token punctuation">)</span>
-        <span class="token comment" spellcheck="true">// No-op: override in subclass</span>
-    <span class="token punctuation">}</span></code></pre>
-<h4 id="DataRequest"><a href="#DataRequest" class="headerlink" title="DataRequest"></a>DataRequest</h4><pre class=" language-swift"><code class="language-swift"><span class="token comment" spellcheck="true">/// DataRequest是Request子类，使用URLSessionDataTask处理内存中下载的Data</span>
-
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">DataRequest</span><span class="token punctuation">:</span> <span class="token builtin">Request</span> <span class="token punctuation">{</span>
-
-<span class="token punctuation">}</span></code></pre>
-<h4 id="DownloadRequest"><a href="#DownloadRequest" class="headerlink" title="DownloadRequest"></a><strong>DownloadRequest</strong></h4><pre class=" language-swift"><code class="language-swift"><span class="token comment" spellcheck="true">/// `Request` subclass which downloads `Data` to a file on disk using `URLSessionDownloadTask`.</span>
-
-<span class="token comment" spellcheck="true">/// DownloadRequest也是Request子类，使用URLSessionDownloadTask处理下载到硬盘中的Data。</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span>  <span class="token class-name">DownloadRequest</span>也是<span class="token builtin">Request</span>子类，使用<span class="token punctuation">:</span> <span class="token builtin">Request</span> <span class="token punctuation">{</span>
-
-<span class="token punctuation">}</span></code></pre>
-<h4 id="UploadRequest"><a href="#UploadRequest" class="headerlink" title="UploadRequest"></a><strong>UploadRequest</strong></h4><pre class=" language-swift"><code class="language-swift">
-
-<span class="token comment" spellcheck="true">/// `DataRequest` subclass which handles `Data` upload from memory, file, or stream using `URLSessionUploadTask`.</span>
-
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">UploadRequest</span><span class="token punctuation">:</span> <span class="token builtin">DataRequest</span> <span class="token punctuation">{</span>
-
-  <span class="token comment" spellcheck="true">/// Type describing the origin of the upload, whether `Data`, file, or stream.</span>
-
-  <span class="token keyword">public</span> <span class="token keyword">enum</span> <span class="token builtin">Uploadable</span> <span class="token punctuation">{</span>
-
-​    <span class="token comment" spellcheck="true">/// Upload from the provided `Data` value.</span>
-
-​    <span class="token keyword">case</span> <span class="token function">data</span><span class="token punctuation">(</span><span class="token builtin">Data</span><span class="token punctuation">)</span>
-
-​    <span class="token comment" spellcheck="true">/// Upload from the provided file `URL`, as well as a `Bool` determining whether the source file should be</span>
-
-​    <span class="token comment" spellcheck="true">/// automatically removed once uploaded.</span>
-
-​    <span class="token keyword">case</span> <span class="token function">file</span><span class="token punctuation">(</span><span class="token constant">URL</span><span class="token punctuation">,</span> shouldRemove<span class="token punctuation">:</span> <span class="token builtin">Bool</span><span class="token punctuation">)</span>
-
-​    <span class="token comment" spellcheck="true">/// Upload from the provided `InputStream`.</span>
-
-​    <span class="token keyword">case</span> <span class="token function">stream</span><span class="token punctuation">(</span><span class="token builtin">InputStream</span><span class="token punctuation">)</span>
-
-  <span class="token punctuation">}</span>
+<h4 id="Clearup"><a href="#Clearup" class="headerlink" title="Clearup"></a>Clearup</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// Final cleanup step executed when the instance finishes response serialization.</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">cleanup</span><span class="params">()</span></span> &#123;</span><br><span class="line">        delegate?.cleanup(after: <span class="keyword">self</span>)</span><br><span class="line">        <span class="comment">// No-op: override in subclass</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
 
 
-  <span class="token comment" spellcheck="true">// MARK: **Initial State**</span>
+<h4 id="DataRequest"><a href="#DataRequest" class="headerlink" title="DataRequest"></a>DataRequest</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// DataRequest是Request子类，使用URLSessionDataTask处理内存中下载的Data</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DataRequest</span>: <span class="title">Request</span> </span>&#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="DownloadRequest"><a href="#DownloadRequest" class="headerlink" title="DownloadRequest"></a><strong>DownloadRequest</strong></h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// `Request` subclass which downloads `Data` to a file on disk using `URLSessionDownloadTask`.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// DownloadRequest也是Request子类，使用URLSessionDownloadTask处理下载到硬盘中的Data。</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span>  <span class="title">DownloadRequest</span>也是<span class="title">Request</span>子类，使用: <span class="title">Request</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="UploadRequest"><a href="#UploadRequest" class="headerlink" title="UploadRequest"></a><strong>UploadRequest</strong></h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/// `DataRequest` subclass which handles `Data` upload from memory, file, or stream using `URLSessionUploadTask`.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UploadRequest</span>: <span class="title">DataRequest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/// Type describing the origin of the upload, whether `Data`, file, or stream.</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">Uploadable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">​    <span class="comment">/// Upload from the provided `Data` value.</span></span><br><span class="line"></span><br><span class="line">​    <span class="keyword">case</span> data(<span class="type">Data</span>)</span><br><span class="line"></span><br><span class="line">​    <span class="comment">/// Upload from the provided file `URL`, as well as a `Bool` determining whether the source file should be</span></span><br><span class="line"></span><br><span class="line">​    <span class="comment">/// automatically removed once uploaded.</span></span><br><span class="line"></span><br><span class="line">​    <span class="keyword">case</span> file(<span class="type">URL</span>, shouldRemove: <span class="type">Bool</span>)</span><br><span class="line"></span><br><span class="line">​    <span class="comment">/// Upload from the provided `InputStream`.</span></span><br><span class="line"></span><br><span class="line">​    <span class="keyword">case</span> stream(<span class="type">InputStream</span>)</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="comment">// MARK: **Initial State**</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="comment">/// The `UploadableConvertible` value used to produce the `Uploadable` value for this instance.</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">let</span> upload: <span class="type">UploadableConvertible</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="comment">/// `FileManager` used to perform cleanup tasks, including the removal of multipart form encoded payloads written</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/// to disk.</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">let</span> fileManager: <span class="type">FileManager</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="comment">// MARK: **Mutable State**</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="comment">/// `Uploadable` value used by the instance.</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">var</span> uploadable: <span class="type">Uploadable?</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="comment">/// Creates an `UploadRequest` using the provided parameters.</span></span><br><span class="line">  ......</span><br></pre></td></tr></table></figure>
 
 
 
-  <span class="token comment" spellcheck="true">/// The `UploadableConvertible` value used to produce the `Uploadable` value for this instance.</span>
+<h2 id="2、Session"><a href="#2、Session" class="headerlink" title="2、Session"></a>2、Session</h2><h2 id="3、Result枚举"><a href="#3、Result枚举" class="headerlink" title="3、Result枚举"></a>3、Result枚举</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// Result.swift</span></span><br><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">Result</span>&lt;<span class="title">Value</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">case</span> success(<span class="type">Value</span>)</span><br><span class="line">    <span class="keyword">case</span> failure(<span class="type">Error</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Returns `true` if the result is a success, `false` otherwise.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">var</span> isSuccess: <span class="type">Bool</span> &#123;</span><br><span class="line">        <span class="keyword">switch</span> <span class="keyword">self</span> &#123;</span><br><span class="line">        <span class="keyword">case</span> .success:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">        <span class="keyword">case</span> .failure:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Returns `true` if the result is a failure, `false` otherwise.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">var</span> isFailure: <span class="type">Bool</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> !isSuccess</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Returns the associated value if the result is a success, `nil` otherwise.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">var</span> value: <span class="type">Value?</span> &#123;</span><br><span class="line">        <span class="keyword">switch</span> <span class="keyword">self</span> &#123;</span><br><span class="line">        <span class="keyword">case</span> .success(<span class="keyword">let</span> value):</span><br><span class="line">            <span class="keyword">return</span> value</span><br><span class="line">        <span class="keyword">case</span> .failure:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Returns the associated error value if the result is a failure, `nil` otherwise.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">var</span> error: <span class="type">Error?</span> &#123;</span><br><span class="line">        <span class="keyword">switch</span> <span class="keyword">self</span> &#123;</span><br><span class="line">        <span class="keyword">case</span> .success:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">        <span class="keyword">case</span> .failure(<span class="keyword">let</span> error):</span><br><span class="line">            <span class="keyword">return</span> error</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// MARK: - CustomStringConvertible</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Result</span>: <span class="title">CustomStringConvertible</span> </span>&#123;</span><br><span class="line">    <span class="comment">/// The textual representation used when written to an output stream, which includes whether the result was a</span></span><br><span class="line">    <span class="comment">/// success or failure.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">var</span> description: <span class="type">String</span> &#123;</span><br><span class="line">        <span class="keyword">switch</span> <span class="keyword">self</span> &#123;</span><br><span class="line">        <span class="keyword">case</span> .success:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;SUCCESS&quot;</span></span><br><span class="line">        <span class="keyword">case</span> .failure:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;FAILURE&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// MARK: - CustomDebugStringConvertible</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Result</span>: <span class="title">CustomDebugStringConvertible</span> </span>&#123;</span><br><span class="line">    <span class="comment">/// The debug textual representation used when written to an output stream, which includes whether the result was a</span></span><br><span class="line">    <span class="comment">/// success or failure in addition to the value or error.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">var</span> debugDescription: <span class="type">String</span> &#123;</span><br><span class="line">        <span class="keyword">switch</span> <span class="keyword">self</span> &#123;</span><br><span class="line">        <span class="keyword">case</span> .success(<span class="keyword">let</span> value):</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;SUCCESS: \(value)&quot;</span></span><br><span class="line">        <span class="keyword">case</span> .failure(<span class="keyword">let</span> error):</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;FAILURE: \(error)&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-  <span class="token keyword">public</span> <span class="token keyword">let</span> upload<span class="token punctuation">:</span> <span class="token builtin">UploadableConvertible</span>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">AFError</span>: <span class="title">Error</span> </span>&#123;</span><br><span class="line">    <span class="comment">/// The underlying reason the parameter encoding error occurred.</span></span><br><span class="line">    <span class="comment">///</span></span><br><span class="line">    <span class="comment">/// - missingURL:                 The URL request did not have a URL to encode.</span></span><br><span class="line">    <span class="comment">/// - jsonEncodingFailed:         JSON serialization failed with an underlying system error during the</span></span><br><span class="line">    <span class="comment">///                               encoding process.</span></span><br><span class="line">    <span class="comment">/// - propertyListEncodingFailed: Property list serialization failed with an underlying system error during</span></span><br><span class="line">    <span class="comment">///                               encoding process.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">ParameterEncodingFailureReason</span> </span>&#123;</span><br><span class="line">        <span class="keyword">case</span> missingURL</span><br><span class="line">        <span class="keyword">case</span> jsonEncodingFailed(error: <span class="type">Error</span>)</span><br><span class="line">        <span class="keyword">case</span> propertyListEncodingFailed(error: <span class="type">Error</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// The underlying reason the multipart encoding error occurred.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">MultipartEncodingFailureReason</span> </span>&#123;</span><br><span class="line">        <span class="keyword">case</span> bodyPartURLInvalid(url: <span class="type">URL</span>)</span><br><span class="line">        <span class="keyword">case</span> bodyPartFilenameInvalid(<span class="keyword">in</span>: <span class="type">URL</span>)</span><br><span class="line">        <span class="keyword">case</span> bodyPartFileNotReachable(at: <span class="type">URL</span>)</span><br><span class="line">        <span class="keyword">case</span> bodyPartFileNotReachableWithError(atURL: <span class="type">URL</span>, error: <span class="type">Error</span>)</span><br><span class="line">        <span class="keyword">case</span> bodyPartFileIsDirectory(at: <span class="type">URL</span>)</span><br><span class="line">        <span class="keyword">case</span> bodyPartFileSizeNotAvailable(at: <span class="type">URL</span>)</span><br><span class="line">        <span class="keyword">case</span> bodyPartFileSizeQueryFailedWithError(forURL: <span class="type">URL</span>, error: <span class="type">Error</span>)</span><br><span class="line">        <span class="keyword">case</span> bodyPartInputStreamCreationFailed(<span class="keyword">for</span>: <span class="type">URL</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> outputStreamCreationFailed(<span class="keyword">for</span>: <span class="type">URL</span>)</span><br><span class="line">        <span class="keyword">case</span> outputStreamFileAlreadyExists(at: <span class="type">URL</span>)</span><br><span class="line">        <span class="keyword">case</span> outputStreamURLInvalid(url: <span class="type">URL</span>)</span><br><span class="line">        <span class="keyword">case</span> outputStreamWriteFailed(error: <span class="type">Error</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> inputStreamReadFailed(error: <span class="type">Error</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">ResponseValidationFailureReason</span> </span>&#123;</span><br><span class="line">        <span class="keyword">case</span> dataFileNil</span><br><span class="line">        <span class="keyword">case</span> dataFileReadFailed(at: <span class="type">URL</span>)</span><br><span class="line">        <span class="keyword">case</span> missingContentType(acceptableContentTypes: [<span class="type">String</span>])</span><br><span class="line">        <span class="keyword">case</span> unacceptableContentType(acceptableContentTypes: [<span class="type">String</span>], responseContentType: <span class="type">String</span>)</span><br><span class="line">        <span class="keyword">case</span> unacceptableStatusCode(code: <span class="type">Int</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">ResponseSerializationFailureReason</span> </span>&#123;</span><br><span class="line">        <span class="keyword">case</span> inputDataNil</span><br><span class="line">        <span class="keyword">case</span> inputDataNilOrZeroLength</span><br><span class="line">        <span class="keyword">case</span> inputFileNil</span><br><span class="line">        <span class="keyword">case</span> inputFileReadFailed(at: <span class="type">URL</span>)</span><br><span class="line">        <span class="keyword">case</span> stringSerializationFailed(encoding: <span class="type">String</span>.<span class="type">Encoding</span>)</span><br><span class="line">        <span class="keyword">case</span> jsonSerializationFailed(error: <span class="type">Error</span>)</span><br><span class="line">        <span class="keyword">case</span> propertyListSerializationFailed(error: <span class="type">Error</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">case</span> invalidURL(url: <span class="type">URLConvertible</span>)</span><br><span class="line">    <span class="keyword">case</span> parameterEncodingFailed(reason: <span class="type">ParameterEncodingFailureReason</span>)</span><br><span class="line">    <span class="keyword">case</span> multipartEncodingFailed(reason: <span class="type">MultipartEncodingFailureReason</span>)</span><br><span class="line">    <span class="keyword">case</span> responseValidationFailed(reason: <span class="type">ResponseValidationFailureReason</span>)</span><br><span class="line">    <span class="keyword">case</span> responseSerializationFailed(reason: <span class="type">ResponseSerializationFailureReason</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
+<h4 id="JSONSerialization编解码"><a href="#JSONSerialization编解码" class="headerlink" title="JSONSerialization编解码"></a>JSONSerialization编解码</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JSONSerialization</span> : <span class="title">NSObject</span></span></span><br></pre></td></tr></table></figure>
 
-
-  <span class="token comment" spellcheck="true">/// `FileManager` used to perform cleanup tasks, including the removal of multipart form encoded payloads written</span>
-
-  <span class="token comment" spellcheck="true">/// to disk.</span>
-
-  <span class="token keyword">public</span> <span class="token keyword">let</span> fileManager<span class="token punctuation">:</span> <span class="token builtin">FileManager</span>
-
-
-
-  <span class="token comment" spellcheck="true">// MARK: **Mutable State**</span>
-
-
-
-  <span class="token comment" spellcheck="true">/// `Uploadable` value used by the instance.</span>
-
-  <span class="token keyword">public</span> <span class="token keyword">var</span> uploadable<span class="token punctuation">:</span> <span class="token builtin">Uploadable</span><span class="token operator">?</span>
-
-
-
-  <span class="token comment" spellcheck="true">/// Creates an `UploadRequest` using the provided parameters.</span>
-  <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span></code></pre>
-<h2 id="2、Session"><a href="#2、Session" class="headerlink" title="2、Session"></a>2、Session</h2><h2 id="3、Result枚举"><a href="#3、Result枚举" class="headerlink" title="3、Result枚举"></a>3、Result枚举</h2><pre class=" language-swift"><code class="language-swift"><span class="token comment" spellcheck="true">/// Result.swift</span>
-<span class="token keyword">import</span> <span class="token builtin">Foundation</span>
-
-<span class="token keyword">public</span> <span class="token keyword">enum</span> <span class="token builtin">Result</span><span class="token operator">&lt;</span><span class="token builtin">Value</span><span class="token operator">></span> <span class="token punctuation">{</span>
-    <span class="token keyword">case</span> <span class="token function">success</span><span class="token punctuation">(</span><span class="token builtin">Value</span><span class="token punctuation">)</span>
-    <span class="token keyword">case</span> <span class="token function">failure</span><span class="token punctuation">(</span><span class="token builtin">Error</span><span class="token punctuation">)</span>
-
-    <span class="token comment" spellcheck="true">/// Returns `true` if the result is a success, `false` otherwise.</span>
-    <span class="token keyword">public</span> <span class="token keyword">var</span> isSuccess<span class="token punctuation">:</span> <span class="token builtin">Bool</span> <span class="token punctuation">{</span>
-        <span class="token keyword">switch</span> <span class="token keyword">self</span> <span class="token punctuation">{</span>
-        <span class="token keyword">case</span> <span class="token punctuation">.</span>success<span class="token punctuation">:</span>
-            <span class="token keyword">return</span> <span class="token boolean">true</span>
-        <span class="token keyword">case</span> <span class="token punctuation">.</span>failure<span class="token punctuation">:</span>
-            <span class="token keyword">return</span> <span class="token boolean">false</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
-
-    <span class="token comment" spellcheck="true">/// Returns `true` if the result is a failure, `false` otherwise.</span>
-    <span class="token keyword">public</span> <span class="token keyword">var</span> isFailure<span class="token punctuation">:</span> <span class="token builtin">Bool</span> <span class="token punctuation">{</span>
-        <span class="token keyword">return</span> <span class="token operator">!</span>isSuccess
-    <span class="token punctuation">}</span>
-
-    <span class="token comment" spellcheck="true">/// Returns the associated value if the result is a success, `nil` otherwise.</span>
-    <span class="token keyword">public</span> <span class="token keyword">var</span> value<span class="token punctuation">:</span> <span class="token builtin">Value</span><span class="token operator">?</span> <span class="token punctuation">{</span>
-        <span class="token keyword">switch</span> <span class="token keyword">self</span> <span class="token punctuation">{</span>
-        <span class="token keyword">case</span> <span class="token punctuation">.</span><span class="token function">success</span><span class="token punctuation">(</span><span class="token keyword">let</span> value<span class="token punctuation">)</span><span class="token punctuation">:</span>
-            <span class="token keyword">return</span> value
-        <span class="token keyword">case</span> <span class="token punctuation">.</span>failure<span class="token punctuation">:</span>
-            <span class="token keyword">return</span> <span class="token constant">nil</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
-
-    <span class="token comment" spellcheck="true">/// Returns the associated error value if the result is a failure, `nil` otherwise.</span>
-    <span class="token keyword">public</span> <span class="token keyword">var</span> error<span class="token punctuation">:</span> <span class="token builtin">Error</span><span class="token operator">?</span> <span class="token punctuation">{</span>
-        <span class="token keyword">switch</span> <span class="token keyword">self</span> <span class="token punctuation">{</span>
-        <span class="token keyword">case</span> <span class="token punctuation">.</span>success<span class="token punctuation">:</span>
-            <span class="token keyword">return</span> <span class="token constant">nil</span>
-        <span class="token keyword">case</span> <span class="token punctuation">.</span><span class="token function">failure</span><span class="token punctuation">(</span><span class="token keyword">let</span> error<span class="token punctuation">)</span><span class="token punctuation">:</span>
-            <span class="token keyword">return</span> error
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-
-<span class="token comment" spellcheck="true">// MARK: - CustomStringConvertible</span>
-
-<span class="token keyword">extension</span> <span class="token builtin">Result</span><span class="token punctuation">:</span> <span class="token builtin">CustomStringConvertible</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">/// The textual representation used when written to an output stream, which includes whether the result was a</span>
-    <span class="token comment" spellcheck="true">/// success or failure.</span>
-    <span class="token keyword">public</span> <span class="token keyword">var</span> description<span class="token punctuation">:</span> <span class="token builtin">String</span> <span class="token punctuation">{</span>
-        <span class="token keyword">switch</span> <span class="token keyword">self</span> <span class="token punctuation">{</span>
-        <span class="token keyword">case</span> <span class="token punctuation">.</span>success<span class="token punctuation">:</span>
-            <span class="token keyword">return</span> <span class="token string">"SUCCESS"</span>
-        <span class="token keyword">case</span> <span class="token punctuation">.</span>failure<span class="token punctuation">:</span>
-            <span class="token keyword">return</span> <span class="token string">"FAILURE"</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-
-<span class="token comment" spellcheck="true">// MARK: - CustomDebugStringConvertible</span>
-
-<span class="token keyword">extension</span> <span class="token builtin">Result</span><span class="token punctuation">:</span> <span class="token builtin">CustomDebugStringConvertible</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">/// The debug textual representation used when written to an output stream, which includes whether the result was a</span>
-    <span class="token comment" spellcheck="true">/// success or failure in addition to the value or error.</span>
-    <span class="token keyword">public</span> <span class="token keyword">var</span> debugDescription<span class="token punctuation">:</span> <span class="token builtin">String</span> <span class="token punctuation">{</span>
-        <span class="token keyword">switch</span> <span class="token keyword">self</span> <span class="token punctuation">{</span>
-        <span class="token keyword">case</span> <span class="token punctuation">.</span><span class="token function">success</span><span class="token punctuation">(</span><span class="token keyword">let</span> value<span class="token punctuation">)</span><span class="token punctuation">:</span>
-            <span class="token keyword">return</span> <span class="token string">"SUCCESS: <span class="token interpolation"><span class="token delimiter variable">\(</span>value<span class="token delimiter variable">)</span></span>"</span>
-        <span class="token keyword">case</span> <span class="token punctuation">.</span><span class="token function">failure</span><span class="token punctuation">(</span><span class="token keyword">let</span> error<span class="token punctuation">)</span><span class="token punctuation">:</span>
-            <span class="token keyword">return</span> <span class="token string">"FAILURE: <span class="token interpolation"><span class="token delimiter variable">\(</span>error<span class="token delimiter variable">)</span></span>"</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-</code></pre>
-<pre class=" language-swift"><code class="language-swift"><span class="token keyword">public</span> <span class="token keyword">enum</span> <span class="token builtin">AFError</span><span class="token punctuation">:</span> <span class="token builtin">Error</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">/// The underlying reason the parameter encoding error occurred.</span>
-    <span class="token comment" spellcheck="true">///</span>
-    <span class="token comment" spellcheck="true">/// - missingURL:                 The URL request did not have a URL to encode.</span>
-    <span class="token comment" spellcheck="true">/// - jsonEncodingFailed:         JSON serialization failed with an underlying system error during the</span>
-    <span class="token comment" spellcheck="true">///                               encoding process.</span>
-    <span class="token comment" spellcheck="true">/// - propertyListEncodingFailed: Property list serialization failed with an underlying system error during</span>
-    <span class="token comment" spellcheck="true">///                               encoding process.</span>
-    <span class="token keyword">public</span> <span class="token keyword">enum</span> <span class="token builtin">ParameterEncodingFailureReason</span> <span class="token punctuation">{</span>
-        <span class="token keyword">case</span> missingURL
-        <span class="token keyword">case</span> <span class="token function">jsonEncodingFailed</span><span class="token punctuation">(</span>error<span class="token punctuation">:</span> <span class="token builtin">Error</span><span class="token punctuation">)</span>
-        <span class="token keyword">case</span> <span class="token function">propertyListEncodingFailed</span><span class="token punctuation">(</span>error<span class="token punctuation">:</span> <span class="token builtin">Error</span><span class="token punctuation">)</span>
-    <span class="token punctuation">}</span>
-
-    <span class="token comment" spellcheck="true">/// The underlying reason the multipart encoding error occurred.</span>
-    <span class="token keyword">public</span> <span class="token keyword">enum</span> <span class="token builtin">MultipartEncodingFailureReason</span> <span class="token punctuation">{</span>
-        <span class="token keyword">case</span> <span class="token function">bodyPartURLInvalid</span><span class="token punctuation">(</span>url<span class="token punctuation">:</span> <span class="token constant">URL</span><span class="token punctuation">)</span>
-        <span class="token keyword">case</span> <span class="token function">bodyPartFilenameInvalid</span><span class="token punctuation">(</span><span class="token keyword">in</span><span class="token punctuation">:</span> <span class="token constant">URL</span><span class="token punctuation">)</span>
-        <span class="token keyword">case</span> <span class="token function">bodyPartFileNotReachable</span><span class="token punctuation">(</span>at<span class="token punctuation">:</span> <span class="token constant">URL</span><span class="token punctuation">)</span>
-        <span class="token keyword">case</span> <span class="token function">bodyPartFileNotReachableWithError</span><span class="token punctuation">(</span>atURL<span class="token punctuation">:</span> <span class="token constant">URL</span><span class="token punctuation">,</span> error<span class="token punctuation">:</span> <span class="token builtin">Error</span><span class="token punctuation">)</span>
-        <span class="token keyword">case</span> <span class="token function">bodyPartFileIsDirectory</span><span class="token punctuation">(</span>at<span class="token punctuation">:</span> <span class="token constant">URL</span><span class="token punctuation">)</span>
-        <span class="token keyword">case</span> <span class="token function">bodyPartFileSizeNotAvailable</span><span class="token punctuation">(</span>at<span class="token punctuation">:</span> <span class="token constant">URL</span><span class="token punctuation">)</span>
-        <span class="token keyword">case</span> <span class="token function">bodyPartFileSizeQueryFailedWithError</span><span class="token punctuation">(</span>forURL<span class="token punctuation">:</span> <span class="token constant">URL</span><span class="token punctuation">,</span> error<span class="token punctuation">:</span> <span class="token builtin">Error</span><span class="token punctuation">)</span>
-        <span class="token keyword">case</span> <span class="token function">bodyPartInputStreamCreationFailed</span><span class="token punctuation">(</span><span class="token keyword">for</span><span class="token punctuation">:</span> <span class="token constant">URL</span><span class="token punctuation">)</span>
-
-        <span class="token keyword">case</span> <span class="token function">outputStreamCreationFailed</span><span class="token punctuation">(</span><span class="token keyword">for</span><span class="token punctuation">:</span> <span class="token constant">URL</span><span class="token punctuation">)</span>
-        <span class="token keyword">case</span> <span class="token function">outputStreamFileAlreadyExists</span><span class="token punctuation">(</span>at<span class="token punctuation">:</span> <span class="token constant">URL</span><span class="token punctuation">)</span>
-        <span class="token keyword">case</span> <span class="token function">outputStreamURLInvalid</span><span class="token punctuation">(</span>url<span class="token punctuation">:</span> <span class="token constant">URL</span><span class="token punctuation">)</span>
-        <span class="token keyword">case</span> <span class="token function">outputStreamWriteFailed</span><span class="token punctuation">(</span>error<span class="token punctuation">:</span> <span class="token builtin">Error</span><span class="token punctuation">)</span>
-
-        <span class="token keyword">case</span> <span class="token function">inputStreamReadFailed</span><span class="token punctuation">(</span>error<span class="token punctuation">:</span> <span class="token builtin">Error</span><span class="token punctuation">)</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">public</span> <span class="token keyword">enum</span> <span class="token builtin">ResponseValidationFailureReason</span> <span class="token punctuation">{</span>
-        <span class="token keyword">case</span> dataFileNil
-        <span class="token keyword">case</span> <span class="token function">dataFileReadFailed</span><span class="token punctuation">(</span>at<span class="token punctuation">:</span> <span class="token constant">URL</span><span class="token punctuation">)</span>
-        <span class="token keyword">case</span> <span class="token function">missingContentType</span><span class="token punctuation">(</span>acceptableContentTypes<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token builtin">String</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-        <span class="token keyword">case</span> <span class="token function">unacceptableContentType</span><span class="token punctuation">(</span>acceptableContentTypes<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token builtin">String</span><span class="token punctuation">]</span><span class="token punctuation">,</span> responseContentType<span class="token punctuation">:</span> <span class="token builtin">String</span><span class="token punctuation">)</span>
-        <span class="token keyword">case</span> <span class="token function">unacceptableStatusCode</span><span class="token punctuation">(</span>code<span class="token punctuation">:</span> <span class="token builtin">Int</span><span class="token punctuation">)</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">public</span> <span class="token keyword">enum</span> <span class="token builtin">ResponseSerializationFailureReason</span> <span class="token punctuation">{</span>
-        <span class="token keyword">case</span> inputDataNil
-        <span class="token keyword">case</span> inputDataNilOrZeroLength
-        <span class="token keyword">case</span> inputFileNil
-        <span class="token keyword">case</span> <span class="token function">inputFileReadFailed</span><span class="token punctuation">(</span>at<span class="token punctuation">:</span> <span class="token constant">URL</span><span class="token punctuation">)</span>
-        <span class="token keyword">case</span> <span class="token function">stringSerializationFailed</span><span class="token punctuation">(</span>encoding<span class="token punctuation">:</span> <span class="token builtin">String</span><span class="token punctuation">.</span><span class="token builtin">Encoding</span><span class="token punctuation">)</span>
-        <span class="token keyword">case</span> <span class="token function">jsonSerializationFailed</span><span class="token punctuation">(</span>error<span class="token punctuation">:</span> <span class="token builtin">Error</span><span class="token punctuation">)</span>
-        <span class="token keyword">case</span> <span class="token function">propertyListSerializationFailed</span><span class="token punctuation">(</span>error<span class="token punctuation">:</span> <span class="token builtin">Error</span><span class="token punctuation">)</span>
-    <span class="token punctuation">}</span>
-
-    <span class="token keyword">case</span> <span class="token function">invalidURL</span><span class="token punctuation">(</span>url<span class="token punctuation">:</span> <span class="token builtin">URLConvertible</span><span class="token punctuation">)</span>
-    <span class="token keyword">case</span> <span class="token function">parameterEncodingFailed</span><span class="token punctuation">(</span>reason<span class="token punctuation">:</span> <span class="token builtin">ParameterEncodingFailureReason</span><span class="token punctuation">)</span>
-    <span class="token keyword">case</span> <span class="token function">multipartEncodingFailed</span><span class="token punctuation">(</span>reason<span class="token punctuation">:</span> <span class="token builtin">MultipartEncodingFailureReason</span><span class="token punctuation">)</span>
-    <span class="token keyword">case</span> <span class="token function">responseValidationFailed</span><span class="token punctuation">(</span>reason<span class="token punctuation">:</span> <span class="token builtin">ResponseValidationFailureReason</span><span class="token punctuation">)</span>
-    <span class="token keyword">case</span> <span class="token function">responseSerializationFailed</span><span class="token punctuation">(</span>reason<span class="token punctuation">:</span> <span class="token builtin">ResponseSerializationFailureReason</span><span class="token punctuation">)</span>
-<span class="token punctuation">}</span>
-</code></pre>
-<h4 id="JSONSerialization编解码"><a href="#JSONSerialization编解码" class="headerlink" title="JSONSerialization编解码"></a>JSONSerialization编解码</h4><pre class=" language-swift"><code class="language-swift"><span class="token keyword">class</span> <span class="token class-name">JSONSerialization</span> <span class="token punctuation">:</span> <span class="token builtin">NSObject</span></code></pre>
 <h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>您可以使用JSONSerialization类将JSON转换为Foundation对象，并将Foundation对象转换为JSON。</p>
 <p>可能转换为JSON的Foundation对象必须具有以下属性：</p>
 <ul>
-<li>顶级对象是[<code>NSArray</code>]（<a href="https://developer.apple.com/documentation/foundation/nsarray）或[`NSDictionary`]（https://developer.apple.com/documentation/foundation/" target="_blank" rel="noopener">https://developer.apple.com/documentation/foundation/nsarray）或[`NSDictionary`]（https://developer.apple.com/documentation/foundation/</a> nsdictionary）。</li>
-<li>所有对象都是<a href="https://developer.apple.com/documentation/foundation/nsstring" target="_blank" rel="noopener"><code>NSString</code></a>，<a href="https://developer.apple.com/documentation/foundation/nsnumber" target="_blank" rel="noopener"><code>NSNumber</code></a>，<a href="https://developer.apple.com/documentation/foundation/nsarray" target="_blank" rel="noopener"><code>NSArray</code></a>，<a href="https://developer.apple.com/documentation/foundation/nsdictionary" target="_blank" rel="noopener"><code>NSDictionary</code></a>的实例 </li>
-<li><a href="https://developer.apple.com/documentation/foundation/nsnull" target="_blank" rel="noopener"> NSNull对象</a></li>
-<li>所有字典的key都是<a href="https://developer.apple.com/documentation/foundation/nsstring" target="_blank" rel="noopener"><code>NSString</code></a>的实例。</li>
+<li>顶级对象是[<code>NSArray</code>]（<a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/foundation/nsarray%EF%BC%89%E6%88%96[%60NSDictionary%60]%EF%BC%88https://developer.apple.com/documentation/foundation/">https://developer.apple.com/documentation/foundation/nsarray）或[`NSDictionary`]（https://developer.apple.com/documentation/foundation/</a> nsdictionary）。</li>
+<li>所有对象都是<a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/foundation/nsstring"><code>NSString</code></a>，<a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/foundation/nsnumber"><code>NSNumber</code></a>，<a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/foundation/nsarray"><code>NSArray</code></a>，<a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/foundation/nsdictionary"><code>NSDictionary</code></a>的实例 </li>
+<li><a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/foundation/nsnull"> NSNull对象</a></li>
+<li>所有字典的key都是<a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/foundation/nsstring"><code>NSString</code></a>的实例。</li>
 <li>不是NaN或无穷大的数字。</li>
 </ul>
-<p>其他规则可能适用。如调用<a href="https://developer.apple.com/documentation/foundation/jsonserialization/1418461-isvalidjsonobject" target="_blank" rel="noopener"><code>isValidJSONObject（_：）</code></a>或尝试进行转换是确定给定对象是否可以转换为JSON的确定方法数据。</p>
+<p>其他规则可能适用。如调用<a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/foundation/jsonserialization/1418461-isvalidjsonobject"><code>isValidJSONObject（_：）</code></a>或尝试进行转换是确定给定对象是否可以转换为JSON的确定方法数据。</p>
 <blockquote>
-<p> 线程安全在iOS 7和更高版本以及macOS 10.9和更高版本上，<strong><code>JSONSerialization</code>是线程安全的</strong>。</p>
+<p> 线程安全在iOS 7和更高版本以及macOS 10.9和更高版本上，**<code>JSONSerialization</code>是线程安全的**。</p>
 </blockquote>
-<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h3 id="Creating-a-JSON-Object"><a href="#Creating-a-JSON-Object" class="headerlink" title="Creating a JSON Object"></a>Creating a JSON Object</h3><p><a href="https://developer.apple.com/documentation/foundation/jsonserialization/1415493-jsonobject" target="_blank" rel="noopener"><code>class func jsonObject(with: Data, options: JSONSerialization.ReadingOptions) -&gt; Any</code></a></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h3 id="Creating-a-JSON-Object"><a href="#Creating-a-JSON-Object" class="headerlink" title="Creating a JSON Object"></a>Creating a JSON Object</h3><p><a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/foundation/jsonserialization/1415493-jsonobject"><code>class func jsonObject(with: Data, options: JSONSerialization.ReadingOptions) -&gt; Any</code></a></p>
 <p>Returns a Foundation object from given JSON data.</p>
-<p><a href="https://developer.apple.com/documentation/foundation/jsonserialization/1418059-jsonobject" target="_blank" rel="noopener"><code>class func jsonObject(with: InputStream, options: JSONSerialization.ReadingOptions) -&gt; Any</code></a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/foundation/jsonserialization/1418059-jsonobject"><code>class func jsonObject(with: InputStream, options: JSONSerialization.ReadingOptions) -&gt; Any</code></a></p>
 <p>Returns a Foundation object from JSON data in a given stream.</p>
-<h3 id="Creating-JSON-Data"><a href="#Creating-JSON-Data" class="headerlink" title="Creating JSON Data"></a>Creating JSON Data</h3><p><a href="https://developer.apple.com/documentation/foundation/jsonserialization/1413636-data" target="_blank" rel="noopener"><code>class func data(withJSONObject: Any, options: JSONSerialization.WritingOptions) -&gt; Data</code></a></p>
+<h3 id="Creating-JSON-Data"><a href="#Creating-JSON-Data" class="headerlink" title="Creating JSON Data"></a>Creating JSON Data</h3><p><a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/foundation/jsonserialization/1413636-data"><code>class func data(withJSONObject: Any, options: JSONSerialization.WritingOptions) -&gt; Data</code></a></p>
 <p>Returns JSON data from a Foundation object.</p>
-<p><a href="https://developer.apple.com/documentation/foundation/jsonserialization/1417433-writejsonobject" target="_blank" rel="noopener"><code>class func writeJSONObject(Any, to: OutputStream, options: JSONSerialization.WritingOptions, error: NSErrorPointer) -&gt; Int</code></a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/foundation/jsonserialization/1417433-writejsonobject"><code>class func writeJSONObject(Any, to: OutputStream, options: JSONSerialization.WritingOptions, error: NSErrorPointer) -&gt; Int</code></a></p>
 <p>Writes a given JSON object to a stream.</p>
-<p><a href="https://developer.apple.com/documentation/foundation/jsonserialization/1418461-isvalidjsonobject" target="_blank" rel="noopener"><code>class func isValidJSONObject(Any) -&gt; Bool</code></a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/foundation/jsonserialization/1418461-isvalidjsonobject"><code>class func isValidJSONObject(Any) -&gt; Bool</code></a></p>
 <p>Returns a Boolean value that indicates whether a given object can be converted to JSON data.</p>
-<h3 id="拓展阅读"><a href="#拓展阅读" class="headerlink" title="拓展阅读"></a>拓展阅读</h3><h4 id="AFNetwork姊妹篇"><a href="#AFNetwork姊妹篇" class="headerlink" title="AFNetwork姊妹篇"></a><a href="https://xiaozhuanlan.com/topic/7510469283" target="_blank" rel="noopener">AFNetwork姊妹篇</a></h4><h4 id="URLSession全家桶"><a href="#URLSession全家桶" class="headerlink" title="URLSession全家桶"></a><a href="https://www.cnblogs.com/ludashi/p/5556088.html" target="_blank" rel="noopener">URLSession全家桶</a></h4><h4 id="AlamFire结构解析"><a href="#AlamFire结构解析" class="headerlink" title="AlamFire结构解析"></a><a href="https://www.cnblogs.com/ludashi/p/5588044.html" target="_blank" rel="noopener">AlamFire结构解析</a></h4><h4 id="戴铭JSONDecoder"><a href="#戴铭JSONDecoder" class="headerlink" title="戴铭JSONDecoder"></a><a href="http://xiaozhuanlan.com/topic/1703695248" target="_blank" rel="noopener">戴铭JSONDecoder</a></h4>
-            </div>
-            <hr/>
-
-            
-
-    <div class="reprint" id="reprint-statement">
-        
-            <div class="reprint__author">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-user">
-                        文章作者:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    <a href="https://mingriweiji-github.github.io" rel="external nofollow noreferrer">KM</a>
-                </span>
-            </div>
-            <div class="reprint__type">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-link">
-                        文章链接:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    <a href="https://mingriweiji-github.github.io/2020/06/30/(%E4%B8%83)Alamfire%E6%BA%90%E7%A0%81/">https://mingriweiji-github.github.io/2020/06/30/(%E4%B8%83)Alamfire%E6%BA%90%E7%A0%81/</a>
-                </span>
-            </div>
-            <div class="reprint__notice">
-                <span class="reprint-meta" style="font-weight: bold;">
-                    <i class="fas fa-copyright">
-                        版权声明:
-                    </i>
-                </span>
-                <span class="reprint-info">
-                    本博客所有文章除特別声明外，均采用
-                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
-                    许可协议。转载请注明来源
-                    <a href="https://mingriweiji-github.github.io" target="_blank">KM</a>
-                    !
-                </span>
-            </div>
-        
+<h3 id="拓展阅读"><a href="#拓展阅读" class="headerlink" title="拓展阅读"></a>拓展阅读</h3><h4 id="AFNetwork姊妹篇"><a href="#AFNetwork姊妹篇" class="headerlink" title="AFNetwork姊妹篇"></a><a target="_blank" rel="noopener" href="https://xiaozhuanlan.com/topic/7510469283">AFNetwork姊妹篇</a></h4><h4 id="URLSession全家桶"><a href="#URLSession全家桶" class="headerlink" title="URLSession全家桶"></a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ludashi/p/5556088.html">URLSession全家桶</a></h4><h4 id="AlamFire结构解析"><a href="#AlamFire结构解析" class="headerlink" title="AlamFire结构解析"></a><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ludashi/p/5588044.html">AlamFire结构解析</a></h4><h4 id="戴铭JSONDecoder"><a href="#戴铭JSONDecoder" class="headerlink" title="戴铭JSONDecoder"></a><a target="_blank" rel="noopener" href="http://xiaozhuanlan.com/topic/1703695248">戴铭JSONDecoder</a></h4>
     </div>
 
-    <script async defer>
-      document.addEventListener("copy", function (e) {
-        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
-        M.toast({html: toastHTML})
-      });
-
-      function navToReprintStatement() {
-        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
-      }
-    </script>
-
-
-
-            <div class="tag_share" style="display: block;">
-                <div class="post-meta__tag-list" style="display: inline-block;">
-                    
-                        <div class="article-tag">
-                            
-                                <a href="/tags/Swift%E4%B8%93%E9%A2%98/">
-                                    <span class="chip bg-color">Swift专题</span>
-                                </a>
-                            
-                        </div>
-                    
-                </div>
-                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
-                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
-
-<div id="article-share">
     
     
-    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
-    <script src="/libs/share/js/social-share.min.js"></script>
     
 
-    
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Swift%E4%B8%93%E9%A2%98/" rel="tag"># Swift专题</a>
+          </div>
 
-</div>
+        
 
-                </div>
-            </div>
-            
-                <style>
-    #reward {
-        margin: 40px 0;
-        text-align: center;
-    }
 
-    #reward .reward-link {
-        font-size: 1.4rem;
-        line-height: 38px;
-    }
-
-    #reward .btn-floating:hover {
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    #rewardModal {
-        width: 320px;
-        height: 350px;
-    }
-
-    #rewardModal .reward-title {
-        margin: 15px auto;
-        padding-bottom: 5px;
-    }
-
-    #rewardModal .modal-content {
-        padding: 10px;
-    }
-
-    #rewardModal .close {
-        position: absolute;
-        right: 15px;
-        top: 15px;
-        color: rgba(0, 0, 0, 0.5);
-        font-size: 1.3rem;
-        line-height: 20px;
-        cursor: pointer;
-    }
-
-    #rewardModal .close:hover {
-        color: #ef5350;
-        transform: scale(1.3);
-        -moz-transform:scale(1.3);
-        -webkit-transform:scale(1.3);
-        -o-transform:scale(1.3);
-    }
-
-    #rewardModal .reward-tabs {
-        margin: 0 auto;
-        width: 210px;
-    }
-
-    .reward-tabs .tabs {
-        height: 38px;
-        margin: 10px auto;
-        padding-left: 0;
-    }
-
-    .reward-content ul {
-        padding-left: 0 !important;
-    }
-
-    .reward-tabs .tabs .tab {
-        height: 38px;
-        line-height: 38px;
-    }
-
-    .reward-tabs .tab a {
-        color: #fff;
-        background-color: #ccc;
-    }
-
-    .reward-tabs .tab a:hover {
-        background-color: #ccc;
-        color: #fff;
-    }
-
-    .reward-tabs .wechat-tab .active {
-        color: #fff !important;
-        background-color: #22AB38 !important;
-    }
-
-    .reward-tabs .alipay-tab .active {
-        color: #fff !important;
-        background-color: #019FE8 !important;
-    }
-
-    .reward-tabs .reward-img {
-        width: 210px;
-        height: 210px;
-    }
-</style>
-
-<div id="reward">
-    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
-
-    <!-- Modal Structure -->
-    <div id="rewardModal" class="modal">
-        <div class="modal-content">
-            <a class="close modal-close"><i class="fas fa-times"></i></a>
-            <h4 class="reward-title">你的赏识是我前进的动力</h4>
-            <div class="reward-content">
-                <div class="reward-tabs">
-                    <ul class="tabs row">
-                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
-                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
-                    </ul>
-                    <div id="alipay">
-                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
-                    </div>
-                    <div id="wechat">
-                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
-                    </div>
-                </div>
-            </div>
-        </div>
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/30/(%E5%85%AD)Kingfisher%E6%BA%90%E7%A0%81/" rel="prev" title="(六)Kingfisher源码">
+      <i class="fa fa-chevron-left"></i> (六)Kingfisher源码
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/30/(%E4%B8%80)Flutter%E5%B8%83%E5%B1%80/" rel="next" title="(一)Flutter初体验">
+      (一)Flutter初体验 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
-</div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
 
 <script>
-    $(function () {
-        $('.tabs').tabs();
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
     });
+  }
 </script>
-            
+
         </div>
-    </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
 
-    
+  <aside class="sidebar">
+    <div class="sidebar-inner">
 
-    
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
 
-    
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Alamfire-Github%E5%9C%B0%E5%9D%80"><span class="nav-number">1.</span> <span class="nav-text">Alamfire Github地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81Request%E5%88%86%E6%9E%90"><span class="nav-number">2.</span> <span class="nav-text">1、Request分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Request%E5%87%86%E5%AE%88%E7%9A%84Protocol"><span class="nav-number">2.0.1.</span> <span class="nav-text">Request准守的Protocol</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Equatable"><span class="nav-number">2.0.1.1.</span> <span class="nav-text">Equatable</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Hashable"><span class="nav-number">2.0.1.2.</span> <span class="nav-text">Hashable</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CustomStringConvertible"><span class="nav-number">2.0.1.3.</span> <span class="nav-text">CustomStringConvertible</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Downloadable"><span class="nav-number">2.0.1.4.</span> <span class="nav-text">Downloadable</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#UploadableConvertible"><span class="nav-number">2.0.1.5.</span> <span class="nav-text">UploadableConvertible</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E5%AD%97%E6%AE%B5"><span class="nav-number">2.0.2.</span> <span class="nav-text">初始化字段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Result%E5%AE%9A%E4%B9%89State%E6%9E%9A%E4%B8%BE"><span class="nav-number">2.0.3.</span> <span class="nav-text">Result定义State枚举</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Task%E7%9B%B8%E5%85%B3-cancle-resume-suspend"><span class="nav-number">2.0.4.</span> <span class="nav-text">Task相关: cancle&#x2F;resume&#x2F;suspend</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#State"><span class="nav-number">2.0.5.</span> <span class="nav-text">State</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AF%E5%8F%98%E7%8A%B6%E6%80%81MutableState"><span class="nav-number">2.0.6.</span> <span class="nav-text">可变状态MutableState</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Redirects"><span class="nav-number">2.0.6.1.</span> <span class="nav-text">Redirects</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Cached-Responses"><span class="nav-number">2.0.6.2.</span> <span class="nav-text">Cached Responses</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Clearup"><span class="nav-number">2.0.7.</span> <span class="nav-text">Clearup</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DataRequest"><span class="nav-number">2.0.8.</span> <span class="nav-text">DataRequest</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DownloadRequest"><span class="nav-number">2.0.9.</span> <span class="nav-text">DownloadRequest</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UploadRequest"><span class="nav-number">2.0.10.</span> <span class="nav-text">UploadRequest</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81Session"><span class="nav-number">3.</span> <span class="nav-text">2、Session</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81Result%E6%9E%9A%E4%B8%BE"><span class="nav-number">4.</span> <span class="nav-text">3、Result枚举</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#JSONSerialization%E7%BC%96%E8%A7%A3%E7%A0%81"><span class="nav-number">4.0.1.</span> <span class="nav-text">JSONSerialization编解码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Overview"><span class="nav-number">5.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">6.</span> <span class="nav-text"></span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Creating-a-JSON-Object"><span class="nav-number">6.1.</span> <span class="nav-text">Creating a JSON Object</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Creating-JSON-Data"><span class="nav-number">6.2.</span> <span class="nav-text">Creating JSON Data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%93%E5%B1%95%E9%98%85%E8%AF%BB"><span class="nav-number">6.3.</span> <span class="nav-text">拓展阅读</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AFNetwork%E5%A7%8A%E5%A6%B9%E7%AF%87"><span class="nav-number">6.3.1.</span> <span class="nav-text">AFNetwork姊妹篇</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#URLSession%E5%85%A8%E5%AE%B6%E6%A1%B6"><span class="nav-number">6.3.2.</span> <span class="nav-text">URLSession全家桶</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AlamFire%E7%BB%93%E6%9E%84%E8%A7%A3%E6%9E%90"><span class="nav-number">6.3.3.</span> <span class="nav-text">AlamFire结构解析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%88%B4%E9%93%ADJSONDecoder"><span class="nav-number">6.3.4.</span> <span class="nav-text">戴铭JSONDecoder</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
 
-    
-
-    
-
-    
-
-<article id="prenext-posts" class="prev-next articles">
-    <div class="row article-row">
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">KM</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
         
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
-            <div class="card">
-                <a href="/2020/06/30/(%E5%85%AB)URLProtocol%E6%BA%90%E7%A0%81/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="(八)URLProtocol源码">
-                        
-                        <span class="card-title">(八)URLProtocol源码</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            URLProtocol源码简析swift标准库URLProtocol地址
-一 、 URLProtocol初始化1.1通过URLRequest初始化protocolopen class URLProtocol : NSObject {
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">KM</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
 
   
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-06-30
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E6%BA%90%E7%A0%81/" class="post-category">
-                                    源码
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Swift%E4%B8%93%E9%A2%98/">
-                        <span class="chip bg-color">Swift专题</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2020/06/30/(%E5%85%AD)Kingfisher%E6%BA%90%E7%A0%81/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="(六)Kingfisher源码">
-                        
-                        <span class="card-title">(六)Kingfisher源码</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            Kingfisher源码Kingfisher3架构kf命名空间
-类 Kingfisher 是一个范型类，类型是 Base 
-协议 KingfisherCompatible，声明属性 kf，类型是范型 CompatibleType 。并要求遵
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-06-30
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E6%BA%90%E7%A0%81/" class="post-category">
-                                    源码
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/Swift%E4%B8%93%E9%A2%98/">
-                        <span class="chip bg-color">Swift专题</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-    </div>
-</article>
-
-</div>
-
-
-
-<!-- 代码块功能依赖 -->
-<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
-
-<!-- 代码语言 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
-
-
-<!-- 代码块复制 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
-
-
-<!-- 代码块收缩 -->
-
-<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
-
-
-<!-- 代码块折行 -->
-
-<style type="text/css">
-code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
-</style>
-
-
-    </div>
-    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
-        <div class="toc-widget">
-            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
-            <div id="toc-content"></div>
-        </div>
-    </div>
-</div>
-
-<!-- TOC 悬浮按钮. -->
-
-<div id="floating-toc-btn" class="hide-on-med-and-down">
-    <a class="btn-floating btn-large bg-color">
-        <i class="fas fa-list-ul"></i>
-    </a>
-</div>
-
-
-<script src="/libs/tocbot/tocbot.min.js"></script>
-<script>
-    $(function () {
-        tocbot.init({
-            tocSelector: '#toc-content',
-            contentSelector: '#articleContent',
-            headingsOffset: -($(window).height() * 0.4 - 45),
-            collapseDepth: Number('true'),
-            headingSelector: 'h2, h3, h4'
-        });
-
-        // modify the toc link href to support Chinese.
-        let i = 0;
-        let tocHeading = 'toc-heading-';
-        $('#toc-content a').each(function () {
-            $(this).attr('href', '#' + tocHeading + (++i));
-        });
-
-        // modify the heading title id to support Chinese.
-        i = 0;
-        $('#articleContent').children('h2, h3, h4').each(function () {
-            $(this).attr('id', tocHeading + (++i));
-        });
-
-        // Set scroll toc fixed.
-        let tocHeight = parseInt($(window).height() * 0.4 - 64);
-        let $tocWidget = $('.toc-widget');
-        $(window).scroll(function () {
-            let scroll = $(window).scrollTop();
-            /* add post toc fixed. */
-            if (scroll > tocHeight) {
-                $tocWidget.addClass('toc-fixed');
-            } else {
-                $tocWidget.removeClass('toc-fixed');
-            }
-        });
-
-        
-        /* 修复文章卡片 div 的宽度. */
-        let fixPostCardWidth = function (srcId, targetId) {
-            let srcDiv = $('#' + srcId);
-            if (srcDiv.length === 0) {
-                return;
-            }
-
-            let w = srcDiv.width();
-            if (w >= 450) {
-                w = w + 21;
-            } else if (w >= 350 && w < 450) {
-                w = w + 18;
-            } else if (w >= 300 && w < 350) {
-                w = w + 16;
-            } else {
-                w = w + 14;
-            }
-            $('#' + targetId).width(w);
-        };
-
-        // 切换TOC目录展开收缩的相关操作.
-        const expandedClass = 'expanded';
-        let $tocAside = $('#toc-aside');
-        let $mainContent = $('#main-content');
-        $('#floating-toc-btn .btn-floating').click(function () {
-            if ($tocAside.hasClass(expandedClass)) {
-                $tocAside.removeClass(expandedClass).hide();
-                $mainContent.removeClass('l9');
-            } else {
-                $tocAside.addClass(expandedClass).show();
-                $mainContent.addClass('l9');
-            }
-            fixPostCardWidth('artDetail', 'prenext-posts');
-        });
-        
-    });
-</script>
-
-    
-
-</main>
-
-
-
-    <footer class="page-footer bg-color">
-    
-    <div class="container row center-align" style="margin-bottom: 0px !important;">
-        <div class="col s12 m8 l8 copy-right">
-            Copyright&nbsp;&copy;
-            <span id="year">2018</span>
-            <a href="https://mingriweiji-github.github.io" target="_blank">KM</a>
-            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
-            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
-            <br>
-            
-            
-            
-            
-            
-            
-            <span id="busuanzi_container_site_pv">
-                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
-                    class="white-color"></span>&nbsp;次
-            </span>
-            
-            
-            <span id="busuanzi_container_site_uv">
-                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
-                    class="white-color"></span>&nbsp;人
-            </span>
-            
-            <br>
-            
-            <br>
-            
-        </div>
-        <div class="col s12 m4 l4 social-link social-statis">
-    <a href="https://mingriweiji-github.github.io/" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
-        <i class="fab fa-github"></i>
-    </a>
-
-
-
-    <a href="mailto:2822072760@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
-        <i class="fas fa-envelope-open"></i>
-    </a>
-
-
-
-
-
-
-
-    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1181062873" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1181062873" data-position="top" data-delay="50">
-        <i class="fab fa-qq"></i>
-    </a>
-
-
-
-
-
-
-
-    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
-        <i class="fas fa-rss"></i>
-    </a>
-
-</div>
-    </div>
-</footer>
-
-<div class="progress-bar"></div>
-
-
-    <!-- 搜索遮罩框 -->
-<div id="searchModal" class="modal">
-    <div class="modal-content">
-        <div class="search-header">
-            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
-            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
-                   class="search-input">
-        </div>
-        <div id="searchResult"></div>
-    </div>
-</div>
-
-<script src="/js/search.js"></script>
-<script type="text/javascript">
-$(function () {
-    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
-});
-</script>
-    <!-- 回到顶部按钮 -->
-<div id="backTop" class="top-scroll">
-    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
-        <i class="fas fa-arrow-up"></i>
-    </a>
-</div>
-
-
-    <script src="/libs/materialize/materialize.min.js"></script>
-    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
-    <script src="/libs/aos/aos.js"></script>
-    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
-    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
-    <script src="/js/matery.js"></script>
-
-    <!-- Baidu Analytics -->
-
-    <!-- Baidu Push -->
-
-<script>
-    (function () {
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https') {
-            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-        } else {
-            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-        }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
-</script>
-
-    
-    
-    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    
-    
-    <script src="/libs/instantpage/instantpage.js" type="module"></script>
-    
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
 
 </body>
-
 </html>

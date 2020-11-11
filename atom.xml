@@ -6,7 +6,7 @@
   <link href="https://mingriweiji-github.github.io/atom.xml" rel="self"/>
   
   <link href="https://mingriweiji-github.github.io/"/>
-  <updated>2020-06-29T15:17:22.000Z</updated>
+  <updated>2020-07-04T02:44:09.283Z</updated>
   <id>https://mingriweiji-github.github.io/</id>
   
   <author>
@@ -15,62 +15,6 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>(八)URLProtocol源码</title>
-    <link href="https://mingriweiji-github.github.io/2020/06/30/(%E5%85%AB)URLProtocol%E6%BA%90%E7%A0%81/"/>
-    <id>https://mingriweiji-github.github.io/2020/06/30/(%E5%85%AB)URLProtocol%E6%BA%90%E7%A0%81/</id>
-    <published>2020-06-30T15:13:45.000Z</published>
-    <updated>2020-06-29T15:17:22.000Z</updated>
-    
-    
-    <summary type="html">URLProtocol源码简析
-swift标准库URLProtocol地址
-
-一 、 URLProtocol初始化
-1.1通过URLRequest初始化protocol
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-
-
-open class URLProtocol : NSObject {
-
-    private static var _registeredProtocolClasses = [AnyClass]()
-    private static var _classesLock = N</summary>
-    
-    
-    
-    <category term="源码" scheme="https://mingriweiji-github.github.io/categories/%E6%BA%90%E7%A0%81/"/>
-    
-    
-    <category term="Swift专题" scheme="https://mingriweiji-github.github.io/tags/Swift%E4%B8%93%E9%A2%98/"/>
-    
-  </entry>
   
   <entry>
     <title>(一)Flutter初体验</title>
@@ -170,6 +114,62 @@ new Container(
     
     
     <category term="Flutter专题" scheme="https://mingriweiji-github.github.io/tags/Flutter%E4%B8%93%E9%A2%98/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>(八)URLProtocol源码</title>
+    <link href="https://mingriweiji-github.github.io/2020/06/30/(%E5%85%AB)URLProtocol%E6%BA%90%E7%A0%81/"/>
+    <id>https://mingriweiji-github.github.io/2020/06/30/(%E5%85%AB)URLProtocol%E6%BA%90%E7%A0%81/</id>
+    <published>2020-06-30T15:13:45.000Z</published>
+    <updated>2020-06-29T15:17:22.000Z</updated>
+    
+    
+    <summary type="html">URLProtocol源码简析
+swift标准库URLProtocol地址
+
+一 、 URLProtocol初始化
+1.1通过URLRequest初始化protocol
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+
+
+open class URLProtocol : NSObject {
+
+    private static var _registeredProtocolClasses = [AnyClass]()
+    private static var _classesLock = N</summary>
+    
+    
+    
+    <category term="源码" scheme="https://mingriweiji-github.github.io/categories/%E6%BA%90%E7%A0%81/"/>
+    
+    
+    <category term="Swift专题" scheme="https://mingriweiji-github.github.io/tags/Swift%E4%B8%93%E9%A2%98/"/>
     
   </entry>
   

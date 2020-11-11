@@ -230,6 +230,13 @@
             </span>
 
           
+            <span id="/2020/01/15/iOS%E8%B6%8A%E7%8B%B1%E5%88%9D%E4%BD%93%E9%AA%8C/" class="post-meta-item leancloud_visitors" data-flag-title="iOS越狱初体验" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
 
         </div>
       </header>
@@ -385,7 +392,7 @@
 <p>如果是使用iTerm2+oh my zsh组合，可以在.zshrc配置文件中导入<code>source .bash_profile</code>，这样每次打开就不用手动执行了！</p>
 <figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ open ~/.zshrc</span><br><span class="line">添加配置：source ~/.bash_profile</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h4 id="方式2-安装ruby2-0"><a href="#方式2-安装ruby2-0" class="headerlink" title="方式2:安装ruby2.0"></a>方式2:安装ruby2.0</h4><p><strong>方式二：测试该方式对于MacOS Catalina无效，中文博客都是这种方式，brew install <a href="mailto:&#x72;&#117;&#x62;&#x79;&#64;&#x32;&#x2e;&#x30;">&#x72;&#117;&#x62;&#x79;&#64;&#x32;&#x2e;&#x30;</a> 也无法在Catalina系统上通过，所以直接修改libruby.2.6.dylib为libruby.2.0.0.dylib是简单有效的方法</strong></p>
+<h4 id="方式2-安装ruby2-0"><a href="#方式2-安装ruby2-0" class="headerlink" title="方式2:安装ruby2.0"></a>方式2:安装ruby2.0</h4><p><strong>方式二：测试该方式对于MacOS Catalina无效，中文博客都是这种方式，brew install <a href="mailto:&#114;&#x75;&#x62;&#121;&#64;&#50;&#x2e;&#48;">&#114;&#x75;&#x62;&#121;&#64;&#50;&#x2e;&#48;</a> 也无法在Catalina系统上通过，所以直接修改libruby.2.6.dylib为libruby.2.0.0.dylib是简单有效的方法</strong></p>
 <h5 id="1、关闭Mac的SIP"><a href="#1、关闭Mac的SIP" class="headerlink" title="1、关闭Mac的SIP"></a>1、关闭Mac的SIP</h5><ul>
 <li>电脑重启，听到咚的时候，按住<code>command+R</code>，进入恢复模式</li>
 <li>打开终端，输入<code>csrutil disable</code>，重启</li>
@@ -710,6 +717,92 @@
 
 
 
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"Ju7dx80NhFmgzE6XmPx1a1nB-gzGzoHsz","app_key":"KoQvs9aXqlkKEJbIj7SBvt6n","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
 
 
       </div>

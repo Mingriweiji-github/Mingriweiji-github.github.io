@@ -237,6 +237,13 @@
               <span class="post-meta-item-text">阅读次数：</span>
               <span class="leancloud-visitors-count"></span>
             </span>
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
 
         </div>
       </header>
@@ -392,7 +399,7 @@
 <p>如果是使用iTerm2+oh my zsh组合，可以在.zshrc配置文件中导入<code>source .bash_profile</code>，这样每次打开就不用手动执行了！</p>
 <figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ open ~/.zshrc</span><br><span class="line">添加配置：source ~/.bash_profile</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h4 id="方式2-安装ruby2-0"><a href="#方式2-安装ruby2-0" class="headerlink" title="方式2:安装ruby2.0"></a>方式2:安装ruby2.0</h4><p><strong>方式二：测试该方式对于MacOS Catalina无效，中文博客都是这种方式，brew install <a href="mailto:&#x72;&#117;&#x62;&#121;&#x40;&#x32;&#46;&#x30;">&#x72;&#117;&#x62;&#121;&#x40;&#x32;&#46;&#x30;</a> 也无法在Catalina系统上通过，所以直接修改libruby.2.6.dylib为libruby.2.0.0.dylib是简单有效的方法</strong></p>
+<h4 id="方式2-安装ruby2-0"><a href="#方式2-安装ruby2-0" class="headerlink" title="方式2:安装ruby2.0"></a>方式2:安装ruby2.0</h4><p><strong>方式二：测试该方式对于MacOS Catalina无效，中文博客都是这种方式，brew install <a href="mailto:&#114;&#x75;&#98;&#121;&#64;&#50;&#46;&#x30;">&#114;&#x75;&#98;&#121;&#64;&#50;&#46;&#x30;</a> 也无法在Catalina系统上通过，所以直接修改libruby.2.6.dylib为libruby.2.0.0.dylib是简单有效的方法</strong></p>
 <h5 id="1、关闭Mac的SIP"><a href="#1、关闭Mac的SIP" class="headerlink" title="1、关闭Mac的SIP"></a>1、关闭Mac的SIP</h5><ul>
 <li>电脑重启，听到咚的时候，按住<code>command+R</code>，进入恢复模式</li>
 <li>打开终端，输入<code>csrutil disable</code>，重启</li>
@@ -700,7 +707,7 @@
 
 <div class="copyright">
   
-  &copy; 2015-2025 – 
+  &copy; 2015 – 
   <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
@@ -710,7 +717,30 @@
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>
 
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
 
 
 

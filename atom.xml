@@ -469,48 +469,6 @@ let newNums = nums.enumerat</summary>
   </entry>
   
   <entry>
-    <title>(一)Swift备忘录</title>
-    <link href="https://mingriweiji-github.github.io/2020/02/18/(%E4%B8%80)Swift%E5%A4%87%E5%BF%98%E5%BD%95/"/>
-    <id>https://mingriweiji-github.github.io/2020/02/18/(%E4%B8%80)Swift%E5%A4%87%E5%BF%98%E5%BD%95/</id>
-    <published>2020-02-18T02:13:45.000Z</published>
-    <updated>2020-06-29T11:46:09.000Z</updated>
-    
-    
-    <summary type="html">SwiftTip
- * Flip the image: 翻转图片
- * Retrive the paths: 检索，重新获得
-
-问题记录
- * 柯里化 什么意思
-   
-   
- * POP 与 OOP的区别
-   
-   
- * Any 与AnyObject 区别
-   
-   
- * rethrows 和 throws 有什么区别呢？
-   
-   
- * break return continue fallthough 在语句中的含义（switch、while、for）
-   
-   
- * 关键字
-    * public open final
-    * static class
- </summary>
-    
-    
-    
-    <category term="Swift" scheme="https://mingriweiji-github.github.io/categories/Swift/"/>
-    
-    
-    <category term="Swift专题" scheme="https://mingriweiji-github.github.io/tags/Swift%E4%B8%93%E9%A2%98/"/>
-    
-  </entry>
-  
-  <entry>
     <title>LookinLoader安装使用</title>
     <link href="https://mingriweiji-github.github.io/2020/01/20/LookinLoader%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/"/>
     <id>https://mingriweiji-github.github.io/2020/01/20/LookinLoader%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/</id>
@@ -863,6 +821,45 @@ GCC中对这些寄存</summary>
     
     
     <category term="iOS" scheme="https://mingriweiji-github.github.io/tags/iOS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hexo使用指南</title>
+    <link href="https://mingriweiji-github.github.io/2018/06/02/Hexo%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"/>
+    <id>https://mingriweiji-github.github.io/2018/06/02/Hexo%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</id>
+    <published>2018-06-02T03:13:45.000Z</published>
+    <updated>2020-06-29T14:23:55.000Z</updated>
+    
+    
+    <summary type="html">1、Hexo安装指南
+1.1安装Node.js
+首先下载稳定版Node.js。
+
+安装选项全部默认，一路点击Next。
+
+最后安装好之后，windows按Win+R打开命令提示符,mac打开命令行工具，输入node -v和npm -v，如果出现版本号，那么就安装成功了。
+
+1.2添加国内镜像源
+如果没有梯子的话，可以使用阿里的国内镜像进行加速。
+
+1
+
+
+npm config set registry https://registry.npm.taobao.org
+
+
+1.3安装Git
+为了把本地的网页文件上传到github上面去，我们需要用到分布式版本控制工具————Git[下载地址]。
+
+</summary>
+    
+    
+    
+    <category term="指南" scheme="https://mingriweiji-github.github.io/categories/%E6%8C%87%E5%8D%97/"/>
+    
+    
+    <category term="开发工具" scheme="https://mingriweiji-github.github.io/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/"/>
     
   </entry>
   

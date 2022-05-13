@@ -488,14 +488,14 @@ Flutter 是一个跨平台的 UI
                 The ‘Pods-wii’ target has frameworks with conflicting names: iflymsc.framework
 原因是：iflymsc.framework接入 native 中和之前 flutter 中的iflymsc.framework冲突了
 
-解决方式：flutter 缓存删除即可（从主工程的 development pods 的longfor_msc_plugin中删除）
+解决方式：flutter 缓存删除即可（从主工程的 development pods 的xxx_msc_plugin中删除）
 
 
 
 TabController addListener两次回调
 问题：这个监听在点击切换tab的时候会回调两次，左右滑动切换tab正常调用一次。
 
-TabControll
+TabController a
             </div>
             <!-- read more -->
             
@@ -583,134 +583,13 @@ Flutter 原理和优化
             
         
         <article class="index-post">
-            <a class="abstract-title" href="/2021/04/15/Flutter%20%E5%B8%83%E5%B1%80/">
-                
-                <span class="abstract-title-text">Flutter 布局</span>
-            </a>
-            <div class="abstract-content">
-                Flutter布局
-2020.6.29日更新
-2020.5.29日更新
-实现布局如下
-
-
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-
-
-/// Line 3
-new Container(
-  margin: const Edge
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2022/05/13">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2021/04/15</span>
-                </div>
-                <!-- tags -->
-                
-                    <div class= abstract-tags >
-    
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Flutter">Flutter</a>
-    
-</div>
-
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
             <a class="abstract-title" href="/2021/03/15/Flutter%20Widget/">
                 
                 <span class="abstract-title-text">Flutter Widget</span>
             </a>
             <div class="abstract-content">
                 Flutter常见Widget
-Stack的使用
-效果图
-
-
+Expanded()按照比例分配
 1
 2
 3
@@ -749,39 +628,15 @@ Stack的使用
 36
 37
 38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
 
 
-new Container(
-      height: 175,
-      color: Colors.purple,
-      child: new Co
+// expand
+import 'package:flutter/material.dart';
+
+class ExpandedLearn extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return n
             </div>
             <!-- read more -->
             
@@ -1094,20 +949,7 @@ Dart在静态语法方面和Java非常相似，如类型定义、函数声明、
         
         
         
-        
-        
-        
-        
-        
     
-        
-        
-        
-        
-        
-        
-        
-        
         
         
         
@@ -1346,7 +1188,7 @@ Dart在静态语法方面和Java非常相似，如类型定义、函数声明、
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 32
+        Total : 31
         </div>
         <!-- search  -->
         
@@ -1391,12 +1233,6 @@ Dart在静态语法方面和Java非常相似，如类型定义、函数声明、
         <li class="archive-post-item">
             <span class="archive-post-date">06/15</span>
             <a class="archive-post-title" href="/2021/06/15/Flutter%20%E8%B5%84%E6%BA%90/">Flutter 资源</a>
-        </li>
-    
-        
-        <li class="archive-post-item">
-            <span class="archive-post-date">04/15</span>
-            <a class="archive-post-title" href="/2021/04/15/Flutter%20%E5%B8%83%E5%B1%80/">Flutter 布局</a>
         </li>
     
         
@@ -1604,14 +1440,14 @@ Dart在静态语法方面和Java非常相似，如类型定义、函数声明、
                 算法
             </span>
         
-            <span class="sidebar-tag-name" data-tags="Swift专题">
-                <span class="iconfont-archer">&#xe606;</span>
-                Swift专题
-            </span>
-        
             <span class="sidebar-tag-name" data-tags="iOS">
                 <span class="iconfont-archer">&#xe606;</span>
                 iOS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Swift专题">
+                <span class="iconfont-archer">&#xe606;</span>
+                Swift专题
             </span>
         
             <span class="sidebar-tag-name" data-tags="Flutter">
@@ -1650,14 +1486,14 @@ Dart在静态语法方面和Java非常相似，如类型定义、函数声明、
             Flutter
         </span>
     
-        <span class="sidebar-category-name" data-categories="指南">
-            <span class="iconfont-archer">&#xe60a;</span>
-            指南
-        </span>
-    
         <span class="sidebar-category-name" data-categories="Swift">
             <span class="iconfont-archer">&#xe60a;</span>
             Swift
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="指南">
+            <span class="iconfont-archer">&#xe60a;</span>
+            指南
         </span>
     
         <span class="sidebar-category-name" data-categories="图像">

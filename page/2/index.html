@@ -445,56 +445,6 @@
             
         
         <article class="index-post">
-            <a class="abstract-title" href="/2020/04/18/Swift%E6%A0%87%E5%87%86%E5%BA%93%E6%BA%90%E7%A0%81/">
-                
-                    <span class="iconfont-archer stick-top">&#xe63d;</span>
-                
-                <span class="abstract-title-text">Swift标准库源码</span>
-            </a>
-            <div class="abstract-content">
-                Swift标准库源码
- * Swift.org
- * Github开源地址  * 1、下载后的路径使用BBEdit查看所有标准库：stdlib/public/core/
-    * 2、网页查看：https://github.com/apple/swift/tree/master/stdlib/public/core
-   
-   
-
-如何阅读 Swift 标准库中的源码 | Swift源码地址
-00关键词
- * Array解读 | FFIB-LeetCode | ContiguousArray | ContiguousArray喵神解读
-   
-   
- * Sequence解读 | Col
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2022/05/13">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/04/18</span>
-                </div>
-                <!-- tags -->
-                
-                    <div class= abstract-tags >
-    
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Swift专题">Swift专题</a>
-    
-</div>
-
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
             <a class="abstract-title" href="/2020/04/18/Swift%E9%9B%86%E5%90%88%E6%BA%90%E7%A0%81/">
                 
                 <span class="abstract-title-text">Swift集合源码</span>
@@ -1078,6 +1028,58 @@ GCC中对这些寄存
         </article>
         <div class="index-post-divider"></div>
     
+        
+        
+        
+        
+            
+            
+        
+        <article class="index-post">
+            <a class="abstract-title" href="/2018/12/01/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">
+                
+                <span class="abstract-title-text">iOS图像优化技巧</span>
+            </a>
+            <div class="abstract-content">
+                iOS图像优化技巧
+ * 1、如何处理大尺寸图片？
+   
+   
+ * 2、如何处理瀑布流图片占用大量内存的问题？
+   
+   
+ * 3、如何处理多张图片上传和下载问题？
+   
+   
+
+1、处理大尺寸图片
+那么，什么时候对图像进行渲染优化才有意义呢？
+
+当它明显大于 UIImageView 显示尺寸的时候
+
+想要完整渲染这张宽高为 12,000 px 的图片，需要高达 20 MB 的空间。对于当今的硬件来说，你可能不会在意这么少兆字节的占用。但那只是它压缩后的尺寸。要展示它，UIImageView 首先需要把 JPEG 数据解码成位图（bitmap），如果要在一个 UIImageVi
+            </div>
+            <!-- read more -->
+            
+            <div class="abstract-post-meta">
+                <!-- date -->
+                <div class="abstract-date" title="Last updated: 2022/05/11">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/12/01</span>
+                </div>
+                <!-- tags -->
+                
+                    <div class= abstract-tags >
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="iOS">iOS</a>
+    
+</div>
+
+                
+            </div>
+        </article>
+        <div class="index-post-divider"></div>
+    
     <!-- paginator  -->
     
         <nav class="page-nav">
@@ -1399,20 +1401,7 @@ GCC中对这些寄存
         
         
         
-        
-        
-        
-        
-        
     
-        
-        
-        
-        
-        
-        
-        
-        
         
         
         
@@ -1651,7 +1640,7 @@ GCC中对这些寄存
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 32
+        Total : 31
         </div>
         <!-- search  -->
         
@@ -1696,12 +1685,6 @@ GCC中对这些寄存
         <li class="archive-post-item">
             <span class="archive-post-date">06/15</span>
             <a class="archive-post-title" href="/2021/06/15/Flutter%20%E8%B5%84%E6%BA%90/">Flutter 资源</a>
-        </li>
-    
-        
-        <li class="archive-post-item">
-            <span class="archive-post-date">04/15</span>
-            <a class="archive-post-title" href="/2021/04/15/Flutter%20%E5%B8%83%E5%B1%80/">Flutter 布局</a>
         </li>
     
         
@@ -1909,14 +1892,14 @@ GCC中对这些寄存
                 算法
             </span>
         
-            <span class="sidebar-tag-name" data-tags="Swift专题">
-                <span class="iconfont-archer">&#xe606;</span>
-                Swift专题
-            </span>
-        
             <span class="sidebar-tag-name" data-tags="iOS">
                 <span class="iconfont-archer">&#xe606;</span>
                 iOS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Swift专题">
+                <span class="iconfont-archer">&#xe606;</span>
+                Swift专题
             </span>
         
             <span class="sidebar-tag-name" data-tags="Flutter">
@@ -1955,14 +1938,14 @@ GCC中对这些寄存
             Flutter
         </span>
     
-        <span class="sidebar-category-name" data-categories="指南">
-            <span class="iconfont-archer">&#xe60a;</span>
-            指南
-        </span>
-    
         <span class="sidebar-category-name" data-categories="Swift">
             <span class="iconfont-archer">&#xe60a;</span>
             Swift
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="指南">
+            <span class="iconfont-archer">&#xe60a;</span>
+            指南
         </span>
     
         <span class="sidebar-category-name" data-categories="图像">

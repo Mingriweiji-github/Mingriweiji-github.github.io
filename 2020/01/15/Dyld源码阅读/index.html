@@ -1,30 +1,29 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+    <!-- title -->
+
+
+    
+
+<!-- keywords -->
+
+
+
 <head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.2.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"mingriweiji-github.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
-  </script>
-
-  <meta name="description" content="Dyld源码阅读  * Version：dyld-551.4  * Lauange：C++  * load()调用路径：3566行  * load()-&gt;loadPhase0()-&gt;loadPhase1()-&gt;loadPhase2()-&gt;loadPhase4()-&gt;loadPhase5()打开或检查已经存在的动态库：dyld3::findInSharedCacheImage-&gt;loadPhase5">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="KM">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="KM">
+    
+        <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content="">
+    <meta name="description" content="Dyld源码阅读  * Version：dyld-551.4  * Lauange：C++  * load()调用路径：3566行  * load()-&gt;loadPhase0()-&gt;loadPhase1()-&gt;loadPhase2()-&gt;loadPhase4()-&gt;loadPhase5()打开或检查已经存在的动态库：dyld3::findInSharedCacheImage-&gt;loadPhase5">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Dyld源码阅读">
 <meta property="og:url" content="https://mingriweiji-github.github.io/2020/01/15/Dyld%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/index.html">
-<meta property="og:site_name" content="明日危机">
+<meta property="og:site_name" content="KM的技术笔记">
 <meta property="og:description" content="Dyld源码阅读  * Version：dyld-551.4  * Lauange：C++  * load()调用路径：3566行  * load()-&gt;loadPhase0()-&gt;loadPhase1()-&gt;loadPhase2()-&gt;loadPhase4()-&gt;loadPhase5()打开或检查已经存在的动态库：dyld3::findInSharedCacheImage-&gt;loadPhase5">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200401153405.png">
@@ -36,223 +35,475 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/usr_lib_dyld_type.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200402091824.png">
 <meta property="article:published_time" content="2020-01-15T02:13:45.000Z">
-<meta property="article:modified_time" content="2020-05-01T12:47:36.000Z">
+<meta property="article:modified_time" content="2022-05-10T16:01:43.640Z">
 <meta property="article:author" content="KM">
 <meta property="article:tag" content="iOS">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200401153405.png">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="/assets/favicon.ico">
+    
+    <title>Dyld源码阅读 · KM的博客</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
 
-<link rel="canonical" href="https://mingriweiji-github.github.io/2020/01/15/Dyld%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/">
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
 
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
 
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'zh-CN'
-  };
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
 </script>
 
-  <title>Dyld源码阅读 | 明日危机</title>
-  
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
 
+    body {
+        margin: 0;
+    }
 
-  <script>
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?ec9cc8dfbd03d21e9645e0562d7b9989";
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-  </script>
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
 
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
 
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
 
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+</style>
 
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-<link rel="alternate" href="/atom.xml" title="明日危机" type="application/atom+xml">
+    <link rel="preload" href="/css/style.css?v=20211217" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/css/dark.css?v=20211217" as="style">
+    <link rel="stylesheet" href="/css/dark.css">
+    <link rel="stylesheet" href="/css/mobile.css?v=20211217" media="(max-width: 960px)">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js?v=20211217" as="script">
+    <link rel="preload" href="/scripts/dark.js?v=20211217" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
+    
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<link rel="alternate" href="/atom.xml" title="KM的技术笔记" type="application/atom+xml">
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">明日危机</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">iOS & Swifter</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content post posts-expand">
+        <body class="post-body">
+    
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        
+            <div class="header-sidebar-menu">
+        
             
-
-    
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mingriweiji-github.github.io/2020/01/15/Dyld%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="KM">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="明日危机">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          Dyld源码阅读
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-01-15 10:13:45" itemprop="dateCreated datePublished" datetime="2020-01-15T10:13:45+08:00">2020-01-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-01 20:47:36" itemprop="dateModified" datetime="2020-05-01T20:47:36+08:00">2020-05-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%BA%90%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">源码</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2020/01/15/Dyld%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/" class="post-meta-item leancloud_visitors" data-flag-title="Dyld源码阅读" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span id="busuanzi_value_page_pv"></span>
-            </span>
-
+                <div style="padding-left: 1px;">&#xe775;</div>
+            
         </div>
-      </header>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- theme mode switch button -->
+        <span class="header-theme-btn header-element">
+            <i class="fas fa-adjust"></i>
+        </span>
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <a href=/>KM的博客.</a>
+        </span>
+    </div>
+    <!-- toggle banner for post layout -->
+    
+        
+            <div class="banner">
+        
+            <div class="blog-title header-element">
+                <a href="/">KM的博客.</a>
+            </div>
+            <div class="post-title header-element">
+                <a href="#" class="post-name">Dyld源码阅读</a>
+            </div>
+        </div>
+    
+</header>
 
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- back to top button -->
+    <div class="footer-fixed-element">
+        
+            <div class="back-top back-top-hidden">
+        
+        
+            <div>&#xe639;</div>
+        
+        </div>
+    </div>
+</footer>
 
-      
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="
+
+
+
+
+
+
+
+    height:50vh;
+
+">
+    
+    <!-- 主页  -->
+    
+        
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+                Dyld源码阅读
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+                
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页 meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="iOS">iOS</a>
+    
+</div>
+
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">2.3k</span>阅读时长: <span class="post-count reading-time">12 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <!-- 撰写日期 -->
+                    <span class="iconfont-archer post-intro-calander">&#xe676;</span>
+                    <span class="post-intro-time">2020/01/15</span>
+                    <!-- busuanzi -->
+                    
+                        <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                            <span class="iconfont-archer post-intro-busuanzi">&#xe602;</span>
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    
+                    <!-- 文章分享 -->
+                    <span class="share-wrapper">
+                        <span class="iconfont-archer share-icon">&#xe71d;</span>
+                        <span class="share-text">Share</span>
+                        <ul class="share-list">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+
+            <script>
+  // get user agent
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
+  }
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded')
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in')
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb() {
+    if (browser.versions.uc) {
+      console.log('UCBrowser')
+      fontLoaded()
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular'],
+        },
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
+        },
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
+        },
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
+        },
+        timeout: 5000, // Set the timeout to two seconds
+      })
+    }
+  }
+
+  function asyncErr() {
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
+  }
+
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
+
+    async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
+</script>
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <div class="container container-unloaded">
+                <main class="main post-page">
+    <article class="article-entry">
         <h1 id="Dyld源码阅读"><a href="#Dyld源码阅读" class="headerlink" title="Dyld源码阅读"></a>Dyld源码阅读</h1><ul>
 <li>Version：<a target="_blank" rel="noopener" href="https://opensource.apple.com/tarballs/dyld/"><strong>dyld-551.4</strong></a></li>
 <li>Lauange：<strong>C++</strong></li>
@@ -267,46 +518,46 @@
 <li>UIKit路径：<code>/system/Library/Frameworks/UIKit.framework</code></li>
 <li><strong>动态库共享缓存</strong>：<code>/System/Library/Caches/com.apple.dyld/dyld_shared_cache_arm64</code></li>
 </ul>
-<h2 id="0x00-load"><a href="#0x00-load" class="headerlink" title="0x00 load()"></a>0x00 load()</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ImageLoader* <span class="title">load</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>* path, <span class="keyword">const</span> LoadContext&amp; context, <span class="keyword">unsigned</span>&amp; cacheIndex)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">// try all path permutations and check against existing loaded images</span></span><br><span class="line">	ImageLoader* image = loadPhase0(path, orgPath, context, cacheIndex, <span class="literal">NULL</span>);</span><br><span class="line">  </span><br><span class="line">	<span class="keyword">if</span> ( image != <span class="literal">NULL</span> ) &#123;</span><br><span class="line">		CRSetCrashLogMessage2(<span class="literal">NULL</span>);</span><br><span class="line">		<span class="keyword">return</span> image;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// try all path permutations and try open() until first success</span></span><br><span class="line">	image = loadPhase0(path, orgPath, context, cacheIndex, &amp;exceptions);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> ( image == <span class="literal">NULL</span>)</span><br><span class="line">		image = loadPhase2cache(path, orgPath, context, cacheIndex, &amp;exceptions);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    CRSetCrashLogMessage2(<span class="literal">NULL</span>);</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="0x00-load"><a href="#0x00-load" class="headerlink" title="0x00 load()"></a>0x00 load()</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">ImageLoader* <span class="title function_">load</span><span class="params">(<span class="type">const</span> <span class="type">char</span>* path, <span class="type">const</span> LoadContext&amp; context, <span class="type">unsigned</span>&amp; cacheIndex)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">// try all path permutations and check against existing loaded images</span></span><br><span class="line">	ImageLoader* image = loadPhase0(path, orgPath, context, cacheIndex, <span class="literal">NULL</span>);</span><br><span class="line">  </span><br><span class="line">	<span class="keyword">if</span> ( image != <span class="literal">NULL</span> ) &#123;</span><br><span class="line">		CRSetCrashLogMessage2(<span class="literal">NULL</span>);</span><br><span class="line">		<span class="keyword">return</span> image;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// try all path permutations and try open() until first success</span></span><br><span class="line">	image = loadPhase0(path, orgPath, context, cacheIndex, &amp;exceptions);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> ( image == <span class="literal">NULL</span>)</span><br><span class="line">		image = loadPhase2cache(path, orgPath, context, cacheIndex, &amp;exceptions);</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">    CRSetCrashLogMessage2(<span class="literal">NULL</span>);</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2 id="0x01-loadPhase2"><a href="#0x01-loadPhase2" class="headerlink" title="0x01 loadPhase2()"></a>0x01 loadPhase2()</h2><h2 id="0x02-loadPhase5"><a href="#0x02-loadPhase5" class="headerlink" title="0x02 loadPhase5"></a>0x02 loadPhase5</h2><h4 id="loadPhase5load（）"><a href="#loadPhase5load（）" class="headerlink" title="loadPhase5load（）"></a>loadPhase5load（）</h4><h4 id="loadPhase5check（）"><a href="#loadPhase5check（）" class="headerlink" title="loadPhase5check（）"></a>loadPhase5check（）</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// open or check existing</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> ImageLoader* <span class="title">loadPhase5</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>* path, <span class="keyword">const</span> <span class="keyword">char</span>* orgPath, <span class="keyword">const</span> LoadContext&amp; context, <span class="keyword">unsigned</span>&amp; cacheIndex, <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">const</span> <span class="keyword">char</span>*&gt;* exceptions)</span></span></span><br><span class="line"><span class="function"></span>&#123;	</span><br><span class="line">	<span class="comment">// check for specific dylib overrides</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;DylibOverride&gt;::iterator it = sDylibOverrides.begin(); it != sDylibOverrides.end(); ++it) &#123;</span><br><span class="line">		<span class="keyword">if</span> ( <span class="built_in">strcmp</span>(it-&gt;installName, path) == <span class="number">0</span> ) &#123;</span><br><span class="line">			path = it-&gt;<span class="keyword">override</span>;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> ( exceptions != <span class="literal">NULL</span> ) </span><br><span class="line">		<span class="keyword">return</span> loadPhase5load(path, orgPath, context, cacheIndex, exceptions);</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="keyword">return</span> loadPhase5check(path, orgPath, context);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="0x01-loadPhase2"><a href="#0x01-loadPhase2" class="headerlink" title="0x01 loadPhase2()"></a>0x01 loadPhase2()</h2><h2 id="0x02-loadPhase5"><a href="#0x02-loadPhase5" class="headerlink" title="0x02 loadPhase5"></a>0x02 loadPhase5</h2><h4 id="loadPhase5load（）"><a href="#loadPhase5load（）" class="headerlink" title="loadPhase5load（）"></a>loadPhase5load（）</h4><h4 id="loadPhase5check（）"><a href="#loadPhase5check（）" class="headerlink" title="loadPhase5check（）"></a>loadPhase5check（）</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// open or check existing</span></span><br><span class="line"><span class="type">static</span> ImageLoader* <span class="title function_">loadPhase5</span><span class="params">(<span class="type">const</span> <span class="type">char</span>* path, <span class="type">const</span> <span class="type">char</span>* orgPath, <span class="type">const</span> LoadContext&amp; context, <span class="type">unsigned</span>&amp; cacheIndex, <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="type">const</span> <span class="type">char</span>*&gt;* exceptions)</span></span><br><span class="line">&#123;	</span><br><span class="line">	<span class="comment">// check for specific dylib overrides</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;DylibOverride&gt;::iterator it = sDylibOverrides.begin(); it != sDylibOverrides.end(); ++it) &#123;</span><br><span class="line">		<span class="keyword">if</span> ( <span class="built_in">strcmp</span>(it-&gt;installName, path) == <span class="number">0</span> ) &#123;</span><br><span class="line">			path = it-&gt;override;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> ( exceptions != <span class="literal">NULL</span> ) </span><br><span class="line">		<span class="keyword">return</span> loadPhase5load(path, orgPath, context, cacheIndex, exceptions);</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="keyword">return</span> loadPhase5check(path, orgPath, context);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h2 id="0x03-findInSharedCacheImage"><a href="#0x03-findInSharedCacheImage" class="headerlink" title="0x03 findInSharedCacheImage"></a>0x03 findInSharedCacheImage</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">bool</span> <span class="title">findInSharedCacheImage</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>* path, <span class="keyword">bool</span> searchByPath, <span class="keyword">const</span> struct stat* stat_buf, <span class="keyword">const</span> macho_header** mh, <span class="keyword">const</span> <span class="keyword">char</span>** pathInCache, <span class="keyword">long</span>* slide)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	dyld3::SharedCacheFindDylibResults results;</span><br><span class="line">	<span class="keyword">if</span> ( dyld3::findInSharedCacheImage(sSharedCacheLoadInfo, path, &amp;results) ) &#123;</span><br><span class="line">		*mh			 = (macho_header*)results.mhInCache;</span><br><span class="line">		*pathInCache = results.pathInCache;</span><br><span class="line">		*slide	     = results.slideInCache;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">inSharedCache</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>* path)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> dyld3::pathIsInSharedCacheImage(sSharedCacheLoadInfo, path);</span><br><span class="line">&#125;	</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">imageSorter</span><span class="params">(<span class="keyword">const</span> <span class="keyword">void</span>* l, <span class="keyword">const</span> <span class="keyword">void</span>* r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">const</span> ImageLoader* left = *((ImageLoader**)l);</span><br><span class="line">	<span class="keyword">const</span> ImageLoader* right= *((ImageLoader**)r);</span><br><span class="line">	<span class="keyword">return</span> left-&gt;compare(right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="0x03-findInSharedCacheImage"><a href="#0x03-findInSharedCacheImage" class="headerlink" title="0x03 findInSharedCacheImage"></a>0x03 findInSharedCacheImage</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="type">bool</span> <span class="title function_">findInSharedCacheImage</span><span class="params">(<span class="type">const</span> <span class="type">char</span>* path, <span class="type">bool</span> searchByPath, <span class="type">const</span> <span class="keyword">struct</span> stat* stat_buf, <span class="type">const</span> macho_header** mh, <span class="type">const</span> <span class="type">char</span>** pathInCache, <span class="type">long</span>* slide)</span></span><br><span class="line">&#123;</span><br><span class="line">	dyld3::SharedCacheFindDylibResults results;</span><br><span class="line">	<span class="keyword">if</span> ( dyld3::findInSharedCacheImage(sSharedCacheLoadInfo, path, &amp;results) ) &#123;</span><br><span class="line">		*mh			 = (macho_header*)results.mhInCache;</span><br><span class="line">		*pathInCache = results.pathInCache;</span><br><span class="line">		*slide	     = results.slideInCache;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">bool</span> <span class="title function_">inSharedCache</span><span class="params">(<span class="type">const</span> <span class="type">char</span>* path)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">return</span> dyld3::pathIsInSharedCacheImage(sSharedCacheLoadInfo, path);</span><br><span class="line">&#125;	</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">int</span> <span class="title function_">imageSorter</span><span class="params">(<span class="type">const</span> <span class="type">void</span>* l, <span class="type">const</span> <span class="type">void</span>* r)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">const</span> ImageLoader* left = *((ImageLoader**)l);</span><br><span class="line">	<span class="type">const</span> ImageLoader* right= *((ImageLoader**)r);</span><br><span class="line">	<span class="keyword">return</span> left-&gt;compare(right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>findInSharedCacheImage</li>
 <li>inSharedCache</li>
 </ul>
-<h2 id="0x04-Clang-编译dsc-extractor-cpp"><a href="#0x04-Clang-编译dsc-extractor-cpp" class="headerlink" title="0x04 Clang++编译dsc_extractor.cpp"></a>0x04 Clang++编译dsc_extractor.cpp</h2><h4 id="生成可执行文件dsc-extractor"><a href="#生成可执行文件dsc-extractor" class="headerlink" title="生成可执行文件dsc_extractor :"></a>生成可执行文件dsc_extractor :</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$: clang++ -o dsc_extractor dsc_extractor.cpp </span><br></pre></td></tr></table></figure>
+<h2 id="0x04-Clang-编译dsc-extractor-cpp"><a href="#0x04-Clang-编译dsc-extractor-cpp" class="headerlink" title="0x04 Clang++编译dsc_extractor.cpp"></a>0x04 Clang++编译dsc_extractor.cpp</h2><h4 id="生成可执行文件dsc-extractor"><a href="#生成可执行文件dsc-extractor" class="headerlink" title="生成可执行文件dsc_extractor :"></a>生成可执行文件dsc_extractor :</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$: clang++ -o dsc_extractor dsc_extractor.cpp </span><br></pre></td></tr></table></figure>
 
 <img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200401153405.png" style="zoom:50%;" />
 
-<h4 id="抽取动态共享缓存中的Mach-O"><a href="#抽取动态共享缓存中的Mach-O" class="headerlink" title="抽取动态共享缓存中的Mach-O"></a>抽取动态共享缓存中的Mach-O</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$: cd xxx&#x2F;com.apple.dyld</span><br><span class="line">$: .&#x2F;dsc_extractor dyld_shared_cache_arm64 arm64_file</span><br></pre></td></tr></table></figure>
+<h4 id="抽取动态共享缓存中的Mach-O"><a href="#抽取动态共享缓存中的Mach-O" class="headerlink" title="抽取动态共享缓存中的Mach-O"></a>抽取动态共享缓存中的Mach-O</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$: cd xxx/com.apple.dyld</span><br><span class="line">$: ./dsc_extractor dyld_shared_cache_arm64 arm64_file</span><br></pre></td></tr></table></figure>
 
 <img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/截屏2020-04-01 下午3.35.35.png" style="zoom:50%;" />
 
 <p><strong>dsc_extractor.cpp内容如下:</strong></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// test program</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stddef.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;dlfcn.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">int</span> <span class="params">(*extractor_proc)</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>* shared_cache_file_path, <span class="keyword">const</span> <span class="keyword">char</span>* extraction_root_path,</span></span></span><br><span class="line"><span class="function"><span class="params">													<span class="keyword">void</span> (^progress)(<span class="keyword">unsigned</span> current, <span class="keyword">unsigned</span> total))</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span>* argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> ( argc != <span class="number">3</span> ) &#123;</span><br><span class="line">		<span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">&quot;usage: dsc_extractor &lt;path-to-cache-file&gt; &lt;path-to-device-dir&gt;\n&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//void* handle = dlopen(&quot;/Volumes/my/src/dyld/build/Debug/dsc_extractor.bundle&quot;, RTLD_LAZY);</span></span><br><span class="line">	<span class="keyword">void</span>* handle = dlopen(<span class="string">&quot;/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/usr/lib/dsc_extractor.bundle&quot;</span>, RTLD_LAZY);</span><br><span class="line">	<span class="keyword">if</span> ( handle == <span class="literal">NULL</span> ) &#123;</span><br><span class="line">		<span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">&quot;dsc_extractor.bundle could not be loaded\n&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	extractor_proc proc = (extractor_proc)dlsym(handle, <span class="string">&quot;dyld_shared_cache_extract_dylibs_progress&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span> ( proc == <span class="literal">NULL</span> ) &#123;</span><br><span class="line">		<span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">&quot;dsc_extractor.bundle did not have dyld_shared_cache_extract_dylibs_progress symbol\n&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">int</span> result = (*proc)(argv[<span class="number">1</span>], argv[<span class="number">2</span>], ^(<span class="keyword">unsigned</span> c, <span class="keyword">unsigned</span> total) &#123; <span class="built_in">printf</span>(<span class="string">&quot;%d/%d\n&quot;</span>, c, total); &#125; );</span><br><span class="line">	<span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">&quot;dyld_shared_cache_extract_dylibs_progress() =&gt; %d\n&quot;</span>, result);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// test program</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stddef.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;dlfcn.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="title function_">int</span> <span class="params">(*extractor_proc)</span><span class="params">(<span class="type">const</span> <span class="type">char</span>* shared_cache_file_path, <span class="type">const</span> <span class="type">char</span>* extraction_root_path,</span></span><br><span class="line"><span class="params">													<span class="type">void</span> (^progress)(<span class="type">unsigned</span> current, <span class="type">unsigned</span> total))</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span>* argv[])</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> ( argc != <span class="number">3</span> ) &#123;</span><br><span class="line">		<span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">&quot;usage: dsc_extractor &lt;path-to-cache-file&gt; &lt;path-to-device-dir&gt;\n&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//void* handle = dlopen(&quot;/Volumes/my/src/dyld/build/Debug/dsc_extractor.bundle&quot;, RTLD_LAZY);</span></span><br><span class="line">	<span class="type">void</span>* handle = dlopen(<span class="string">&quot;/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/usr/lib/dsc_extractor.bundle&quot;</span>, RTLD_LAZY);</span><br><span class="line">	<span class="keyword">if</span> ( handle == <span class="literal">NULL</span> ) &#123;</span><br><span class="line">		<span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">&quot;dsc_extractor.bundle could not be loaded\n&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	extractor_proc proc = (extractor_proc)dlsym(handle, <span class="string">&quot;dyld_shared_cache_extract_dylibs_progress&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span> ( proc == <span class="literal">NULL</span> ) &#123;</span><br><span class="line">		<span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">&quot;dsc_extractor.bundle did not have dyld_shared_cache_extract_dylibs_progress symbol\n&quot;</span>);</span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="type">int</span> result = (*proc)(argv[<span class="number">1</span>], argv[<span class="number">2</span>], ^(<span class="type">unsigned</span> c, <span class="type">unsigned</span> total) &#123; <span class="built_in">printf</span>(<span class="string">&quot;%d/%d\n&quot;</span>, c, total); &#125; );</span><br><span class="line">	<span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">&quot;dyld_shared_cache_extract_dylibs_progress() =&gt; %d\n&quot;</span>, result);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <h4 id="dyld加载流程"><a href="#dyld加载流程" class="headerlink" title="dyld加载流程"></a>dyld加载流程</h4><ul>
-<li>dyldStartup.s： <code>call __dyld_start -&gt;call dyldbootstrap::start</code> -&gt; dyldInitialization.cpp: <code>call start()-&gt;_main()</code>-&gt; </li>
+<li>dyldStartup.s： <code>call __dyld_start -&gt;call dyldbootstrap::start</code> -&gt; dyldInitialization.cpp: <code>call start()-&gt;_main()</code>-&gt;</li>
 </ul>
-<h5 id="dyld的start-方法："><a href="#dyld的start-方法：" class="headerlink" title="dyld的start()方法："></a>dyld的start()方法：</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">uintptr_t</span> <span class="title">start</span><span class="params">(<span class="keyword">const</span> struct macho_header* appsMachHeader, <span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span>* argv[], </span></span></span><br><span class="line"><span class="function"><span class="params">				<span class="keyword">intptr_t</span> slide, <span class="keyword">const</span> struct macho_header* dyldsMachHeader,</span></span></span><br><span class="line"><span class="function"><span class="params">				<span class="keyword">uintptr_t</span>* startGlue)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">// if kernel had to slide dyld, we need to fix up load sensitive locations</span></span><br><span class="line">	<span class="comment">// we have to do this before using any global variables</span></span><br><span class="line">	<span class="keyword">if</span> ( slide != <span class="number">0</span> ) &#123;</span><br><span class="line">		rebaseDyld(dyldsMachHeader, slide);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// allow dyld to use mach messaging</span></span><br><span class="line">	mach_init();</span><br><span class="line"></span><br><span class="line">	<span class="comment">// kernel sets up env pointer to be just past end of agv array</span></span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">char</span>** envp = &amp;argv[argc+<span class="number">1</span>];</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// kernel sets up apple pointer to be just past end of envp array</span></span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">char</span>** apple = envp;</span><br><span class="line">	<span class="keyword">while</span>(*apple != <span class="literal">NULL</span>) &#123; ++apple; &#125;</span><br><span class="line">	++apple;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// set up random value for stack canary</span></span><br><span class="line">	__guard_setup(apple);</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> DYLD_INITIALIZER_SUPPORT</span></span><br><span class="line">	<span class="comment">// run all C++ initializers inside dyld</span></span><br><span class="line">	runDyldInitializers(dyldsMachHeader, slide, argc, argv, envp, apple);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// now that we are done bootstrapping dyld, call dyld&#x27;s main</span></span><br><span class="line">	<span class="keyword">uintptr_t</span> appsSlide = slideOfMainExecutable(appsMachHeader);</span><br><span class="line">  </span><br><span class="line">	<span class="keyword">return</span> dyld::_main(appsMachHeader, appsSlide, argc, argv, envp, apple, startGlue);</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h5 id="dyld的start-方法："><a href="#dyld的start-方法：" class="headerlink" title="dyld的start()方法："></a>dyld的start()方法：</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">uintptr_t</span> <span class="title function_">start</span><span class="params">(<span class="type">const</span> <span class="keyword">struct</span> macho_header* appsMachHeader, <span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span>* argv[], </span></span><br><span class="line"><span class="params">				<span class="type">intptr_t</span> slide, <span class="type">const</span> <span class="keyword">struct</span> macho_header* dyldsMachHeader,</span></span><br><span class="line"><span class="params">				<span class="type">uintptr_t</span>* startGlue)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">// if kernel had to slide dyld, we need to fix up load sensitive locations</span></span><br><span class="line">	<span class="comment">// we have to do this before using any global variables</span></span><br><span class="line">	<span class="keyword">if</span> ( slide != <span class="number">0</span> ) &#123;</span><br><span class="line">		rebaseDyld(dyldsMachHeader, slide);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// allow dyld to use mach messaging</span></span><br><span class="line">	mach_init();</span><br><span class="line"></span><br><span class="line">	<span class="comment">// kernel sets up env pointer to be just past end of agv array</span></span><br><span class="line">	<span class="type">const</span> <span class="type">char</span>** envp = &amp;argv[argc+<span class="number">1</span>];</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// kernel sets up apple pointer to be just past end of envp array</span></span><br><span class="line">	<span class="type">const</span> <span class="type">char</span>** apple = envp;</span><br><span class="line">	<span class="keyword">while</span>(*apple != <span class="literal">NULL</span>) &#123; ++apple; &#125;</span><br><span class="line">	++apple;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// set up random value for stack canary</span></span><br><span class="line">	__guard_setup(apple);</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> DYLD_INITIALIZER_SUPPORT</span></span><br><span class="line">	<span class="comment">// run all C++ initializers inside dyld</span></span><br><span class="line">	runDyldInitializers(dyldsMachHeader, slide, argc, argv, envp, apple);</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// now that we are done bootstrapping dyld, call dyld&#x27;s main</span></span><br><span class="line">	<span class="type">uintptr_t</span> appsSlide = slideOfMainExecutable(appsMachHeader);</span><br><span class="line">  </span><br><span class="line">	<span class="keyword">return</span> dyld::_main(appsMachHeader, appsSlide, argc, argv, envp, apple, startGlue);</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h5 id="dyld的main-方法"><a href="#dyld的main-方法" class="headerlink" title="dyld的main()方法"></a>dyld的main()方法</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">uintptr_t</span></span><br><span class="line">_main(<span class="keyword">const</span> macho_header* mainExecutableMH, <span class="keyword">uintptr_t</span> mainExecutableSlide, </span><br><span class="line">		<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span>* argv[], <span class="keyword">const</span> <span class="keyword">char</span>* envp[], <span class="keyword">const</span> <span class="keyword">char</span>* apple[], </span><br><span class="line">		<span class="keyword">uintptr_t</span>* startGlue)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//1、保存可执行文件header，后面可以根据header访问其他信息</span></span><br><span class="line">	<span class="keyword">uintptr_t</span> result = <span class="number">0</span>;</span><br><span class="line">	sMainExecutableMachHeader = mainExecutableMH;</span><br><span class="line">  </span><br><span class="line">	<span class="comment">//2、设置上下文信息</span></span><br><span class="line">	setContext(mainExecutableMH, argc, argv, envp, apple);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//3、获取可执行文件的路径</span></span><br><span class="line">	sExecPath = _simple_getenv(apple, <span class="string">&quot;executable_path&quot;</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="dyld的main-方法"><a href="#dyld的main-方法" class="headerlink" title="dyld的main()方法"></a>dyld的main()方法</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">uintptr_t</span></span><br><span class="line">_main(<span class="type">const</span> macho_header* mainExecutableMH, <span class="type">uintptr_t</span> mainExecutableSlide, </span><br><span class="line">		<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span>* argv[], <span class="type">const</span> <span class="type">char</span>* envp[], <span class="type">const</span> <span class="type">char</span>* apple[], </span><br><span class="line">		<span class="type">uintptr_t</span>* startGlue)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//1、保存可执行文件header，后面可以根据header访问其他信息</span></span><br><span class="line">	<span class="type">uintptr_t</span> result = <span class="number">0</span>;</span><br><span class="line">	sMainExecutableMachHeader = mainExecutableMH;</span><br><span class="line">  </span><br><span class="line">	<span class="comment">//2、设置上下文信息</span></span><br><span class="line">	setContext(mainExecutableMH, argc, argv, envp, apple);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//3、获取可执行文件的路径</span></span><br><span class="line">	sExecPath = _simple_getenv(apple, <span class="string">&quot;executable_path&quot;</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h5 id="0x05反汇编-Hopper-Disassembler"><a href="#0x05反汇编-Hopper-Disassembler" class="headerlink" title="0x05反汇编 Hopper Disassembler"></a>0x05反汇编 Hopper Disassembler</h5><ul>
-<li>[Xclient下载Hopper Disassembler](<a target="_blank" rel="noopener" href="https://xclie/">https://xclie</a> nt.info/s/hopper-disassembler.html#versions)</li>
+<li>[Xclient下载Hopper Disassembler](<a target="_blank" rel="noopener" href="https://xclie/">https://xclie</a> nt.info&#x2F;s&#x2F;hopper-disassembler.html#versions)</li>
 </ul>
 <h2 id="2、Mach-O文件"><a href="#2、Mach-O文件" class="headerlink" title="2、Mach-O文件"></a>2、Mach-O文件</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://opensource.apple.com/tarballs/xnu/">Mac 内核xnu</a></li>
 <li>工具：<a target="_blank" rel="noopener" href="https://github.com/mythkiven/MachOView">MachOView</a></li>
-<li>来源：C/OC/Swift -&gt; .O目标文件-&gt;Mach-O可执行文件</li>
+<li>来源：C&#x2F;OC&#x2F;Swift -&gt; .O目标文件-&gt;Mach-O可执行文件</li>
 <li><strong>查看Mac内核中的Mach-O</strong>: <code>xnu-6153.11.26-&gt;EXTERNAL_HEADERS-&gt;mach-o</code></li>
 </ul>
 <img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200402dyld.png" style="zoom: 67%;" />
 
 <h4 id="2-1-常见Mach-O"><a href="#2-1-常见Mach-O" class="headerlink" title="2.1 常见Mach-O"></a>2.1 常见Mach-O</h4><h4 id="MH-EXECUTE-可执行文件"><a href="#MH-EXECUTE-可执行文件" class="headerlink" title="MH_EXECUTE-可执行文件"></a>MH_EXECUTE-可执行文件</h4><ul>
-<li> <code>.app/xxx</code></li>
+<li><code>.app/xxx</code></li>
 </ul>
 <p><img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200402090833.png"></p>
 <h4 id="MH-OBJECT-目标文件或静态库"><a href="#MH-OBJECT-目标文件或静态库" class="headerlink" title="MH_OBJECT-目标文件或静态库"></a>MH_OBJECT-目标文件或静态库</h4><ul>
@@ -330,27 +581,27 @@
 </ul>
 <img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200402091824.png" style="zoom:80%;" />
 
-<h4 id="11种mach-o格式"><a href="#11种mach-o格式" class="headerlink" title="11种mach-o格式"></a>11种mach-o格式</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>	MH_OBJECT	0x1		<span class="comment">/* relocatable object file */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>	MH_EXECUTE	0x2		<span class="comment">/* demand paged executable file */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>	MH_FVMLIB	0x3		<span class="comment">/* fixed VM shared library file */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>	MH_CORE		0x4		<span class="comment">/* core file */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>	MH_PRELOAD	0x5		<span class="comment">/* preloaded executable file */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>	MH_DYLIB	0x6		<span class="comment">/* dynamically bound shared library */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>	MH_DYLINKER	0x7		<span class="comment">/* dynamic link editor */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>	MH_BUNDLE	0x8		<span class="comment">/* dynamically bound bundle file */</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>	MH_DYLIB_STUB	0x9		<span class="comment">/* shared library stub for static */</span></span></span><br><span class="line">					<span class="comment">/*  linking only, no section contents */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>	MH_DSYM		0xa		<span class="comment">/* companion file with only debug */</span></span></span><br><span class="line">					<span class="comment">/*  sections */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span>	MH_KEXT_BUNDLE	0xb		<span class="comment">/* x86_64 kexts */</span></span></span><br></pre></td></tr></table></figure>
+<h4 id="11种mach-o格式"><a href="#11种mach-o格式" class="headerlink" title="11种mach-o格式"></a>11种mach-o格式</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MH_OBJECT	0x1		<span class="comment">/* relocatable object file */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MH_EXECUTE	0x2		<span class="comment">/* demand paged executable file */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MH_FVMLIB	0x3		<span class="comment">/* fixed VM shared library file */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MH_CORE		0x4		<span class="comment">/* core file */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MH_PRELOAD	0x5		<span class="comment">/* preloaded executable file */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MH_DYLIB	0x6		<span class="comment">/* dynamically bound shared library */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MH_DYLINKER	0x7		<span class="comment">/* dynamic link editor */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MH_BUNDLE	0x8		<span class="comment">/* dynamically bound bundle file */</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MH_DYLIB_STUB	0x9		<span class="comment">/* shared library stub for static */</span></span></span><br><span class="line">					<span class="comment">/*  linking only, no section contents */</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MH_DSYM		0xa		<span class="comment">/* companion file with only debug */</span></span></span><br><span class="line">					<span class="comment">/*  sections */</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span>	MH_KEXT_BUNDLE	0xb		<span class="comment">/* x86_64 kexts */</span></span></span><br></pre></td></tr></table></figure>
 
 
 
 <h4 id="Mach-o的作用"><a href="#Mach-o的作用" class="headerlink" title="Mach-o的作用"></a>Mach-o的作用</h4><ul>
-<li><strong>The layout of the file depends on the filetype.  For all but the MH_OBJECT file type the segments are padded out and aligned on a segment alignment boundary for efficient demand pageing.</strong>  </li>
-<li><strong>The MH_EXECUTE, MH_FVMLIB, MH_DYLIB,MH_DYLINKER and MH_BUNDLE file types also have the headers included as part of their first segment.</strong></li>
-<li>Mach-O的布局取决于文件类型。除了MH_OBJECT以外的所有的文件类型将分段填充并在分段对齐时-对齐有效请求分页的边界。</li>
-<li>MH_EXECUTE，MH_FVMLIB，MH_DYLIB，MH_DYLINKER和MH_BUNDLE这些文件也有headers作为它们第一个segment。</li>
-</ul>
-<ul>
+<li><p><strong>The layout of the file depends on the filetype.  For all but the MH_OBJECT file type the segments are padded out and aligned on a segment alignment boundary for efficient demand pageing.</strong>  </p>
+</li>
+<li><p><strong>The MH_EXECUTE, MH_FVMLIB, MH_DYLIB,MH_DYLINKER and MH_BUNDLE file types also have the headers included as part of their first segment.</strong></p>
+</li>
+<li><p>Mach-O的布局取决于文件类型。除了MH_OBJECT以外的所有的文件类型将分段填充并在分段对齐时-对齐有效请求分页的边界。</p>
+</li>
+<li><p>MH_EXECUTE，MH_FVMLIB，MH_DYLIB，MH_DYLINKER和MH_BUNDLE这些文件也有headers作为它们第一个segment。</p>
+</li>
 <li><p><strong>The file type MH_OBJECT is a compact format intended as output of the assembler and input (and possibly output) of the link editor (the .oformat).  All sections are in one unnamed segment with no segment padding.</strong> </p>
 </li>
 <li><p><strong>This format is used as an executable format when the file is so small the segment padding greatly increases its size.</strong></p>
 </li>
 <li><p>文件类型MH_OBJECT是一种紧凑格式，旨在作为汇编器和链接编辑器（.o的输入）（可能是输出格式）。所有sections都在一个未命名的segment中，没有segment的填充。</p>
 </li>
-<li><p> 当文件太小时segment填充可以大大增加了它的size。此格式用作可执行格式。</p>
+<li><p>当文件太小时segment填充可以大大增加了它的size。此格式用作可执行格式。</p>
 </li>
-</ul>
-<ul>
 <li><p><strong>The file type MH_PRELOAD is an executable format intended for things that are not executed under the kernel (proms, stand alones, kernels, etc).</strong>  </p>
 </li>
 <li><p><strong>The format can be executed under the kernel but may demand paged it and not preload it before execution.</strong></p>
@@ -359,10 +610,10 @@
 </li>
 <li><p>格式可以在内核下执行，但可能需要分页而不是在执行之前预加载它。</p>
 </li>
-</ul>
-<ul>
-<li><strong>A core file is in MH_CORE format and can be any in an arbritray legal Mach-O file. Constants for the filetype field of the mach_header</strong></li>
-<li>核心文件为MH_CORE格式，可以是任意格式的Mach-O文件。mach_header的文件类型是常量</li>
+<li><p><strong>A core file is in MH_CORE format and can be any in an arbritray legal Mach-O file. Constants for the filetype field of the mach_header</strong></p>
+</li>
+<li><p>核心文件为MH_CORE格式，可以是任意格式的Mach-O文件。mach_header的文件类型是常量</p>
+</li>
 </ul>
 <h4 id="生成通用二进制文件："><a href="#生成通用二进制文件：" class="headerlink" title="生成通用二进制文件："></a>生成通用二进制文件：</h4><h5 id="Architectures-hpp"><a href="#Architectures-hpp" class="headerlink" title="Architectures.hpp"></a>Architectures.hpp</h5><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// Architectures</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">x86</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">typedef</span> Pointer32&lt;LittleEndian&gt;		P;</span><br><span class="line">	</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">x86_64</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">typedef</span> Pointer64&lt;LittleEndian&gt;		P;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">arm</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">typedef</span> Pointer32&lt;LittleEndian&gt;		P;</span><br><span class="line">	</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">arm64</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">typedef</span> Pointer64&lt;LittleEndian&gt;		P;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
@@ -371,9 +622,9 @@
 <li>由于执行过程中，只是调用一部分代码，所以运行起来也不需要额外的内存。</li>
 </ul>
 <h5 id="Xcode生成Universal-Binary"><a href="#Xcode生成Universal-Binary" class="headerlink" title="Xcode生成Universal Binary"></a>Xcode生成Universal Binary</h5><p>Standard architectures $(ARCHS_STANDARD)</p>
-<h4 id="dyld-cache-format-h"><a href="#dyld-cache-format-h" class="headerlink" title="dyld_cache_format.h"></a>dyld_cache_format.h</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> IPHONE_DYLD_SHARED_CACHE_DIR	<span class="meta-string">&quot;/System/Library/Caches/com.apple.dyld/&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DYLD_SHARED_CACHE_BASE_NAME		<span class="meta-string">&quot;dyld_shared_cache_&quot;</span></span></span><br></pre></td></tr></table></figure>
+<h4 id="dyld-cache-format-h"><a href="#dyld-cache-format-h" class="headerlink" title="dyld_cache_format.h"></a>dyld_cache_format.h</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> IPHONE_DYLD_SHARED_CACHE_DIR	<span class="string">&quot;/System/Library/Caches/com.apple.dyld/&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> DYLD_SHARED_CACHE_BASE_NAME		<span class="string">&quot;dyld_shared_cache_&quot;</span></span></span><br></pre></td></tr></table></figure>
 
-<h4 id="FileAbstraction-hpp"><a href="#FileAbstraction-hpp" class="headerlink" title="FileAbstraction.hpp"></a>FileAbstraction.hpp</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> _E&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pointer32</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="keyword">typedef</span> <span class="keyword">uint32_t</span>	<span class="keyword">uint_t</span>;</span><br><span class="line">	<span class="keyword">typedef</span> _E			E;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">static</span> <span class="keyword">uint64_t</span>	<span class="title">getP</span><span class="params">(<span class="keyword">const</span> <span class="keyword">uint_t</span>&amp; from)</span>				INLINE </span>&#123; <span class="keyword">return</span> _E::get32(from); &#125;</span><br><span class="line">	<span class="function"><span class="keyword">static</span> <span class="keyword">void</span>		<span class="title">setP</span><span class="params">(<span class="keyword">uint_t</span>&amp; into, <span class="keyword">uint64_t</span> value)</span>		INLINE </span>&#123; _E::set32(into, (<span class="keyword">uint32_t</span>)value); &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Round to a P-size boundary</span></span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> T <span class="title">round_up</span><span class="params">(T value)</span> </span>&#123; <span class="keyword">return</span> (value+<span class="number">3</span>) &amp; ~(T)<span class="number">3</span>; &#125;</span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> T <span class="title">round_down</span><span class="params">(T value)</span> </span>&#123; <span class="keyword">return</span> value &amp; ~(T)<span class="number">3</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> _E&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pointer64</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="keyword">typedef</span> <span class="keyword">uint64_t</span>	<span class="keyword">uint_t</span>;</span><br><span class="line">	<span class="keyword">typedef</span> _E			E;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">static</span> <span class="keyword">uint64_t</span>	<span class="title">getP</span><span class="params">(<span class="keyword">const</span> <span class="keyword">uint_t</span>&amp; from)</span>				INLINE </span>&#123; <span class="keyword">return</span> _E::get64(from); &#125;</span><br><span class="line">	<span class="function"><span class="keyword">static</span> <span class="keyword">void</span>		<span class="title">setP</span><span class="params">(<span class="keyword">uint_t</span>&amp; into, <span class="keyword">uint64_t</span> value)</span>		INLINE </span>&#123; _E::set64(into, value); &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Round to a P-size boundary</span></span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> T <span class="title">round_up</span><span class="params">(T value)</span> </span>&#123; <span class="keyword">return</span> (value+<span class="number">7</span>) &amp; ~(T)<span class="number">7</span>; &#125;</span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> T <span class="title">round_down</span><span class="params">(T value)</span> </span>&#123; <span class="keyword">return</span> value &amp; ~(T)<span class="number">7</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="FileAbstraction-hpp"><a href="#FileAbstraction-hpp" class="headerlink" title="FileAbstraction.hpp"></a>FileAbstraction.hpp</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">template &lt;typename _E&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pointer32</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">public:</span><br><span class="line">	<span class="keyword">typedef</span> <span class="type">uint32_t</span>	<span class="type">uint_t</span>;</span><br><span class="line">	<span class="keyword">typedef</span> _E			E;</span><br><span class="line">	</span><br><span class="line">	<span class="type">static</span> <span class="type">uint64_t</span>	<span class="title function_">getP</span><span class="params">(<span class="type">const</span> <span class="type">uint_t</span>&amp; from)</span>				INLINE &#123; <span class="keyword">return</span> _E::get32(from); &#125;</span><br><span class="line">	<span class="type">static</span> <span class="type">void</span>		<span class="title function_">setP</span><span class="params">(<span class="type">uint_t</span>&amp; into, <span class="type">uint64_t</span> value)</span>		INLINE &#123; _E::set32(into, (<span class="type">uint32_t</span>)value); &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Round to a P-size boundary</span></span><br><span class="line">    template &lt;typename T&gt;</span><br><span class="line">    <span class="type">static</span> T <span class="title function_">round_up</span><span class="params">(T value)</span> &#123; <span class="keyword">return</span> (value+<span class="number">3</span>) &amp; ~(T)<span class="number">3</span>; &#125;</span><br><span class="line">    template &lt;typename T&gt;</span><br><span class="line">    <span class="type">static</span> T <span class="title function_">round_down</span><span class="params">(T value)</span> &#123; <span class="keyword">return</span> value &amp; ~(T)<span class="number">3</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">template &lt;typename _E&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pointer64</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">public:</span><br><span class="line">	<span class="keyword">typedef</span> <span class="type">uint64_t</span>	<span class="type">uint_t</span>;</span><br><span class="line">	<span class="keyword">typedef</span> _E			E;</span><br><span class="line">	</span><br><span class="line">	<span class="type">static</span> <span class="type">uint64_t</span>	<span class="title function_">getP</span><span class="params">(<span class="type">const</span> <span class="type">uint_t</span>&amp; from)</span>				INLINE &#123; <span class="keyword">return</span> _E::get64(from); &#125;</span><br><span class="line">	<span class="type">static</span> <span class="type">void</span>		<span class="title function_">setP</span><span class="params">(<span class="type">uint_t</span>&amp; into, <span class="type">uint64_t</span> value)</span>		INLINE &#123; _E::set64(into, value); &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Round to a P-size boundary</span></span><br><span class="line">    template &lt;typename T&gt;</span><br><span class="line">    <span class="type">static</span> T <span class="title function_">round_up</span><span class="params">(T value)</span> &#123; <span class="keyword">return</span> (value+<span class="number">7</span>) &amp; ~(T)<span class="number">7</span>; &#125;</span><br><span class="line">    template &lt;typename T&gt;</span><br><span class="line">    <span class="type">static</span> T <span class="title function_">round_down</span><span class="params">(T value)</span> &#123; <span class="keyword">return</span> value &amp; ~(T)<span class="number">7</span>; &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h2 id="3、dyld与Mach-O的关系"><a href="#3、dyld与Mach-O的关系" class="headerlink" title="3、dyld与Mach-O的关系"></a>3、dyld与Mach-O的关系</h2><ul>
 <li>dyld属于MH_DYLDLINKER类型的Mach-O文件</li>
@@ -385,18 +636,18 @@
 </li>
 </ul>
 <p><strong>mach-o loader：only MH_BUNDLE, MH_DYLIB, and some MH_EXECUTE can be dynamically loaded</strong></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// try mach-o loader</span></span><br><span class="line"><span class="keyword">if</span> ( shortPage ) <span class="keyword">throw</span> <span class="string">&quot;file too short&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> ( isCompatibleMachO(firstPages, path) ) &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// only MH_BUNDLE, MH_DYLIB, and some MH_EXECUTE can be dynamically loaded</span></span><br><span class="line">	<span class="keyword">const</span> mach_header* mh = (mach_header*)firstPages;</span><br><span class="line">	<span class="keyword">switch</span> ( mh-&gt;filetype ) &#123;</span><br><span class="line">		<span class="keyword">case</span> MH_EXECUTE:</span><br><span class="line">		<span class="keyword">case</span> MH_DYLIB:</span><br><span class="line">		<span class="keyword">case</span> MH_BUNDLE:</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">			<span class="keyword">throw</span> <span class="string">&quot;mach-o, but wrong filetype&quot;</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">uint32_t</span> headerAndLoadCommandsSize = <span class="keyword">sizeof</span>(macho_header) + mh-&gt;sizeofcmds;</span><br><span class="line">	<span class="keyword">if</span> ( headerAndLoadCommandsSize &gt; MAX_MACH_O_HEADER_AND_LOAD_COMMANDS_SIZE )</span><br><span class="line">		throwf(<span class="string">&quot;malformed mach-o: load commands size (%u) &gt; %u&quot;</span>, headerAndLoadCommandsSize, MAX_MACH_O_HEADER_AND_LOAD_COMMANDS_SIZE);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> ( headerAndLoadCommandsSize &gt; fileLength )</span><br><span class="line">		dyld::throwf(<span class="string">&quot;malformed mach-o: load commands size (%u) &gt; mach-o file size (%llu)&quot;</span>, headerAndLoadCommandsSize, fileLength);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> ( headerAndLoadCommandsSize &gt; <span class="number">4096</span> ) &#123;</span><br><span class="line">		<span class="comment">// read more pages</span></span><br><span class="line">		<span class="keyword">unsigned</span> readAmount = headerAndLoadCommandsSize - <span class="number">4096</span>;</span><br><span class="line">		<span class="keyword">if</span> ( pread(fd, &amp;firstPages[<span class="number">4096</span>], readAmount, fileOffset+<span class="number">4096</span>) != readAmount )</span><br><span class="line">			throwf(<span class="string">&quot;pread of extra load commands past 4KB failed: %d&quot;</span>, errno);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// instantiate an image</span></span><br><span class="line">	ImageLoader* image = ImageLoaderMachO::instantiateFromFile(path, fd, firstPages, headerAndLoadCommandsSize, fileOffset, fileLength, stat_buf, gLinkContext);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// validate</span></span><br><span class="line">	<span class="keyword">return</span> checkandAddImage(image, context);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// try mach-o loader</span></span><br><span class="line"><span class="keyword">if</span> ( shortPage ) throw <span class="string">&quot;file too short&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> ( isCompatibleMachO(firstPages, path) ) &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// only MH_BUNDLE, MH_DYLIB, and some MH_EXECUTE can be dynamically loaded</span></span><br><span class="line">	<span class="type">const</span> mach_header* mh = (mach_header*)firstPages;</span><br><span class="line">	<span class="keyword">switch</span> ( mh-&gt;filetype ) &#123;</span><br><span class="line">		<span class="keyword">case</span> MH_EXECUTE:</span><br><span class="line">		<span class="keyword">case</span> MH_DYLIB:</span><br><span class="line">		<span class="keyword">case</span> MH_BUNDLE:</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">			throw <span class="string">&quot;mach-o, but wrong filetype&quot;</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="type">uint32_t</span> headerAndLoadCommandsSize = <span class="keyword">sizeof</span>(macho_header) + mh-&gt;sizeofcmds;</span><br><span class="line">	<span class="keyword">if</span> ( headerAndLoadCommandsSize &gt; MAX_MACH_O_HEADER_AND_LOAD_COMMANDS_SIZE )</span><br><span class="line">		throwf(<span class="string">&quot;malformed mach-o: load commands size (%u) &gt; %u&quot;</span>, headerAndLoadCommandsSize, MAX_MACH_O_HEADER_AND_LOAD_COMMANDS_SIZE);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> ( headerAndLoadCommandsSize &gt; fileLength )</span><br><span class="line">		dyld::throwf(<span class="string">&quot;malformed mach-o: load commands size (%u) &gt; mach-o file size (%llu)&quot;</span>, headerAndLoadCommandsSize, fileLength);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> ( headerAndLoadCommandsSize &gt; <span class="number">4096</span> ) &#123;</span><br><span class="line">		<span class="comment">// read more pages</span></span><br><span class="line">		<span class="type">unsigned</span> readAmount = headerAndLoadCommandsSize - <span class="number">4096</span>;</span><br><span class="line">		<span class="keyword">if</span> ( pread(fd, &amp;firstPages[<span class="number">4096</span>], readAmount, fileOffset+<span class="number">4096</span>) != readAmount )</span><br><span class="line">			throwf(<span class="string">&quot;pread of extra load commands past 4KB failed: %d&quot;</span>, errno);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// instantiate an image</span></span><br><span class="line">	ImageLoader* image = ImageLoaderMachO::instantiateFromFile(path, fd, firstPages, headerAndLoadCommandsSize, fileOffset, fileLength, stat_buf, gLinkContext);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// validate</span></span><br><span class="line">	<span class="keyword">return</span> checkandAddImage(image, context);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 
 
 
-<h2 id="4、符号地址"><a href="#4、符号地址" class="headerlink" title="4、符号地址"></a>4、符号地址</h2><p>符号地址= 基地址 - 偏移地址</p>
-<h4 id="获取基地址"><a href="#获取基地址" class="headerlink" title="获取基地址"></a>获取基地址</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取基地址</span></span><br><span class="line"><span class="function"><span class="keyword">uintptr_t</span> <span class="title">get_load_address</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">mach_header</span> *<span class="title">exe_header</span> =</span> <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">uint32_t</span> i = <span class="number">0</span>; i &lt; _dyld_image_count(); i++) &#123;</span><br><span class="line">        <span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">mach_header</span> *<span class="title">header</span> =</span> _dyld_get_image_header(i);</span><br><span class="line">        <span class="keyword">if</span> (header-&gt;filetype == MH_EXECUTE) &#123;</span><br><span class="line">            exe_header = header;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//返回值即为加载地址</span></span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">uintptr_t</span>)exe_header;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="4、符号地址"><a href="#4、符号地址" class="headerlink" title="4、符号地址"></a>4、符号地址</h2><p>符号地址&#x3D; 基地址 - 偏移地址</p>
+<h4 id="获取基地址"><a href="#获取基地址" class="headerlink" title="获取基地址"></a>获取基地址</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//获取基地址</span></span><br><span class="line"><span class="type">uintptr_t</span> <span class="title function_">get_load_address</span><span class="params">(<span class="type">void</span>)</span> &#123;</span><br><span class="line">    <span class="type">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">mach_header</span> *<span class="title">exe_header</span> =</span> <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">uint32_t</span> i = <span class="number">0</span>; i &lt; _dyld_image_count(); i++) &#123;</span><br><span class="line">        <span class="type">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">mach_header</span> *<span class="title">header</span> =</span> _dyld_get_image_header(i);</span><br><span class="line">        <span class="keyword">if</span> (header-&gt;filetype == MH_EXECUTE) &#123;</span><br><span class="line">            exe_header = header;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//返回值即为加载地址</span></span><br><span class="line">    <span class="keyword">return</span> (<span class="type">uintptr_t</span>)exe_header;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 
-<h4 id="获取偏移地址"><a href="#获取偏移地址" class="headerlink" title="获取偏移地址"></a>获取偏移地址</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">uintptr_t</span> <span class="title">get_slide_address</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">uintptr_t</span> vmaddr_slide = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">uint32_t</span> i = <span class="number">0</span>; i &lt; _dyld_image_count(); i++) &#123;</span><br><span class="line">        <span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">mach_header</span> *<span class="title">header</span> =</span> _dyld_get_image_header(i);</span><br><span class="line">        <span class="keyword">if</span> (header-&gt;filetype == MH_EXECUTE) &#123;</span><br><span class="line">            vmaddr_slide = _dyld_get_image_vmaddr_slide(i);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">uintptr_t</span>)vmaddr_slide;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="获取偏移地址"><a href="#获取偏移地址" class="headerlink" title="获取偏移地址"></a>获取偏移地址</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">uintptr_t</span> <span class="title function_">get_slide_address</span><span class="params">(<span class="type">void</span>)</span> &#123;</span><br><span class="line">    <span class="type">uintptr_t</span> vmaddr_slide = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">uint32_t</span> i = <span class="number">0</span>; i &lt; _dyld_image_count(); i++) &#123;</span><br><span class="line">        <span class="type">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">mach_header</span> *<span class="title">header</span> =</span> _dyld_get_image_header(i);</span><br><span class="line">        <span class="keyword">if</span> (header-&gt;filetype == MH_EXECUTE) &#123;</span><br><span class="line">            vmaddr_slide = _dyld_get_image_vmaddr_slide(i);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> (<span class="type">uintptr_t</span>)vmaddr_slide;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h4 id="dSYM文件"><a href="#dSYM文件" class="headerlink" title="dSYM文件"></a>dSYM文件</h4><ul>
 <li>编译时添加选项：DWARF with dSYM File，在编译打包完成之后就会生成调试符号文件（Mach-O文件）</li>
@@ -409,310 +660,950 @@
 <li><h5 id="SentryCrashDynamicLinker"><a href="#SentryCrashDynamicLinker" class="headerlink" title="SentryCrashDynamicLinker"></a><a target="_blank" rel="noopener" href="https://github.com/getsentry/sentry-cocoa/blob/master/Sources/SentryCrash/Recording/Tools/SentryCrashDynamicLinker.c">SentryCrashDynamicLinker</a></h5></li>
 </ul>
 
-    </div>
-
+    </article>
+    <!-- license -->
     
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://mingriweiji-github.github.io">KM</a>
+            <p>原文链接：<a href="https://mingriweiji-github.github.io/2020/01/15/Dyld%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/">https://mingriweiji-github.github.io/2020/01/15/Dyld%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/</a>
+            <p>发表日期：<a href="https://mingriweiji-github.github.io/2020/01/15/Dyld%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/">一月 15日 2020, 10:13:45 上午</a>
+            <p>更新日期：<a href="https://mingriweiji-github.github.io/2020/01/15/Dyld%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/">五月 11日 2022, 12:01:43 凌晨</a>
+            <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
     
+    <!-- paginator -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/2020/01/20/LookinLoader%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/" title="LookinLoader安装使用">
+                    <div class="nextTitle">LookinLoader安装使用</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/2020/01/15/iOS%E8%B6%8A%E7%8B%B1%E5%88%9D%E4%BD%93%E9%AA%8C/" title="iOS越狱初体验">
+                    <div class="prevTitle">iOS越狱初体验</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- comment -->
     
-
-      <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/iOS/" rel="tag"># iOS</a>
-          </div>
-
-        
+        <div class="post-comment">
+            <!-- 来必力 City 版安装代码 -->
 
 
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2020/01/15/iOS%E8%B6%8A%E7%8B%B1%E5%88%9D%E4%BD%93%E9%AA%8C/" rel="prev" title="iOS越狱初体验">
-      <i class="fa fa-chevron-left"></i> iOS越狱初体验
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/01/20/LookinLoader%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/" rel="next" title="LookinLoader安装使用">
-      LookinLoader安装使用 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
+            
+
+            
+
+            
+
+            <!-- utteranc评论 -->
 
 
+            <!-- partial('_partial/comment/changyan') -->
+            <!--PC版-->
 
-          </div>
-          
 
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
+            
+            
+
+            
 
         </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Dyld%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB"><span class="nav-number">1.</span> <span class="nav-text">Dyld源码阅读</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E5%8A%A8%E6%80%81%E5%BA%93%E8%B7%AF%E5%BE%84"><span class="nav-number">1.1.</span> <span class="nav-text">1、动态库路径</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x00-load"><span class="nav-number">1.2.</span> <span class="nav-text">0x00 load()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-loadPhase2"><span class="nav-number">1.3.</span> <span class="nav-text">0x01 loadPhase2()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-loadPhase5"><span class="nav-number">1.4.</span> <span class="nav-text">0x02 loadPhase5</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#loadPhase5load%EF%BC%88%EF%BC%89"><span class="nav-number">1.4.0.1.</span> <span class="nav-text">loadPhase5load（）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#loadPhase5check%EF%BC%88%EF%BC%89"><span class="nav-number">1.4.0.2.</span> <span class="nav-text">loadPhase5check（）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-findInSharedCacheImage"><span class="nav-number">1.5.</span> <span class="nav-text">0x03 findInSharedCacheImage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x04-Clang-%E7%BC%96%E8%AF%91dsc-extractor-cpp"><span class="nav-number">1.6.</span> <span class="nav-text">0x04 Clang++编译dsc_extractor.cpp</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6dsc-extractor"><span class="nav-number">1.6.0.1.</span> <span class="nav-text">生成可执行文件dsc_extractor :</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8A%BD%E5%8F%96%E5%8A%A8%E6%80%81%E5%85%B1%E4%BA%AB%E7%BC%93%E5%AD%98%E4%B8%AD%E7%9A%84Mach-O"><span class="nav-number">1.6.0.2.</span> <span class="nav-text">抽取动态共享缓存中的Mach-O</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dyld%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B"><span class="nav-number">1.6.0.3.</span> <span class="nav-text">dyld加载流程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#dyld%E7%9A%84start-%E6%96%B9%E6%B3%95%EF%BC%9A"><span class="nav-number">1.6.0.3.1.</span> <span class="nav-text">dyld的start()方法：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#dyld%E7%9A%84main-%E6%96%B9%E6%B3%95"><span class="nav-number">1.6.0.3.2.</span> <span class="nav-text">dyld的main()方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#0x05%E5%8F%8D%E6%B1%87%E7%BC%96-Hopper-Disassembler"><span class="nav-number">1.6.0.3.3.</span> <span class="nav-text">0x05反汇编 Hopper Disassembler</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81Mach-O%E6%96%87%E4%BB%B6"><span class="nav-number">1.7.</span> <span class="nav-text">2、Mach-O文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-%E5%B8%B8%E8%A7%81Mach-O"><span class="nav-number">1.7.0.1.</span> <span class="nav-text">2.1 常见Mach-O</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MH-EXECUTE-%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6"><span class="nav-number">1.7.0.2.</span> <span class="nav-text">MH_EXECUTE-可执行文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MH-OBJECT-%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E6%88%96%E9%9D%99%E6%80%81%E5%BA%93"><span class="nav-number">1.7.0.3.</span> <span class="nav-text">MH_OBJECT-目标文件或静态库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MH-DYLIB-%E5%8A%A8%E6%80%81%E5%BA%93%E6%96%87%E4%BB%B6"><span class="nav-number">1.7.0.4.</span> <span class="nav-text">MH_DYLIB-动态库文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MH-DYLIKER-%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E7%BC%96%E8%BE%91%E5%99%A8"><span class="nav-number">1.7.0.5.</span> <span class="nav-text">MH_DYLIKER-动态链接编辑器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MH-DSYM-%E5%AD%98%E5%82%A8%E7%9D%80%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E7%AC%A6%E5%8F%B7%E4%BF%A1%E6%81%AF"><span class="nav-number">1.7.0.6.</span> <span class="nav-text">MH_DSYM:存储着二进制文件符号信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11%E7%A7%8Dmach-o%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.7.0.7.</span> <span class="nav-text">11种mach-o格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Mach-o%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">1.7.0.8.</span> <span class="nav-text">Mach-o的作用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E9%80%9A%E7%94%A8%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%EF%BC%9A"><span class="nav-number">1.7.0.9.</span> <span class="nav-text">生成通用二进制文件：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Architectures-hpp"><span class="nav-number">1.7.0.9.1.</span> <span class="nav-text">Architectures.hpp</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Universal-Binary"><span class="nav-number">1.7.0.9.2.</span> <span class="nav-text">Universal Binary</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Xcode%E7%94%9F%E6%88%90Universal-Binary"><span class="nav-number">1.7.0.9.3.</span> <span class="nav-text">Xcode生成Universal Binary</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dyld-cache-format-h"><span class="nav-number">1.7.0.10.</span> <span class="nav-text">dyld_cache_format.h</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FileAbstraction-hpp"><span class="nav-number">1.7.0.11.</span> <span class="nav-text">FileAbstraction.hpp</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81dyld%E4%B8%8EMach-O%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">1.8.</span> <span class="nav-text">3、dyld与Mach-O的关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%E3%80%81%E7%AC%A6%E5%8F%B7%E5%9C%B0%E5%9D%80"><span class="nav-number">1.9.</span> <span class="nav-text">4、符号地址</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E5%9F%BA%E5%9C%B0%E5%9D%80"><span class="nav-number">1.9.0.1.</span> <span class="nav-text">获取基地址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E5%81%8F%E7%A7%BB%E5%9C%B0%E5%9D%80"><span class="nav-number">1.9.0.2.</span> <span class="nav-text">获取偏移地址</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dSYM%E6%96%87%E4%BB%B6"><span class="nav-number">1.9.0.3.</span> <span class="nav-text">dSYM文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#atos%E5%91%BD%E4%BB%A4"><span class="nav-number">1.9.0.4.</span> <span class="nav-text">atos命令</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%E3%80%81Crash%E6%94%B6%E9%9B%86"><span class="nav-number">1.10.</span> <span class="nav-text">4、Crash收集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#KSCrash"><span class="nav-number">1.10.0.1.</span> <span class="nav-text">KSCrash</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SentryCocoa"><span class="nav-number">1.10.0.2.</span> <span class="nav-text">SentryCocoa</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#SentryCrashDynamicLinker"><span class="nav-number">1.10.0.2.1.</span> <span class="nav-text">SentryCrashDynamicLinker</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">KM</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
+    
+    <!-- timeliness note -->
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    
+    <!-- Mathjax -->
+    
         
-          <span class="site-state-item-count">26</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
-        <span class="site-state-item-count">7</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
-        <span class="site-state-item-count">6</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
+
+    
+</main>
+
+                <!-- profile -->
+                
+            </div>
+            <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+        <div class="social">
+            
+    
+        
+    
+        
+            
+                <a href="https://github.com/Mingriweiji-github" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+
+        </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- website approve for Chinese user -->
+    
+    <!-- 不蒜子  -->
+    
+        <div class="busuanzi-container">
+            
+             
+                <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+            
+        </div>
+    	
+</footer>
+
+        </div>
+        <!-- toc -->
+        
+            <div class="toc-wrapper toc-wrapper-loding" style=
+
+
+
+
+
+
+
+    top:50vh;
+
+>
+                <div class="toc-catalog">
+                    <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Dyld%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB"><span class="toc-number">1.</span> <span class="toc-text">Dyld源码阅读</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E5%8A%A8%E6%80%81%E5%BA%93%E8%B7%AF%E5%BE%84"><span class="toc-number">1.1.</span> <span class="toc-text">1、动态库路径</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00-load"><span class="toc-number">1.2.</span> <span class="toc-text">0x00 load()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-loadPhase2"><span class="toc-number">1.3.</span> <span class="toc-text">0x01 loadPhase2()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-loadPhase5"><span class="toc-number">1.4.</span> <span class="toc-text">0x02 loadPhase5</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#loadPhase5load%EF%BC%88%EF%BC%89"><span class="toc-number">1.4.0.1.</span> <span class="toc-text">loadPhase5load（）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#loadPhase5check%EF%BC%88%EF%BC%89"><span class="toc-number">1.4.0.2.</span> <span class="toc-text">loadPhase5check（）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-findInSharedCacheImage"><span class="toc-number">1.5.</span> <span class="toc-text">0x03 findInSharedCacheImage</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-Clang-%E7%BC%96%E8%AF%91dsc-extractor-cpp"><span class="toc-number">1.6.</span> <span class="toc-text">0x04 Clang++编译dsc_extractor.cpp</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6dsc-extractor"><span class="toc-number">1.6.0.1.</span> <span class="toc-text">生成可执行文件dsc_extractor :</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8A%BD%E5%8F%96%E5%8A%A8%E6%80%81%E5%85%B1%E4%BA%AB%E7%BC%93%E5%AD%98%E4%B8%AD%E7%9A%84Mach-O"><span class="toc-number">1.6.0.2.</span> <span class="toc-text">抽取动态共享缓存中的Mach-O</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dyld%E5%8A%A0%E8%BD%BD%E6%B5%81%E7%A8%8B"><span class="toc-number">1.6.0.3.</span> <span class="toc-text">dyld加载流程</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#dyld%E7%9A%84start-%E6%96%B9%E6%B3%95%EF%BC%9A"><span class="toc-number">1.6.0.3.1.</span> <span class="toc-text">dyld的start()方法：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#dyld%E7%9A%84main-%E6%96%B9%E6%B3%95"><span class="toc-number">1.6.0.3.2.</span> <span class="toc-text">dyld的main()方法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#0x05%E5%8F%8D%E6%B1%87%E7%BC%96-Hopper-Disassembler"><span class="toc-number">1.6.0.3.3.</span> <span class="toc-text">0x05反汇编 Hopper Disassembler</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81Mach-O%E6%96%87%E4%BB%B6"><span class="toc-number">1.7.</span> <span class="toc-text">2、Mach-O文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-%E5%B8%B8%E8%A7%81Mach-O"><span class="toc-number">1.7.0.1.</span> <span class="toc-text">2.1 常见Mach-O</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MH-EXECUTE-%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6"><span class="toc-number">1.7.0.2.</span> <span class="toc-text">MH_EXECUTE-可执行文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MH-OBJECT-%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E6%88%96%E9%9D%99%E6%80%81%E5%BA%93"><span class="toc-number">1.7.0.3.</span> <span class="toc-text">MH_OBJECT-目标文件或静态库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MH-DYLIB-%E5%8A%A8%E6%80%81%E5%BA%93%E6%96%87%E4%BB%B6"><span class="toc-number">1.7.0.4.</span> <span class="toc-text">MH_DYLIB-动态库文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MH-DYLIKER-%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E7%BC%96%E8%BE%91%E5%99%A8"><span class="toc-number">1.7.0.5.</span> <span class="toc-text">MH_DYLIKER-动态链接编辑器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MH-DSYM-%E5%AD%98%E5%82%A8%E7%9D%80%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E7%AC%A6%E5%8F%B7%E4%BF%A1%E6%81%AF"><span class="toc-number">1.7.0.6.</span> <span class="toc-text">MH_DSYM:存储着二进制文件符号信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#11%E7%A7%8Dmach-o%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.7.0.7.</span> <span class="toc-text">11种mach-o格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Mach-o%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">1.7.0.8.</span> <span class="toc-text">Mach-o的作用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E9%80%9A%E7%94%A8%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%EF%BC%9A"><span class="toc-number">1.7.0.9.</span> <span class="toc-text">生成通用二进制文件：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Architectures-hpp"><span class="toc-number">1.7.0.9.1.</span> <span class="toc-text">Architectures.hpp</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Universal-Binary"><span class="toc-number">1.7.0.9.2.</span> <span class="toc-text">Universal Binary</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Xcode%E7%94%9F%E6%88%90Universal-Binary"><span class="toc-number">1.7.0.9.3.</span> <span class="toc-text">Xcode生成Universal Binary</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dyld-cache-format-h"><span class="toc-number">1.7.0.10.</span> <span class="toc-text">dyld_cache_format.h</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#FileAbstraction-hpp"><span class="toc-number">1.7.0.11.</span> <span class="toc-text">FileAbstraction.hpp</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81dyld%E4%B8%8EMach-O%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number">1.8.</span> <span class="toc-text">3、dyld与Mach-O的关系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81%E7%AC%A6%E5%8F%B7%E5%9C%B0%E5%9D%80"><span class="toc-number">1.9.</span> <span class="toc-text">4、符号地址</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%9F%BA%E5%9C%B0%E5%9D%80"><span class="toc-number">1.9.0.1.</span> <span class="toc-text">获取基地址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%81%8F%E7%A7%BB%E5%9C%B0%E5%9D%80"><span class="toc-number">1.9.0.2.</span> <span class="toc-text">获取偏移地址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dSYM%E6%96%87%E4%BB%B6"><span class="toc-number">1.9.0.3.</span> <span class="toc-text">dSYM文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#atos%E5%91%BD%E4%BB%A4"><span class="toc-number">1.9.0.4.</span> <span class="toc-text">atos命令</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81Crash%E6%94%B6%E9%9B%86"><span class="toc-number">1.10.</span> <span class="toc-text">4、Crash收集</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#KSCrash"><span class="toc-number">1.10.0.1.</span> <span class="toc-text">KSCrash</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SentryCocoa"><span class="toc-number">1.10.0.2.</span> <span class="toc-text">SentryCocoa</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#SentryCrashDynamicLinker"><span class="toc-number">1.10.0.2.1.</span> <span class="toc-text">SentryCrashDynamicLinker</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+            </div>
+        
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 32
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+        
+            
+            
+            <div class="archive-year"> 2022 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/12</span>
+            <a class="archive-post-title" href="/2022/05/12/Flutter%E6%AD%A3%E5%BC%8F%E5%8F%91%E5%B8%833.0/">Flutter正式发布3.0</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2021 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span>
+            <a class="archive-post-title" href="/2021/10/15/Flutter%20%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86/">Flutter 核心原理</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span>
+            <a class="archive-post-title" href="/2021/09/20/Flutter%20%E5%AE%9E%E6%88%98%E8%AE%B0%E5%BD%95/">Flutter 实战记录</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/15</span>
+            <a class="archive-post-title" href="/2021/06/15/Flutter%20%E8%B5%84%E6%BA%90/">Flutter 资源</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/15</span>
+            <a class="archive-post-title" href="/2021/04/15/Flutter%20%E5%B8%83%E5%B1%80/">Flutter 布局</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/15</span>
+            <a class="archive-post-title" href="/2021/03/15/Flutter%20Widget/">Flutter Widget</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/2021/01/15/Flutter%20Dart%E5%9F%BA%E7%A1%80/">Flutter Dar基础</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2020 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span>
+            <a class="archive-post-title" href="/2020/06/30/URLProtocol%E6%BA%90%E7%A0%81/">URLProtocol源码</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span>
+            <a class="archive-post-title" href="/2020/06/30/Alamfire%E6%BA%90%E7%A0%81/">Alamfire源码</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span>
+            <a class="archive-post-title" href="/2020/06/30/Kingfisher%E6%BA%90%E7%A0%81/">Kingfisher源码</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/25</span>
+            <a class="archive-post-title" href="/2020/06/25/Swift%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E5%88%9D%E6%8E%A2/">Swift内存布局初探</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/20</span>
+            <a class="archive-post-title" href="/2020/06/20/Swift%E5%AD%97%E7%AC%A6%E4%B8%B2/">Swift字符串</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span>
+            <a class="archive-post-title" href="/2020/04/18/Swift%E6%A0%87%E5%87%86%E5%BA%93%E6%BA%90%E7%A0%81/">Swift标准库源码</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span>
+            <a class="archive-post-title" href="/2020/04/18/Swift%E9%9B%86%E5%90%88%E6%BA%90%E7%A0%81/">Swift集合源码</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/20</span>
+            <a class="archive-post-title" href="/2020/02/20/Swift%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/">Swift函数式编程</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/20</span>
+            <a class="archive-post-title" href="/2020/01/20/LookinLoader%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/">LookinLoader安装使用</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/2020/01/15/Dyld%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/">Dyld源码阅读</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/2020/01/15/iOS%E8%B6%8A%E7%8B%B1%E5%88%9D%E4%BD%93%E9%AA%8C/">iOS越狱初体验</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2019 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/22</span>
+            <a class="archive-post-title" href="/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%AE%9E%E6%88%98100%E9%81%93/">算法实战</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/22</span>
+            <a class="archive-post-title" href="/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/">算法基础</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/22</span>
+            <a class="archive-post-title" href="/2019/06/22/2020%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构思想</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span>
+            <a class="archive-post-title" href="/2019/06/08/%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">红黑树前世今生</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/06</span>
+            <a class="archive-post-title" href="/2019/06/06/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">二叉树今生</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2018 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/02</span>
+            <a class="archive-post-title" href="/2018/12/02/iOS%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80/">iOS汇编基础</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span>
+            <a class="archive-post-title" href="/2018/12/01/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">iOS图像优化技巧</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/02</span>
+            <a class="archive-post-title" href="/2018/06/02/Hexo%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">Hexo使用指南</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/01</span>
+            <a class="archive-post-title" href="/2018/06/01/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/">iOS多线程</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/01</span>
+            <a class="archive-post-title" href="/2018/06/01/Runloop/">Runloop</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/18</span>
+            <a class="archive-post-title" href="/2018/02/18/Swift%E5%A4%87%E5%BF%98%E5%BD%95/">Swift备忘录</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span>
+            <a class="archive-post-title" href="/2018/01/01/%E6%8E%92%E5%BA%8F%E9%97%AE%E9%A2%98/">排序问题</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span>
+            <a class="archive-post-title" href="/2018/01/01/%E5%8F%8D%E8%BD%AC%E9%97%AE%E9%A2%98/">反转问题</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span>
+            <a class="archive-post-title" href="/2018/01/01/%E8%80%81%E9%BC%A0%E6%AF%92%E8%8D%AF%E9%97%AE%E9%A2%98/">老鼠毒药问题</a>
+        </li>
+    
+    </div>
 </div>
 
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+        
+            <span class="sidebar-tag-name" data-tags="java">
+                <span class="iconfont-archer">&#xe606;</span>
+                java
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="算法">
+                <span class="iconfont-archer">&#xe606;</span>
+                算法
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Swift专题">
+                <span class="iconfont-archer">&#xe606;</span>
+                Swift专题
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="iOS">
+                <span class="iconfont-archer">&#xe606;</span>
+                iOS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Flutter">
+                <span class="iconfont-archer">&#xe606;</span>
+                Flutter
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="开发工具">
+                <span class="iconfont-archer">&#xe606;</span>
+                开发工具
+            </span>
+        
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
 
-
-      </div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="算法">
+            <span class="iconfont-archer">&#xe60a;</span>
+            算法
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="源码">
+            <span class="iconfont-archer">&#xe60a;</span>
+            源码
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="Flutter">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Flutter
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="指南">
+            <span class="iconfont-archer">&#xe60a;</span>
+            指南
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="Swift">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Swift
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="图像">
+            <span class="iconfont-archer">&#xe60a;</span>
+            图像
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="逆向">
+            <span class="iconfont-archer">&#xe60a;</span>
+            逆向
+        </span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
 
     </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 2015 – 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">KM</span>
-</div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
-  </div>
-
-
-    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-        
-<div class="busuanzi-count">
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-user"></i>
-      </span>
-      <span class="site-uv" title="总访客量">
-        <span id="busuanzi_value_site_uv"></span>
-      </span>
-    </span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-eye"></i>
-      </span>
-      <span class="site-pv" title="总访问量">
-        <span id="busuanzi_value_site_pv"></span>
-      </span>
-    </span>
 </div>
 
-
-
-
-
-
-<script>
-  (function() {
-    function leancloudSelector(url) {
-      url = encodeURI(url);
-      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+        <!-- site-meta -->
+        <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
     }
-
-    function addCount(Counter) {
-      var visitors = document.querySelector('.leancloud_visitors');
-      var url = decodeURI(visitors.id);
-      var title = visitors.dataset.flagTitle;
-
-      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
-        .then(response => response.json())
-        .then(({ results }) => {
-          if (results.length > 0) {
-            var counter = results[0];
-            leancloudSelector(url).innerText = counter.time + 1;
-            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
-              .catch(error => {
-                console.error('Failed to save visitor count', error);
-              });
-          } else {
-              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
-              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
-            
-          }
-        })
-        .catch(error => {
-          console.error('LeanCloud Counter Error', error);
-        });
+    var siteMeta = {
+        url: "https://mingriweiji-github.github.io",
+        root: siteMetaRoot,
+        author: "KM"
     }
-
-    function showTime(Counter) {
-      var visitors = document.querySelectorAll('.leancloud_visitors');
-      var entries = [...visitors].map(element => {
-        return decodeURI(element.id);
-      });
-
-      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
-        .then(response => response.json())
-        .then(({ results }) => {
-          for (let url of entries) {
-            let target = results.find(item => item.url === url);
-            leancloudSelector(url).innerText = target ? target.time : 0;
-          }
-        })
-        .catch(error => {
-          console.error('LeanCloud Counter Error', error);
-        });
-    }
-
-    let { app_id, app_key, server_url } = {"enable":true,"app_id":"Ju7dx80NhFmgzE6XmPx1a1nB-gzGzoHsz","app_key":"KoQvs9aXqlkKEJbIj7SBvt6n","server_url":"https://mingriweiji-github.github.io/","security":true};
-    function fetchData(api_server) {
-      var Counter = (method, url, data) => {
-        return fetch(`${api_server}/1.1${url}`, {
-          method,
-          headers: {
-            'X-LC-Id'     : app_id,
-            'X-LC-Key'    : app_key,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data)
-        });
-      };
-      if (CONFIG.page.isPost) {
-        if (CONFIG.hostname !== location.hostname) return;
-        addCount(Counter);
-      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
-        showTime(Counter);
-      }
-    }
-
-    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
-
-    if (api_server) {
-      fetchData(api_server);
-    } else {
-      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
-        .then(response => response.json())
-        .then(({ api_server }) => {
-          fetchData('https://' + api_server);
-        });
-    }
-  })();
 </script>
 
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
 
 
-<script src="/js/schemes/pisces.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-</body>
+        <!-- main func -->
+        <script src="/scripts/main.js?v=20211217"></script>
+        <!-- dark mode -->
+        <script src="/scripts/dark.js?v=20211217"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <!-- algolia -->
+        
+        <!-- busuanzi -->
+        
+            <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+        
+        <!-- CNZZ -->
+        
+        <!-- async load share.js -->
+        
+            <script src="/scripts/share.js?v=20211217" async></script>
+        
+        <!-- mermaid -->
+        
+    </body>
 </html>

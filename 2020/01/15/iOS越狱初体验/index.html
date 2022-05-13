@@ -1,30 +1,29 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+    <!-- title -->
+
+
+    
+
+<!-- keywords -->
+
+
+
 <head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.2.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
-
-<link rel="stylesheet" href="/css/main.css">
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"mingriweiji-github.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
-  </script>
-
-  <meta name="description" content="iOS越狱初体验 iOS越狱能做到什么？  * 查看 第三方APP UI 排版方式、布局实现技术  * 获取三方App内部资源 .assets&#x2F;.plist&#x2F;icon…  * 修改APP 功能重新打包 (EX: 去广告)  * 反编译推测原始工程代码内容  * dump 出 .h 头文件 &#x2F; keycahin &#x2F; db  越狱环境 macOS 版本：10.15 Catalina iOS 版本：iP">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="KM">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="KM">
+    
+        <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content="">
+    <meta name="description" content="iOS越狱初体验 iOS越狱能做到什么？  * 查看 第三方APP UI 排版方式、布局实现技术  * 获取三方App内部资源 .assets&#x2F;.plist&#x2F;icon…  * 修改APP 功能重新打包 (EX: 去广告)  * 反编译推测原始工程代码内容  * dump 出 .h 头文件 &#x2F; keycahin &#x2F; db  越狱环境 macOS 版本：10.15 Catalina iOS 版本：iP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS越狱初体验">
 <meta property="og:url" content="https://mingriweiji-github.github.io/2020/01/15/iOS%E8%B6%8A%E7%8B%B1%E5%88%9D%E4%BD%93%E9%AA%8C/index.html">
-<meta property="og:site_name" content="明日危机">
+<meta property="og:site_name" content="KM的技术笔记">
 <meta property="og:description" content="iOS越狱初体验 iOS越狱能做到什么？  * 查看 第三方APP UI 排版方式、布局实现技术  * 获取三方App内部资源 .assets&#x2F;.plist&#x2F;icon…  * 修改APP 功能重新打包 (EX: 去广告)  * 反编译推测原始工程代码内容  * dump 出 .h 头文件 &#x2F; keycahin &#x2F; db  越狱环境 macOS 版本：10.15 Catalina iOS 版本：iP">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200404151240.png">
@@ -37,231 +36,483 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200408165039.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200408232750.png">
 <meta property="article:published_time" content="2020-01-15T02:13:45.000Z">
-<meta property="article:modified_time" content="2020-05-01T12:44:13.000Z">
+<meta property="article:modified_time" content="2022-05-10T16:01:43.810Z">
 <meta property="article:author" content="KM">
 <meta property="article:tag" content="iOS">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200404151240.png">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="/assets/favicon.ico">
+    
+    <title>iOS越狱初体验 · KM的博客</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
 
-<link rel="canonical" href="https://mingriweiji-github.github.io/2020/01/15/iOS%E8%B6%8A%E7%8B%B1%E5%88%9D%E4%BD%93%E9%AA%8C/">
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
 
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
 
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'zh-CN'
-  };
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
 </script>
 
-  <title>iOS越狱初体验 | 明日危机</title>
-  
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
 
+    body {
+        margin: 0;
+    }
 
-  <script>
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?ec9cc8dfbd03d21e9645e0562d7b9989";
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-  </script>
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
 
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
 
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
 
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+</style>
 
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-<link rel="alternate" href="/atom.xml" title="明日危机" type="application/atom+xml">
+    <link rel="preload" href="/css/style.css?v=20211217" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/css/dark.css?v=20211217" as="style">
+    <link rel="stylesheet" href="/css/dark.css">
+    <link rel="stylesheet" href="/css/mobile.css?v=20211217" media="(max-width: 960px)">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js?v=20211217" as="script">
+    <link rel="preload" href="/scripts/dark.js?v=20211217" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
+    
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<link rel="alternate" href="/atom.xml" title="KM的技术笔记" type="application/atom+xml">
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">明日危机</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">iOS & Swifter</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content post posts-expand">
+        <body class="post-body">
+    
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        
+            <div class="header-sidebar-menu">
+        
             
-
-    
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://mingriweiji-github.github.io/2020/01/15/iOS%E8%B6%8A%E7%8B%B1%E5%88%9D%E4%BD%93%E9%AA%8C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="KM">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="明日危机">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          iOS越狱初体验
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-01-15 10:13:45" itemprop="dateCreated datePublished" datetime="2020-01-15T10:13:45+08:00">2020-01-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-05-01 20:44:13" itemprop="dateModified" datetime="2020-05-01T20:44:13+08:00">2020-05-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%BA%90%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">源码</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2020/01/15/iOS%E8%B6%8A%E7%8B%B1%E5%88%9D%E4%BD%93%E9%AA%8C/" class="post-meta-item leancloud_visitors" data-flag-title="iOS越狱初体验" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span id="busuanzi_value_page_pv"></span>
-            </span>
-
+                <div style="padding-left: 1px;">&#xe775;</div>
+            
         </div>
-      </header>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- theme mode switch button -->
+        <span class="header-theme-btn header-element">
+            <i class="fas fa-adjust"></i>
+        </span>
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <a href=/>KM的博客.</a>
+        </span>
+    </div>
+    <!-- toggle banner for post layout -->
+    
+        
+            <div class="banner">
+        
+            <div class="blog-title header-element">
+                <a href="/">KM的博客.</a>
+            </div>
+            <div class="post-title header-element">
+                <a href="#" class="post-name">iOS越狱初体验</a>
+            </div>
+        </div>
+    
+</header>
 
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- back to top button -->
+    <div class="footer-fixed-element">
+        
+            <div class="back-top back-top-hidden">
+        
+        
+            <div>&#xe639;</div>
+        
+        </div>
+    </div>
+</footer>
 
-      
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="
+
+
+
+
+
+
+
+    height:50vh;
+
+">
+    
+    <!-- 主页  -->
+    
+        
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+                iOS越狱初体验
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+                
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页 meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="iOS">iOS</a>
+    
+</div>
+
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">3.6k</span>阅读时长: <span class="post-count reading-time">16 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <!-- 撰写日期 -->
+                    <span class="iconfont-archer post-intro-calander">&#xe676;</span>
+                    <span class="post-intro-time">2020/01/15</span>
+                    <!-- busuanzi -->
+                    
+                        <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                            <span class="iconfont-archer post-intro-busuanzi">&#xe602;</span>
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    
+                    <!-- 文章分享 -->
+                    <span class="share-wrapper">
+                        <span class="iconfont-archer share-icon">&#xe71d;</span>
+                        <span class="share-text">Share</span>
+                        <ul class="share-list">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+
+            <script>
+  // get user agent
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
+  }
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded')
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in')
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb() {
+    if (browser.versions.uc) {
+      console.log('UCBrowser')
+      fontLoaded()
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular'],
+        },
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
+        },
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
+        },
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
+        },
+        timeout: 5000, // Set the timeout to two seconds
+      })
+    }
+  }
+
+  function asyncErr() {
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
+  }
+
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
+
+    async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
+</script>
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <div class="container container-unloaded">
+                <main class="main post-page">
+    <article class="article-entry">
         <h1 id="iOS越狱初体验"><a href="#iOS越狱初体验" class="headerlink" title="iOS越狱初体验"></a>iOS越狱初体验</h1><h2 id="iOS越狱能做到什么？"><a href="#iOS越狱能做到什么？" class="headerlink" title="iOS越狱能做到什么？"></a>iOS越狱能做到什么？</h2><ul>
 <li>查看 第三方APP UI 排版方式、布局实现技术</li>
-<li>获取三方App内部资源 .assets/.plist/icon…</li>
+<li>获取三方App内部资源 .assets&#x2F;.plist&#x2F;icon…</li>
 <li>修改APP 功能重新打包 (EX: 去广告)</li>
 <li>反编译推测原始工程代码内容</li>
-<li>dump 出 .h 头文件 / keycahin / db</li>
+<li>dump 出 .h 头文件 &#x2F; keycahin &#x2F; db</li>
 </ul>
-<h2 id="越狱环境"><a href="#越狱环境" class="headerlink" title="越狱环境"></a>越狱环境</h2><p><strong>macOS 版本：</strong>10.15  Catalina<br><strong>iOS</strong> <strong>版本：</strong>iPhone 5s (iOS 9.0.1/ *<em>完美越狱****</em>必要**)<br><strong>Cydia:</strong> Open SSH</p>
+<h2 id="越狱环境"><a href="#越狱环境" class="headerlink" title="越狱环境"></a>越狱环境</h2><p><strong>macOS 版本：</strong>10.15  Catalina<br><strong>iOS</strong> <strong>版本：</strong>iPhone 5s (iOS 9.0.1&#x2F; <strong>完美越狱</strong>*<strong>必要</strong>)<br><strong>Cydia:</strong> Open SSH</p>
 <h2 id="逆向工程大致流程："><a href="#逆向工程大致流程：" class="headerlink" title="逆向工程大致流程："></a>逆向工程大致流程：</h2><ol>
 <li>解密并导出应用程序、class-dump导出头文件</li>
 <li>从当面界面入手，获取当前界面布局和控制器VC</li>
@@ -321,16 +572,16 @@
 <p><strong>SSH基于秘钥的客户端认证</strong></p>
 <p><img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200404151240.png"></p>
 <p>在客户端生成一对秘钥：公钥+私钥</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$: ssh-keygen</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$: ssh-keygen</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>一路敲回车键（Enter）即可</li>
 <li>OpenSSH默认生成的是RSA密钥，可以通过-t参数指定密钥类型</li>
-<li>生成的公钥：~/.ssh/id_rsa.pub</li>
-<li>生成的私钥：~/.ssh/id_rsa</li>
+<li>生成的公钥：~&#x2F;.ssh&#x2F;id_rsa.pub</li>
+<li>生成的私钥：~&#x2F;.ssh&#x2F;id_rsa</li>
 </ul>
 <p>将客户端的公钥追加到服务器的授权文件尾部:<code>~/.ssh/authorized_keys</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-copy-id root@yourIPAddress</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-copy-id root@yourIPAddress</span><br></pre></td></tr></table></figure>
 
 <h5 id="shell脚本文件"><a href="#shell脚本文件" class="headerlink" title="shell脚本文件"></a>shell脚本文件</h5><ul>
 <li><p>通过sh、bash、source命令执行sh脚本文件</p>
@@ -348,7 +599,7 @@
 </li>
 </ul>
 <h4 id="基于秘钥登录"><a href="#基于秘钥登录" class="headerlink" title="基于秘钥登录"></a>基于秘钥登录</h4><ul>
-<li><p>1、在客户端生成一对相关联的密钥，将客户端的公钥信息追加到服务器的授权文件尾部（~/.ssh/authorized_keys）: </p>
+<li><p>1、在客户端生成一对相关联的密钥，将客户端的公钥信息追加到服务器的授权文件尾部（~&#x2F;.ssh&#x2F;authorized_keys）: </p>
 <ul>
 <li>生成秘钥：<code> ssh-keygen</code></li>
 <li>追加到服务器授权文件：<code>ssh-copy-id root@手机IP地址</code></li>
@@ -365,7 +616,7 @@
 <li><p>3、Mac登录到10086端口： <code>ssh -p 10086 root@localhost</code></p>
 </li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">5s:~/.ssh root<span class="comment"># cat authorized_keys</span></span><br><span class="line">ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDIoCG1j95eGXgui0R8JRMSe2AHGi3RV7L1SNU/06WK21pc4tqwgiUphPwnf+yQ1SlhV4KH6utZWDa4STugDdp+nuUpMF7HYC+4iGSqP6GCpgiV+3ehqHd5cYhPIPUWinISJNJkIYU8HBUTw1Ua9HqTxrrIhV+AbZhKymDDJ+1X3+dnhu0yNZ2W4HpFDwAT9OB4go2PTGROyneHEz72bvcTAqkDdbKjbKOPD61bzlbHJqBAb0wCeTPEYWNwxb+lRcvzFs61TwCuLXQJ+GCyAtKZYzU/I9DGgfhgWQ38xB04rGMPjqOeEDRI9T8j8r3q8wP+K0BJmTlaMhYfl70U1ZUDPbqgfD93IpL4h+Mb0nqvWwkcqaFB4NPgrwvJG5WYWmR1mgu37rzC2f9BDUDz4izwSyEQDk7PwaLuuBfJet6Ro/vdHXGwUhTXP01Tkg+Qj/qcN7aMvPMXHkWNS6v83urRHwFgSSqJ1QC6O3xZlHZeRfPFt7UhcqgAGEgs8K2aCAc= Seven@MLideMacBook-Pro.local</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">5s:~/.ssh root<span class="comment"># cat authorized_keys</span></span><br><span class="line">ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDIoCG1j95eGXgui0R8JRMSe2AHGi3RV7L1SNU/06WK21pc4tqwgiUphPwnf+yQ1SlhV4KH6utZWDa4STugDdp+nuUpMF7HYC+4iGSqP6GCpgiV+3ehqHd5cYhPIPUWinISJNJkIYU8HBUTw1Ua9HqTxrrIhV+AbZhKymDDJ+1X3+dnhu0yNZ2W4HpFDwAT9OB4go2PTGROyneHEz72bvcTAqkDdbKjbKOPD61bzlbHJqBAb0wCeTPEYWNwxb+lRcvzFs61TwCuLXQJ+GCyAtKZYzU/I9DGgfhgWQ38xB04rGMPjqOeEDRI9T8j8r3q8wP+K0BJmTlaMhYfl70U1ZUDPbqgfD93IpL4h+Mb0nqvWwkcqaFB4NPgrwvJG5WYWmR1mgu37rzC2f9BDUDz4izwSyEQDk7PwaLuuBfJet6Ro/vdHXGwUhTXP01Tkg+Qj/qcN7aMvPMXHkWNS6v83urRHwFgSSqJ1QC6O3xZlHZeRfPFt7UhcqgAGEgs8K2aCAc= Seven@MLideMacBook-Pro.<span class="built_in">local</span></span><br></pre></td></tr></table></figure>
 
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">5s:~/.ssh root<span class="comment"># cd /etc/ssh</span></span><br><span class="line">5s:/etc/ssh root<span class="comment"># ls -l</span></span><br><span class="line">total 272</span><br><span class="line">-rw-r--r-- 1 root wheel 242153 May  4  2018 moduli</span><br><span class="line">-rw-r--r-- 1 root wheel   1526 May  4  2018 ssh_config</span><br><span class="line">-rw------- 1 root wheel    672 May  4  2018 ssh_host_dsa_key</span><br><span class="line">-rw-r--r-- 1 root wheel    590 May  4  2018 ssh_host_dsa_key.pub</span><br><span class="line">-rw------- 1 root wheel    965 May  4  2018 ssh_host_key</span><br><span class="line">-rw-r--r-- 1 root wheel    630 May  4  2018 ssh_host_key.pub</span><br><span class="line">-rw------- 1 root wheel   1679 May  4  2018 ssh_host_rsa_key</span><br><span class="line">-rw-r--r-- 1 root wheel    382 May  4  2018 ssh_host_rsa_key.pub</span><br><span class="line">-rw-r--r-- 1 root wheel   3227 May  4  2018 sshd_config</span><br><span class="line">5s:/etc/ssh root<span class="comment"># cat ssh_host_rsa_key.pub</span></span><br><span class="line">ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDMQHoD19uC7fQpPXMN6GWR0YcGC7BlmLis4uyuu6hk7bqDADfHlXvU5cJ6gxSkrwjzFrWPcVD5JfyrAWEw2VGMxgtMoBTOjCRciDR+yJioTbeL85r8UdT5CtVDjGkiC+07SGopHnYt1x+45lMIMzdzVbLhKTv+DIm+OIawavJSIOvhHLlf4kFrrj0vuxkDOpV8fSRdnHLKMayQ6dmgFRlYJJSCLx10VLpUhgLA6g3m3wIq5bDSoR75uEYVUYny+itCQxVXFfydKsKncBAlxE2vKKh5Ry/pQaWFBff3jEDgfFtmqGtj5y3MlLjdtqn4zLTE3FwqCAEen63+gR8z4wof</span><br><span class="line">5s:/etc/ssh root<span class="comment">#</span></span><br></pre></td></tr></table></figure>
 
@@ -376,15 +627,11 @@
 </li>
 <li><p>1、Mac登录到10010端口:<code>python tcprelay.py -t 22:10010</code></p>
 <p>2、将iPhone的22端口（SSH端口）映射到Mac本地的10010端口:<code>ssh root@localhost -p 10010</code></p>
-</li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ python ~/pathto/python-client/tcprelay.py -t 22:10010</span><br><span class="line"></span><br><span class="line">$ ssh root@localhost -p 10010</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
 </ul>
-  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ python ~/pathto/python-client/tcprelay.py -t 22:10010</span><br><span class="line"></span><br><span class="line">$ ssh root@localhost -p 10010</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
 <h2 id="3、Cycript动态调试"><a href="#3、Cycript动态调试" class="headerlink" title="3、Cycript动态调试"></a>3、Cycript动态调试</h2><ul>
 <li>它是Objective-C++、JavaScript、Java等语法的混合产物</li>
-<li>用来修改和调试正在运行中的Mac/iOS 应用</li>
+<li>用来修改和调试正在运行中的Mac&#x2F;iOS 应用</li>
 <li>官网：<a target="_blank" rel="noopener" href="http://www.cycript.org/">http://www.cycript.org/</a></li>
 <li>Cydia安装Cycript后，即可在iPhone上调试运行中的App</li>
 </ul>
@@ -392,19 +639,19 @@
 <h3 id="1、Cycript安装问题"><a href="#1、Cycript安装问题" class="headerlink" title="1、Cycript安装问题"></a>1、Cycript安装问题</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ cycript</span><br><span class="line">dyld: Library not loaded: /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/libruby.2.0.0.dylib</span><br><span class="line">  Referenced from: /Users/mli/cycript_0.9.594//Cycript.lib/cycript-apl</span><br><span class="line">  Reason: image not found</span><br><span class="line">[1]    8373 abort      cycript</span><br></pre></td></tr></table></figure>
 
 <h4 id="方式1：替换libruby-2-6-dylib"><a href="#方式1：替换libruby-2-6-dylib" class="headerlink" title="方式1：替换libruby.2.6.dylib"></a>方式1：替换<strong>libruby.2.6.dylib</strong></h4><p><strong>解决方式一：由于我的MacOS是版本10.15.4  Catalina,自带ruby版本是2.6</strong></p>
-<p>如果你用homebrew已经安装过高版本的Ruby，那么你可以进到/usr/local/Cellar/ruby/2.6.0/lib这个目录下，将<strong>libruby.2.6.dylib</strong>拷贝一份，然后改名为<strong>libruby.2.0.0.dylib</strong>。并将改名后的文件拷贝到Cycript.lib目录下即可。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">~: $ source .bash_profile</span><br><span class="line">~: $ cycript</span><br><span class="line">cy#   </span><br><span class="line"></span><br><span class="line">出现cy#表示成功了</span><br><span class="line">control + D可以退出 Cycript。</span><br></pre></td></tr></table></figure>
+<p>如果你用homebrew已经安装过高版本的Ruby，那么你可以进到&#x2F;usr&#x2F;local&#x2F;Cellar&#x2F;ruby&#x2F;2.6.0&#x2F;lib这个目录下，将<strong>libruby.2.6.dylib</strong>拷贝一份，然后改名为<strong>libruby.2.0.0.dylib</strong>。并将改名后的文件拷贝到Cycript.lib目录下即可。</p>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">~: $ source .bash_profile</span><br><span class="line">~: $ cycript</span><br><span class="line">cy#   </span><br><span class="line"></span><br><span class="line">出现cy#表示成功了</span><br><span class="line">control + D可以退出 Cycript。</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200405085400.png"></p>
 <p>如果是使用iTerm2+oh my zsh组合，可以在.zshrc配置文件中导入<code>source .bash_profile</code>，这样每次打开就不用手动执行了！</p>
-<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ open ~/.zshrc</span><br><span class="line">添加配置：source ~/.bash_profile</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="keyword">open</span> ~/.zshrc</span><br><span class="line">添加配置：source ~/.bash_profile</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<h4 id="方式2-安装ruby2-0"><a href="#方式2-安装ruby2-0" class="headerlink" title="方式2:安装ruby2.0"></a>方式2:安装ruby2.0</h4><p><strong>方式二：测试该方式对于MacOS Catalina无效，中文博客都是这种方式，brew install <a href="mailto:&#114;&#117;&#98;&#121;&#64;&#x32;&#46;&#48;">&#114;&#117;&#98;&#121;&#64;&#x32;&#46;&#48;</a> 也无法在Catalina系统上通过，所以直接修改libruby.2.6.dylib为libruby.2.0.0.dylib是简单有效的方法</strong></p>
+<h4 id="方式2-安装ruby2-0"><a href="#方式2-安装ruby2-0" class="headerlink" title="方式2:安装ruby2.0"></a>方式2:安装ruby2.0</h4><p><strong>方式二：测试该方式对于MacOS Catalina无效，中文博客都是这种方式，brew install <a href="mailto:&#114;&#x75;&#x62;&#x79;&#64;&#50;&#x2e;&#x30;">&#114;&#x75;&#x62;&#x79;&#64;&#50;&#x2e;&#x30;</a> 也无法在Catalina系统上通过，所以直接修改libruby.2.6.dylib为libruby.2.0.0.dylib是简单有效的方法</strong></p>
 <h5 id="1、关闭Mac的SIP"><a href="#1、关闭Mac的SIP" class="headerlink" title="1、关闭Mac的SIP"></a>1、关闭Mac的SIP</h5><ul>
 <li>电脑重启，听到咚的时候，按住<code>command+R</code>，进入恢复模式</li>
 <li>打开终端，输入<code>csrutil disable</code>，重启</li>
 </ul>
-<h5 id="2、查看ruby版本安装ruby2-0"><a href="#2、查看ruby版本安装ruby2-0" class="headerlink" title="2、查看ruby版本安装ruby2.0"></a>2、查看ruby版本安装ruby2.0</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /System/Library/Frameworks/Ruby.framework/Versions/</span><br><span class="line">$ ls</span><br><span class="line">2.6     Current</span><br><span class="line">$ brew install ruby@2.0</span><br></pre></td></tr></table></figure>
+<h5 id="2、查看ruby版本安装ruby2-0"><a href="#2、查看ruby版本安装ruby2-0" class="headerlink" title="2、查看ruby版本安装ruby2.0"></a>2、查看ruby版本安装ruby2.0</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /System/Library/Frameworks/Ruby.framework/Versions/</span><br><span class="line">$ <span class="built_in">ls</span></span><br><span class="line">2.6     Current</span><br><span class="line">$ brew install ruby@2.0</span><br></pre></td></tr></table></figure>
 
 
 
@@ -412,15 +659,15 @@
 <p>1、关闭系统的禁用新版SIP防护<br>    电脑重启按住command+R，进入恢复模式<br>    打开终端，输入csrutil disable，重启<br>    如果想打开SIP，重复上两步，命令改为csrutil enable</p>
 <p>2、禁用SIP之后，在终端输入<code>sudo mount -uw /</code>，然后重启finder<br>之后就可以对文件夹进行复制了，复制之后，对文件夹和文件名称修改为2.0，就可以正常使用Cycript了</p>
 </blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/</span><br><span class="line">sudo ln -s /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/libruby.2.6.0.dylib /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/libruby.2.0.0.dylib</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">mkdir</span> -p /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/</span><br><span class="line">sudo <span class="built_in">ln</span> -s /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/libruby.2.6.0.dylib /System/Library/Frameworks/Ruby.framework/Versions/2.0/usr/lib/libruby.2.0.0.dylib</span><br></pre></td></tr></table></figure>
 
 <img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200405074435.png" style="zoom:67%;" />
 
-<h3 id="2、Cycript使用"><a href="#2、Cycript使用" class="headerlink" title="2、Cycript使用"></a>2、Cycript使用</h3><h4 id="进程名称-进程ID"><a href="#进程名称-进程ID" class="headerlink" title="进程名称/进程ID"></a>进程名称/进程ID</h4><p>终端输入命令行：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ps -A</span><br></pre></td></tr></table></figure>
+<h3 id="2、Cycript使用"><a href="#2、Cycript使用" class="headerlink" title="2、Cycript使用"></a>2、Cycript使用</h3><h4 id="进程名称-x2F-进程ID"><a href="#进程名称-x2F-进程ID" class="headerlink" title="进程名称&#x2F;进程ID"></a>进程名称&#x2F;进程ID</h4><p>终端输入命令行：</p>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ps -A</span><br></pre></td></tr></table></figure>
 
 <p>启动越狱iPhone上的App如下：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/var/mobile/Containers/Bundle/Application/AAB4F619-1565-4D60-98B7-9A5465674C0E/ElevenPlayer.app/ElevenPlayer</span><br><span class="line">/var/mobile/Containers/Bundle/Application/B15E42B6-EFF0-482A-A184-2E56E18BC096/Taobao4iPhone.app/Taobao4iPhone</span><br><span class="line">/var/mobile/Containers/Bundle/Application/6907C865-4845-4423-92BF-65D61F4B9816/DingTalk.app/DingTalk</span><br></pre></td></tr></table></figure>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/var/mobile/Containers/Bundle/Application/AAB4F619-<span class="number">1565</span>-<span class="number">4D60</span>-<span class="number">98</span>B7-<span class="number">9</span>A5465674C0E/ElevenPlayer.app/ElevenPlayer</span><br><span class="line">/var/mobile/Containers/Bundle/Application/B15E42B6-EFF0-<span class="number">482</span>A-A184-<span class="number">2E56</span>E18BC096/Taobao4iPhone.app/Taobao4iPhone</span><br><span class="line">/var/mobile/Containers/Bundle/Application/<span class="number">6907</span>C865-<span class="number">4845</span>-<span class="number">4423</span>-<span class="number">92</span>BF-<span class="number">65D61</span>F4B9816/DingTalk.app/DingTalk</span><br></pre></td></tr></table></figure>
 
 
 
@@ -431,18 +678,18 @@
 </ul>
 <h4 id="Cycript调试"><a href="#Cycript调试" class="headerlink" title="Cycript调试"></a>Cycript调试</h4><p>1、通过Cydia安装Cycript</p>
 <p>2、终端输入：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cycript -p Taobao4iPhone</span><br></pre></td></tr></table></figure>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cycript -p Taobao4iPhone</span><br></pre></td></tr></table></figure>
 
 <h4 id="Cycript基本语法"><a href="#Cycript基本语法" class="headerlink" title="Cycript基本语法"></a>Cycript基本语法</h4><ul>
 <li>UIApp: [UIApplication sharedApplication]</li>
-<li>var 变量名 = 变量值</li>
+<li>var 变量名 &#x3D; 变量值</li>
 <li>通过内存地址获取内存中的对象: #内存地址</li>
 <li>已经加载的所有OC类：ObjectiveC.classes</li>
 <li>获取某个对象所有的成员变量：*对象名</li>
 <li>递归打印view的所有子view: <code>view.recursiveDescription().toString()</code>等同于Xcode中的<code>[view recursiveDescription]</code></li>
 <li>筛选某种类型的对象: <code>choose(UIViewController) choose(UITableViewCell)</code></li>
 </ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">5</span>s:~ root# cycript -p <span class="number">1856</span></span><br><span class="line">cy# UIApp</span><br><span class="line">#&quot;&lt;UIApplication: 0x147e6db70&gt;&quot;</span><br><span class="line">cy# var win = #0x147e6db70.keyWindow</span><br><span class="line">#&quot;&lt;UIWindow: 0x1490eba30; frame = (0 0; 320 568); gestureRecognizers = &lt;NSArray: 0x1490ed500&gt;; layer = &lt;UIWindowLayer: 0x1490e3f50&gt;&gt;&quot;</span><br><span class="line">cy# UIApp.keyWindow.rootViewController</span><br><span class="line">#&quot;&lt;TBMainViewController: 0x14807b200&gt;&quot;</span><br><span class="line">cy# choose(UICollectionViewCell)</span><br><span class="line">....</span><br></pre></td></tr></table></figure>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">5</span>s:~ root# cycript -p <span class="number">1856</span></span><br><span class="line">cy# UIApp</span><br><span class="line">#<span class="string">&quot;&lt;UIApplication: 0x147e6db70&gt;&quot;</span></span><br><span class="line">cy# var win = #<span class="number">0</span>x147e6db70.keyWindow</span><br><span class="line">#<span class="string">&quot;&lt;UIWindow: 0x1490eba30; frame = (0 0; 320 568); gestureRecognizers = &lt;NSArray: 0x1490ed500&gt;; layer = &lt;UIWindowLayer: 0x1490e3f50&gt;&gt;&quot;</span></span><br><span class="line">cy# UIApp.keyWindow.rootViewController</span><br><span class="line">#<span class="string">&quot;&lt;TBMainViewController: 0x14807b200&gt;&quot;</span></span><br><span class="line">cy# choose(UICollectionViewCell)</span><br><span class="line">....</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li><code>UIApp.keyWindow.recursiveDescription().toString()</code>可以打印所有层级</li>
@@ -458,18 +705,18 @@
 <li><p>4、使用Cycript监听APP，<strong>通过命令<code>@import mjcript</code> 导入</strong></p>
 </li>
 </ul>
-<h4 id="以前获取当前控制器"><a href="#以前获取当前控制器" class="headerlink" title="以前获取当前控制器"></a>以前获取当前控制器</h4>  <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cy# UIApp.keyWindow.rootViewController.presentedViewController</span><br><span class="line">cy# #0x1483cb600.childViewControllers</span><br></pre></td></tr></table></figure>
-<h4 id="mjcript获取当前控制器"><a href="#mjcript获取当前控制器" class="headerlink" title="mjcript获取当前控制器"></a>mjcript获取当前控制器</h4><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cy# MJFrontVc()</span><br><span class="line">cy# MJVcSubviews(#0x12fe775e0)</span><br></pre></td></tr></table></figure>
+<h4 id="以前获取当前控制器"><a href="#以前获取当前控制器" class="headerlink" title="以前获取当前控制器"></a>以前获取当前控制器</h4>  <figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cy# UIApp.keyWindow.rootViewController.presentedViewController</span><br><span class="line">cy# #<span class="number">0</span>x1483cb600.childViewControllers</span><br></pre></td></tr></table></figure>
+<h4 id="mjcript获取当前控制器"><a href="#mjcript获取当前控制器" class="headerlink" title="mjcript获取当前控制器"></a>mjcript获取当前控制器</h4><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cy# MJFrontVc()</span><br><span class="line">cy# MJVcSubviews(#<span class="number">0</span>x12fe775e0)</span><br></pre></td></tr></table></figure>
 
-<h4 id="获取实例方法和类方法"><a href="#获取实例方法和类方法" class="headerlink" title="获取实例方法和类方法"></a>获取实例方法和类方法</h4><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cy# MJInstanceMethods(#0x12fe775e0)</span><br><span class="line">cy# MJClassMethods(#0x12fe775e0)</span><br></pre></td></tr></table></figure>
+<h4 id="获取实例方法和类方法"><a href="#获取实例方法和类方法" class="headerlink" title="获取实例方法和类方法"></a>获取实例方法和类方法</h4><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cy# MJInstanceMethods(#<span class="number">0</span>x12fe775e0)</span><br><span class="line">cy# MJClassMethods(#<span class="number">0</span>x12fe775e0)</span><br></pre></td></tr></table></figure>
 
-<h4 id="python获取unicode"><a href="#python获取unicode" class="headerlink" title="python获取unicode"></a>python获取unicode</h4><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ python</span><br><span class="line">&gt;&gt;&gt; unicode(&#x27;开始使用&#x27;,&#x27;UTF-8&#x27;)</span><br><span class="line">u&#x27;\u5f00\u59cb\u4f7f\u7528&#x27;</span><br></pre></td></tr></table></figure>
+<h4 id="python获取unicode"><a href="#python获取unicode" class="headerlink" title="python获取unicode"></a>python获取unicode</h4><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ python</span><br><span class="line">&gt;&gt;&gt; unicode(<span class="comment">&#x27;开始使用&#x27;,&#x27;UTF-8&#x27;)</span></span><br><span class="line">u<span class="comment">&#x27;\u5f00\u59cb\u4f7f\u7528&#x27;</span></span><br></pre></td></tr></table></figure>
 
-<h4 id="获取网易登录界面"><a href="#获取网易登录界面" class="headerlink" title="获取网易登录界面"></a>获取网易登录界面</h4><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cy# MJFrontVc()</span><br><span class="line">#&quot;&lt;NTESNBLoginController: 0x12fe775e0&gt;&quot;</span><br><span class="line">cy# MJFrontVcSubViews(#0x12fe775e0)</span><br><span class="line">cy# [#0x12fe775e0.view addSubview:view]</span><br></pre></td></tr></table></figure>
+<h4 id="获取网易登录界面"><a href="#获取网易登录界面" class="headerlink" title="获取网易登录界面"></a>获取网易登录界面</h4><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cy# MJFrontVc()</span><br><span class="line">#<span class="string">&quot;&lt;NTESNBLoginController: 0x12fe775e0&gt;&quot;</span></span><br><span class="line">cy# MJFrontVcSubViews(#<span class="number">0</span>x12fe775e0)</span><br><span class="line">cy# [#<span class="number">0</span>x12fe775e0.<span class="keyword">view</span> addSubview:<span class="keyword">view</span>]</span><br></pre></td></tr></table></figure>
 
-<h4 id="获取login相关方法"><a href="#获取login相关方法" class="headerlink" title="获取login相关方法"></a>获取login相关方法</h4><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cy# MJInstanceMethods(#0x12fe775e0,/login/)</span><br><span class="line">[&#123;selector:@selector(loginEngine),type:&amp;&quot;@16@0:8&quot;&#125;,&#123;selector:@selector(loginBtnDidClicked:),type:&amp;&quot;v24@0:8@16&quot;&#125;,&#123;selector:@selector(loginDelegate),type:&amp;&quot;@16@0:8&quot;&#125;,&#123;selector:@selector(loginBottomSafeAreaHeight),type:&amp;&quot;d16@0:8&quot;&#125;,&#123;selector:@selector(loginStyleDesc),type:&amp;&quot;@16@0:8&quot;&#125;]</span><br></pre></td></tr></table></figure>
+<h4 id="获取login相关方法"><a href="#获取login相关方法" class="headerlink" title="获取login相关方法"></a>获取login相关方法</h4><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cy# MJInstanceMethods(#<span class="number">0</span>x12fe775e0,/login/)</span><br><span class="line">[&#123;selector:@selector(loginEngine),type:&amp;<span class="string">&quot;@16@0:8&quot;</span>&#125;,&#123;selector:@selector(loginBtnDidClicked:),type:&amp;<span class="string">&quot;v24@0:8@16&quot;</span>&#125;,&#123;selector:@selector(loginDelegate),type:&amp;<span class="string">&quot;@16@0:8&quot;</span>&#125;,&#123;selector:@selector(loginBottomSafeAreaHeight),type:&amp;<span class="string">&quot;d16@0:8&quot;</span>&#125;,&#123;selector:@selector(loginStyleDesc),type:&amp;<span class="string">&quot;@16@0:8&quot;</span>&#125;]</span><br></pre></td></tr></table></figure>
 
-<h4 id="获取login相关成员变量"><a href="#获取login相关成员变量" class="headerlink" title="获取login相关成员变量"></a>获取login相关成员变量</h4><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cy# MJIvars(#0x12fe775e0,/login/)</span><br><span class="line">&#123;_loginEngine:#&quot;&lt;NTESNBLoginEngine: 0x12fd390e0&gt;&quot;,_loginDelegate:#&quot;&lt;NTESNBLoginService: 0x12f024f50&gt;&quot;,_loginStyleDesc:#&quot;&lt;UILabel: 0x12fe78000; frame = (25 155; 80 22.5); text = &#x27;\xe6\x89\x8b\xe6\x9c\xba\xe5\x8f\xb7\xe7\x99\xbb\xe5\xbd\x95&#x27;; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x12dff5b80&gt;&gt;&quot;&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="获取login相关成员变量"><a href="#获取login相关成员变量" class="headerlink" title="获取login相关成员变量"></a>获取login相关成员变量</h4><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cy# MJIvars(#<span class="number">0</span>x12fe775e0,/login/)</span><br><span class="line">&#123;_loginEngine:#<span class="string">&quot;&lt;NTESNBLoginEngine: 0x12fd390e0&gt;&quot;</span>,_loginDelegate:#<span class="string">&quot;&lt;NTESNBLoginService: 0x12f024f50&gt;&quot;</span>,_loginStyleDesc:#<span class="string">&quot;&lt;UILabel: 0x12fe78000; frame = (25 155; 80 22.5); text = &#x27;\xe6\x89\x8b\xe6\x9c\xba\xe5\x8f\xb7\xe7\x99\xbb\xe5\xbd\x95&#x27;; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x12dff5b80&gt;&gt;&quot;</span>&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="4、Reveal安装与使用"><a href="#4、Reveal安装与使用" class="headerlink" title="4、Reveal安装与使用"></a>4、Reveal安装与使用</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ul>
 <li><p>当前的Cydia中<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/bc31de468e28">软件源-http://apt.so/codermjlee</a>已连接不上，直接下载Reveal2Loader_1.0-3的deb文件</p>
@@ -484,14 +731,14 @@
 <li><p>Cydia中安装ExtensionList</p>
 </li>
 </ul>
-<h4 id="安装reveal2load报错extensionlist-is-not-installed"><a href="#安装reveal2load报错extensionlist-is-not-installed" class="headerlink" title="安装reveal2load报错extensionlist is not installed.:"></a>安装reveal2load报错extensionlist is not installed.:</h4><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">5</span>s:~ root# dpkg -i Reveal2Loader_1.<span class="number">0</span>-<span class="number">3</span>_iphoneos-arm.deb</span><br><span class="line">(Reading database ... 3159 files and directories currently installed.)</span><br><span class="line">Preparing to unpack Reveal2Loader_1.0-3_iphoneos-arm.deb ...</span><br><span class="line">Unpacking reveal2loader (1.0-3) over (1.0-3) ...</span><br><span class="line">dpkg: dependency problems prevent configuration of reveal2loader:</span><br><span class="line"> reveal2loader depends on com.zidaneno5.extensionlist; however:</span><br><span class="line">  Package com.zidaneno5.extensionlist is not installed.</span><br><span class="line"></span><br><span class="line">dpkg: error processing package reveal2loader (--install):</span><br><span class="line"> dependency problems - leaving unconfigured</span><br><span class="line">Errors were encountered while processing:</span><br><span class="line"> reveal2loader</span><br></pre></td></tr></table></figure>
+<h4 id="安装reveal2load报错extensionlist-is-not-installed"><a href="#安装reveal2load报错extensionlist-is-not-installed" class="headerlink" title="安装reveal2load报错extensionlist is not installed.:"></a>安装reveal2load报错extensionlist is not installed.:</h4><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">5</span>s:~ root# dpkg -i Reveal2Loader_1.<span class="number">0</span>-<span class="number">3</span>_iphoneos-arm.deb</span><br><span class="line">(Reading database ... <span class="number">3159</span> <span class="keyword">files</span> <span class="keyword">and</span> directories currently installed.)</span><br><span class="line">Preparing <span class="keyword">to</span> unpack Reveal2Loader_1.<span class="number">0</span>-<span class="number">3</span>_iphoneos-arm.deb ...</span><br><span class="line">Unpacking reveal2loader (<span class="number">1.0</span>-<span class="number">3</span>) over (<span class="number">1.0</span>-<span class="number">3</span>) ...</span><br><span class="line">dpkg: dependency problems prevent configuration of reveal2loader:</span><br><span class="line"> reveal2loader depends <span class="keyword">on</span> <span class="keyword">com</span>.zidaneno5.extensionlist; however:</span><br><span class="line">  Package <span class="keyword">com</span>.zidaneno5.extensionlist is <span class="keyword">not</span> installed.</span><br><span class="line"></span><br><span class="line">dpkg: <span class="keyword">error</span> processing package reveal2loader (--install):</span><br><span class="line"> dependency problems - leaving unconfigured</span><br><span class="line">Errors were encountered <span class="keyword">while</span> processing:</span><br><span class="line"> reveal2loader</span><br></pre></td></tr></table></figure>
 
 <p><strong>解决方法：</strong></p>
 <ul>
 <li><p>Cydia搜索并安装<code>ExtensionList 1.0-1</code></p>
 </li>
 <li><p>再次执行 <code>dpkg -i Reveal2Loader_1.0-3_iphoneos-arm.deb</code></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">5</span>s:~ root# dpkg -i Reveal2Loader_1.<span class="number">0</span>-<span class="number">3</span>_iphoneos-arm.deb</span><br><span class="line">(Reading database ... 3164 files and directories currently installed.)</span><br><span class="line">Preparing to unpack Reveal2Loader_1.0-3_iphoneos-arm.deb ...</span><br><span class="line">Unpacking reveal2loader (1.0-3) over (1.0-3) ...</span><br><span class="line">Setting up reveal2loader (1.0-3) ...</span><br></pre></td></tr></table></figure>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">5</span>s:~ root# dpkg -i Reveal2Loader_1.<span class="number">0</span>-<span class="number">3</span>_iphoneos-arm.deb</span><br><span class="line">(Reading database ... <span class="number">3164</span> <span class="keyword">files</span> <span class="keyword">and</span> directories currently installed.)</span><br><span class="line">Preparing <span class="keyword">to</span> unpack Reveal2Loader_1.<span class="number">0</span>-<span class="number">3</span>_iphoneos-arm.deb ...</span><br><span class="line">Unpacking reveal2loader (<span class="number">1.0</span>-<span class="number">3</span>) over (<span class="number">1.0</span>-<span class="number">3</span>) ...</span><br><span class="line">Setting up reveal2loader (<span class="number">1.0</span>-<span class="number">3</span>) ...</span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>done</li>
@@ -550,7 +797,7 @@
 </ul>
 <h5 id="使用otool"><a href="#使用otool" class="headerlink" title="使用otool"></a>使用otool</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">otool -l machoFile | grep cycript</span><br></pre></td></tr></table></figure>
 
-<h4 id="5-3、Clutch脱壳"><a href="#5-3、Clutch脱壳" class="headerlink" title="5.3、Clutch脱壳"></a>5.3、Clutch脱壳</h4><h5 id="usr-bin-Clutch-Permission-denied"><a href="#usr-bin-Clutch-Permission-denied" class="headerlink" title="/usr/bin/Clutch Permission denied"></a>/usr/bin/Clutch Permission denied</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">5s:~ root<span class="comment"># Clutch</span></span><br><span class="line">-sh: /usr/bin/Clutch: Permission denied</span><br></pre></td></tr></table></figure>
+<h4 id="5-3、Clutch脱壳"><a href="#5-3、Clutch脱壳" class="headerlink" title="5.3、Clutch脱壳"></a>5.3、Clutch脱壳</h4><h5 id="x2F-usr-x2F-bin-x2F-Clutch-Permission-denied"><a href="#x2F-usr-x2F-bin-x2F-Clutch-Permission-denied" class="headerlink" title="&#x2F;usr&#x2F;bin&#x2F;Clutch Permission denied"></a>&#x2F;usr&#x2F;bin&#x2F;Clutch Permission denied</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">5s:~ root<span class="comment"># Clutch</span></span><br><span class="line">-sh: /usr/bin/Clutch: Permission denied</span><br></pre></td></tr></table></figure>
 
 <p><strong>权限不够，输入命令如下：</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">5s:~ root<span class="comment"># chmod +x /usr/bin/Clutch</span></span><br><span class="line">5s:~ root<span class="comment"># Clutch</span></span><br><span class="line">Usage: Clutch [OPTIONS]</span><br><span class="line">-b --binary-dump &lt;value&gt; Only dump binary files from specified bundleID</span><br><span class="line">-d --dump &lt;value&gt;        Dump specified bundleID into .ipa file</span><br><span class="line">-i --print-installed     Print installed applications</span><br><span class="line">   --clean               Clean /var/tmp/clutch directory</span><br><span class="line">   --version             Display version and <span class="built_in">exit</span></span><br><span class="line">-? --<span class="built_in">help</span>                Display this <span class="built_in">help</span> and <span class="built_in">exit</span></span><br><span class="line">-n --no-color            Print with colors disabled</span><br></pre></td></tr></table></figure>
@@ -559,7 +806,7 @@
 
 
 
-<h5 id="Cluth-d-获取ipa文件"><a href="#Cluth-d-获取ipa文件" class="headerlink" title="Cluth -d 获取ipa文件"></a>Cluth -d 获取ipa文件</h5><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">5</span>s:~ root# Clutch -d <span class="number">4</span></span><br><span class="line">Zipping BaoManReader.app</span><br><span class="line">Swapping architectures..</span><br><span class="line">ASLR slide: 0xd0000</span><br><span class="line">Dumping &lt;BaoManReader&gt; (armv7)</span><br><span class="line">Patched cryptid (32bit segment)</span><br><span class="line">Writing new checksum</span><br><span class="line">ASLR slide: 0x100038000</span><br><span class="line">Dumping &lt;BaoManReader&gt; (arm64)</span><br><span class="line">Patched cryptid (64bit segment)</span><br><span class="line">Writing new checksum</span><br><span class="line">DONE: /private/var/mobile/Documents/Dumped/goodluck.push.baozou-iOS8.0-(Clutch-2.0.4).ipa</span><br><span class="line">Finished dumping goodluck.push.baozou in 29.4 seconds</span><br></pre></td></tr></table></figure>
+<h5 id="Cluth-d-获取ipa文件"><a href="#Cluth-d-获取ipa文件" class="headerlink" title="Cluth -d 获取ipa文件"></a>Cluth -d 获取ipa文件</h5><figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">5</span>s:~ root# Clutch -d <span class="number">4</span></span><br><span class="line">Zipping BaoManReader.app</span><br><span class="line">Swapping architectures..</span><br><span class="line">ASLR slide: <span class="number">0</span>xd0000</span><br><span class="line">Dumping &lt;BaoManReader&gt; (armv7)</span><br><span class="line">Patched cryptid (<span class="number">32</span>bit segment)</span><br><span class="line">Writing <span class="keyword">new</span> checksum</span><br><span class="line">ASLR slide: <span class="number">0</span>x100038000</span><br><span class="line">Dumping &lt;BaoManReader&gt; (arm64)</span><br><span class="line">Patched cryptid (<span class="number">64</span>bit segment)</span><br><span class="line">Writing <span class="keyword">new</span> checksum</span><br><span class="line">DONE: /private/var/mobile/Documents/Dumped/goodluck.push.baozou-iOS8.<span class="number">0</span>-(Clutch-<span class="number">2.0</span>.<span class="number">4</span>).ipa</span><br><span class="line">Finished dumping goodluck.push.baozou in <span class="number">29.4</span> seconds</span><br></pre></td></tr></table></figure>
 
 
 
@@ -567,315 +814,955 @@
 <p> <strong>IPA生成后的路径: <code>/var/mobile/Documents/Dumped/</code>拷贝到桌面上查看当前的加密状态</strong></p>
 <img src="https://raw.githubusercontent.com/Mingriweiji-github/ImageBed/master/img/20200408232750.png" style="zoom:50%;" />
 
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ otool -l BaoManReader_old | grep crypt</span><br><span class="line">     cryptoff 16384</span><br><span class="line">    cryptsize 10403840</span><br><span class="line">      cryptid 1</span><br><span class="line">     cryptoff 16384</span><br><span class="line">    cryptsize 11370496</span><br><span class="line">      cryptid 1</span><br><span class="line">存在加密id</span><br><span class="line">$ otool -l BaoManReader | grep crypt</span><br><span class="line">     cryptoff 16384</span><br><span class="line">    cryptsize 10403840</span><br><span class="line">      cryptid 0</span><br><span class="line">     cryptoff 16384</span><br><span class="line">    cryptsize 11370496</span><br><span class="line">      cryptid 0</span><br><span class="line">不存在加密的id</span><br></pre></td></tr></table></figure>
+<figure class="highlight basic"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ otool -l BaoManReader_old | grep crypt</span><br><span class="line">     cryptoff <span class="number">16384</span></span><br><span class="line">    cryptsize <span class="number">10403840</span></span><br><span class="line">      cryptid <span class="number">1</span></span><br><span class="line">     cryptoff <span class="number">16384</span></span><br><span class="line">    cryptsize <span class="number">11370496</span></span><br><span class="line">      cryptid <span class="number">1</span></span><br><span class="line">存在加密id</span><br><span class="line">$ otool -l BaoManReader | grep crypt</span><br><span class="line">     cryptoff <span class="number">16384</span></span><br><span class="line">    cryptsize <span class="number">10403840</span></span><br><span class="line">      cryptid <span class="number">0</span></span><br><span class="line">     cryptoff <span class="number">16384</span></span><br><span class="line">    cryptsize <span class="number">11370496</span></span><br><span class="line">      cryptid <span class="number">0</span></span><br><span class="line">不存在加密的id</span><br></pre></td></tr></table></figure>
 
 <h5 id="class-dump导出头文件headers"><a href="#class-dump导出头文件headers" class="headerlink" title="class-dump导出头文件headers"></a>class-dump导出头文件headers</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ class-dump -H BaoManReader -o Headers</span><br></pre></td></tr></table></figure>
 
 
-    </div>
-
+    </article>
+    <!-- license -->
     
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://mingriweiji-github.github.io">KM</a>
+            <p>原文链接：<a href="https://mingriweiji-github.github.io/2020/01/15/iOS%E8%B6%8A%E7%8B%B1%E5%88%9D%E4%BD%93%E9%AA%8C/">https://mingriweiji-github.github.io/2020/01/15/iOS%E8%B6%8A%E7%8B%B1%E5%88%9D%E4%BD%93%E9%AA%8C/</a>
+            <p>发表日期：<a href="https://mingriweiji-github.github.io/2020/01/15/iOS%E8%B6%8A%E7%8B%B1%E5%88%9D%E4%BD%93%E9%AA%8C/">一月 15日 2020, 10:13:45 上午</a>
+            <p>更新日期：<a href="https://mingriweiji-github.github.io/2020/01/15/iOS%E8%B6%8A%E7%8B%B1%E5%88%9D%E4%BD%93%E9%AA%8C/">五月 11日 2022, 12:01:43 凌晨</a>
+            <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
     
+    <!-- paginator -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/2020/01/15/Dyld%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/" title="Dyld源码阅读">
+                    <div class="nextTitle">Dyld源码阅读</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%AE%9E%E6%88%98100%E9%81%93/" title="算法实战">
+                    <div class="prevTitle">算法实战</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- comment -->
     
-
-      <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/iOS/" rel="tag"># iOS</a>
-          </div>
-
-        
+        <div class="post-comment">
+            <!-- 来必力 City 版安装代码 -->
 
 
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%AE%9E%E6%88%98100%E9%81%93/" rel="prev" title="算法实战">
-      <i class="fa fa-chevron-left"></i> 算法实战
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/01/15/Dyld%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/" rel="next" title="Dyld源码阅读">
-      Dyld源码阅读 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
+            
+
+            
+
+            
+
+            <!-- utteranc评论 -->
 
 
+            <!-- partial('_partial/comment/changyan') -->
+            <!--PC版-->
 
-          </div>
-          
 
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
+            
+            
+
+            
 
         </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
-        </li>
-        <li class="sidebar-nav-overview">
-          站点概览
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#iOS%E8%B6%8A%E7%8B%B1%E5%88%9D%E4%BD%93%E9%AA%8C"><span class="nav-number">1.</span> <span class="nav-text">iOS越狱初体验</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#iOS%E8%B6%8A%E7%8B%B1%E8%83%BD%E5%81%9A%E5%88%B0%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">iOS越狱能做到什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B6%8A%E7%8B%B1%E7%8E%AF%E5%A2%83"><span class="nav-number">1.2.</span> <span class="nav-text">越狱环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%A4%A7%E8%87%B4%E6%B5%81%E7%A8%8B%EF%BC%9A"><span class="nav-number">1.3.</span> <span class="nav-text">逆向工程大致流程：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E8%B6%8A%E7%8B%B1%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-number">1.4.</span> <span class="nav-text">1、越狱环境搭建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81Mac%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95%E5%88%B0iPhone"><span class="nav-number">1.5.</span> <span class="nav-text">2、Mac远程登录到iPhone</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8SSH%EF%BC%88Secure-Shell%E5%AE%89%E5%85%A8%E5%A4%96%E5%A3%B3%E5%8D%8F%E8%AE%AE%EF%BC%89%E6%9D%A5%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95iPhone"><span class="nav-number">1.5.0.0.1.</span> <span class="nav-text">使用SSH（Secure Shell安全外壳协议）来远程登录iPhone</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#iPhone%E4%B8%8A%E9%80%9A%E8%BF%87Cydia%E6%9D%A5%E5%AE%89%E8%A3%85OpenSSH%E5%B7%A5%E5%85%B7"><span class="nav-number">1.5.0.0.2.</span> <span class="nav-text">iPhone上通过Cydia来安装OpenSSH工具</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#password-for-ssh-root-host"><span class="nav-number">1.5.0.1.</span> <span class="nav-text">password for ssh root@host</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8A%A5%E9%94%99%EF%BC%9AImportError-No-module-named-usbmux"><span class="nav-number">1.5.0.2.</span> <span class="nav-text">报错：ImportError: No module named usbmux</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%98%E6%9B%B4%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BA%AB%E4%BB%BD%E4%BF%A1%E6%81%AF"><span class="nav-number">1.5.0.2.1.</span> <span class="nav-text">变更服务器身份信息</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#shell%E8%84%9A%E6%9C%AC%E6%96%87%E4%BB%B6"><span class="nav-number">1.5.0.2.2.</span> <span class="nav-text">shell脚本文件</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E7%A7%98%E9%92%A5%E7%99%BB%E5%BD%95"><span class="nav-number">1.5.0.3.</span> <span class="nav-text">基于秘钥登录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8EUSB%E7%99%BB%E5%BD%95"><span class="nav-number">1.5.0.4.</span> <span class="nav-text">基于USB登录</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81Cycript%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95"><span class="nav-number">1.6.</span> <span class="nav-text">3、Cycript动态调试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81Cycript%E5%AE%89%E8%A3%85%E9%97%AE%E9%A2%98"><span class="nav-number">1.6.1.</span> <span class="nav-text">1、Cycript安装问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F1%EF%BC%9A%E6%9B%BF%E6%8D%A2libruby-2-6-dylib"><span class="nav-number">1.6.1.1.</span> <span class="nav-text">方式1：替换libruby.2.6.dylib</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F2-%E5%AE%89%E8%A3%85ruby2-0"><span class="nav-number">1.6.1.2.</span> <span class="nav-text">方式2:安装ruby2.0</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1%E3%80%81%E5%85%B3%E9%97%ADMac%E7%9A%84SIP"><span class="nav-number">1.6.1.2.1.</span> <span class="nav-text">1、关闭Mac的SIP</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2%E3%80%81%E6%9F%A5%E7%9C%8Bruby%E7%89%88%E6%9C%AC%E5%AE%89%E8%A3%85ruby2-0"><span class="nav-number">1.6.1.2.2.</span> <span class="nav-text">2、查看ruby版本安装ruby2.0</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3%E3%80%81%E6%88%91%E7%9A%84ruby%E7%89%88%E6%9C%AC%E6%98%AF2-6%E7%9B%B4%E6%8E%A5%E6%8A%8A%E6%9C%AC%E6%9C%BA%E7%9A%84ruby%E7%89%88%E6%9C%AC%E7%9A%84%E5%A4%8D%E5%88%B6%E4%B8%80%E4%BB%BD%EF%BC%8C%E6%94%B9%E4%B8%BA2-0%E5%8D%B3%E5%8F%AF"><span class="nav-number">1.6.1.2.3.</span> <span class="nav-text">3、我的ruby版本是2.6直接把本机的ruby版本的复制一份，改为2.0即可</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81Cycript%E4%BD%BF%E7%94%A8"><span class="nav-number">1.6.2.</span> <span class="nav-text">2、Cycript使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E5%90%8D%E7%A7%B0-%E8%BF%9B%E7%A8%8BID"><span class="nav-number">1.6.2.1.</span> <span class="nav-text">进程名称&#x2F;进程ID</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Cycript%E8%B0%83%E8%AF%95"><span class="nav-number">1.6.2.2.</span> <span class="nav-text">Cycript调试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Cycript%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="nav-number">1.6.2.3.</span> <span class="nav-text">Cycript基本语法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81%E4%BD%BF%E7%94%A8mjcript-cy"><span class="nav-number">1.6.3.</span> <span class="nav-text">3、使用mjcript.cy</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A5%E5%89%8D%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="nav-number">1.6.3.1.</span> <span class="nav-text">以前获取当前控制器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mjcript%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="nav-number">1.6.3.2.</span> <span class="nav-text">mjcript获取当前控制器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E5%AE%9E%E4%BE%8B%E6%96%B9%E6%B3%95%E5%92%8C%E7%B1%BB%E6%96%B9%E6%B3%95"><span class="nav-number">1.6.3.3.</span> <span class="nav-text">获取实例方法和类方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#python%E8%8E%B7%E5%8F%96unicode"><span class="nav-number">1.6.3.4.</span> <span class="nav-text">python获取unicode</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E7%BD%91%E6%98%93%E7%99%BB%E5%BD%95%E7%95%8C%E9%9D%A2"><span class="nav-number">1.6.3.5.</span> <span class="nav-text">获取网易登录界面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96login%E7%9B%B8%E5%85%B3%E6%96%B9%E6%B3%95"><span class="nav-number">1.6.3.6.</span> <span class="nav-text">获取login相关方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96login%E7%9B%B8%E5%85%B3%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F"><span class="nav-number">1.6.3.7.</span> <span class="nav-text">获取login相关成员变量</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%E3%80%81Reveal%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8"><span class="nav-number">1.7.</span> <span class="nav-text">4、Reveal安装与使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">1.7.1.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85reveal2load%E6%8A%A5%E9%94%99extensionlist-is-not-installed"><span class="nav-number">1.7.1.1.</span> <span class="nav-text">安装reveal2load报错extensionlist is not installed.:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#The-operation-couldn%E2%80%99t-be-completed"><span class="nav-number">1.7.1.2.</span> <span class="nav-text">**The operation couldn’t be completed. **</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5%E3%80%81%E8%84%B1%E5%A3%B3"><span class="nav-number">1.8.</span> <span class="nav-text">5、脱壳</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-%E9%80%9A%E8%BF%87ipa%E8%8E%B7%E5%8F%96Mach-O"><span class="nav-number">1.8.0.1.</span> <span class="nav-text">5.1 通过ipa获取Mach-O</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Apple-Configurator-2%E4%B8%8B%E8%BD%BDipa"><span class="nav-number">1.8.0.1.1.</span> <span class="nav-text">使用Apple Configurator 2下载ipa</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-Class-dump"><span class="nav-number">1.8.0.2.</span> <span class="nav-text">5.2 Class-dump</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2%E6%9F%A5%E7%9C%8B%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E6%98%AF%E5%90%A6%E5%8A%A0%E5%AF%86%EF%BC%9F"><span class="nav-number">1.8.0.3.</span> <span class="nav-text">5.2查看可执行文件是否加密？</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8MachOView"><span class="nav-number">1.8.0.3.1.</span> <span class="nav-text">使用MachOView</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8otool"><span class="nav-number">1.8.0.3.2.</span> <span class="nav-text">使用otool</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3%E3%80%81Clutch%E8%84%B1%E5%A3%B3"><span class="nav-number">1.8.0.4.</span> <span class="nav-text">5.3、Clutch脱壳</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#usr-bin-Clutch-Permission-denied"><span class="nav-number">1.8.0.4.1.</span> <span class="nav-text">&#x2F;usr&#x2F;bin&#x2F;Clutch Permission denied</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Clutch-i-%E6%9F%A5%E7%9C%8B%E5%8F%AF%E4%BB%A5%E8%84%B1%E5%A3%B3%E7%9A%84App"><span class="nav-number">1.8.0.4.2.</span> <span class="nav-text">Clutch -i 查看可以脱壳的App</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Cluth-d-%E8%8E%B7%E5%8F%96ipa%E6%96%87%E4%BB%B6"><span class="nav-number">1.8.0.4.3.</span> <span class="nav-text">Cluth -d 获取ipa文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#class-dump%E5%AF%BC%E5%87%BA%E5%A4%B4%E6%96%87%E4%BB%B6headers"><span class="nav-number">1.8.0.4.4.</span> <span class="nav-text">class-dump导出头文件headers</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">KM</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
+    
+    <!-- timeliness note -->
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    
+    <!-- Mathjax -->
+    
         
-          <span class="site-state-item-count">26</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
-        <span class="site-state-item-count">7</span>
-        <span class="site-state-item-name">分类</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
-        <span class="site-state-item-count">6</span>
-        <span class="site-state-item-name">标签</span></a>
-      </div>
-  </nav>
+
+    
+</main>
+
+                <!-- profile -->
+                
+            </div>
+            <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+        <div class="social">
+            
+    
+        
+    
+        
+            
+                <a href="https://github.com/Mingriweiji-github" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+
+        </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- website approve for Chinese user -->
+    
+    <!-- 不蒜子  -->
+    
+        <div class="busuanzi-container">
+            
+             
+                <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+            
+        </div>
+    	
+</footer>
+
+        </div>
+        <!-- toc -->
+        
+            <div class="toc-wrapper toc-wrapper-loding" style=
+
+
+
+
+
+
+
+    top:50vh;
+
+>
+                <div class="toc-catalog">
+                    <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#iOS%E8%B6%8A%E7%8B%B1%E5%88%9D%E4%BD%93%E9%AA%8C"><span class="toc-number">1.</span> <span class="toc-text">iOS越狱初体验</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#iOS%E8%B6%8A%E7%8B%B1%E8%83%BD%E5%81%9A%E5%88%B0%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">1.1.</span> <span class="toc-text">iOS越狱能做到什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B6%8A%E7%8B%B1%E7%8E%AF%E5%A2%83"><span class="toc-number">1.2.</span> <span class="toc-text">越狱环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E5%A4%A7%E8%87%B4%E6%B5%81%E7%A8%8B%EF%BC%9A"><span class="toc-number">1.3.</span> <span class="toc-text">逆向工程大致流程：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E8%B6%8A%E7%8B%B1%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-number">1.4.</span> <span class="toc-text">1、越狱环境搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81Mac%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95%E5%88%B0iPhone"><span class="toc-number">1.5.</span> <span class="toc-text">2、Mac远程登录到iPhone</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8SSH%EF%BC%88Secure-Shell%E5%AE%89%E5%85%A8%E5%A4%96%E5%A3%B3%E5%8D%8F%E8%AE%AE%EF%BC%89%E6%9D%A5%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95iPhone"><span class="toc-number">1.5.0.0.1.</span> <span class="toc-text">使用SSH（Secure Shell安全外壳协议）来远程登录iPhone</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#iPhone%E4%B8%8A%E9%80%9A%E8%BF%87Cydia%E6%9D%A5%E5%AE%89%E8%A3%85OpenSSH%E5%B7%A5%E5%85%B7"><span class="toc-number">1.5.0.0.2.</span> <span class="toc-text">iPhone上通过Cydia来安装OpenSSH工具</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#password-for-ssh-root-host"><span class="toc-number">1.5.0.1.</span> <span class="toc-text">password for ssh root@host</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8A%A5%E9%94%99%EF%BC%9AImportError-No-module-named-usbmux"><span class="toc-number">1.5.0.2.</span> <span class="toc-text">报错：ImportError: No module named usbmux</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%98%E6%9B%B4%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BA%AB%E4%BB%BD%E4%BF%A1%E6%81%AF"><span class="toc-number">1.5.0.2.1.</span> <span class="toc-text">变更服务器身份信息</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#shell%E8%84%9A%E6%9C%AC%E6%96%87%E4%BB%B6"><span class="toc-number">1.5.0.2.2.</span> <span class="toc-text">shell脚本文件</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E7%A7%98%E9%92%A5%E7%99%BB%E5%BD%95"><span class="toc-number">1.5.0.3.</span> <span class="toc-text">基于秘钥登录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8EUSB%E7%99%BB%E5%BD%95"><span class="toc-number">1.5.0.4.</span> <span class="toc-text">基于USB登录</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81Cycript%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95"><span class="toc-number">1.6.</span> <span class="toc-text">3、Cycript动态调试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81Cycript%E5%AE%89%E8%A3%85%E9%97%AE%E9%A2%98"><span class="toc-number">1.6.1.</span> <span class="toc-text">1、Cycript安装问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F1%EF%BC%9A%E6%9B%BF%E6%8D%A2libruby-2-6-dylib"><span class="toc-number">1.6.1.1.</span> <span class="toc-text">方式1：替换libruby.2.6.dylib</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F2-%E5%AE%89%E8%A3%85ruby2-0"><span class="toc-number">1.6.1.2.</span> <span class="toc-text">方式2:安装ruby2.0</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1%E3%80%81%E5%85%B3%E9%97%ADMac%E7%9A%84SIP"><span class="toc-number">1.6.1.2.1.</span> <span class="toc-text">1、关闭Mac的SIP</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2%E3%80%81%E6%9F%A5%E7%9C%8Bruby%E7%89%88%E6%9C%AC%E5%AE%89%E8%A3%85ruby2-0"><span class="toc-number">1.6.1.2.2.</span> <span class="toc-text">2、查看ruby版本安装ruby2.0</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3%E3%80%81%E6%88%91%E7%9A%84ruby%E7%89%88%E6%9C%AC%E6%98%AF2-6%E7%9B%B4%E6%8E%A5%E6%8A%8A%E6%9C%AC%E6%9C%BA%E7%9A%84ruby%E7%89%88%E6%9C%AC%E7%9A%84%E5%A4%8D%E5%88%B6%E4%B8%80%E4%BB%BD%EF%BC%8C%E6%94%B9%E4%B8%BA2-0%E5%8D%B3%E5%8F%AF"><span class="toc-number">1.6.1.2.3.</span> <span class="toc-text">3、我的ruby版本是2.6直接把本机的ruby版本的复制一份，改为2.0即可</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81Cycript%E4%BD%BF%E7%94%A8"><span class="toc-number">1.6.2.</span> <span class="toc-text">2、Cycript使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E5%90%8D%E7%A7%B0-x2F-%E8%BF%9B%E7%A8%8BID"><span class="toc-number">1.6.2.1.</span> <span class="toc-text">进程名称&#x2F;进程ID</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Cycript%E8%B0%83%E8%AF%95"><span class="toc-number">1.6.2.2.</span> <span class="toc-text">Cycript调试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Cycript%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="toc-number">1.6.2.3.</span> <span class="toc-text">Cycript基本语法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E3%80%81%E4%BD%BF%E7%94%A8mjcript-cy"><span class="toc-number">1.6.3.</span> <span class="toc-text">3、使用mjcript.cy</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A5%E5%89%8D%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="toc-number">1.6.3.1.</span> <span class="toc-text">以前获取当前控制器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mjcript%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="toc-number">1.6.3.2.</span> <span class="toc-text">mjcript获取当前控制器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%AE%9E%E4%BE%8B%E6%96%B9%E6%B3%95%E5%92%8C%E7%B1%BB%E6%96%B9%E6%B3%95"><span class="toc-number">1.6.3.3.</span> <span class="toc-text">获取实例方法和类方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#python%E8%8E%B7%E5%8F%96unicode"><span class="toc-number">1.6.3.4.</span> <span class="toc-text">python获取unicode</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E7%BD%91%E6%98%93%E7%99%BB%E5%BD%95%E7%95%8C%E9%9D%A2"><span class="toc-number">1.6.3.5.</span> <span class="toc-text">获取网易登录界面</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96login%E7%9B%B8%E5%85%B3%E6%96%B9%E6%B3%95"><span class="toc-number">1.6.3.6.</span> <span class="toc-text">获取login相关方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96login%E7%9B%B8%E5%85%B3%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F"><span class="toc-number">1.6.3.7.</span> <span class="toc-text">获取login相关成员变量</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81Reveal%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8"><span class="toc-number">1.7.</span> <span class="toc-text">4、Reveal安装与使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">1.7.1.</span> <span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85reveal2load%E6%8A%A5%E9%94%99extensionlist-is-not-installed"><span class="toc-number">1.7.1.1.</span> <span class="toc-text">安装reveal2load报错extensionlist is not installed.:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#The-operation-couldn%E2%80%99t-be-completed"><span class="toc-number">1.7.1.2.</span> <span class="toc-text">**The operation couldn’t be completed. **</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5%E3%80%81%E8%84%B1%E5%A3%B3"><span class="toc-number">1.8.</span> <span class="toc-text">5、脱壳</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-1-%E9%80%9A%E8%BF%87ipa%E8%8E%B7%E5%8F%96Mach-O"><span class="toc-number">1.8.0.1.</span> <span class="toc-text">5.1 通过ipa获取Mach-O</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Apple-Configurator-2%E4%B8%8B%E8%BD%BDipa"><span class="toc-number">1.8.0.1.1.</span> <span class="toc-text">使用Apple Configurator 2下载ipa</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-Class-dump"><span class="toc-number">1.8.0.2.</span> <span class="toc-text">5.2 Class-dump</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2%E6%9F%A5%E7%9C%8B%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E6%98%AF%E5%90%A6%E5%8A%A0%E5%AF%86%EF%BC%9F"><span class="toc-number">1.8.0.3.</span> <span class="toc-text">5.2查看可执行文件是否加密？</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8MachOView"><span class="toc-number">1.8.0.3.1.</span> <span class="toc-text">使用MachOView</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8otool"><span class="toc-number">1.8.0.3.2.</span> <span class="toc-text">使用otool</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-3%E3%80%81Clutch%E8%84%B1%E5%A3%B3"><span class="toc-number">1.8.0.4.</span> <span class="toc-text">5.3、Clutch脱壳</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#x2F-usr-x2F-bin-x2F-Clutch-Permission-denied"><span class="toc-number">1.8.0.4.1.</span> <span class="toc-text">&#x2F;usr&#x2F;bin&#x2F;Clutch Permission denied</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Clutch-i-%E6%9F%A5%E7%9C%8B%E5%8F%AF%E4%BB%A5%E8%84%B1%E5%A3%B3%E7%9A%84App"><span class="toc-number">1.8.0.4.2.</span> <span class="toc-text">Clutch -i 查看可以脱壳的App</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Cluth-d-%E8%8E%B7%E5%8F%96ipa%E6%96%87%E4%BB%B6"><span class="toc-number">1.8.0.4.3.</span> <span class="toc-text">Cluth -d 获取ipa文件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#class-dump%E5%AF%BC%E5%87%BA%E5%A4%B4%E6%96%87%E4%BB%B6headers"><span class="toc-number">1.8.0.4.4.</span> <span class="toc-text">class-dump导出头文件headers</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+            </div>
+        
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 32
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+        
+            
+            
+            <div class="archive-year"> 2022 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/12</span>
+            <a class="archive-post-title" href="/2022/05/12/Flutter%E6%AD%A3%E5%BC%8F%E5%8F%91%E5%B8%833.0/">Flutter正式发布3.0</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2021 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span>
+            <a class="archive-post-title" href="/2021/10/15/Flutter%20%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86/">Flutter 核心原理</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span>
+            <a class="archive-post-title" href="/2021/09/20/Flutter%20%E5%AE%9E%E6%88%98%E8%AE%B0%E5%BD%95/">Flutter 实战记录</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/15</span>
+            <a class="archive-post-title" href="/2021/06/15/Flutter%20%E8%B5%84%E6%BA%90/">Flutter 资源</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/15</span>
+            <a class="archive-post-title" href="/2021/04/15/Flutter%20%E5%B8%83%E5%B1%80/">Flutter 布局</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/15</span>
+            <a class="archive-post-title" href="/2021/03/15/Flutter%20Widget/">Flutter Widget</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/2021/01/15/Flutter%20Dart%E5%9F%BA%E7%A1%80/">Flutter Dar基础</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2020 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span>
+            <a class="archive-post-title" href="/2020/06/30/URLProtocol%E6%BA%90%E7%A0%81/">URLProtocol源码</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span>
+            <a class="archive-post-title" href="/2020/06/30/Alamfire%E6%BA%90%E7%A0%81/">Alamfire源码</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span>
+            <a class="archive-post-title" href="/2020/06/30/Kingfisher%E6%BA%90%E7%A0%81/">Kingfisher源码</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/25</span>
+            <a class="archive-post-title" href="/2020/06/25/Swift%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E5%88%9D%E6%8E%A2/">Swift内存布局初探</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/20</span>
+            <a class="archive-post-title" href="/2020/06/20/Swift%E5%AD%97%E7%AC%A6%E4%B8%B2/">Swift字符串</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span>
+            <a class="archive-post-title" href="/2020/04/18/Swift%E6%A0%87%E5%87%86%E5%BA%93%E6%BA%90%E7%A0%81/">Swift标准库源码</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span>
+            <a class="archive-post-title" href="/2020/04/18/Swift%E9%9B%86%E5%90%88%E6%BA%90%E7%A0%81/">Swift集合源码</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/20</span>
+            <a class="archive-post-title" href="/2020/02/20/Swift%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/">Swift函数式编程</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/20</span>
+            <a class="archive-post-title" href="/2020/01/20/LookinLoader%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/">LookinLoader安装使用</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/2020/01/15/Dyld%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/">Dyld源码阅读</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/2020/01/15/iOS%E8%B6%8A%E7%8B%B1%E5%88%9D%E4%BD%93%E9%AA%8C/">iOS越狱初体验</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2019 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/22</span>
+            <a class="archive-post-title" href="/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%AE%9E%E6%88%98100%E9%81%93/">算法实战</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/22</span>
+            <a class="archive-post-title" href="/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/">算法基础</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/22</span>
+            <a class="archive-post-title" href="/2019/06/22/2020%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构思想</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span>
+            <a class="archive-post-title" href="/2019/06/08/%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">红黑树前世今生</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/06</span>
+            <a class="archive-post-title" href="/2019/06/06/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">二叉树今生</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2018 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/02</span>
+            <a class="archive-post-title" href="/2018/12/02/iOS%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80/">iOS汇编基础</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span>
+            <a class="archive-post-title" href="/2018/12/01/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">iOS图像优化技巧</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/02</span>
+            <a class="archive-post-title" href="/2018/06/02/Hexo%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">Hexo使用指南</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/01</span>
+            <a class="archive-post-title" href="/2018/06/01/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/">iOS多线程</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/01</span>
+            <a class="archive-post-title" href="/2018/06/01/Runloop/">Runloop</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/18</span>
+            <a class="archive-post-title" href="/2018/02/18/Swift%E5%A4%87%E5%BF%98%E5%BD%95/">Swift备忘录</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span>
+            <a class="archive-post-title" href="/2018/01/01/%E6%8E%92%E5%BA%8F%E9%97%AE%E9%A2%98/">排序问题</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span>
+            <a class="archive-post-title" href="/2018/01/01/%E5%8F%8D%E8%BD%AC%E9%97%AE%E9%A2%98/">反转问题</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span>
+            <a class="archive-post-title" href="/2018/01/01/%E8%80%81%E9%BC%A0%E6%AF%92%E8%8D%AF%E9%97%AE%E9%A2%98/">老鼠毒药问题</a>
+        </li>
+    
+    </div>
 </div>
 
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+        
+            <span class="sidebar-tag-name" data-tags="java">
+                <span class="iconfont-archer">&#xe606;</span>
+                java
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="算法">
+                <span class="iconfont-archer">&#xe606;</span>
+                算法
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Swift专题">
+                <span class="iconfont-archer">&#xe606;</span>
+                Swift专题
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="iOS">
+                <span class="iconfont-archer">&#xe606;</span>
+                iOS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Flutter">
+                <span class="iconfont-archer">&#xe606;</span>
+                Flutter
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="开发工具">
+                <span class="iconfont-archer">&#xe606;</span>
+                开发工具
+            </span>
+        
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
 
-
-      </div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="算法">
+            <span class="iconfont-archer">&#xe60a;</span>
+            算法
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="源码">
+            <span class="iconfont-archer">&#xe60a;</span>
+            源码
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="Flutter">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Flutter
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="指南">
+            <span class="iconfont-archer">&#xe60a;</span>
+            指南
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="Swift">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Swift
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="图像">
+            <span class="iconfont-archer">&#xe60a;</span>
+            图像
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="逆向">
+            <span class="iconfont-archer">&#xe60a;</span>
+            逆向
+        </span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
 
     </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 2015 – 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">KM</span>
-</div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
-  </div>
-
-
-    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-        
-<div class="busuanzi-count">
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-user"></i>
-      </span>
-      <span class="site-uv" title="总访客量">
-        <span id="busuanzi_value_site_uv"></span>
-      </span>
-    </span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
-      <span class="post-meta-item-icon">
-        <i class="fa fa-eye"></i>
-      </span>
-      <span class="site-pv" title="总访问量">
-        <span id="busuanzi_value_site_pv"></span>
-      </span>
-    </span>
 </div>
 
-
-
-
-
-
-<script>
-  (function() {
-    function leancloudSelector(url) {
-      url = encodeURI(url);
-      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+        <!-- site-meta -->
+        <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
     }
-
-    function addCount(Counter) {
-      var visitors = document.querySelector('.leancloud_visitors');
-      var url = decodeURI(visitors.id);
-      var title = visitors.dataset.flagTitle;
-
-      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
-        .then(response => response.json())
-        .then(({ results }) => {
-          if (results.length > 0) {
-            var counter = results[0];
-            leancloudSelector(url).innerText = counter.time + 1;
-            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
-              .catch(error => {
-                console.error('Failed to save visitor count', error);
-              });
-          } else {
-              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
-              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
-            
-          }
-        })
-        .catch(error => {
-          console.error('LeanCloud Counter Error', error);
-        });
+    var siteMeta = {
+        url: "https://mingriweiji-github.github.io",
+        root: siteMetaRoot,
+        author: "KM"
     }
-
-    function showTime(Counter) {
-      var visitors = document.querySelectorAll('.leancloud_visitors');
-      var entries = [...visitors].map(element => {
-        return decodeURI(element.id);
-      });
-
-      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
-        .then(response => response.json())
-        .then(({ results }) => {
-          for (let url of entries) {
-            let target = results.find(item => item.url === url);
-            leancloudSelector(url).innerText = target ? target.time : 0;
-          }
-        })
-        .catch(error => {
-          console.error('LeanCloud Counter Error', error);
-        });
-    }
-
-    let { app_id, app_key, server_url } = {"enable":true,"app_id":"Ju7dx80NhFmgzE6XmPx1a1nB-gzGzoHsz","app_key":"KoQvs9aXqlkKEJbIj7SBvt6n","server_url":"https://mingriweiji-github.github.io/","security":true};
-    function fetchData(api_server) {
-      var Counter = (method, url, data) => {
-        return fetch(`${api_server}/1.1${url}`, {
-          method,
-          headers: {
-            'X-LC-Id'     : app_id,
-            'X-LC-Key'    : app_key,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data)
-        });
-      };
-      if (CONFIG.page.isPost) {
-        if (CONFIG.hostname !== location.hostname) return;
-        addCount(Counter);
-      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
-        showTime(Counter);
-      }
-    }
-
-    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
-
-    if (api_server) {
-      fetchData(api_server);
-    } else {
-      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
-        .then(response => response.json())
-        .then(({ api_server }) => {
-          fetchData('https://' + api_server);
-        });
-    }
-  })();
 </script>
 
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
 
 
-<script src="/js/schemes/pisces.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-</body>
+        <!-- main func -->
+        <script src="/scripts/main.js?v=20211217"></script>
+        <!-- dark mode -->
+        <script src="/scripts/dark.js?v=20211217"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <!-- algolia -->
+        
+        <!-- busuanzi -->
+        
+            <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+        
+        <!-- CNZZ -->
+        
+        <!-- async load share.js -->
+        
+            <script src="/scripts/share.js?v=20211217" async></script>
+        
+        <!-- mermaid -->
+        
+    </body>
 </html>

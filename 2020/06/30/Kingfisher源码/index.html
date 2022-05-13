@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <!-- title -->
+
+
+    
+
+<!-- keywords -->
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="KM">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="KM">
+    
+        <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content="">
+    <meta name="description" content="Kingfisher源码 Kingfisher3架构 kf命名空间  * 类 Kingfisher 是一个范型类，类型是 Base   * 协议 KingfisherCompatible，声明属性 kf，类型是范型 CompatibleType 。并要求遵守协议的一方，实现该属性的 get 方法。  * 协议扩展中，协议自身实现了属性。这样就不必在每个遵守该协议的类里实现该属性了。  * 协议里的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kingfisher源码">
+<meta property="og:url" content="https://mingriweiji-github.github.io/2020/06/30/Kingfisher%E6%BA%90%E7%A0%81/index.html">
+<meta property="og:site_name" content="KM的技术笔记">
+<meta property="og:description" content="Kingfisher源码 Kingfisher3架构 kf命名空间  * 类 Kingfisher 是一个范型类，类型是 Base   * 协议 KingfisherCompatible，声明属性 kf，类型是范型 CompatibleType 。并要求遵守协议的一方，实现该属性的 get 方法。  * 协议扩展中，协议自身实现了属性。这样就不必在每个遵守该协议的类里实现该属性了。  * 协议里的">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-06-30T01:13:45.000Z">
+<meta property="article:modified_time" content="2022-05-13T10:40:07.467Z">
+<meta property="article:author" content="KM">
+<meta property="article:tag" content="Swift专题">
+<meta name="twitter:card" content="summary">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="/assets/favicon.ico">
+    
+    <title>Kingfisher源码 · KM的博客</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
+
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
+
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
+
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
+</script>
+
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20211217" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/css/dark.css?v=20211217" as="style">
+    <link rel="stylesheet" href="/css/dark.css">
+    <link rel="stylesheet" href="/css/mobile.css?v=20211217" media="(max-width: 960px)">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js?v=20211217" as="script">
+    <link rel="preload" href="/scripts/dark.js?v=20211217" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
+    
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<link rel="alternate" href="/atom.xml" title="KM的技术笔记" type="application/atom+xml">
+</head>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
+    
+        <body class="post-body">
+    
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        
+            <div class="header-sidebar-menu">
+        
+            
+                <div style="padding-left: 1px;">&#xe775;</div>
+            
+        </div>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- theme mode switch button -->
+        <span class="header-theme-btn header-element">
+            <i class="fas fa-adjust"></i>
+        </span>
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <a href=/>KM的博客.</a>
+        </span>
+    </div>
+    <!-- toggle banner for post layout -->
+    
+        
+            <div class="banner">
+        
+            <div class="blog-title header-element">
+                <a href="/">KM的博客.</a>
+            </div>
+            <div class="post-title header-element">
+                <a href="#" class="post-name">Kingfisher源码</a>
+            </div>
+        </div>
+    
+</header>
+
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- back to top button -->
+    <div class="footer-fixed-element">
+        
+            <div class="back-top back-top-hidden">
+        
+        
+            <div>&#xe639;</div>
+        
+        </div>
+    </div>
+</footer>
+
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="
+
+
+
+
+
+
+
+    height:50vh;
+
+">
+    
+    <!-- 主页  -->
+    
+        
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+                Kingfisher源码
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+                
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页 meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Swift专题">Swift专题</a>
+    
+</div>
+
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">886</span>阅读时长: <span class="post-count reading-time">4 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <!-- 撰写日期 -->
+                    <span class="iconfont-archer post-intro-calander">&#xe676;</span>
+                    <span class="post-intro-time">2020/06/30</span>
+                    <!-- busuanzi -->
+                    
+                        <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                            <span class="iconfont-archer post-intro-busuanzi">&#xe602;</span>
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    
+                    <!-- 文章分享 -->
+                    <span class="share-wrapper">
+                        <span class="iconfont-archer share-icon">&#xe71d;</span>
+                        <span class="share-text">Share</span>
+                        <ul class="share-list">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+
+            <script>
+  // get user agent
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
+  }
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded')
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in')
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb() {
+    if (browser.versions.uc) {
+      console.log('UCBrowser')
+      fontLoaded()
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular'],
+        },
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
+        },
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
+        },
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
+        },
+        timeout: 5000, // Set the timeout to two seconds
+      })
+    }
+  }
+
+  function asyncErr() {
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
+  }
+
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
+
+    async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
+</script>
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <div class="container container-unloaded">
+                <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="Kingfisher源码"><a href="#Kingfisher源码" class="headerlink" title="Kingfisher源码"></a>Kingfisher源码</h1><h4 id="Kingfisher3架构"><a href="#Kingfisher3架构" class="headerlink" title="Kingfisher3架构"></a><a target="_blank" rel="noopener" href="https://chenao0727.github.io/2016/12/26/Kingfisher/">Kingfisher3架构</a></h4><h2 id="kf命名空间"><a href="#kf命名空间" class="headerlink" title="kf命名空间"></a>kf命名空间</h2><ul>
+<li>类 <code>Kingfisher</code> 是一个范型类，类型是 Base </li>
+<li>协议 KingfisherCompatible，声明属性 kf，类型是范型 CompatibleType 。并要求遵守协议的一方，实现该属性的 get 方法。</li>
+<li>协议扩展中，协议自身实现了属性。这样就不必在每个遵守该协议的类里实现该属性了。</li>
+<li>协议里的 kf 是一个 Kingfisher 类的实例，调用的方法是 Kingfisher 类的方法。</li>
+<li>根据类型的不同，调用不同类型里的方法。如：对应 Image&#x2F;ImageView &#x2F; Button 的 Kingfisher 里的setImage 方法。</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Kingfisher.swift</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">Kingfisher</span>&lt;<span class="title class_">Base</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">let</span> base: <span class="type">Base</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">init</span>(<span class="keyword">_</span> <span class="params">base</span>: <span class="type">Base</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.base <span class="operator">=</span> base</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> A type that has Kingfisher extensions.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">protocol</span> <span class="title class_">KingfisherCompatible</span> &#123;</span><br><span class="line">    <span class="keyword">associatedtype</span> <span class="type">CompatibleType</span></span><br><span class="line">    <span class="keyword">var</span> kf: <span class="type">CompatibleType</span> &#123; <span class="keyword">get</span> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">extension</span> <span class="title class_">KingfisherCompatible</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">var</span> kf: <span class="type">Kingfisher</span>&lt;<span class="keyword">Self</span>&gt; &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="type">Kingfisher</span>(<span class="keyword">self</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">extension</span> <span class="title class_">Image</span>: <span class="title class_">KingfisherCompatible</span> &#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">#if</span> <span class="operator">!</span>os(watchOS)</span><br><span class="line"><span class="keyword">extension</span> <span class="title class_">ImageView</span>: <span class="title class_">KingfisherCompatible</span> &#123; &#125;</span><br><span class="line"><span class="keyword">extension</span> <span class="title class_">Button</span>: <span class="title class_">KingfisherCompatible</span> &#123; &#125;</span><br><span class="line"><span class="keyword">#else</span></span><br><span class="line"><span class="keyword">extension</span> <span class="title class_">WKInterfaceImage</span>: <span class="title class_">KingfisherCompatible</span> &#123; &#125;</span><br><span class="line"><span class="keyword">#endif</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="1、weak-var解决CADisplayLink循环引用"><a href="#1、weak-var解决CADisplayLink循环引用" class="headerlink" title="1、weak var解决CADisplayLink循环引用"></a>1、weak var解决CADisplayLink循环引用</h2><p>为了防止<code>AnimatedImageView</code> 和 <code>CADisplayLink</code> 之间的循环引用，Kingfisher在<code>AnimatedImageView</code> 内部写了一个代理类。通过<code>TargetProxy</code> 来调用 <code>AnimatedImageView</code> 中的 <code>updateFrame</code> 方法</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="keyword">class</span> <span class="title class_">AnimatedImageView</span>: <span class="title class_">UIImageView</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// Proxy object for prevending a reference cycle between the CADDisplayLink and AnimatedImageView.</span></span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">TargetProxy</span> &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">weak</span> <span class="keyword">var</span> target: <span class="type">AnimatedImageView</span>?</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">init</span>(<span class="params">target</span>: <span class="type">AnimatedImageView</span>) &#123;</span><br><span class="line">            <span class="keyword">self</span>.target <span class="operator">=</span> target</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">@objc</span> <span class="keyword">func</span> <span class="title function_">onScreenUpdate</span>() &#123;</span><br><span class="line">            target<span class="operator">?</span>.updateFrame()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// A display link that keeps calling the `updateFrame` method on every screen refresh.</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">lazy</span> <span class="keyword">var</span> displayLink: <span class="type">CADisplayLink</span> <span class="operator">=</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.isDisplayLinkInitialized <span class="operator">=</span> <span class="literal">true</span></span><br><span class="line">        <span class="keyword">let</span> displayLink <span class="operator">=</span> <span class="type">CADisplayLink</span>(target: <span class="type">TargetProxy</span>(target: <span class="keyword">self</span>), selector: <span class="keyword">#selector</span>(<span class="type">TargetProxy</span>.onScreenUpdate))</span><br><span class="line">        displayLink.add(to: .main, forMode: <span class="keyword">self</span>.runLoopMode)</span><br><span class="line">        displayLink.isPaused <span class="operator">=</span> <span class="literal">true</span></span><br><span class="line">        <span class="keyword">return</span> displayLink</span><br><span class="line">    &#125;()</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2、处理Gif图片"><a href="#2、处理Gif图片" class="headerlink" title="2、处理Gif图片"></a>2、处理Gif图片</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// MARK: - Image format</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">struct</span> <span class="title class_">ImageHeaderData</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">var</span> <span class="type">PNG</span>: [<span class="type">UInt8</span>] <span class="operator">=</span> [<span class="number">0x89</span>, <span class="number">0x50</span>, <span class="number">0x4E</span>, <span class="number">0x47</span>, <span class="number">0x0D</span>, <span class="number">0x0A</span>, <span class="number">0x1A</span>, <span class="number">0x0A</span>]</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">var</span> <span class="type">JPEG_SOI</span>: [<span class="type">UInt8</span>] <span class="operator">=</span> [<span class="number">0xFF</span>, <span class="number">0xD8</span>]</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">var</span> <span class="type">JPEG_IF</span>: [<span class="type">UInt8</span>] <span class="operator">=</span> [<span class="number">0xFF</span>]</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">var</span> <span class="type">GIF</span>: [<span class="type">UInt8</span>] <span class="operator">=</span> [<span class="number">0x47</span>, <span class="number">0x49</span>, <span class="number">0x46</span>]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">ImageFormat</span> &#123;</span><br><span class="line">    <span class="keyword">case</span> unknown, <span class="type">PNG</span>, <span class="type">JPEG</span>, <span class="type">GIF</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">extension</span> <span class="title class_">DataProxy</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">var</span> imageFormat: <span class="type">ImageFormat</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> buffer <span class="operator">=</span> [<span class="type">UInt8</span>](repeating: <span class="number">0</span>, count: <span class="number">8</span>)</span><br><span class="line">        (base <span class="keyword">as</span> <span class="type">NSData</span>).getBytes(<span class="operator">&amp;</span>buffer, length: <span class="number">8</span>)</span><br><span class="line">        <span class="keyword">if</span> buffer <span class="operator">==</span> <span class="type">ImageHeaderData</span>.<span class="type">PNG</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> .<span class="type">PNG</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> buffer[<span class="number">0</span>] <span class="operator">==</span> <span class="type">ImageHeaderData</span>.<span class="type">JPEG_SOI</span>[<span class="number">0</span>] <span class="operator">&amp;&amp;</span></span><br><span class="line">            buffer[<span class="number">1</span>] <span class="operator">==</span> <span class="type">ImageHeaderData</span>.<span class="type">JPEG_SOI</span>[<span class="number">1</span>] <span class="operator">&amp;&amp;</span></span><br><span class="line">            buffer[<span class="number">2</span>] <span class="operator">==</span> <span class="type">ImageHeaderData</span>.<span class="type">JPEG_IF</span>[<span class="number">0</span>]</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> .<span class="type">JPEG</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> buffer[<span class="number">0</span>] <span class="operator">==</span> <span class="type">ImageHeaderData</span>.<span class="type">GIF</span>[<span class="number">0</span>] <span class="operator">&amp;&amp;</span></span><br><span class="line">            buffer[<span class="number">1</span>] <span class="operator">==</span> <span class="type">ImageHeaderData</span>.<span class="type">GIF</span>[<span class="number">1</span>] <span class="operator">&amp;&amp;</span></span><br><span class="line">            buffer[<span class="number">2</span>] <span class="operator">==</span> <span class="type">ImageHeaderData</span>.<span class="type">GIF</span>[<span class="number">2</span>]</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> .<span class="type">GIF</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> .unknown</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="关联对象objc-setAssociatedObject"><a href="#关联对象objc-setAssociatedObject" class="headerlink" title="关联对象objc_setAssociatedObject"></a>关联对象objc_setAssociatedObject</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">var</span> animatedImageDataKey: <span class="type">Void</span>?</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">var</span> imageSourceKey: <span class="type">Void</span>?</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// MARK: - Image Properties</span></span><br><span class="line"><span class="keyword">extension</span> <span class="title class_">Kingfisher</span> <span class="title class_">where</span> <span class="title class_">Base</span>: <span class="title class_">Image</span> &#123;</span><br><span class="line">    <span class="keyword">fileprivate(set)</span> <span class="keyword">var</span> animatedImageData: <span class="type">Data</span>? &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> objc_getAssociatedObject(base, <span class="operator">&amp;</span>animatedImageDataKey) <span class="keyword">as?</span> <span class="type">Data</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">set</span> &#123;</span><br><span class="line">            objc_setAssociatedObject(base, <span class="operator">&amp;</span>animatedImageDataKey, newValue, .<span class="type">OBJC_ASSOCIATION_RETAIN_NONATOMIC</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">      </span><br><span class="line">    <span class="keyword">fileprivate(set)</span> <span class="keyword">var</span> imageSource: <span class="type">ImageSource</span>? &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> objc_getAssociatedObject(base, <span class="operator">&amp;</span>imageSourceKey) <span class="keyword">as?</span> <span class="type">ImageSource</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">set</span> &#123;</span><br><span class="line">            objc_setAssociatedObject(base, <span class="operator">&amp;</span>imageSourceKey, newValue, .<span class="type">OBJC_ASSOCIATION_RETAIN_NONATOMIC</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="KingfisherManager原理"><a href="#KingfisherManager原理" class="headerlink" title="KingfisherManager原理"></a>KingfisherManager原理</h4><ul>
+<li>KingfisherManager 包含了downloader和cache</li>
+<li>通过URL检索图片</li>
+<li>获取图片retrieveImage</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// Main manager class of Kingfisher. It connects Kingfisher downloader and cache.</span></span><br><span class="line"><span class="comment">/// You can use this class to retrieve an image via a specified URL from web or cache.</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">KingfisherManager</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// Shared manager used by the extensions across Kingfisher.</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">let</span> shared <span class="operator">=</span> <span class="type">KingfisherManager</span>()</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// Cache used by this manager</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">var</span> cache: <span class="type">ImageCache</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// Downloader used by this manager</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">var</span> downloader: <span class="type">ImageDownloader</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">fileprivate</span> <span class="keyword">let</span> processQueue: <span class="type">DispatchQueue</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">convenience</span> <span class="keyword">init</span>() &#123;</span><br><span class="line">        <span class="keyword">self</span>.<span class="keyword">init</span>(downloader: .default, cache: .default)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>(<span class="params">downloader</span>: <span class="type">ImageDownloader</span>, <span class="params">cache</span>: <span class="type">ImageCache</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.downloader <span class="operator">=</span> downloader</span><br><span class="line">        <span class="keyword">self</span>.cache <span class="operator">=</span> cache</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> processQueueName <span class="operator">=</span> <span class="string">&quot;com.onevcat.Kingfisher.KingfisherManager.processQueue.<span class="subst">\(UUID().uuidString)</span>&quot;</span></span><br><span class="line">        processQueue <span class="operator">=</span> <span class="type">DispatchQueue</span>(label: processQueueName, attributes: .concurrent)</span><br><span class="line">    &#125;</span><br><span class="line">      <span class="comment">/**</span></span><br><span class="line"><span class="comment">    Get an image with resource.</span></span><br><span class="line"><span class="comment">    If KingfisherOptions.None is used as `options`, Kingfisher will seek the image in memory and disk first.</span></span><br><span class="line"><span class="comment">    If not found, it will download the image at `resource.downloadURL` and cache it with `resource.cacheKey`.</span></span><br><span class="line"><span class="comment">    These default behaviors could be adjusted by passing different options. See `KingfisherOptions` for more.</span></span><br><span class="line"><span class="comment">    </span></span><br><span class="line"><span class="comment">    - parameter resource:          Resource object contains information such as `cacheKey` and `downloadURL`.</span></span><br><span class="line"><span class="comment">    - parameter options:           A dictionary could control some behaviors. See `KingfisherOptionsInfo` for more.</span></span><br><span class="line"><span class="comment">    - parameter progressBlock:     Called every time downloaded data changed. This could be used as a progress UI.</span></span><br><span class="line"><span class="comment">    - parameter completionHandler: Called when the whole retrieving process finished.</span></span><br><span class="line"><span class="comment">    </span></span><br><span class="line"><span class="comment">    - returns: A `RetrieveImageTask` task object. You can use this object to cancel the task.</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="keyword">@discardableResult</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">func</span> <span class="title function_">retrieveImage</span>(<span class="params">with</span> <span class="params">resource</span>: <span class="type">Resource</span>,</span><br><span class="line">        <span class="params">options</span>: <span class="type">KingfisherOptionsInfo</span>?,</span><br><span class="line">        <span class="params">progressBlock</span>: <span class="type">DownloadProgressBlock</span>?,</span><br><span class="line">        <span class="params">completionHandler</span>: <span class="type">CompletionHandler</span>?) -&gt; <span class="type">RetrieveImageTask</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">let</span> task <span class="operator">=</span> <span class="type">RetrieveImageTask</span>()</span><br><span class="line">        <span class="keyword">let</span> options <span class="operator">=</span> currentDefaultOptions <span class="operator">+</span> (options <span class="operator">??</span> <span class="type">KingfisherEmptyOptionsInfo</span>)</span><br><span class="line">        <span class="keyword">if</span> options.forceRefresh &#123;</span><br><span class="line">            <span class="keyword">_</span> <span class="operator">=</span> downloadAndCacheImage(</span><br><span class="line">                with: resource.downloadURL,</span><br><span class="line">                forKey: resource.cacheKey,</span><br><span class="line">                retrieveImageTask: task,</span><br><span class="line">                progressBlock: progressBlock,</span><br><span class="line">                completionHandler: completionHandler,</span><br><span class="line">                options: options)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            tryToRetrieveImageFromCache(</span><br><span class="line">                forKey: resource.cacheKey,</span><br><span class="line">                with: resource.downloadURL,</span><br><span class="line">                retrieveImageTask: task,</span><br><span class="line">                progressBlock: progressBlock,</span><br><span class="line">                completionHandler: completionHandler,</span><br><span class="line">                options: options)</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> task</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+    </article>
+    <!-- license -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://mingriweiji-github.github.io">KM</a>
+            <p>原文链接：<a href="https://mingriweiji-github.github.io/2020/06/30/Kingfisher%E6%BA%90%E7%A0%81/">https://mingriweiji-github.github.io/2020/06/30/Kingfisher%E6%BA%90%E7%A0%81/</a>
+            <p>发表日期：<a href="https://mingriweiji-github.github.io/2020/06/30/Kingfisher%E6%BA%90%E7%A0%81/">六月 30日 2020, 9:13:45 上午</a>
+            <p>更新日期：<a href="https://mingriweiji-github.github.io/2020/06/30/Kingfisher%E6%BA%90%E7%A0%81/">五月 13日 2022, 6:40:07 晚上</a>
+            <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/2020/06/30/Alamfire%E6%BA%90%E7%A0%81/" title="Alamfire源码">
+                    <div class="nextTitle">Alamfire源码</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/2020/06/25/Swift%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E5%88%9D%E6%8E%A2/" title="Swift内存布局初探">
+                    <div class="prevTitle">Swift内存布局初探</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- comment -->
+    
+        <div class="post-comment">
+            <!-- 来必力 City 版安装代码 -->
+
+
+            
+
+            
+
+            
+
+            <!-- utteranc评论 -->
+
+
+            <!-- partial('_partial/comment/changyan') -->
+            <!--PC版-->
+
+
+            
+            
+
+            
+
+        </div>
+    
+    <!-- timeliness note -->
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    
+    <!-- Mathjax -->
+    
+        
+
+    
+</main>
+
+                <!-- profile -->
+                
+            </div>
+            <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+        <div class="social">
+            
+    
+        
+    
+        
+            
+                <a href="https://github.com/Mingriweiji-github" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+
+        </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- website approve for Chinese user -->
+    
+    <!-- 不蒜子  -->
+    
+        <div class="busuanzi-container">
+            
+             
+                <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+            
+        </div>
+    	
+</footer>
+
+        </div>
+        <!-- toc -->
+        
+            <div class="toc-wrapper toc-wrapper-loding" style=
+
+
+
+
+
+
+
+    top:50vh;
+
+>
+                <div class="toc-catalog">
+                    <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Kingfisher%E6%BA%90%E7%A0%81"><span class="toc-number">1.</span> <span class="toc-text">Kingfisher源码</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Kingfisher3%E6%9E%B6%E6%9E%84"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">Kingfisher3架构</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#kf%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4"><span class="toc-number">1.1.</span> <span class="toc-text">kf命名空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81weak-var%E8%A7%A3%E5%86%B3CADisplayLink%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8"><span class="toc-number">1.2.</span> <span class="toc-text">1、weak var解决CADisplayLink循环引用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E5%A4%84%E7%90%86Gif%E5%9B%BE%E7%89%87"><span class="toc-number">1.3.</span> <span class="toc-text">2、处理Gif图片</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E8%81%94%E5%AF%B9%E8%B1%A1objc-setAssociatedObject"><span class="toc-number">1.3.0.1.</span> <span class="toc-text">关联对象objc_setAssociatedObject</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#KingfisherManager%E5%8E%9F%E7%90%86"><span class="toc-number">1.3.0.2.</span> <span class="toc-text">KingfisherManager原理</span></a></li></ol></li></ol></li></ol></li></ol>
+            </div>
+        
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 32
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+        
+            
+            
+            <div class="archive-year"> 2022 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/12</span>
+            <a class="archive-post-title" href="/2022/05/12/Flutter%E6%AD%A3%E5%BC%8F%E5%8F%91%E5%B8%833.0/">Flutter正式发布3.0</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2021 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span>
+            <a class="archive-post-title" href="/2021/10/15/Flutter%20%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86/">Flutter 核心原理</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span>
+            <a class="archive-post-title" href="/2021/09/20/Flutter%20%E5%AE%9E%E6%88%98%E8%AE%B0%E5%BD%95/">Flutter 实战记录</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/15</span>
+            <a class="archive-post-title" href="/2021/06/15/Flutter%20%E8%B5%84%E6%BA%90/">Flutter 资源</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/15</span>
+            <a class="archive-post-title" href="/2021/04/15/Flutter%20%E5%B8%83%E5%B1%80/">Flutter 布局</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/15</span>
+            <a class="archive-post-title" href="/2021/03/15/Flutter%20Widget/">Flutter Widget</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/2021/01/15/Flutter%20Dart%E5%9F%BA%E7%A1%80/">Flutter Dar基础</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2020 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span>
+            <a class="archive-post-title" href="/2020/06/30/URLProtocol%E6%BA%90%E7%A0%81/">URLProtocol源码</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span>
+            <a class="archive-post-title" href="/2020/06/30/Alamfire%E6%BA%90%E7%A0%81/">Alamfire源码</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span>
+            <a class="archive-post-title" href="/2020/06/30/Kingfisher%E6%BA%90%E7%A0%81/">Kingfisher源码</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/25</span>
+            <a class="archive-post-title" href="/2020/06/25/Swift%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E5%88%9D%E6%8E%A2/">Swift内存布局初探</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/20</span>
+            <a class="archive-post-title" href="/2020/06/20/Swift%E5%AD%97%E7%AC%A6%E4%B8%B2/">Swift字符串</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span>
+            <a class="archive-post-title" href="/2020/04/18/Swift%E6%A0%87%E5%87%86%E5%BA%93%E6%BA%90%E7%A0%81/">Swift标准库源码</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span>
+            <a class="archive-post-title" href="/2020/04/18/Swift%E9%9B%86%E5%90%88%E6%BA%90%E7%A0%81/">Swift集合源码</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/20</span>
+            <a class="archive-post-title" href="/2020/02/20/Swift%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/">Swift函数式编程</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/20</span>
+            <a class="archive-post-title" href="/2020/01/20/LookinLoader%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/">LookinLoader安装使用</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/2020/01/15/Dyld%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/">Dyld源码阅读</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/2020/01/15/iOS%E8%B6%8A%E7%8B%B1%E5%88%9D%E4%BD%93%E9%AA%8C/">iOS越狱初体验</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2019 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/22</span>
+            <a class="archive-post-title" href="/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%AE%9E%E6%88%98100%E9%81%93/">算法实战</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/22</span>
+            <a class="archive-post-title" href="/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/">算法基础</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/22</span>
+            <a class="archive-post-title" href="/2019/06/22/2020%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构思想</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span>
+            <a class="archive-post-title" href="/2019/06/08/%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">红黑树前世今生</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/06</span>
+            <a class="archive-post-title" href="/2019/06/06/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">二叉树今生</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2018 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/02</span>
+            <a class="archive-post-title" href="/2018/12/02/iOS%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80/">iOS汇编基础</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span>
+            <a class="archive-post-title" href="/2018/12/01/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">iOS图像优化技巧</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/02</span>
+            <a class="archive-post-title" href="/2018/06/02/Hexo%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">Hexo使用指南</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/01</span>
+            <a class="archive-post-title" href="/2018/06/01/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/">iOS多线程</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/01</span>
+            <a class="archive-post-title" href="/2018/06/01/Runloop/">Runloop</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/18</span>
+            <a class="archive-post-title" href="/2018/02/18/Swift%E5%A4%87%E5%BF%98%E5%BD%95/">Swift备忘录</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span>
+            <a class="archive-post-title" href="/2018/01/01/%E6%8E%92%E5%BA%8F%E9%97%AE%E9%A2%98/">排序问题</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span>
+            <a class="archive-post-title" href="/2018/01/01/%E5%8F%8D%E8%BD%AC%E9%97%AE%E9%A2%98/">反转问题</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span>
+            <a class="archive-post-title" href="/2018/01/01/%E8%80%81%E9%BC%A0%E6%AF%92%E8%8D%AF%E9%97%AE%E9%A2%98/">老鼠毒药问题</a>
+        </li>
+    
+    </div>
+</div>
+
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+        
+            <span class="sidebar-tag-name" data-tags="java">
+                <span class="iconfont-archer">&#xe606;</span>
+                java
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="算法">
+                <span class="iconfont-archer">&#xe606;</span>
+                算法
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Swift专题">
+                <span class="iconfont-archer">&#xe606;</span>
+                Swift专题
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="iOS">
+                <span class="iconfont-archer">&#xe606;</span>
+                iOS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Flutter">
+                <span class="iconfont-archer">&#xe606;</span>
+                Flutter
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="开发工具">
+                <span class="iconfont-archer">&#xe606;</span>
+                开发工具
+            </span>
+        
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="算法">
+            <span class="iconfont-archer">&#xe60a;</span>
+            算法
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="源码">
+            <span class="iconfont-archer">&#xe60a;</span>
+            源码
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="Flutter">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Flutter
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="指南">
+            <span class="iconfont-archer">&#xe60a;</span>
+            指南
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="Swift">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Swift
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="图像">
+            <span class="iconfont-archer">&#xe60a;</span>
+            图像
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="逆向">
+            <span class="iconfont-archer">&#xe60a;</span>
+            逆向
+        </span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+
+    </div>
+</div>
+
+        <!-- site-meta -->
+        <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
+    }
+    var siteMeta = {
+        url: "https://mingriweiji-github.github.io",
+        root: siteMetaRoot,
+        author: "KM"
+    }
+</script>
+
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
+
+
+        <!-- main func -->
+        <script src="/scripts/main.js?v=20211217"></script>
+        <!-- dark mode -->
+        <script src="/scripts/dark.js?v=20211217"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <!-- algolia -->
+        
+        <!-- busuanzi -->
+        
+            <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+        
+        <!-- CNZZ -->
+        
+        <!-- async load share.js -->
+        
+            <script src="/scripts/share.js?v=20211217" async></script>
+        
+        <!-- mermaid -->
+        
+    </body>
+</html>

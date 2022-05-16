@@ -113,6 +113,38 @@ Google IO 发布会
   </entry>
   
   <entry>
+    <title>如何进行代码评审</title>
+    <link href="https://mingriweiji-github.github.io/2022/01/10/%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E4%BB%A3%E7%A0%81%E8%AF%84%E5%AE%A1/"/>
+    <id>https://mingriweiji-github.github.io/2022/01/10/%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E4%BB%A3%E7%A0%81%E8%AF%84%E5%AE%A1/</id>
+    <published>2022-01-10T02:22:23.000Z</published>
+    <updated>2022-05-16T05:50:21.439Z</updated>
+    
+    
+    <summary type="html">代码评审
+代码评审通常由作者之外的人评审代码，在代码引入代码库之前进行。代码评审通常需要一个流程和支持该流程的工具。
+
+在谷歌，基本上每一个变更在提交前都需要经过代码评审，每一个工程师都需要负责发起评审和评审变更。
+
+01 代码评审流程
+代码评审可以在软件开发的许多阶段进行。在谷歌代码评审发生在变更提交到代码库之前，这个阶段也称为提交前评审。
+
+代码评审的最终目的是让另一个工程师同意变更，我们通过标记变更为 “看起来不错”(looks good to me, LGTM) 来表示这一点。
+
+我们将此LGTM 用作一个必要的许可 “项〞来允许提交变更。
+
+谷歌的一个典型代码评审流程包括以下步骤：
+</summary>
+    
+    
+    
+    <category term="book" scheme="https://mingriweiji-github.github.io/categories/book/"/>
+    
+    
+    <category term="book" scheme="https://mingriweiji-github.github.io/tags/book/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Flutter 核心原理</title>
     <link href="https://mingriweiji-github.github.io/2021/10/15/Flutter%20%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86/"/>
     <id>https://mingriweiji-github.github.io/2021/10/15/Flutter%20%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86/</id>
@@ -783,61 +815,6 @@ Cydia: Open SSH
  * 堆：最大堆 ／ 最小堆
  * 树与图：最近公共祖先、并查集
  * 字</summary>
-    
-    
-    
-    <category term="算法" scheme="https://mingriweiji-github.github.io/categories/%E7%AE%97%E6%B3%95/"/>
-    
-    
-    <category term="算法" scheme="https://mingriweiji-github.github.io/tags/%E7%AE%97%E6%B3%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>算法基础</title>
-    <link href="https://mingriweiji-github.github.io/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/"/>
-    <id>https://mingriweiji-github.github.io/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/</id>
-    <published>2019-06-21T18:18:15.000Z</published>
-    <updated>2022-05-10T16:01:43.680Z</updated>
-    
-    
-    <summary type="html">算法基础
-为什么要学习算法？
- * 算法是内功，决定你武功的高度
-   
-   
- * 算法能让你更好更快理解一门语言系统的设计理念
-   
-   
- * 算法能让你触类旁通
-   
-   
-
-1 、数组
-
-
-
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-
-
-func merge(_ nums1: inout [Int], _ m: Int, _ nums2: [Int], _ n: Int) {
-     var p1 = m - 1, p2 = n - 1
-     var cur = m + n - 1
-     while (p2 &gt;= 0) {
-        </summary>
     
     
     

@@ -19,18 +19,23 @@
         <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
     
     <meta name="description" content="">
-    <meta property="og:type" content="website">
-<meta property="og:title" content="KM的技术笔记">
-<meta property="og:url" content="https://mingriweiji-github.github.io/categories/%E7%AE%97%E6%B3%95/index.html">
+    <meta name="description" content="代码评审 代码评审通常由作者之外的人评审代码，在代码引入代码库之前进行。代码评审通常需要一个流程和支持该流程的工具。  在谷歌，基本上每一个变更在提交前都需要经过代码评审，每一个工程师都需要负责发起评审和评审变更。  01 代码评审流程 代码评审可以在软件开发的许多阶段进行。在谷歌代码评审发生在变更提交到代码库之前，这个阶段也称为提交前评审。  代码评审的最终目的是让另一个工程师同意变更，我们通过">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何进行代码评审">
+<meta property="og:url" content="https://mingriweiji-github.github.io/2022/01/10/%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E4%BB%A3%E7%A0%81%E8%AF%84%E5%AE%A1/index.html">
 <meta property="og:site_name" content="KM的技术笔记">
+<meta property="og:description" content="代码评审 代码评审通常由作者之外的人评审代码，在代码引入代码库之前进行。代码评审通常需要一个流程和支持该流程的工具。  在谷歌，基本上每一个变更在提交前都需要经过代码评审，每一个工程师都需要负责发起评审和评审变更。  01 代码评审流程 代码评审可以在软件开发的许多阶段进行。在谷歌代码评审发生在变更提交到代码库之前，这个阶段也称为提交前评审。  代码评审的最终目的是让另一个工程师同意变更，我们通过">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-01-10T02:22:23.000Z">
+<meta property="article:modified_time" content="2022-05-16T05:50:21.439Z">
 <meta property="article:author" content="KM">
+<meta property="article:tag" content="book">
 <meta name="twitter:card" content="summary">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <link rel="icon" href="/assets/favicon.ico">
     
-    <title>KM的博客</title>
+    <title>如何进行代码评审 · KM的博客</title>
     <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
 /* This file is meant as a standalone workflow for
 - testing support for link[rel=preload]
@@ -207,7 +212,7 @@
     
     <!-- 谷歌统计  -->
     
-<meta name="generator" content="Hexo 6.2.0"><link rel="alternate" href="/atom.xml" title="KM的技术笔记" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="KM的技术笔记" type="application/atom+xml">
 </head>
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
@@ -217,6 +222,8 @@
             document.write('<script src="/lib/jquery.min.js" />')
         }
     </script>
+    
+        <body class="post-body">
     
         <!-- header -->
         <header class="header header-mobile">
@@ -247,6 +254,17 @@
     </div>
     <!-- toggle banner for post layout -->
     
+        
+            <div class="banner">
+        
+            <div class="blog-title header-element">
+                <a href="/">KM的博客.</a>
+            </div>
+            <div class="post-title header-element">
+                <a href="#" class="post-name">如何进行代码评审</a>
+            </div>
+        </div>
+    
 </header>
 
         <!-- fixed footer -->
@@ -273,24 +291,79 @@
 
 
 
+    height:50vh;
+
 ">
     
     <!-- 主页  -->
+    
+        
+    <!-- 404页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
+            
+                如何进行代码评审
+            <!-- 404 -->
             
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
             
+                
+            <!-- 404 -->
+            
         </p>
         <!-- 文章页 meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="book">book</a>
+    
+</div>
+
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">2.7k</span>阅读时长: <span class="post-count reading-time">9 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <!-- 撰写日期 -->
+                    <span class="iconfont-archer post-intro-calander">&#xe676;</span>
+                    <span class="post-intro-time">2022/01/10</span>
+                    <!-- busuanzi -->
+                    
+                        <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                            <span class="iconfont-archer post-intro-busuanzi">&#xe602;</span>
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    
+                    <!-- 文章分享 -->
+                    <span class="share-wrapper">
+                        <span class="iconfont-archer share-icon">&#xe71d;</span>
+                        <span class="share-text">Share</span>
+                        <ul class="share-list">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
         
     </div>
 </div>
@@ -420,441 +493,161 @@
 
             <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
             <div class="container container-unloaded">
-                <main class="main index-page">
+                <main class="main post-page">
+    <article class="article-entry">
+        <h2 id="代码评审"><a href="#代码评审" class="headerlink" title="代码评审"></a>代码评审</h2><p>代码评审通常由作者之外的人评审代码，在代码引入代码库之前进行。代码评审通常需要一个流程和支持该流程的工具。</p>
+<p><strong>在谷歌，基本上每一个变更在提交前都需要经过代码评审，每一个工程师都需要负责发起评审和评审变更。</strong></p>
+<h3 id="01-代码评审流程"><a href="#01-代码评审流程" class="headerlink" title="01 代码评审流程"></a>01 代码评审流程</h3><p>代码评审可以在软件开发的许多阶段进行。<strong>在谷歌代码评审发生在变更提交到代码库之前，这个阶段也称为提交前评审。</strong></p>
+<p><strong>代码评审的最终目的是让另一个工程师同意变更，我们通过标记变更为 “看起来不错”(looks good to me, LGTM) 来表示这一点。</strong></p>
+<p>我们将此LGTM 用作一个必要的许可 “项〞来允许提交变更。</p>
+<p>谷歌的一个典型代码评审流程包括以下步骤：</p>
+<ol>
+<li><p>作者在其自己的工作区中编写代码变更。然后，作者创建一个变更的快照：<strong>一个补丁和相应的描述，并上传到代码评审工具中。</strong>此变更生成与代码库的差异，用于评估哪些代码发生了变更。</p>
+</li>
+<li><p>作者可以对这个初始补丁进行自动化评审，或者自我评审。当作者对变更的差异感到满意时，<strong>将变更邮件给一个或多个评审人员。这一步将通知那些评审者，请他们查看快照并对其进行评审。</strong></p>
+</li>
+<li><p>评审者在代码评审工具中打开变更，并在<strong>差异处发表评论。有些评论要求明确解决，有些只是提供建议。</strong></p>
+<p>作者根据反馈意见修改并上传新的快照，并回复给评审人员。步骤3和步骤4可以重复多次。</p>
+</li>
+<li><p><strong>评审人员对变更的最新状态感到满意后，他们同意该变更，并通过标记它为“看起来不错(LGTM）来接受该变更。</strong>默认情况下，只需要一个LGTM，尽管惯例可能要求所有评审人员同意更改。</p>
+</li>
+<li><p>标记为 LGTM 的变更，<strong>允许作者将变更提交到代码库中，前提是他们解决了所有代码评审的意见，并且变更被批准了。</strong></p>
+</li>
+</ol>
+<h3 id="02-代码评审的好处"><a href="#02-代码评审的好处" class="headerlink" title="02 代码评审的好处"></a>02 代码评审的好处</h3><p><strong>谷歌几乎要求对代码库的每一个代码变更都进行代码评审，不管变更有多小。</strong></p>
+<p>这项任务确实会对工程速度产生成本和影响，因为它确实会<strong>减慢将新代码签入代码库的速度，并且会影响任何给定代码变更发布到生产环境的时间。</strong>（这两个都是软件工程师对严格的代码评审流程常见的抱怨理由。）那么，为什么我们需要这个流程呢？为什么我们认为这是一个长期的好处呢？</p>
+<p>设计良好的代码评审流程和认真对待代码评审的文化提供了以下好处：</p>
+<ul>
+<li>检杳代码正确性。</li>
+<li>确保代码可读性。</li>
+<li>增强代码库一致性。</li>
+<li>促进团队责任感。</li>
+<li>进行知识共享。</li>
+<li>提供代码评审本身的历史记录。</li>
+</ul>
+<p>随着时间的推移，这些好处中有许多对软件组织至关重要，其中许多不仅对作者有益，而且对评审者也有益。</p>
+<h3 id="03-如何进行代码评审"><a href="#03-如何进行代码评审" class="headerlink" title="03 如何进行代码评审"></a>03 如何进行代码评审</h3><p>在谷歇，对于任何给定的变更，<strong>代码评审有三个方面需要 “批准”:</strong></p>
+<ul>
+<li><p><strong>来自另一个工程师的正确性和理解性检查，以确保代码是适当的，并且代码的表现跟作者描述的是一样的。</strong>这通常是同一个团队的成员，虽然不一定是。这反映在 LGTM 许可“项”中，在同行评审同意代码“看起来不错”后，将设置该许可。</p>
+</li>
+<li><p><strong>来自代码所有者之一批准，确保代码适合于代码库的这一特定部分，并且可以签入到特定的目录中</strong>。如果作者就是所有者，这种批准可能是隐含的。谷歌的代码库是一个树状结构，每个目录都拥有特定的所有者。所有者充当他们特定目录的看门人。任何工程师都可以提出变更，并且 LGTM 也可由任何其他工程师提出，但是相关目录的所有者也必须批谁才能将变更添加到其目录中。这样的所有者可能是技术主管，或者是代码库特定领域的专家。通常由每个困队来决定是充泛还是狭隘地分配所有权。</p>
+</li>
+<li><p><strong>来自具有语言可读性认证的人的批准，确保代码符合语言的风格和最佳实践，并检查代码是否以我们期望的方式编写。</strong> 同样，如果作者具有这样的可读性认证，这种认可也可能是默认的。这些工程师是从全公司范围内的工程师中挑选出来的， 他们被授子了该编程语言的可读性认证。</p>
+</li>
+</ul>
+<p>虽然这种级别的控制听起来很麻烦，但是，不可否认，<strong>有时候大多数评审都是由同个人承担了这三种角色，这大大加快了评审流程。</strong>重要的是，作者也可以承担两种角色，只需要从另一个工程师那里得到一个 LGTM，就可以将代码签入到代码库中，前提是他们已经具有该语言的可读性认证。</p>
+<p>这些要求使得代码评审流程非常灵活。</p>
+<p>一个技术主管，他是一个项目的所有者，并且具有代码语言可读性认证，他可以提交代码变更，且仅需要另一个工程师的LGTM。没有这种权限的实习生可以向同一代码库提交相同的变更，但必须得到具有语言可读性认证的所有者的批准。</p>
+<p>上述三个许可项可以任意组合。作者甚至可以向多个不同的人请求多个LGTM，方法是显式地标记变更为希望所有评审者的LGTM。</p>
+<blockquote>
+<p>在谷歌，“<strong>可读性</strong>”不只是指理解，而是指使得其他工程师能够维护代码的一套风格和最佳实践。</p>
+<p>可读性评审人员: 这些工程师是从全公司范围内的工程师中挑选出来的， 他们被授子了该编程语言的可读性认证。</p>
+</blockquote>
+<p>在实践中，大多数需要多个审批的代码评审通常要经过两个步骤。 </p>
+<ul>
+<li><p><strong>从同行工程师那里获得LGTM，然后向适当的代码所有者&#x2F;可读性评审人员寻求批准。</strong></p>
+</li>
+<li><p>这使得这两个角色可以专注于代码评审的不同方面，并节省评审时间。<strong>主审人</strong>可以关注代码的<br>正确性和代码变更的, 总体有效性，<strong>代码所有者</strong>可以关注该变更是否适合签入代码库，</p>
+</li>
+<li><p>换向话说，<strong>代码所有者</strong>经常会寻找与同行评审者不同的内容。毕竟，有人正在尝试将代码签入到他们负责的项目&#x2F;目录。<strong>他们更关心这样的问题</strong>：</p>
+<ul>
+<li><p>这个代码维护起来是容易，还是困难？”</p>
+</li>
+<li><p>它是否增加了我的技术债务？</p>
+</li>
+<li><p>我们困队是否有专业知识来维护它？</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>如果这三种类型的评审都可以由一个评审者来处理，为什么不能让这些类型的评审者处理所有代码评审呢？简短的答案是规模。分离这三个角色为代码评审流程增加了灵活性。</p>
+<p>如果你在公用程序库中与同行一起开发一个新函数，你可以让团队中的某人检查代码的正确性和理解性。</p>
+<p>经过几轮（可能要花几天时间）后，你的代码满足了同行评审者的要求，并获得了 LGTM。</p>
+<p>现在，你只需要让库的所有者(并且通常具有适当的可读性认证的所有者）来批准变更。</p>
+<h3 id="04-代码评审最佳实践"><a href="#04-代码评审最佳实践" class="headerlink" title="04 代码评审最佳实践"></a>04 代码评审最佳实践</h3><h4 id="礼貌且专业"><a href="#礼貌且专业" class="headerlink" title="礼貌且专业"></a>礼貌且专业</h4><p>所有代码在合并到代码库的时候就属于整个团队的，代码不代表个人，评审者应该尊重作者对特定方案的意见，只有在作者实现方案有缺陷时，才提出替代性方案.</p>
+<h4 id="最小变更"><a href="#最小变更" class="headerlink" title="最小变更"></a>最小变更</h4><p>保持代码评审流程灵活的关键可能是保持小的变更.</p>
+<p>理想的情况是：无论是评审者还是作者个人来说，代码评审应该易于理解，仅关注单个问题.</p>
+<p><strong>小的变更通常应该限制在 200 行代码以内。</strong></p>
+<p>保持小的变更是的评审人员可以更快地判断并批准任何变更。</p>
+<h4 id="清晰的变更描述"><a href="#清晰的变更描述" class="headerlink" title="清晰的变更描述"></a>清晰的变更描述</h4><p>变更描述应该在第一行以摘要的形式说明变更的类型。毕竟第一行是黄金区域，用于在代码工具中提供摘要。</p>
+<p>在编写公共 API 时，代码注释同样重要。</p>
+<h4 id="评审人员数量最小化"><a href="#评审人员数量最小化" class="headerlink" title="评审人员数量最小化"></a>评审人员数量最小化</h4><p>谷歌的大多数代码评审都是一个评审人来完成的。由于代码评审流程容许代码的正确性、代码库所有者接纳和语言可定性由一个人处理，所有代码评审流程在谷歌这种大规模的组织中很好的扩展。</p>
+<h4 id="自动化"><a href="#自动化" class="headerlink" title="自动化"></a>自动化</h4><p>利用代码检测工具：静态分析工具、Lint 等代码规范工具。</p>
+<h2 id="05-总结"><a href="#05-总结" class="headerlink" title="05 总结"></a>05 总结</h2><p>代码评审是谷歌中最重要和关键的流程之一。</p>
+<p><strong>代码评审充当工程师之间的纽带，代码评审是开发人员的主要工作流程，几乎所有其他过程都依赖与此，从测试到静态分析到CI。</strong></p>
+<p>一个代码评审流程必须能适当的拓展<br>因此，<strong>最佳实践：包括小的变更，快速的反馈和迭代，对于维持开发人员的满意度和适当的生产速度是很重要的。</strong></p>
+<ul>
+<li>代码评审有很多好处，包括<strong>确保代码的正确性、理解性和代码库的一致性</strong>。</li>
+<li>总是通过别人来检查你的假设，为读者优化。</li>
+<li>提供批评反馈的机会，同时保持专业性。</li>
+<li>代码评审对于整个组织的知识共享非常重要。</li>
+<li>自动化对于扩展流程至关重要。</li>
+<li>代码评审本身提供了历史记录。</li>
+</ul>
+
+    </article>
+    <!-- license -->
     
-        
-        
-        
-        
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://mingriweiji-github.github.io">KM</a>
+            <p>原文链接：<a href="https://mingriweiji-github.github.io/2022/01/10/%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E4%BB%A3%E7%A0%81%E8%AF%84%E5%AE%A1/">https://mingriweiji-github.github.io/2022/01/10/%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E4%BB%A3%E7%A0%81%E8%AF%84%E5%AE%A1/</a>
+            <p>发表日期：<a href="https://mingriweiji-github.github.io/2022/01/10/%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E4%BB%A3%E7%A0%81%E8%AF%84%E5%AE%A1/">一月 10日 2022, 10:22:23 上午</a>
+            <p>更新日期：<a href="https://mingriweiji-github.github.io/2022/01/10/%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E4%BB%A3%E7%A0%81%E8%AF%84%E5%AE%A1/">五月 16日 2022, 1:50:21 下午</a>
+            <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/2022/03/10/%E8%B0%B7%E6%AD%8C%E7%9A%84%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" title="谷歌的软件工程">
+                    <div class="nextTitle">谷歌的软件工程</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/2021/10/15/Flutter%20%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86/" title="Flutter 核心原理">
+                    <div class="prevTitle">Flutter 核心原理</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- comment -->
+    
+        <div class="post-comment">
+            <!-- 来必力 City 版安装代码 -->
+
+
+            
+
+            
+
+            
+
+            <!-- utteranc评论 -->
+
+
+            <!-- partial('_partial/comment/changyan') -->
+            <!--PC版-->
+
+
             
             
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%AE%9E%E6%88%98100%E9%81%93/">
-                
-                <span class="abstract-title-text">算法实战</span>
-            </a>
-            <div class="abstract-content">
-                为什么学算法？
-为什么要学习算法？
- * 算法是内功，决定你武功的高度
- * 算法能让你更好更快理解一门语言系统的设计理念
- * 算法能让你触类旁通
- * momo算法题：接雨水 反转链表II 旋转矩阵
 
-主要算法
- * 基础技巧：分治、二分、贪心
- * 排序算法：快速排序、归并排序、计数排序
- * 搜索算法：回溯算法、递归、深度优先遍历，BFS广度优先遍历，二叉搜索树等
- * 图论：最短路径、最小生成树
- * 动态规划：背包问题、最长子序列
-
-数据结构
- * 数组与链表：单 / 双向链表
- * 栈与队列
- * 哈希表
- * 堆：最大堆 ／ 最小堆
- * 树与图：最近公共祖先、并查集
- * 字
-            </div>
-            <!-- read more -->
             
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2022/05/11">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/06/22</span>
-                </div>
-                <!-- tags -->
-                
-                    <div class= abstract-tags >
-    
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="算法">算法</a>
-    
-</div>
 
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
+        </div>
+    
+    <!-- timeliness note -->
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    
+    <!-- Mathjax -->
     
         
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/">
-                
-                <span class="abstract-title-text">算法基础</span>
-            </a>
-            <div class="abstract-content">
-                算法基础
-为什么要学习算法？
- * 算法是内功，决定你武功的高度
-   
-   
- * 算法能让你更好更快理解一门语言系统的设计理念
-   
-   
- * 算法能让你触类旁通
-   
-   
 
-1 、数组
-
-
-
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-
-
-func merge(_ nums1: inout [Int], _ m: Int, _ nums2: [Int], _ n: Int) {
-     var p1 = m - 1, p2 = n - 1
-     var cur = m + n - 1
-     while (p2 >= 0) {
-        
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2022/05/11">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/06/22</span>
-                </div>
-                <!-- tags -->
-                
-                    <div class= abstract-tags >
-    
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="算法">算法</a>
-    
-</div>
-
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2019/06/22/2020%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
-                
-                <span class="abstract-title-text">数据结构思想</span>
-            </a>
-            <div class="abstract-content">
-                第一篇数据结构
-数组和链表
-
-
-
-
-
-思考题： 1.如何分别用链表和数组实现LRU缓冲淘汰策略？
-1）什么是缓存？
-
- * 缓存是一种提高数据读取性能的技术，在硬件设计、软件开发中都有着非广泛的应用，比如常见的CPU缓存、数据库缓存、浏览器缓存等等。
-
-什么是C CPU在从内存读取数据的时候，会先把读取到的数据加载到CPU的缓存中。而CPU每次从内存读取数据并不是只读取那个特定要访问的地址，而是读取一个数据块(这个大小我不太确定。。)并保存到CPU缓存中，然后下次访问内存数据的时候就会先从CPU缓存开始查找，如果找到就不需要再从内存中取。这样就实现了比内存访问速度更快的机制，也就是CPU缓存存
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2022/05/11">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/06/22</span>
-                </div>
-                <!-- tags -->
-                
-                    <div class= abstract-tags >
-    
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="java">java</a>
-    
-</div>
-
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2019/06/08/%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">
-                
-                <span class="abstract-title-text">红黑树前世今生</span>
-            </a>
-            <div class="abstract-content">
-                红黑树前世今生
-关键词：二叉搜索树、前驱节点、后继节点、B树、红黑树
-
-什么是B树
-前世
-B树是一种相对于来说特殊二叉搜索树，多用于数据库和文件搜索系统中。
-
-n阶B树的性质
-B树是一种平衡的多路搜索树，拥有平衡二叉树的一些特性，与平衡二叉树的最大区别在于每个节点不再是只能存储一个元素，而且每个节点可以拥有多个子节点而像二叉平衡树只能拥有两个。
-
- 1. B树每个节点最多可以存储超过2个元素，可以拥有超过2个子节点
- 2. B树每个子节点的子树高度一致
- 3. B树和二叉搜索树一样，左子树<根节点<右子树
- 4. 根节点元素个数: 1≤ X ≤ n - 1
- 5. 非根节点元素个数: n/2 
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2022/05/11">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/06/08</span>
-                </div>
-                <!-- tags -->
-                
-                    <div class= abstract-tags >
-    
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="java">java</a>
-    
-</div>
-
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2019/06/06/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">
-                
-                <span class="abstract-title-text">二叉树今生</span>
-            </a>
-            <div class="abstract-content">
-                二叉树今生
-为什么会有二叉树这种数据结构？
-
-思考一个问题：如果一个集合中有42亿个元素，让你从这42亿个元素中搜索某一个元素，你需要多少次操作？
-
-如果使用数组链表的话最多可能需要42亿次比较，而如果使用二叉树我们只需要32次比较即可，这就是二叉树存在的价值。Java中的HashSet使用的就是二叉树
-
-前驱与后继
-前驱节点
- 1. 若一个节点有左子树，那么该节点的前驱节点是其左子树中val值最大的节点（也就是左子树中所谓的rightMostNode）
-    
-    
- 2. 若一个节点没有左子树，那么判断该节点和其父节点的关系 
-    
-    2.1 若该节点是其父节点的右边孩子，
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2022/05/11">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/06/06</span>
-                </div>
-                <!-- tags -->
-                
-                    <div class= abstract-tags >
-    
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="java">java</a>
-    
-</div>
-
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2018/01/01/%E6%8E%92%E5%BA%8F%E9%97%AE%E9%A2%98/">
-                
-                <span class="abstract-title-text">排序问题</span>
-            </a>
-            <div class="abstract-content">
-                带着问题去学习，是最有效的学习方法。所以按照惯例，我还是先给你出一个思考题：
-
-问题一：为什么插入排序比冒泡排序更受欢迎？
-如何分析一个“排序算法”？
-
-
-
- * 最好情况、最坏情况、平均情况时间复杂度
-   
-   
- * 时间复杂度的系数、常数、低阶
-   
-   
- * 比较次数和交换次数
-   
-   
-
-内存消耗
-
-
-
-原地排序算法，就是特指空间复杂度是 O(1) 的排序算法。(冒泡排序、插入排序)
-
-稳定性
- * 经过某种排序算法排序之后，如果两个相同数值的前后顺序没有改变，那我们就把这种排序算法叫作稳定的排序算法；
- * 如果前后顺序发生变化，那对应的排序算法就叫作不稳定的排序算
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2022/05/11">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/01/01</span>
-                </div>
-                <!-- tags -->
-                
-                    <div class= abstract-tags >
-    
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="java">java</a>
-    
-</div>
-
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2018/01/01/%E5%8F%8D%E8%BD%AC%E9%97%AE%E9%A2%98/">
-                
-                <span class="abstract-title-text">反转问题</span>
-            </a>
-            <div class="abstract-content">
-                字符串反转
-方法一：递归
-原地反转字符串是否代表了空间复杂度为常数？
-不，原地反转字符串是一种不使用辅助数据结构的算法。
-
-我们使用递归的方法去反转字符串，它是原地反转，但是空间复杂度却不是常数级空间，因为递归过程中使用了堆栈空间。
-
-算法过程
- * 我们实现递归函数 helper，它接受两个参数：left 左指针和 right 右指针。
- * 如果 left>=right，不做任何操作。
- * 否则交换 s[left] 和 s[right] 和调用 helper(left + 1, right - 1)。
- * 首次调用函数我们传递首尾指针反转整个字符串 return helper(0, l
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2022/05/11">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/01/01</span>
-                </div>
-                <!-- tags -->
-                
-                    <div class= abstract-tags >
-    
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="java">java</a>
-    
-</div>
-
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2018/01/01/%E8%80%81%E9%BC%A0%E6%AF%92%E8%8D%AF%E9%97%AE%E9%A2%98/">
-                
-                <span class="abstract-title-text">老鼠毒药问题</span>
-            </a>
-            <div class="abstract-content">
-                老鼠毒药问题
-1、有两个水桶， 一个装 3L 的水， 一个可装 5L 的水， 问:如何利用这两个桶， 量出 4L 的水来？
-解法一加法：操作两次3L的桶，得到1L的水，然后倒入5L的桶里面，此时5L桶里有1L的水，再次用3L的桶倒入5L桶，1L+ 3L = 4L,一共操作3次3L桶
-
-加法解法图示：
-
-
-解法二减法：5L满水的桶倒入3L的桶，剩余2L，5L桶剩余的2L再次倒入3L桶，此时3L桶还有1L集满，5L桶再次装满后倒出来1L给3L桶里面，5L - 1L = 4L,连续操作3次5L桶
-
-减法解法图示：
-
-
-2、100个瓶子，里面有1瓶毒药，只有7只老鼠，老鼠吃了之后一星期会死亡，怎么测试
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2022/05/11">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/01/01</span>
-                </div>
-                <!-- tags -->
-                
-                    <div class= abstract-tags >
-    
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="java">java</a>
-    
-</div>
-
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-    <!-- paginator  -->
     
 </main>
 
@@ -932,6 +725,23 @@ B树是一种平衡的多路搜索树，拥有平衡二叉树的一些特性，�
 
         </div>
         <!-- toc -->
+        
+            <div class="toc-wrapper toc-wrapper-loding" style=
+
+
+
+
+
+
+
+    top:50vh;
+
+>
+                <div class="toc-catalog">
+                    <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E8%AF%84%E5%AE%A1"><span class="toc-number">1.</span> <span class="toc-text">代码评审</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#01-%E4%BB%A3%E7%A0%81%E8%AF%84%E5%AE%A1%E6%B5%81%E7%A8%8B"><span class="toc-number">1.1.</span> <span class="toc-text">01 代码评审流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#02-%E4%BB%A3%E7%A0%81%E8%AF%84%E5%AE%A1%E7%9A%84%E5%A5%BD%E5%A4%84"><span class="toc-number">1.2.</span> <span class="toc-text">02 代码评审的好处</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#03-%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E4%BB%A3%E7%A0%81%E8%AF%84%E5%AE%A1"><span class="toc-number">1.3.</span> <span class="toc-text">03 如何进行代码评审</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#04-%E4%BB%A3%E7%A0%81%E8%AF%84%E5%AE%A1%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-number">1.4.</span> <span class="toc-text">04 代码评审最佳实践</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A4%BC%E8%B2%8C%E4%B8%94%E4%B8%93%E4%B8%9A"><span class="toc-number">1.4.1.</span> <span class="toc-text">礼貌且专业</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%80%E5%B0%8F%E5%8F%98%E6%9B%B4"><span class="toc-number">1.4.2.</span> <span class="toc-text">最小变更</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B8%85%E6%99%B0%E7%9A%84%E5%8F%98%E6%9B%B4%E6%8F%8F%E8%BF%B0"><span class="toc-number">1.4.3.</span> <span class="toc-text">清晰的变更描述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%84%E5%AE%A1%E4%BA%BA%E5%91%98%E6%95%B0%E9%87%8F%E6%9C%80%E5%B0%8F%E5%8C%96"><span class="toc-number">1.4.4.</span> <span class="toc-text">评审人员数量最小化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E5%8C%96"><span class="toc-number">1.4.5.</span> <span class="toc-text">自动化</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#05-%E6%80%BB%E7%BB%93"><span class="toc-number">2.</span> <span class="toc-text">05 总结</span></a></li></ol>
+            </div>
         
         <!-- sidebar -->
         <div class="sidebar sidebar-hide">
@@ -1746,6 +1556,8 @@ B树是一种平衡的多路搜索树，拥有平衡二叉树的一些特性，�
         <!-- CNZZ -->
         
         <!-- async load share.js -->
+        
+            <script src="/scripts/share.js?v=20211217" async></script>
         
         <!-- mermaid -->
         

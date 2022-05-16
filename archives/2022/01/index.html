@@ -21,7 +21,7 @@
     <meta name="description" content="">
     <meta property="og:type" content="website">
 <meta property="og:title" content="KM的技术笔记">
-<meta property="og:url" content="https://mingriweiji-github.github.io/categories/%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:url" content="https://mingriweiji-github.github.io/archives/2022/01/index.html">
 <meta property="og:site_name" content="KM的技术笔记">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="KM">
@@ -207,7 +207,7 @@
     
     <!-- 谷歌统计  -->
     
-<meta name="generator" content="Hexo 6.2.0"><link rel="alternate" href="/atom.xml" title="KM的技术笔记" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="KM的技术笔记" type="application/atom+xml">
 </head>
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
@@ -430,422 +430,39 @@
             
         
         <article class="index-post">
-            <a class="abstract-title" href="/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%AE%9E%E6%88%98100%E9%81%93/">
+            <a class="abstract-title" href="/2022/01/10/%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E4%BB%A3%E7%A0%81%E8%AF%84%E5%AE%A1/">
                 
-                <span class="abstract-title-text">算法实战</span>
+                <span class="abstract-title-text">如何进行代码评审</span>
             </a>
             <div class="abstract-content">
-                为什么学算法？
-为什么要学习算法？
- * 算法是内功，决定你武功的高度
- * 算法能让你更好更快理解一门语言系统的设计理念
- * 算法能让你触类旁通
- * momo算法题：接雨水 反转链表II 旋转矩阵
+                代码评审
+代码评审通常由作者之外的人评审代码，在代码引入代码库之前进行。代码评审通常需要一个流程和支持该流程的工具。
 
-主要算法
- * 基础技巧：分治、二分、贪心
- * 排序算法：快速排序、归并排序、计数排序
- * 搜索算法：回溯算法、递归、深度优先遍历，BFS广度优先遍历，二叉搜索树等
- * 图论：最短路径、最小生成树
- * 动态规划：背包问题、最长子序列
+在谷歌，基本上每一个变更在提交前都需要经过代码评审，每一个工程师都需要负责发起评审和评审变更。
 
-数据结构
- * 数组与链表：单 / 双向链表
- * 栈与队列
- * 哈希表
- * 堆：最大堆 ／ 最小堆
- * 树与图：最近公共祖先、并查集
- * 字
+01 代码评审流程
+代码评审可以在软件开发的许多阶段进行。在谷歌代码评审发生在变更提交到代码库之前，这个阶段也称为提交前评审。
+
+代码评审的最终目的是让另一个工程师同意变更，我们通过标记变更为 “看起来不错”(looks good to me, LGTM) 来表示这一点。
+
+我们将此LGTM 用作一个必要的许可 “项〞来允许提交变更。
+
+谷歌的一个典型代码评审流程包括以下步骤：
+
             </div>
             <!-- read more -->
             
             <div class="abstract-post-meta">
                 <!-- date -->
-                <div class="abstract-date" title="Last updated: 2022/05/11">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/06/22</span>
+                <div class="abstract-date" title="Last updated: 2022/05/16">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/01/10</span>
                 </div>
                 <!-- tags -->
                 
                     <div class= abstract-tags >
     
     
-        <a class="post-tag" href="javascript:void(0);" data-tags="算法">算法</a>
-    
-</div>
-
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/">
-                
-                <span class="abstract-title-text">算法基础</span>
-            </a>
-            <div class="abstract-content">
-                算法基础
-为什么要学习算法？
- * 算法是内功，决定你武功的高度
-   
-   
- * 算法能让你更好更快理解一门语言系统的设计理念
-   
-   
- * 算法能让你触类旁通
-   
-   
-
-1 、数组
-
-
-
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-
-
-func merge(_ nums1: inout [Int], _ m: Int, _ nums2: [Int], _ n: Int) {
-     var p1 = m - 1, p2 = n - 1
-     var cur = m + n - 1
-     while (p2 >= 0) {
-        
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2022/05/11">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/06/22</span>
-                </div>
-                <!-- tags -->
-                
-                    <div class= abstract-tags >
-    
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="算法">算法</a>
-    
-</div>
-
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2019/06/22/2020%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
-                
-                <span class="abstract-title-text">数据结构思想</span>
-            </a>
-            <div class="abstract-content">
-                第一篇数据结构
-数组和链表
-
-
-
-
-
-思考题： 1.如何分别用链表和数组实现LRU缓冲淘汰策略？
-1）什么是缓存？
-
- * 缓存是一种提高数据读取性能的技术，在硬件设计、软件开发中都有着非广泛的应用，比如常见的CPU缓存、数据库缓存、浏览器缓存等等。
-
-什么是C CPU在从内存读取数据的时候，会先把读取到的数据加载到CPU的缓存中。而CPU每次从内存读取数据并不是只读取那个特定要访问的地址，而是读取一个数据块(这个大小我不太确定。。)并保存到CPU缓存中，然后下次访问内存数据的时候就会先从CPU缓存开始查找，如果找到就不需要再从内存中取。这样就实现了比内存访问速度更快的机制，也就是CPU缓存存
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2022/05/11">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/06/22</span>
-                </div>
-                <!-- tags -->
-                
-                    <div class= abstract-tags >
-    
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="java">java</a>
-    
-</div>
-
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2019/06/08/%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">
-                
-                <span class="abstract-title-text">红黑树前世今生</span>
-            </a>
-            <div class="abstract-content">
-                红黑树前世今生
-关键词：二叉搜索树、前驱节点、后继节点、B树、红黑树
-
-什么是B树
-前世
-B树是一种相对于来说特殊二叉搜索树，多用于数据库和文件搜索系统中。
-
-n阶B树的性质
-B树是一种平衡的多路搜索树，拥有平衡二叉树的一些特性，与平衡二叉树的最大区别在于每个节点不再是只能存储一个元素，而且每个节点可以拥有多个子节点而像二叉平衡树只能拥有两个。
-
- 1. B树每个节点最多可以存储超过2个元素，可以拥有超过2个子节点
- 2. B树每个子节点的子树高度一致
- 3. B树和二叉搜索树一样，左子树<根节点<右子树
- 4. 根节点元素个数: 1≤ X ≤ n - 1
- 5. 非根节点元素个数: n/2 
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2022/05/11">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/06/08</span>
-                </div>
-                <!-- tags -->
-                
-                    <div class= abstract-tags >
-    
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="java">java</a>
-    
-</div>
-
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2019/06/06/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">
-                
-                <span class="abstract-title-text">二叉树今生</span>
-            </a>
-            <div class="abstract-content">
-                二叉树今生
-为什么会有二叉树这种数据结构？
-
-思考一个问题：如果一个集合中有42亿个元素，让你从这42亿个元素中搜索某一个元素，你需要多少次操作？
-
-如果使用数组链表的话最多可能需要42亿次比较，而如果使用二叉树我们只需要32次比较即可，这就是二叉树存在的价值。Java中的HashSet使用的就是二叉树
-
-前驱与后继
-前驱节点
- 1. 若一个节点有左子树，那么该节点的前驱节点是其左子树中val值最大的节点（也就是左子树中所谓的rightMostNode）
-    
-    
- 2. 若一个节点没有左子树，那么判断该节点和其父节点的关系 
-    
-    2.1 若该节点是其父节点的右边孩子，
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2022/05/11">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/06/06</span>
-                </div>
-                <!-- tags -->
-                
-                    <div class= abstract-tags >
-    
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="java">java</a>
-    
-</div>
-
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2018/01/01/%E6%8E%92%E5%BA%8F%E9%97%AE%E9%A2%98/">
-                
-                <span class="abstract-title-text">排序问题</span>
-            </a>
-            <div class="abstract-content">
-                带着问题去学习，是最有效的学习方法。所以按照惯例，我还是先给你出一个思考题：
-
-问题一：为什么插入排序比冒泡排序更受欢迎？
-如何分析一个“排序算法”？
-
-
-
- * 最好情况、最坏情况、平均情况时间复杂度
-   
-   
- * 时间复杂度的系数、常数、低阶
-   
-   
- * 比较次数和交换次数
-   
-   
-
-内存消耗
-
-
-
-原地排序算法，就是特指空间复杂度是 O(1) 的排序算法。(冒泡排序、插入排序)
-
-稳定性
- * 经过某种排序算法排序之后，如果两个相同数值的前后顺序没有改变，那我们就把这种排序算法叫作稳定的排序算法；
- * 如果前后顺序发生变化，那对应的排序算法就叫作不稳定的排序算
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2022/05/11">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/01/01</span>
-                </div>
-                <!-- tags -->
-                
-                    <div class= abstract-tags >
-    
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="java">java</a>
-    
-</div>
-
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2018/01/01/%E5%8F%8D%E8%BD%AC%E9%97%AE%E9%A2%98/">
-                
-                <span class="abstract-title-text">反转问题</span>
-            </a>
-            <div class="abstract-content">
-                字符串反转
-方法一：递归
-原地反转字符串是否代表了空间复杂度为常数？
-不，原地反转字符串是一种不使用辅助数据结构的算法。
-
-我们使用递归的方法去反转字符串，它是原地反转，但是空间复杂度却不是常数级空间，因为递归过程中使用了堆栈空间。
-
-算法过程
- * 我们实现递归函数 helper，它接受两个参数：left 左指针和 right 右指针。
- * 如果 left>=right，不做任何操作。
- * 否则交换 s[left] 和 s[right] 和调用 helper(left + 1, right - 1)。
- * 首次调用函数我们传递首尾指针反转整个字符串 return helper(0, l
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2022/05/11">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/01/01</span>
-                </div>
-                <!-- tags -->
-                
-                    <div class= abstract-tags >
-    
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="java">java</a>
-    
-</div>
-
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2018/01/01/%E8%80%81%E9%BC%A0%E6%AF%92%E8%8D%AF%E9%97%AE%E9%A2%98/">
-                
-                <span class="abstract-title-text">老鼠毒药问题</span>
-            </a>
-            <div class="abstract-content">
-                老鼠毒药问题
-1、有两个水桶， 一个装 3L 的水， 一个可装 5L 的水， 问:如何利用这两个桶， 量出 4L 的水来？
-解法一加法：操作两次3L的桶，得到1L的水，然后倒入5L的桶里面，此时5L桶里有1L的水，再次用3L的桶倒入5L桶，1L+ 3L = 4L,一共操作3次3L桶
-
-加法解法图示：
-
-
-解法二减法：5L满水的桶倒入3L的桶，剩余2L，5L桶剩余的2L再次倒入3L桶，此时3L桶还有1L集满，5L桶再次装满后倒出来1L给3L桶里面，5L - 1L = 4L,连续操作3次5L桶
-
-减法解法图示：
-
-
-2、100个瓶子，里面有1瓶毒药，只有7只老鼠，老鼠吃了之后一星期会死亡，怎么测试
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2022/05/11">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2018/01/01</span>
-                </div>
-                <!-- tags -->
-                
-                    <div class= abstract-tags >
-    
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="java">java</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags="book">book</a>
     
 </div>
 

@@ -211,7 +211,7 @@ TabController a</summary>
     <link href="https://mingriweiji-github.github.io/2021/06/15/Flutter%20%E8%B5%84%E6%BA%90/"/>
     <id>https://mingriweiji-github.github.io/2021/06/15/Flutter%20%E8%B5%84%E6%BA%90/</id>
     <published>2021-06-15T02:35:45.000Z</published>
-    <updated>2022-05-13T09:59:16.936Z</updated>
+    <updated>2022-05-16T06:42:37.436Z</updated>
     
     
     <summary type="html">Flutter 官方
@@ -225,17 +225,9 @@ TabController a</summary>
    
 
 Flutter 原理和优化
- * Flutter 组件的事件传递与数据控制 | 开发者说·DTalk
-   
-   
- * Flutter如何合理的进行传递数据和事件
-   
-   
- * 从渲染原理出发探究 Flutter 内存泄漏
-   
-   
- * Flutter系列之图片加载详解 - 掘金
- </summary>
+515 更新
+🐕 Flutter 状态管理框架 Provider 和 Get 分析
+@极速男孩：Flutter 作为一个声明式的 UI 框架状态管理是一个让人头疼的问题，没有状态管理会导致难以复用/单元测试，跨页面无法传递数据，setState 方法会过度刷新的问题。本文主</summary>
     
     
     

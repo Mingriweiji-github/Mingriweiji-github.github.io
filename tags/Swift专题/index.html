@@ -430,6 +430,76 @@
             
         
         <article class="index-post">
+            <a class="abstract-title" href="/2022/03/25/Swift%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E5%88%9D%E6%8E%A2/">
+                
+                <span class="abstract-title-text">Swift内存布局初探</span>
+            </a>
+            <div class="abstract-content">
+                Swift内存布局初探
+enum
+问题实际分配内存为何是25？
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+
+
+///带有关联值的枚举
+enum TestEnum {
+    case t1(Int, Int, Int)
+    case t2(Int, Int)
+    case t3(Int)
+    case t4(Bool)
+}
+print(MemoryLayout<TestEnum>.alignment)//Int类型内存对齐：8
+print(MemoryLayout<TestEnum>.size)//实际大小:24 + 1
+            </div>
+            <!-- read more -->
+            
+            <div class="abstract-post-meta">
+                <!-- date -->
+                <div class="abstract-date" title="Last updated: 2022/07/01">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/03/25</span>
+                </div>
+                <!-- tags -->
+                
+                    <div class= abstract-tags >
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Swift专题">Swift专题</a>
+    
+</div>
+
+                
+            </div>
+        </article>
+        <div class="index-post-divider"></div>
+    
+        
+        
+        
+        
+            
+            
+        
+        <article class="index-post">
             <a class="abstract-title" href="/2020/06/30/URLProtocol%E6%BA%90%E7%A0%81/">
                 
                 <span class="abstract-title-text">URLProtocol源码</span>
@@ -590,76 +660,6 @@ kf命名空间
                 <!-- date -->
                 <div class="abstract-date" title="Last updated: 2022/05/13">
                     <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/06/30</span>
-                </div>
-                <!-- tags -->
-                
-                    <div class= abstract-tags >
-    
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Swift专题">Swift专题</a>
-    
-</div>
-
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2020/06/25/Swift%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E5%88%9D%E6%8E%A2/">
-                
-                <span class="abstract-title-text">Swift内存布局初探</span>
-            </a>
-            <div class="abstract-content">
-                Swift内存布局初探
-enum
-问题实际分配内存为何是25？
-
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-
-
-///带有关联值的枚举
-enum TestEnum {
-    case t1(Int, Int, Int)
-    case t2(Int, Int)
-    case t3(Int)
-    case t4(Bool)
-}
-print(MemoryLayout<TestEnum>.alignment)//Int类型内存对齐：8
-print(MemoryLayout<TestEnum>.size)//实际大小:24 + 1
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2022/05/13">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/06/25</span>
                 </div>
                 <!-- tags -->
                 
@@ -1232,7 +1232,49 @@ arr
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         
@@ -1489,7 +1531,7 @@ arr
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 33
+        Total : 35
         </div>
         <!-- search  -->
         
@@ -1507,6 +1549,24 @@ arr
         <li class="archive-post-item">
             <span class="archive-post-date">05/12</span>
             <a class="archive-post-title" href="/2022/05/12/Flutter%E6%AD%A3%E5%BC%8F%E5%8F%91%E5%B8%833.0/">Flutter正式发布3.0</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/15</span>
+            <a class="archive-post-title" href="/2022/04/15/Swift%20Class%20%E5%86%85%E5%AD%98%E7%AA%A5%E6%8E%A2/">Swift Class 内存窥探</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/30</span>
+            <a class="archive-post-title" href="/2022/03/30/Swift%E5%80%BC%E7%B1%BB%E5%9E%8B%E5%86%85%E5%AD%98%E6%8E%A2%E7%A9%B6/">Swift值类型内存探究</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/25</span>
+            <a class="archive-post-title" href="/2022/03/25/Swift%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E5%88%9D%E6%8E%A2/">Swift内存布局初探</a>
         </li>
     
         
@@ -1585,12 +1645,6 @@ arr
         <li class="archive-post-item">
             <span class="archive-post-date">06/30</span>
             <a class="archive-post-title" href="/2020/06/30/Kingfisher%E6%BA%90%E7%A0%81/">Kingfisher源码</a>
-        </li>
-    
-        
-        <li class="archive-post-item">
-            <span class="archive-post-date">06/25</span>
-            <a class="archive-post-title" href="/2020/06/25/Swift%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E5%88%9D%E6%8E%A2/">Swift内存布局初探</a>
         </li>
     
         
@@ -1743,21 +1797,6 @@ arr
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
         
-            <span class="sidebar-tag-name" data-tags="Swift专题">
-                <span class="iconfont-archer">&#xe606;</span>
-                Swift专题
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="iOS">
-                <span class="iconfont-archer">&#xe606;</span>
-                iOS
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="Flutter">
-                <span class="iconfont-archer">&#xe606;</span>
-                Flutter
-            </span>
-        
             <span class="sidebar-tag-name" data-tags="java">
                 <span class="iconfont-archer">&#xe606;</span>
                 java
@@ -1768,9 +1807,29 @@ arr
                 算法
             </span>
         
+            <span class="sidebar-tag-name" data-tags="iOS">
+                <span class="iconfont-archer">&#xe606;</span>
+                iOS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Swift专题">
+                <span class="iconfont-archer">&#xe606;</span>
+                Swift专题
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Flutter">
+                <span class="iconfont-archer">&#xe606;</span>
+                Flutter
+            </span>
+        
             <span class="sidebar-tag-name" data-tags="开发工具">
                 <span class="iconfont-archer">&#xe606;</span>
                 开发工具
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Swift">
+                <span class="iconfont-archer">&#xe606;</span>
+                Swift
             </span>
         
             <span class="sidebar-tag-name" data-tags="book">
@@ -1789,6 +1848,11 @@ arr
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
+        <span class="sidebar-category-name" data-categories="算法">
+            <span class="iconfont-archer">&#xe60a;</span>
+            算法
+        </span>
+    
         <span class="sidebar-category-name" data-categories="源码">
             <span class="iconfont-archer">&#xe60a;</span>
             源码
@@ -1797,11 +1861,6 @@ arr
         <span class="sidebar-category-name" data-categories="Flutter">
             <span class="iconfont-archer">&#xe60a;</span>
             Flutter
-        </span>
-    
-        <span class="sidebar-category-name" data-categories="算法">
-            <span class="iconfont-archer">&#xe60a;</span>
-            算法
         </span>
     
         <span class="sidebar-category-name" data-categories="指南">

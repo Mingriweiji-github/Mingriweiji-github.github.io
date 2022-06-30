@@ -504,6 +504,213 @@ Google IO 发布会
             
         
         <article class="index-post">
+            <a class="abstract-title" href="/2022/04/15/Swift%20Class%20%E5%86%85%E5%AD%98%E7%AA%A5%E6%8E%A2/">
+                
+                <span class="abstract-title-text">Swift Class 内存窥探</span>
+            </a>
+            <div class="abstract-content">
+                类的内存结构:
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+
+
+typedef struct ClassMetadata {
+  uintptr_t Kind;
+  struct ClassMetadata *super;
+  void *data[2];
+  uintptr_t data2;
+  uint32_t InstanceAddressPoint;
+  uint32_t InstanceSize;
+  uint16_t InstanceAlignMask;
+  uint16_t Reserved;
+  uint32_t
+            </div>
+            <!-- read more -->
+            
+            <div class="abstract-post-meta">
+                <!-- date -->
+                <div class="abstract-date" title="Last updated: 2022/07/01">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/04/15</span>
+                </div>
+                <!-- tags -->
+                
+                    <div class= abstract-tags >
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Swift">Swift</a>
+    
+</div>
+
+                
+            </div>
+        </article>
+        <div class="index-post-divider"></div>
+    
+        
+        
+        
+        
+            
+            
+        
+        <article class="index-post">
+            <a class="abstract-title" href="/2022/03/30/Swift%E5%80%BC%E7%B1%BB%E5%9E%8B%E5%86%85%E5%AD%98%E6%8E%A2%E7%A9%B6/">
+                
+                <span class="abstract-title-text">Swift值类型内存探究</span>
+            </a>
+            <div class="abstract-content">
+                Swift值类型内存探究
+enum
+默认关联值类型的枚举：
+枚举类型默认对齐字节是 1
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+
+
+// 没有关联值 占用内存 1 字节
+enum Test {
+    case t1,t2,t3
+}
+print(MemoryLayout<Test>.alignment)//枚举类型内存对齐:1
+print(MemoryLayout<Test>.size)//枚举类型实际大小：1
+print(MemoryLayout<Test>.stride)//枚举类型分配：1
+// 有默认关联值 占用内存 1 字节
+enum Test
+            </div>
+            <!-- read more -->
+            
+            <div class="abstract-post-meta">
+                <!-- date -->
+                <div class="abstract-date" title="Last updated: 2022/07/01">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/03/30</span>
+                </div>
+                <!-- tags -->
+                
+                    <div class= abstract-tags >
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Swift">Swift</a>
+    
+</div>
+
+                
+            </div>
+        </article>
+        <div class="index-post-divider"></div>
+    
+        
+        
+        
+        
+            
+            
+        
+        <article class="index-post">
+            <a class="abstract-title" href="/2022/03/25/Swift%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E5%88%9D%E6%8E%A2/">
+                
+                <span class="abstract-title-text">Swift内存布局初探</span>
+            </a>
+            <div class="abstract-content">
+                Swift内存布局初探
+enum
+问题实际分配内存为何是25？
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+
+
+///带有关联值的枚举
+enum TestEnum {
+    case t1(Int, Int, Int)
+    case t2(Int, Int)
+    case t3(Int)
+    case t4(Bool)
+}
+print(MemoryLayout<TestEnum>.alignment)//Int类型内存对齐：8
+print(MemoryLayout<TestEnum>.size)//实际大小:24 + 1
+            </div>
+            <!-- read more -->
+            
+            <div class="abstract-post-meta">
+                <!-- date -->
+                <div class="abstract-date" title="Last updated: 2022/07/01">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2022/03/25</span>
+                </div>
+                <!-- tags -->
+                
+                    <div class= abstract-tags >
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Swift专题">Swift专题</a>
+    
+</div>
+
+                
+            </div>
+        </article>
+        <div class="index-post-divider"></div>
+    
+        
+        
+        
+        
+            
+            
+        
+        <article class="index-post">
             <a class="abstract-title" href="/2022/03/10/%E8%B0%B7%E6%AD%8C%E7%9A%84%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">
                 
                 <span class="abstract-title-text">谷歌的软件工程</span>
@@ -963,186 +1170,6 @@ open class URLProtocol : NSObject {
         </article>
         <div class="index-post-divider"></div>
     
-        
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2020/06/30/Alamfire%E6%BA%90%E7%A0%81/">
-                
-                    <span class="iconfont-archer stick-top">&#xe63d;</span>
-                
-                <span class="abstract-title-text">Alamfire源码</span>
-            </a>
-            <div class="abstract-content">
-                Alamfire Github地址
-1、Request分析
-Request准守的Protocol
- * Equatable
-   
-   
- * Hashable
-   
-   
- * CustomStringConvertible
-   
-   
- * Downloadable
-   
-   
- * UploadableConvertible
-   
-   
-
-Equatable
-1
-2
-3
-4
-5
-
-
-extension Request: Equatable {
-    public static func ==(lhs: Request, rhs: Request) -> Bool {
-
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2022/05/13">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/06/30</span>
-                </div>
-                <!-- tags -->
-                
-                    <div class= abstract-tags >
-    
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Swift专题">Swift专题</a>
-    
-</div>
-
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2020/06/30/Kingfisher%E6%BA%90%E7%A0%81/">
-                
-                <span class="abstract-title-text">Kingfisher源码</span>
-            </a>
-            <div class="abstract-content">
-                Kingfisher源码
-Kingfisher3架构
-kf命名空间
- * 类 Kingfisher 是一个范型类，类型是 Base 
- * 协议 KingfisherCompatible，声明属性 kf，类型是范型 CompatibleType 。并要求遵守协议的一方，实现该属性的 get 方法。
- * 协议扩展中，协议自身实现了属性。这样就不必在每个遵守该协议的类里实现该属性了。
- * 协议里的 kf 是一个 Kingfisher 类的实例，调用的方法是 Kingfisher 类的方法。
- * 根据类型的不同，调用不同类型里的方法。如：对应 Image/ImageView / Button 
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2022/05/13">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/06/30</span>
-                </div>
-                <!-- tags -->
-                
-                    <div class= abstract-tags >
-    
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Swift专题">Swift专题</a>
-    
-</div>
-
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2020/06/25/Swift%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E5%88%9D%E6%8E%A2/">
-                
-                <span class="abstract-title-text">Swift内存布局初探</span>
-            </a>
-            <div class="abstract-content">
-                Swift内存布局初探
-enum
-问题实际分配内存为何是25？
-
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-
-
-///带有关联值的枚举
-enum TestEnum {
-    case t1(Int, Int, Int)
-    case t2(Int, Int)
-    case t3(Int)
-    case t4(Bool)
-}
-print(MemoryLayout<TestEnum>.alignment)//Int类型内存对齐：8
-print(MemoryLayout<TestEnum>.size)//实际大小:24 + 1
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2022/05/13">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/06/25</span>
-                </div>
-                <!-- tags -->
-                
-                    <div class= abstract-tags >
-    
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags="Swift专题">Swift专题</a>
-    
-</div>
-
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
     <!-- paginator  -->
     
         <nav class="page-nav">
@@ -1474,7 +1501,49 @@ print(MemoryLayout<TestEnum>.size)//实际大小:24 + 1
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         
@@ -1731,7 +1800,7 @@ print(MemoryLayout<TestEnum>.size)//实际大小:24 + 1
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 33
+        Total : 35
         </div>
         <!-- search  -->
         
@@ -1749,6 +1818,24 @@ print(MemoryLayout<TestEnum>.size)//实际大小:24 + 1
         <li class="archive-post-item">
             <span class="archive-post-date">05/12</span>
             <a class="archive-post-title" href="/2022/05/12/Flutter%E6%AD%A3%E5%BC%8F%E5%8F%91%E5%B8%833.0/">Flutter正式发布3.0</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/15</span>
+            <a class="archive-post-title" href="/2022/04/15/Swift%20Class%20%E5%86%85%E5%AD%98%E7%AA%A5%E6%8E%A2/">Swift Class 内存窥探</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/30</span>
+            <a class="archive-post-title" href="/2022/03/30/Swift%E5%80%BC%E7%B1%BB%E5%9E%8B%E5%86%85%E5%AD%98%E6%8E%A2%E7%A9%B6/">Swift值类型内存探究</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/25</span>
+            <a class="archive-post-title" href="/2022/03/25/Swift%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E5%88%9D%E6%8E%A2/">Swift内存布局初探</a>
         </li>
     
         
@@ -1827,12 +1914,6 @@ print(MemoryLayout<TestEnum>.size)//实际大小:24 + 1
         <li class="archive-post-item">
             <span class="archive-post-date">06/30</span>
             <a class="archive-post-title" href="/2020/06/30/Kingfisher%E6%BA%90%E7%A0%81/">Kingfisher源码</a>
-        </li>
-    
-        
-        <li class="archive-post-item">
-            <span class="archive-post-date">06/25</span>
-            <a class="archive-post-title" href="/2020/06/25/Swift%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E5%88%9D%E6%8E%A2/">Swift内存布局初探</a>
         </li>
     
         
@@ -1985,21 +2066,6 @@ print(MemoryLayout<TestEnum>.size)//实际大小:24 + 1
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
         
-            <span class="sidebar-tag-name" data-tags="Swift专题">
-                <span class="iconfont-archer">&#xe606;</span>
-                Swift专题
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="iOS">
-                <span class="iconfont-archer">&#xe606;</span>
-                iOS
-            </span>
-        
-            <span class="sidebar-tag-name" data-tags="Flutter">
-                <span class="iconfont-archer">&#xe606;</span>
-                Flutter
-            </span>
-        
             <span class="sidebar-tag-name" data-tags="java">
                 <span class="iconfont-archer">&#xe606;</span>
                 java
@@ -2010,9 +2076,29 @@ print(MemoryLayout<TestEnum>.size)//实际大小:24 + 1
                 算法
             </span>
         
+            <span class="sidebar-tag-name" data-tags="iOS">
+                <span class="iconfont-archer">&#xe606;</span>
+                iOS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Swift专题">
+                <span class="iconfont-archer">&#xe606;</span>
+                Swift专题
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Flutter">
+                <span class="iconfont-archer">&#xe606;</span>
+                Flutter
+            </span>
+        
             <span class="sidebar-tag-name" data-tags="开发工具">
                 <span class="iconfont-archer">&#xe606;</span>
                 开发工具
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Swift">
+                <span class="iconfont-archer">&#xe606;</span>
+                Swift
             </span>
         
             <span class="sidebar-tag-name" data-tags="book">
@@ -2031,6 +2117,11 @@ print(MemoryLayout<TestEnum>.size)//实际大小:24 + 1
         <div class="sidebar-panel-categories">
     <div class="sidebar-categories-name">
     
+        <span class="sidebar-category-name" data-categories="算法">
+            <span class="iconfont-archer">&#xe60a;</span>
+            算法
+        </span>
+    
         <span class="sidebar-category-name" data-categories="源码">
             <span class="iconfont-archer">&#xe60a;</span>
             源码
@@ -2039,11 +2130,6 @@ print(MemoryLayout<TestEnum>.size)//实际大小:24 + 1
         <span class="sidebar-category-name" data-categories="Flutter">
             <span class="iconfont-archer">&#xe60a;</span>
             Flutter
-        </span>
-    
-        <span class="sidebar-category-name" data-categories="算法">
-            <span class="iconfont-archer">&#xe60a;</span>
-            算法
         </span>
     
         <span class="sidebar-category-name" data-categories="指南">

@@ -1,0 +1,1620 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <!-- title -->
+
+
+    
+
+<!-- keywords -->
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="KM">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="KM">
+    
+        <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content="">
+    <meta name="description" content="类的内存结构:  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21   typedef struct ClassMetadata {   uintptr_t Kind;   struct ClassMetadata *super;   void *data[2];   uintptr_t data2;   uint32_t Instance">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift Class 内存窥探">
+<meta property="og:url" content="https://mingriweiji-github.github.io/2022/04/15/Swift%20Class%20%E5%86%85%E5%AD%98%E7%AA%A5%E6%8E%A2/index.html">
+<meta property="og:site_name" content="KM的技术笔记">
+<meta property="og:description" content="类的内存结构:  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21   typedef struct ClassMetadata {   uintptr_t Kind;   struct ClassMetadata *super;   void *data[2];   uintptr_t data2;   uint32_t Instance">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic.imgdb.cn/item/628378dc094754312918ea0e.jpg">
+<meta property="og:image" content="https://pic.imgdb.cn/item/628361060947543129c92038.jpg">
+<meta property="og:image" content="https://pic.imgdb.cn/item/628363200947543129cfca2d.jpg">
+<meta property="og:image" content="https://pic.imgdb.cn/item/628367d10947543129dd8aab.jpg">
+<meta property="og:image" content="https://pic.imgdb.cn/item/6283b9c70947543129597955.jpg">
+<meta property="og:image" content="https://pic.imgdb.cn/item/6283ba9a09475431295e730d.jpg">
+<meta property="og:image" content="https://pic.imgdb.cn/item/6283c4a10947543129953d1b.jpg">
+<meta property="article:published_time" content="2022-04-15T03:13:45.000Z">
+<meta property="article:modified_time" content="2022-06-30T23:30:22.331Z">
+<meta property="article:author" content="KM">
+<meta property="article:tag" content="Swift">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic.imgdb.cn/item/628378dc094754312918ea0e.jpg">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="/assets/favicon.ico">
+    
+    <title>Swift Class 内存窥探 · KM的博客</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
+
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
+
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
+
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
+</script>
+
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20211217" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/css/dark.css?v=20211217" as="style">
+    <link rel="stylesheet" href="/css/dark.css">
+    <link rel="stylesheet" href="/css/mobile.css?v=20211217" media="(max-width: 960px)">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js?v=20211217" as="script">
+    <link rel="preload" href="/scripts/dark.js?v=20211217" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
+    
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<link rel="alternate" href="/atom.xml" title="KM的技术笔记" type="application/atom+xml">
+</head>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
+    
+        <body class="post-body">
+    
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        
+            <div class="header-sidebar-menu">
+        
+            
+                <div style="padding-left: 1px;">&#xe775;</div>
+            
+        </div>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- theme mode switch button -->
+        <span class="header-theme-btn header-element">
+            <i class="fas fa-adjust"></i>
+        </span>
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <a href=/>KM的博客.</a>
+        </span>
+    </div>
+    <!-- toggle banner for post layout -->
+    
+        
+            <div class="banner">
+        
+            <div class="blog-title header-element">
+                <a href="/">KM的博客.</a>
+            </div>
+            <div class="post-title header-element">
+                <a href="#" class="post-name">Swift Class 内存窥探</a>
+            </div>
+        </div>
+    
+</header>
+
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- back to top button -->
+    <div class="footer-fixed-element">
+        
+            <div class="back-top back-top-hidden">
+        
+        
+            <div>&#xe639;</div>
+        
+        </div>
+    </div>
+</footer>
+
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="
+
+
+
+
+
+
+
+    height:50vh;
+
+">
+    
+    <!-- 主页  -->
+    
+        
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+                Swift Class 内存窥探
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+                
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页 meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags="Swift">Swift</a>
+    
+</div>
+
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">3k</span>阅读时长: <span class="post-count reading-time">16 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <!-- 撰写日期 -->
+                    <span class="iconfont-archer post-intro-calander">&#xe676;</span>
+                    <span class="post-intro-time">2022/04/15</span>
+                    <!-- busuanzi -->
+                    
+                        <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                            <span class="iconfont-archer post-intro-busuanzi">&#xe602;</span>
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    
+                    <!-- 文章分享 -->
+                    <span class="share-wrapper">
+                        <span class="iconfont-archer share-icon">&#xe71d;</span>
+                        <span class="share-text">Share</span>
+                        <ul class="share-list">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+
+            <script>
+  // get user agent
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
+  }
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded')
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in')
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb() {
+    if (browser.versions.uc) {
+      console.log('UCBrowser')
+      fontLoaded()
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular'],
+        },
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
+        },
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
+        },
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
+        },
+        timeout: 5000, // Set the timeout to two seconds
+      })
+    }
+  }
+
+  function asyncErr() {
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
+  }
+
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
+
+    async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
+</script>
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <div class="container container-unloaded">
+                <main class="main post-page">
+    <article class="article-entry">
+        <p>类的内存结构:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">ClassMetadata</span> &#123;</span><br><span class="line">  <span class="type">uintptr_t</span> Kind;</span><br><span class="line">  <span class="keyword">struct</span> <span class="title class_">ClassMetadata</span> *super;</span><br><span class="line">  <span class="type">void</span> *data[<span class="number">2</span>];</span><br><span class="line">  <span class="type">uintptr_t</span> data2;</span><br><span class="line">  <span class="type">uint32_t</span> InstanceAddressPoint;</span><br><span class="line">  <span class="type">uint32_t</span> InstanceSize;</span><br><span class="line">  <span class="type">uint16_t</span> InstanceAlignMask;</span><br><span class="line">  <span class="type">uint16_t</span> Reserved;</span><br><span class="line">  <span class="type">uint32_t</span> ClassSize;</span><br><span class="line">  <span class="type">uint32_t</span> ClassAddressPoint;</span><br><span class="line">  NominalTypeDescriptor *Descriptor;</span><br><span class="line">&#125; ClassMetadata;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">NominalTypeDescriptor</span> &#123;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> kind;</span><br><span class="line">  <span class="type">const</span> <span class="type">char</span> *name;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> numFields;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> fieldOffsetVectorOffset;</span><br><span class="line">  <span class="type">const</span> <span class="type">char</span> *fieldNames;</span><br><span class="line">&#125; NominalTypeDescriptor;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="首先看一个问题"><a href="#首先看一个问题" class="headerlink" title="首先看一个问题"></a>首先看一个问题</h3><p><strong>Box类实际分配内存和实际占用内存分别是多少？ 48字节 33 字节</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Box</span> &#123;</span><br><span class="line">    <span class="comment">// metadata 8 类型信息</span></span><br><span class="line">    <span class="comment">// RefCounts 8 引用计数</span></span><br><span class="line">    <span class="keyword">var</span> width <span class="operator">=</span> <span class="number">1</span> <span class="comment">//8</span></span><br><span class="line">    <span class="keyword">var</span> height <span class="operator">=</span> <span class="number">2</span> <span class="comment">//8</span></span><br><span class="line">    <span class="keyword">var</span> isBig <span class="operator">=</span> <span class="literal">false</span> <span class="comment">// 1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 变量 size 接收类Size</span></span><br><span class="line"><span class="keyword">var</span> box <span class="operator">=</span> <span class="type">Box</span>()</span><br><span class="line"><span class="built_in">print</span>(class_getInstanceSize(<span class="built_in">type</span>(of: box))) <span class="comment">// 32 + 8 = 40</span></span><br><span class="line"><span class="built_in">print</span>(class_getInstanceSize(<span class="type">Box</span>.<span class="keyword">self</span>)) <span class="comment">// 32 + 8 = 40</span></span><br><span class="line"><span class="comment">//print(Mems.size(ofRef: box)) // 实际分配：48</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="malloc内存对齐原则"><a href="#malloc内存对齐原则" class="headerlink" title="malloc内存对齐原则"></a>malloc内存对齐原则</h3><p>原则一：所有Apple平台的 malloc函数总是 16 字节对齐。</p>
+<p>原则 二：Linux和 Windows平台在 64 位系统上是 16 字节对齐,在 32位系统上是 8 字节对齐。</p>
+<p><img src="https://pic.imgdb.cn/item/628378dc094754312918ea0e.jpg"></p>
+<h3 id="Class初始化过程分析"><a href="#Class初始化过程分析" class="headerlink" title="Class初始化过程分析"></a>Class初始化过程分析</h3><p>将 Box转成汇编sil, <code>swiftc -emit-sil main.swift &gt; main.sil</code></p>
+<p>分析sil文件, 可以看到如下代码, 是初始化方法 <code>__allocating_init</code> </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// box</span></span><br><span class="line">sil_global hidden @$s4main3boxAA3BoxCvp : $Box</span><br><span class="line"></span><br><span class="line"><span class="comment">// main</span></span><br><span class="line">sil @main : $@convention(c) (Int32, UnsafeMutablePointer&lt;Optional&lt;UnsafeMutablePointer&lt;Int8&gt;&gt;&gt;) -&gt; Int32 &#123;</span><br><span class="line">bb0(%<span class="number">0</span> : $Int32, %<span class="number">1</span> : $UnsafeMutablePointer&lt;Optional&lt;UnsafeMutablePointer&lt;Int8&gt;&gt;&gt;):</span><br><span class="line">  alloc_global @$s4main3boxAA3BoxCvp              <span class="comment">// id: %2</span></span><br><span class="line">  %<span class="number">3</span> = global_addr @$s4main3boxAA3BoxCvp : $*Box  <span class="comment">// users: %7, %14</span></span><br><span class="line">  %<span class="number">4</span> = metatype $@thick Box.Type                  <span class="comment">// user: %6</span></span><br><span class="line">  <span class="comment">// function_ref Box.__allocating_init()</span></span><br><span class="line">  %<span class="number">5</span> = function_ref @$s4main3BoxCACycfC : $@convention(method) (@thick Box.Type) -&gt; @owned Box <span class="comment">// user: %6</span></span><br><span class="line">  %<span class="number">6</span> = apply %<span class="number">5</span>(%<span class="number">4</span>) : $@convention(method) (@thick Box.Type) -&gt; @owned Box <span class="comment">// user: %7</span></span><br><span class="line">  store %<span class="number">6</span> to %<span class="number">3</span> : $*Box                          <span class="comment">// id: %7</span></span><br><span class="line">  %<span class="number">8</span> = integer_literal $Builtin.Word, <span class="number">1</span>           <span class="comment">// user: %10</span></span><br><span class="line">  <span class="comment">// function_ref _allocateUninitializedArray&lt;A&gt;(_:)</span></span><br><span class="line">  %<span class="number">9</span> = function_ref @$ss27_allocateUninitializedArrayySayxG_BptBwlF : $@convention(thin) &lt;τ_0_0&gt; (Builtin.Word) -&gt; (@owned Array&lt;τ_0_0&gt;, Builtin.RawPointer) <span class="comment">// user: %10</span></span><br><span class="line">  %<span class="number">10</span> = apply %<span class="number">9</span>&lt;Any&gt;(%<span class="number">8</span>) : $@convention(thin) &lt;τ_0_0&gt; (Builtin.Word) -&gt; (@owned Array&lt;τ_0_0&gt;, Builtin.RawPointer) <span class="comment">// users: %12, %11</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>接下来在Xcode打上符号断点 <code>__allocating_init</code>,调用的是 <code>swift_allocObject</code> 这个方法, 而如果 Human继承自NSObject, 会调用objc的 <code>objc_allocWithZone</code> 方法, 走OC的初始化流程.</p>
+<p>分析<a target="_blank" rel="noopener" href="https://link.segmentfault.com/?enc=va5b/2sdbSqVVLfarvpMzw==.bBe+9konpj+s5pQKtPATvwteoTwpOSRRsXY4o8ZkYGI=">Swift源码</a>, 搜索 <code>swift_allocObject</code>, 定位到 HeapObject.cpp 文件,发现函数<code>swift_allocObject</code>内部调用 <code>swift_slowAlloc</code>,</p>
+<p><img src="https://pic.imgdb.cn/item/628361060947543129c92038.jpg"></p>
+<p><img src="https://pic.imgdb.cn/item/628363200947543129cfca2d.jpg"></p>
+<p><code>swift_slowAlloc</code>内部调用的<code>malloc</code>或者<code>AlignedAlloc</code></p>
+<p><img src="https://pic.imgdb.cn/item/628367d10947543129dd8aab.jpg"></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">namespace swift &#123;</span><br><span class="line"></span><br><span class="line"><span class="comment">// <span class="doctag">FIXME:</span> Use C11 aligned_alloc if available.</span></span><br><span class="line">inline void <span class="operator">*</span><span class="type">AlignedAlloc</span>(size_t size, size_t align) &#123;</span><br><span class="line">  <span class="comment">// posix_memalign only accepts alignments greater than sizeof(void*).</span></span><br><span class="line">  <span class="comment">// </span></span><br><span class="line">  <span class="keyword">if</span> (align <span class="operator">&lt;</span> sizeof(void<span class="operator">*</span>))</span><br><span class="line">    align <span class="operator">=</span> sizeof(void<span class="operator">*</span>);</span><br><span class="line">  </span><br><span class="line"><span class="keyword">#if</span> defined(_WIN32)</span><br><span class="line">  void <span class="operator">*</span>r <span class="operator">=</span> _aligned_malloc(size, align);</span><br><span class="line">  <span class="built_in">assert</span>(r <span class="operator">&amp;&amp;</span> <span class="string">&quot;_aligned_malloc failed&quot;</span>);</span><br><span class="line"><span class="keyword">#else</span></span><br><span class="line">  void <span class="operator">*</span>r <span class="operator">=</span> nullptr;</span><br><span class="line">  int res <span class="operator">=</span> posix_memalign(<span class="operator">&amp;</span>r, align, size);</span><br><span class="line">  <span class="built_in">assert</span>(res <span class="operator">==</span> <span class="number">0</span> <span class="operator">&amp;&amp;</span> <span class="string">&quot;posix_memalign failed&quot;</span>);</span><br><span class="line">  (void)res; <span class="comment">// Silence the unused variable warning.</span></span><br><span class="line"><span class="keyword">#endif</span></span><br><span class="line">  <span class="keyword">return</span> r;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">inline void <span class="type">AlignedFree</span>(void <span class="operator">*</span>p) &#123;</span><br><span class="line"><span class="keyword">#if</span> defined(_WIN32)</span><br><span class="line">  _aligned_free(p);</span><br><span class="line"><span class="keyword">#else</span></span><br><span class="line">  free(p);</span><br><span class="line"><span class="keyword">#endif</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125; <span class="comment">// end namespace swift</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>综上：我们通过汇编和源代码分析得知道 Swift 对象初始化过程如下:</p>
+<blockquote>
+<p>__allocating_init -&gt; swift_allocObject -&gt; <em>swift_allocObject</em> -&gt; swift_slowAlloc -&gt; Malloc</p>
+</blockquote>
+<h3 id="Class的内存结构"><a href="#Class的内存结构" class="headerlink" title="Class的内存结构"></a>Class的内存结构</h3><p>通过上面的源码, 发现<code>__allocating_init</code>初始化方法返回的是一个 <code>HeapObject</code>类型的指针, 所以<strong>Swift对象的内存结构就是 <code>HeapObject</code>, 它有2个属性 <code>metadata</code> 和 <code>refCounts</code></strong>, 它的定义如下:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">HeapObject</span> &#123;</span></span><br><span class="line">  <span class="comment">/// This is always a valid pointer to a metadata object.</span></span><br><span class="line">  HeapMetadata <span class="type">const</span> *__ptrauth_objc_isa_pointer metadata;</span><br><span class="line">  <span class="comment">//64位的位域信息, 8字节, 引用计数;</span></span><br><span class="line">  <span class="comment">// metadata 和 refCounts 一起构成默认16字节实例对象的内存大小</span></span><br><span class="line">  SWIFT_HEAPOBJECT_NON_OBJC_MEMBERS;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>metadata是一个<code>HeapMetadata</code>类型, 本质上是 <code>TargetHeapMetadata</code>, 我们可以在源码中找到这个定义</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Runtime&gt;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">TargetHeapMetadata</span> : TargetMetadata&lt;Runtime&gt; &#123;</span><br><span class="line">  <span class="keyword">using</span> HeaderType = TargetHeapMetadataHeader&lt;Runtime&gt;;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">TargetHeapMetadata</span>() = <span class="keyword">default</span>;</span><br><span class="line">  <span class="function"><span class="keyword">constexpr</span> <span class="title">TargetHeapMetadata</span><span class="params">(MetadataKind kind)</span> <span class="comment">// 纯 Swift</span></span></span><br><span class="line"><span class="function">    : TargetMetadata&lt;Runtime&gt;(kind) &#123;</span>&#125; <span class="comment">// 传入 kind</span></span><br><span class="line">  <span class="function"><span class="keyword">constexpr</span> <span class="title">TargetHeapMetadata</span><span class="params">(TargetAnyClassMetadataObjCInterop&lt;Runtime&gt; *isa)</span> <span class="comment">// Objc交互</span></span></span><br><span class="line"><span class="function">    : TargetMetadata&lt;Runtime&gt;(isa) &#123;</span>&#125; <span class="comment">// 传入isa</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">using</span> HeapMetadata = TargetHeapMetadata&lt;InProcess&gt;;</span><br></pre></td></tr></table></figure>
+
+<p>再继续点击跳转分析 <code>TargetHeapMetadata</code> 的父类 <code>TargetMetadata</code></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">TargetMetadata</span> &#123;</span><br><span class="line">  using <span class="type">StoredPointer</span> <span class="operator">=</span> typename <span class="type">Runtime</span>::<span class="type">StoredPointer</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/// The basic header type.</span></span><br><span class="line">  typedef <span class="type">TargetTypeMetadataHeader</span>&lt;<span class="type">Runtime</span>&gt; <span class="type">HeaderType</span>;</span><br><span class="line"></span><br><span class="line">  constexpr <span class="type">TargetMetadata</span>()</span><br><span class="line">    : <span class="type">Kind</span>(static_cast<span class="operator">&lt;</span><span class="type">StoredPointer</span><span class="operator">&gt;</span>(MetadataKind::<span class="type">Class</span>)) &#123;&#125;</span><br><span class="line">  constexpr <span class="type">TargetMetadata</span>(<span class="type">MetadataKind</span> <span class="type">Kind</span>)</span><br><span class="line">    : <span class="type">Kind</span>(static_cast<span class="operator">&lt;</span><span class="type">StoredPointer</span><span class="operator">&gt;</span>(<span class="type">Kind</span>)) &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">#if</span> <span class="type">SWIFT_OBJC_INTEROP</span></span><br><span class="line">protected:</span><br><span class="line">  constexpr <span class="type">TargetMetadata</span>(<span class="type">TargetAnyClassMetadataObjCInterop</span>&lt;<span class="type">Runtime</span>&gt; <span class="operator">*</span>isa)</span><br><span class="line">    : <span class="type">Kind</span>(reinterpret_cast<span class="operator">&lt;</span><span class="type">StoredPointer</span><span class="operator">&gt;</span>(isa)) &#123;&#125;</span><br><span class="line"><span class="keyword">#endif</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">  <span class="comment">/// The kind. Only valid for non-class metadata; getKind() must be used to get</span></span><br><span class="line">  <span class="comment">/// the kind value.</span></span><br><span class="line">  <span class="type">StoredPointer</span> <span class="type">Kind</span>;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="comment">/// Get the metadata kind.</span></span><br><span class="line">  <span class="type">MetadataKind</span> getKind() const &#123;</span><br><span class="line">    <span class="keyword">return</span> getEnumeratedMetadataKind(<span class="type">Kind</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">/// Set the metadata kind.</span></span><br><span class="line">  void setKind(<span class="type">MetadataKind</span> kind) &#123;</span><br><span class="line">    <span class="type">Kind</span> <span class="operator">=</span> static_cast<span class="operator">&lt;</span><span class="type">StoredPointer</span><span class="operator">&gt;</span>(kind);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">protected:</span><br><span class="line">  const <span class="type">TargetAnyClassMetadata</span>&lt;<span class="type">Runtime</span>&gt; <span class="operator">*</span>getClassISA() const &#123;</span><br><span class="line">    <span class="keyword">return</span> reinterpret_cast<span class="operator">&lt;</span>const <span class="type">TargetAnyClassMetadata</span>&lt;<span class="type">Runtime</span>&gt; <span class="operator">*&gt;</span>(<span class="type">Kind</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  void setClassISA(const <span class="type">TargetAnyClassMetadata</span>&lt;<span class="type">Runtime</span>&gt; <span class="operator">*</span>isa) &#123;</span><br><span class="line">    <span class="type">Kind</span> <span class="operator">=</span> reinterpret_cast<span class="operator">&lt;</span><span class="type">StoredPointer</span><span class="operator">&gt;</span>(isa);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  <span class="comment">/// Is this a class object--the metadata record for a Swift class (which also</span></span><br><span class="line">  <span class="comment">/// serves as the class object), or the class object for an ObjC class (which</span></span><br><span class="line">  <span class="comment">/// is not metadata)?</span></span><br><span class="line">  bool isClassObject() const &#123;</span><br><span class="line">    <span class="keyword">return</span> static_cast<span class="operator">&lt;</span><span class="type">MetadataKind</span><span class="operator">&gt;</span>(getKind()) <span class="operator">==</span> <span class="type">MetadataKind</span>::<span class="type">Class</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">/// Does the given metadata kind represent metadata for some kind of class?</span></span><br><span class="line">  <span class="keyword">static</span> bool isAnyKindOfClass(<span class="type">MetadataKind</span> k) &#123;</span><br><span class="line">    <span class="keyword">switch</span> (k) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="type">MetadataKind</span>::<span class="type">Class</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="type">MetadataKind</span>::<span class="type">ObjCClassWrapper</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="type">MetadataKind</span>::<span class="type">ForeignClass</span>:</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">/// Is this metadata for an existential type?</span></span><br><span class="line">  bool isAnyExistentialType() const &#123;</span><br><span class="line">    <span class="keyword">switch</span> (getKind()) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="type">MetadataKind</span>::<span class="type">ExistentialMetatype</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="type">MetadataKind</span>::<span class="type">Existential</span>:</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">/// Is this either type metadata or a class object for any kind of class?</span></span><br><span class="line">  bool isAnyClass() const &#123;</span><br><span class="line">    <span class="keyword">return</span> isAnyKindOfClass(getKind());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  const <span class="type">ValueWitnessTable</span> <span class="operator">*</span>getValueWitnesses() const &#123;</span><br><span class="line">    <span class="keyword">return</span> asFullMetadata(this)-&gt;<span class="type">ValueWitnesses</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  const <span class="type">TypeLayout</span> <span class="operator">*</span>getTypeLayout() const &#123;</span><br><span class="line">    <span class="keyword">return</span> getValueWitnesses()-&gt;getTypeLayout();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  void setValueWitnesses(const <span class="type">ValueWitnessTable</span> <span class="operator">*</span>table) &#123;</span><br><span class="line">    asFullMetadata(this)-&gt;<span class="type">ValueWitnesses</span> <span class="operator">=</span> table;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// Define forwarders for value witnesses. These invoke this metadata&#x27;s value</span></span><br><span class="line">  <span class="comment">// witness table with itself as the &#x27;self&#x27; parameter.</span></span><br><span class="line">  #define <span class="type">WANT_ONLY_REQUIRED_VALUE_WITNESSES</span></span><br><span class="line">  #define <span class="type">FUNCTION_VALUE_WITNESS</span>(<span class="type">WITNESS</span>, <span class="type">UPPER</span>, <span class="type">RET_TYPE</span>, <span class="type">PARAM_TYPES</span>)    \</span><br><span class="line">    template<span class="operator">&lt;</span>typename<span class="operator">...</span><span class="type">A</span><span class="operator">&gt;</span>                                                 \</span><br><span class="line">    _ResultOf<span class="operator">&lt;</span><span class="type">ValueWitnessTypes</span>::<span class="type">WITNESS</span> ## <span class="type">Unsigned</span><span class="operator">&gt;</span>::type                            \</span><br><span class="line">    vw_##<span class="type">WITNESS</span>(<span class="type">A</span> <span class="operator">&amp;&amp;</span><span class="operator">...</span>args) const &#123;                                      \</span><br><span class="line">      <span class="keyword">return</span> getValueWitnesses()-&gt;<span class="type">WITNESS</span>(std::forward<span class="operator">&lt;</span><span class="type">A</span><span class="operator">&gt;</span>(args)<span class="operator">...</span>, this); \</span><br><span class="line">    &#125;</span><br><span class="line">  #define <span class="type">DATA_VALUE_WITNESS</span>(<span class="type">LOWER</span>, <span class="type">UPPER</span>, <span class="type">TYPE</span>)</span><br><span class="line">  #include <span class="string">&quot;swift/ABI/ValueWitness.def&quot;</span></span><br><span class="line"></span><br><span class="line">  unsigned vw_getEnumTag(const <span class="type">OpaqueValue</span> <span class="operator">*</span>value) const &#123;</span><br><span class="line">    <span class="keyword">return</span> getValueWitnesses()-&gt;_asEVWT()-&gt;getEnumTag(const_cast<span class="operator">&lt;</span><span class="type">OpaqueValue</span><span class="operator">*&gt;</span>(value), this);</span><br><span class="line">  &#125;</span><br><span class="line">  void vw_destructiveProjectEnumData(<span class="type">OpaqueValue</span> <span class="operator">*</span>value) const &#123;</span><br><span class="line">    getValueWitnesses()-&gt;_asEVWT()-&gt;destructiveProjectEnumData(value, this);</span><br><span class="line">  &#125;</span><br><span class="line">  void vw_destructiveInjectEnumTag(<span class="type">OpaqueValue</span> <span class="operator">*</span>value, unsigned tag) const &#123;</span><br><span class="line">    getValueWitnesses()-&gt;_asEVWT()-&gt;destructiveInjectEnumTag(value, tag, this);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  size_t vw_size() const &#123;</span><br><span class="line">    <span class="keyword">return</span> getValueWitnesses()-&gt;getSize();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  size_t vw_alignment() const &#123;</span><br><span class="line">    <span class="keyword">return</span> getValueWitnesses()-&gt;getAlignment();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  size_t vw_stride() const &#123;</span><br><span class="line">    <span class="keyword">return</span> getValueWitnesses()-&gt;getStride();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  unsigned vw_getNumExtraInhabitants() const &#123;</span><br><span class="line">    <span class="keyword">return</span> getValueWitnesses()-&gt;getNumExtraInhabitants();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/// Allocate an out-of-line buffer if values of this type don&#x27;t fit in the</span></span><br><span class="line">  <span class="comment">/// ValueBuffer.</span></span><br><span class="line">  <span class="comment">/// <span class="doctag">NOTE:</span> This is not a box for copy-on-write existentials.</span></span><br><span class="line">  <span class="type">OpaqueValue</span> <span class="operator">*</span>allocateBufferIn(<span class="type">ValueBuffer</span> <span class="operator">*</span>buffer) const;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/// Get the address of the memory previously allocated in the ValueBuffer.</span></span><br><span class="line">  <span class="comment">/// <span class="doctag">NOTE:</span> This is not a box for copy-on-write existentials.</span></span><br><span class="line">  <span class="type">OpaqueValue</span> <span class="operator">*</span>projectBufferFrom(<span class="type">ValueBuffer</span> <span class="operator">*</span>buffer) const;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/// Deallocate an out-of-line buffer stored in &#x27;buffer&#x27; if values of this type</span></span><br><span class="line">  <span class="comment">/// are not stored inline in the ValueBuffer.</span></span><br><span class="line">  void deallocateBufferIn(<span class="type">ValueBuffer</span> <span class="operator">*</span>buffer) const;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Allocate an out-of-line buffer box (reference counted) if values of this</span></span><br><span class="line">  <span class="comment">// type don&#x27;t fit in the ValueBuffer.</span></span><br><span class="line">  <span class="comment">// <span class="doctag">NOTE:</span> This *is* a box for copy-on-write existentials.</span></span><br><span class="line">  <span class="type">OpaqueValue</span> <span class="operator">*</span>allocateBoxForExistentialIn(<span class="type">ValueBuffer</span> <span class="operator">*</span><span class="type">Buffer</span>) const;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Deallocate an out-of-line buffer box if one is present.</span></span><br><span class="line">  void deallocateBoxForExistentialIn(<span class="type">ValueBuffer</span> <span class="operator">*</span><span class="type">Buffer</span>) const;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/// Get the nominal type descriptor if this metadata describes a nominal type,</span></span><br><span class="line">  <span class="comment">/// or return null if it does not.</span></span><br><span class="line">  <span class="type">ConstTargetMetadataPointer</span>&lt;<span class="type">Runtime</span>, <span class="type">TargetTypeContextDescriptor</span>&gt;</span><br><span class="line">  getTypeContextDescriptor() const &#123;</span><br><span class="line">    <span class="keyword">switch</span> (getKind()) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="type">MetadataKind</span>::<span class="type">Class</span>: &#123;</span><br><span class="line">      const auto cls <span class="operator">=</span></span><br><span class="line">        static_cast<span class="operator">&lt;</span>const <span class="type">TargetClassMetadataType</span>&lt;<span class="type">Runtime</span>&gt; <span class="operator">*&gt;</span>(this);</span><br><span class="line">      <span class="keyword">if</span> (<span class="operator">!</span>cls-&gt;isTypeMetadata())</span><br><span class="line">        <span class="keyword">return</span> nullptr;</span><br><span class="line">      <span class="keyword">if</span> (cls-&gt;isArtificialSubclass())</span><br><span class="line">        <span class="keyword">return</span> nullptr;</span><br><span class="line">      <span class="keyword">return</span> cls-&gt;getDescription();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">case</span> <span class="type">MetadataKind</span>::<span class="type">Struct</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="type">MetadataKind</span>::<span class="type">Enum</span>:</span><br><span class="line">    <span class="keyword">case</span> <span class="type">MetadataKind</span>::<span class="type">Optional</span>:</span><br><span class="line">      <span class="keyword">return</span> static_cast<span class="operator">&lt;</span>const <span class="type">TargetValueMetadata</span>&lt;<span class="type">Runtime</span>&gt; <span class="operator">*&gt;</span>(this)</span><br><span class="line">          -&gt;<span class="type">Description</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="type">MetadataKind</span>::<span class="type">ForeignClass</span>:</span><br><span class="line">      <span class="keyword">return</span> static_cast<span class="operator">&lt;</span>const <span class="type">TargetForeignClassMetadata</span>&lt;<span class="type">Runtime</span>&gt; <span class="operator">*&gt;</span>(this)</span><br><span class="line">          -&gt;<span class="type">Description</span>;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">      <span class="keyword">return</span> nullptr;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>TargetMetadata </code>就是最终的基类, 其中有个 <code>Kind</code> 的成员变量, 不同的 kind 有不同的固定值：</p>
+<p><img src="https://pic.imgdb.cn/item/6283b9c70947543129597955.jpg"></p>
+<p><code>TargetMetadata</code> 中根据 kind 种类强转成其它类型, 所以 这个 <strong><code>TargetMetadata</code> 就是所有元类类型的最终基类</strong>.</p>
+<p>在强转成类的时候, 强转类型是 <code>TargetClassMetadata</code>, <strong><code>TargetClassMetadata</code>是所有类的元类的基类</strong>, 点击跳转然后分析它的继承连如下:</p>
+<blockquote>
+<p>TargetClassMetadata : TargetAnyClassMetadata : TargetHeapMetadata : TargetMetadata</p>
+</blockquote>
+<p>通过分析得到关系图:</p>
+<p><img src="https://pic.imgdb.cn/item/6283ba9a09475431295e730d.jpg"></p>
+<p>所以综合继承链上的成员变量, 可以得出类的内存结构:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">ClassMetadata</span> &#123;</span><br><span class="line">  <span class="type">uintptr_t</span> Kind;</span><br><span class="line">  <span class="keyword">struct</span> <span class="title class_">ClassMetadata</span> *super;</span><br><span class="line">  <span class="type">void</span> *data[<span class="number">2</span>];</span><br><span class="line">  <span class="type">uintptr_t</span> data2;</span><br><span class="line">  <span class="type">uint32_t</span> InstanceAddressPoint;</span><br><span class="line">  <span class="type">uint32_t</span> InstanceSize;</span><br><span class="line">  <span class="type">uint16_t</span> InstanceAlignMask;</span><br><span class="line">  <span class="type">uint16_t</span> Reserved;</span><br><span class="line">  <span class="type">uint32_t</span> ClassSize;</span><br><span class="line">  <span class="type">uint32_t</span> ClassAddressPoint;</span><br><span class="line">  NominalTypeDescriptor *Descriptor;</span><br><span class="line">&#125; ClassMetadata;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> <span class="title class_">NominalTypeDescriptor</span> &#123;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> kind;</span><br><span class="line">  <span class="type">const</span> <span class="type">char</span> *name;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> numFields;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> fieldOffsetVectorOffset;</span><br><span class="line">  <span class="type">const</span> <span class="type">char</span> *fieldNames;</span><br><span class="line">&#125; NominalTypeDescriptor;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="类的描述"><a href="#类的描述" class="headerlink" title="类的描述"></a>类的描述</h3><p>根据上面的分析，的结构 TargetClassMetadata 有个属性 <code>Description</code> ：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ConstTargetMetadataPointer&lt;Runtime, TargetClassDescriptor&gt; Description;</span><br></pre></td></tr></table></figure>
+
+<p>这个 <code>TargetClassDescriptor</code> 是 Swift 类的描述 ，它有个别名 ClassDescriptor</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> ClassDescriptor = TargetClassDescriptor&lt;InProcess&gt;;</span><br></pre></td></tr></table></figure>
+
+<p>根据 ClassDescriptor 全局搜索源码, 可以定位到<code>GenMeta.cpp</code>中一个 类 <code>ClassContextDescriptorBuilder</code></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ClassContextDescriptorBuilder</span></span><br><span class="line">   : <span class="title class_">public</span> <span class="title class_">TypeContextDescriptorBuilderBase</span>&lt;<span class="title class_">ClassContextDescriptorBuilder</span>,</span><br><span class="line">                                             <span class="title class_">ClassDecl</span>&gt;,</span><br><span class="line">     <span class="title class_">public</span> <span class="title class_">SILVTableVisitor</span>&lt;<span class="title class_">ClassContextDescriptorBuilder</span>&gt;</span><br><span class="line"> &#123;</span><br><span class="line">   using <span class="keyword">super</span> <span class="operator">=</span> <span class="type">TypeContextDescriptorBuilderBase</span>;</span><br><span class="line"> </span><br><span class="line">   <span class="type">ClassDecl</span> <span class="operator">*</span>getType() &#123;</span><br><span class="line">     <span class="keyword">return</span> cast<span class="operator">&lt;</span><span class="type">ClassDecl</span><span class="operator">&gt;</span>(<span class="type">Type</span>);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">// Non-null unless the type is foreign.</span></span><br><span class="line">   <span class="type">ClassMetadataLayout</span> <span class="operator">*</span><span class="type">MetadataLayout</span> <span class="operator">=</span> nullptr;</span><br><span class="line"></span><br><span class="line">   <span class="type">Optional</span>&lt;<span class="type">TypeEntityReference</span>&gt; <span class="type">ResilientSuperClassRef</span>;</span><br><span class="line"></span><br><span class="line">   <span class="type">SILVTable</span> <span class="operator">*</span><span class="type">VTable</span>; <span class="comment">// VTable函数表</span></span><br><span class="line">   bool <span class="type">Resilient</span>;</span><br><span class="line">   bool <span class="type">HasNonoverriddenMethods</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">   <span class="type">SmallVector</span>&lt;<span class="type">SILDeclRef</span>, 8&gt; <span class="type">VTableEntries</span>;</span><br><span class="line">   <span class="type">SmallVector</span>&lt;std::pair&lt;<span class="type">SILDeclRef</span>, <span class="type">SILDeclRef</span>&gt;, <span class="number">8</span><span class="operator">&gt;</span> <span class="type">OverrideTableEntries</span>;</span><br><span class="line">   <span class="type">SmallVector</span>&lt;std::pair&lt;<span class="type">Size</span>, <span class="type">SILDeclRef</span>&gt;, <span class="number">8</span><span class="operator">&gt;</span> <span class="type">VTableEntriesForVFE</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">   void addMethod(<span class="type">SILDeclRef</span> fn) &#123;</span><br><span class="line">     <span class="keyword">if</span> (<span class="operator">!</span><span class="type">VTable</span> <span class="operator">||</span> methodRequiresReifiedVTableEntry(<span class="type">IGM</span>, <span class="type">VTable</span>, fn)) &#123;</span><br><span class="line">       <span class="type">VTableEntries</span>.push_back(fn);</span><br><span class="line">     &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">       <span class="comment">// Emit a stub method descriptor and lookup function for nonoverridden</span></span><br><span class="line">       <span class="comment">// methods so that resilient code sequences can still use them.</span></span><br><span class="line">       emitNonoverriddenMethod(fn);</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   void addMethodOverride(<span class="type">SILDeclRef</span> baseRef, <span class="type">SILDeclRef</span> declRef) &#123;</span><br><span class="line">     <span class="type">OverrideTableEntries</span>.emplace_back(baseRef, declRef);</span><br><span class="line">   &#125;</span><br><span class="line">	<span class="comment">// 内存布局赋值</span></span><br><span class="line">   void layout() &#123;</span><br><span class="line">     <span class="built_in">assert</span>(<span class="operator">!</span>getType()-&gt;isForeignReferenceType());</span><br><span class="line">     <span class="keyword">super</span>::layout();</span><br><span class="line">     addVTable(); <span class="comment">// 添加函数表</span></span><br><span class="line">     addOverrideTable();</span><br><span class="line">     addObjCResilientClassStubInfo();</span><br><span class="line">     maybeAddCanonicalMetadataPrespecializations();</span><br><span class="line">   &#125;</span><br><span class="line">	<span class="comment">// ...</span></span><br><span class="line">   </span><br><span class="line">   <span class="comment">// </span></span><br><span class="line">   void addVTable() &#123;</span><br><span class="line">     <span class="type">LLVM_DEBUG</span>(</span><br><span class="line">       llvm::dbgs() <span class="operator">&lt;&lt;</span> <span class="string">&quot;VTable entries for &quot;</span> <span class="operator">&lt;&lt;</span> getType()-&gt;getName() <span class="operator">&lt;&lt;</span> <span class="string">&quot;:<span class="subst">\n</span>&quot;</span>;</span><br><span class="line">       <span class="keyword">for</span> (auto entry : <span class="type">VTableEntries</span>) &#123;</span><br><span class="line">         llvm::dbgs() <span class="operator">&lt;&lt;</span> <span class="string">&quot;  &quot;</span>;</span><br><span class="line">         entry.print(llvm::dbgs());</span><br><span class="line">         llvm::dbgs() <span class="operator">&lt;&lt;</span> &#x27;\n&#x27;;</span><br><span class="line">       &#125;</span><br><span class="line">     );</span><br><span class="line"></span><br><span class="line">     <span class="comment">// Only emit a method lookup function if the class is resilient</span></span><br><span class="line">     <span class="comment">// and has a non-empty vtable, as well as no elided methods.</span></span><br><span class="line">     <span class="keyword">if</span> (<span class="type">IGM</span>.hasResilientMetadata(getType(), ResilienceExpansion::<span class="type">Minimal</span>)</span><br><span class="line">         <span class="operator">&amp;&amp;</span> (<span class="type">HasNonoverriddenMethods</span> <span class="operator">||</span> <span class="operator">!</span><span class="type">VTableEntries</span>.empty()))</span><br><span class="line">       <span class="type">IGM</span>.emitMethodLookupFunction(getType());</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> (<span class="type">VTableEntries</span>.empty())</span><br><span class="line">       <span class="keyword">return</span>;</span><br><span class="line">     </span><br><span class="line">     auto offset <span class="operator">=</span> <span class="type">MetadataLayout</span>-&gt;hasResilientSuperclass()</span><br><span class="line">                     <span class="operator">?</span> <span class="type">MetadataLayout</span>-&gt;getRelativeVTableOffset()</span><br><span class="line">                     : <span class="type">MetadataLayout</span>-&gt;getStaticVTableOffset();</span><br><span class="line">     <span class="type">B</span>.addInt32(offset <span class="operator">/</span> <span class="type">IGM</span>.getPointerSize());</span><br><span class="line">     <span class="type">B</span>.addInt32(<span class="type">VTableEntries</span>.size());</span><br><span class="line">     </span><br><span class="line">     <span class="keyword">for</span> (auto fn : <span class="type">VTableEntries</span>)</span><br><span class="line">       emitMethodDescriptor(fn);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   void addVTableTypeMetadata(llvm::<span class="type">GlobalVariable</span> <span class="operator">*</span><span class="keyword">var</span>) &#123;</span><br><span class="line">     <span class="keyword">if</span> (<span class="operator">!</span><span class="type">IGM</span>.getOptions().<span class="type">VirtualFunctionElimination</span>)</span><br><span class="line">       <span class="keyword">return</span>;</span><br><span class="line">     <span class="built_in">assert</span>(<span class="type">VTable</span> <span class="operator">&amp;&amp;</span> <span class="string">&quot;no vtable?!&quot;</span>);</span><br><span class="line"></span><br><span class="line">     <span class="type">IGM</span>.addVTableTypeMetadata(getType(), <span class="keyword">var</span>, <span class="type">VTableEntriesForVFE</span>);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   void emitNonoverriddenMethod(<span class="type">SILDeclRef</span> fn) &#123;</span><br><span class="line">     <span class="comment">// <span class="doctag">TODO:</span> Derivative functions do not distinguish themselves in the mangled</span></span><br><span class="line">     <span class="comment">// names of method descriptor symbols yet, causing symbol name collisions.</span></span><br><span class="line">     <span class="keyword">if</span> (fn.getDerivativeFunctionIdentifier())</span><br><span class="line">       <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="type">HasNonoverriddenMethods</span> <span class="operator">=</span> <span class="literal">true</span>;</span><br><span class="line">     <span class="comment">// Although this method is non-overridden and therefore left out of the</span></span><br><span class="line">     <span class="comment">// vtable, we still need to maintain the ABI of a potentially-overridden</span></span><br><span class="line">     <span class="comment">// method for external clients.</span></span><br><span class="line">     </span><br><span class="line">     <span class="comment">// Emit method dispatch thunk.</span></span><br><span class="line">    <span class="keyword">if</span> (hasPublicVisibility(fn.getLinkage(<span class="type">NotForDefinition</span>)) <span class="operator">||</span></span><br><span class="line">        <span class="type">IGM</span>.getOptions().<span class="type">VirtualFunctionElimination</span>) &#123;</span><br><span class="line">      <span class="type">IGM</span>.emitDispatchThunk(fn);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> (<span class="type">IGM</span>.getOptions().<span class="type">VirtualFunctionElimination</span>) &#123;</span><br><span class="line">       auto offset <span class="operator">=</span> <span class="type">B</span>.getNextOffsetFromGlobal() <span class="operator">+</span></span><br><span class="line">                     <span class="comment">// 1st field of MethodDescriptorStructTy</span></span><br><span class="line">                     <span class="type">Size</span>(<span class="type">IGM</span>.<span class="type">DataLayout</span>.getTypeAllocSize(<span class="type">IGM</span>.<span class="type">Int32Ty</span>));</span><br><span class="line">       <span class="type">VTableEntriesForVFE</span>.push_back(std::pair<span class="operator">&lt;</span><span class="type">Size</span>, <span class="type">SILDeclRef</span><span class="operator">&gt;</span>(offset, fn));</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="comment">// Emit a freestanding method descriptor structure. This doesn&#x27;t have to</span></span><br><span class="line">     <span class="comment">// exist in the table in the class&#x27;s context descriptor since it isn&#x27;t</span></span><br><span class="line">     <span class="comment">// in the vtable, but external clients need to be able to link against the</span></span><br><span class="line">     <span class="comment">// symbol.</span></span><br><span class="line">     <span class="type">IGM</span>.emitNonoverriddenMethodDescriptor(<span class="type">VTable</span>, fn);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   void addOverrideTable() &#123;</span><br><span class="line">     <span class="type">LLVM_DEBUG</span>(</span><br><span class="line">       llvm::dbgs() <span class="operator">&lt;&lt;</span> <span class="string">&quot;Override Table entries for &quot;</span> <span class="operator">&lt;&lt;</span> getType()-&gt;getName() <span class="operator">&lt;&lt;</span> <span class="string">&quot;:<span class="subst">\n</span>&quot;</span>;</span><br><span class="line">       <span class="keyword">for</span> (auto entry : <span class="type">OverrideTableEntries</span>) &#123;</span><br><span class="line">         llvm::dbgs() <span class="operator">&lt;&lt;</span> <span class="string">&quot;  &quot;</span>;</span><br><span class="line">         entry.first.print(llvm::dbgs());</span><br><span class="line">         llvm::dbgs() <span class="operator">&lt;&lt;</span> <span class="string">&quot; -&gt; &quot;</span>;</span><br><span class="line">         entry.second.print(llvm::dbgs());</span><br><span class="line">         llvm::dbgs() <span class="operator">&lt;&lt;</span> &#x27;\n&#x27;;</span><br><span class="line">       &#125;</span><br><span class="line">     );</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> (<span class="type">OverrideTableEntries</span>.empty())</span><br><span class="line">       <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">     <span class="type">B</span>.addInt32(<span class="type">OverrideTableEntries</span>.size());</span><br><span class="line"></span><br><span class="line">     <span class="keyword">for</span> (auto pair : <span class="type">OverrideTableEntries</span>)</span><br><span class="line">       emitMethodOverrideDescriptor(pair.first, pair.second);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   void emitMethodOverrideDescriptor(<span class="type">SILDeclRef</span> baseRef, <span class="type">SILDeclRef</span> declRef) &#123;</span><br><span class="line">     <span class="keyword">if</span> (<span class="type">IGM</span>.getOptions().<span class="type">VirtualFunctionElimination</span>) &#123;</span><br><span class="line">       auto offset <span class="operator">=</span></span><br><span class="line">           <span class="type">B</span>.getNextOffsetFromGlobal() <span class="operator">+</span></span><br><span class="line">           <span class="comment">// 1st field of MethodOverrideDescriptorStructTy</span></span><br><span class="line">           <span class="type">Size</span>(<span class="type">IGM</span>.<span class="type">DataLayout</span>.getTypeAllocSize(<span class="type">IGM</span>.<span class="type">RelativeAddressTy</span>)) <span class="operator">+</span></span><br><span class="line">           <span class="comment">// 2nd field of MethodOverrideDescriptorStructTy</span></span><br><span class="line">           <span class="type">Size</span>(<span class="type">IGM</span>.<span class="type">DataLayout</span>.getTypeAllocSize(<span class="type">IGM</span>.<span class="type">RelativeAddressTy</span>));</span><br><span class="line">       <span class="type">VTableEntriesForVFE</span>.push_back(</span><br><span class="line">           std::pair<span class="operator">&lt;</span><span class="type">Size</span>, <span class="type">SILDeclRef</span><span class="operator">&gt;</span>(offset, baseRef));</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     auto descriptor <span class="operator">=</span> <span class="type">B</span>.beginStruct(<span class="type">IGM</span>.<span class="type">MethodOverrideDescriptorStructTy</span>);</span><br><span class="line"></span><br><span class="line">     <span class="comment">// The class containing the base method.</span></span><br><span class="line">     auto <span class="operator">*</span>baseClass <span class="operator">=</span> cast<span class="operator">&lt;</span><span class="type">ClassDecl</span><span class="operator">&gt;</span>(baseRef.getDecl()-&gt;getDeclContext());</span><br><span class="line">     <span class="type">IGM</span>.<span class="type">IRGen</span>.noteUseOfTypeContextDescriptor(baseClass, <span class="type">DontRequireMetadata</span>);</span><br><span class="line">     auto baseClassEntity <span class="operator">=</span> <span class="type">LinkEntity</span>::forNominalTypeDescriptor(baseClass);</span><br><span class="line">     auto baseClassDescriptor <span class="operator">=</span></span><br><span class="line">       <span class="type">IGM</span>.getAddrOfLLVMVariableOrGOTEquivalent(baseClassEntity);</span><br><span class="line">     descriptor.addRelativeAddress(baseClassDescriptor);</span><br><span class="line"></span><br><span class="line">     <span class="comment">// The base method.</span></span><br><span class="line">     auto baseMethodEntity <span class="operator">=</span> <span class="type">LinkEntity</span>::forMethodDescriptor(baseRef);</span><br><span class="line">     auto baseMethodDescriptor <span class="operator">=</span></span><br><span class="line">       <span class="type">IGM</span>.getAddrOfLLVMVariableOrGOTEquivalent(baseMethodEntity);</span><br><span class="line">     descriptor.addRelativeAddress(baseMethodDescriptor);</span><br><span class="line"></span><br><span class="line">     <span class="comment">// The implementation of the override.</span></span><br><span class="line">     <span class="keyword">if</span> (auto entry <span class="operator">=</span> <span class="type">VTable</span>-&gt;getEntry(<span class="type">IGM</span>.getSILModule(), baseRef)) &#123;</span><br><span class="line">       <span class="built_in">assert</span>(entry-&gt;getKind() <span class="operator">==</span> SILVTable::Entry::Kind::<span class="type">Override</span>);</span><br><span class="line"></span><br><span class="line">       auto <span class="operator">*</span>impl <span class="operator">=</span> entry-&gt;getImplementation();</span><br><span class="line">       <span class="keyword">if</span> (impl-&gt;isAsync()) &#123;</span><br><span class="line">         llvm::<span class="type">Constant</span> <span class="operator">*</span>implFn <span class="operator">=</span> <span class="type">IGM</span>.getAddrOfAsyncFunctionPointer(impl);</span><br><span class="line">         descriptor.addRelativeAddress(implFn);</span><br><span class="line">       &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">         llvm::<span class="type">Function</span> <span class="operator">*</span>implFn <span class="operator">=</span> <span class="type">IGM</span>.getAddrOfSILFunction(impl, <span class="type">NotForDefinition</span>);</span><br><span class="line">         descriptor.addCompactFunctionReference(implFn);</span><br><span class="line">       &#125;</span><br><span class="line">     &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">       <span class="comment">// The method is removed by dead method elimination.</span></span><br><span class="line">       <span class="comment">// It should be never called. We add a pointer to an error function.</span></span><br><span class="line">       descriptor.addRelativeAddressOrNull(nullptr);</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     descriptor.finishAndAddTo(<span class="type">B</span>);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   void addPlaceholder(<span class="type">MissingMemberDecl</span> <span class="operator">*</span><span class="type">MMD</span>) &#123;</span><br><span class="line">     llvm_unreachable(<span class="string">&quot;cannot generate metadata with placeholders in it&quot;</span>);</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   void addLayoutInfo() &#123;</span><br><span class="line"></span><br><span class="line">     <span class="comment">// TargetRelativeDirectPointer&lt;Runtime, const char&gt; SuperclassType;</span></span><br><span class="line">     <span class="keyword">if</span> (auto superclassType <span class="operator">=</span> getSuperclassForMetadata(<span class="type">IGM</span>, getType())) &#123;</span><br><span class="line">       <span class="type">GenericSignature</span> genericSig <span class="operator">=</span> getType()-&gt;getGenericSignature();</span><br><span class="line">       <span class="type">B</span>.addRelativeAddress(<span class="type">IGM</span>.getTypeRef(superclassType, genericSig,</span><br><span class="line">                                           MangledTypeRefRole::<span class="type">Metadata</span>)</span><br><span class="line">                              .first);</span><br><span class="line">     &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">       <span class="type">B</span>.addInt32(<span class="number">0</span>);</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="comment">// union &#123;</span></span><br><span class="line">     <span class="comment">//   uint32_t MetadataNegativeSizeInWords;</span></span><br><span class="line">     <span class="comment">//   RelativeDirectPointer&lt;StoredClassMetadataBounds&gt;</span></span><br><span class="line">     <span class="comment">//     ResilientMetadataBounds;</span></span><br><span class="line">     <span class="comment">// &#125;;</span></span><br><span class="line">     <span class="keyword">if</span> (<span class="operator">!</span><span class="type">MetadataLayout</span>) &#123;</span><br><span class="line">       <span class="comment">// <span class="doctag">FIXME:</span> do something meaningful for foreign classes?</span></span><br><span class="line">       <span class="type">B</span>.addInt32(<span class="number">0</span>);</span><br><span class="line">     &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="operator">!</span><span class="type">MetadataLayout</span>-&gt;hasResilientSuperclass()) &#123;</span><br><span class="line">       <span class="type">B</span>.addInt32(<span class="type">MetadataLayout</span>-&gt;getSize().<span class="type">AddressPoint</span></span><br><span class="line">                    <span class="operator">/</span> <span class="type">IGM</span>.getPointerSize());</span><br><span class="line">     &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">       <span class="type">B</span>.addRelativeAddress(</span><br><span class="line">         <span class="type">IGM</span>.getAddrOfClassMetadataBounds(getType(), <span class="type">NotForDefinition</span>));</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="comment">// union &#123;</span></span><br><span class="line">     <span class="comment">//   uint32_t MetadataPositiveSizeInWords;</span></span><br><span class="line">     <span class="comment">//   ExtraClassContextFlags ExtraClassFlags;</span></span><br><span class="line">     <span class="comment">// &#125;;</span></span><br><span class="line">     <span class="keyword">if</span> (<span class="operator">!</span><span class="type">MetadataLayout</span>) &#123;</span><br><span class="line">       <span class="comment">// <span class="doctag">FIXME:</span> do something meaningful for foreign classes?</span></span><br><span class="line">       <span class="type">B</span>.addInt32(<span class="number">0</span>);</span><br><span class="line">     &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="operator">!</span><span class="type">MetadataLayout</span>-&gt;hasResilientSuperclass()) &#123;</span><br><span class="line">       <span class="type">B</span>.addInt32(<span class="type">MetadataLayout</span>-&gt;getSize().getOffsetToEnd()</span><br><span class="line">                    <span class="operator">/</span> <span class="type">IGM</span>.getPointerSize());</span><br><span class="line">     &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">       <span class="type">ExtraClassDescriptorFlags</span> flags;</span><br><span class="line">       <span class="keyword">if</span> (<span class="type">IGM</span>.hasObjCResilientClassStub(getType()))</span><br><span class="line">         flags.setObjCResilientClassStub(<span class="literal">true</span>);</span><br><span class="line">       <span class="type">B</span>.addInt32(flags.getOpaqueValue());</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="comment">// uint32_t NumImmediateMembers;</span></span><br><span class="line">     auto numImmediateMembers <span class="operator">=</span></span><br><span class="line">       (<span class="type">MetadataLayout</span> <span class="operator">?</span> <span class="type">MetadataLayout</span>-&gt;getNumImmediateMembers() : <span class="number">0</span>);</span><br><span class="line">     <span class="type">B</span>.addInt32(numImmediateMembers);</span><br><span class="line"></span><br><span class="line">     <span class="comment">// uint32_t NumFields;</span></span><br><span class="line">     <span class="type">B</span>.addInt32(getNumFields(getType()));</span><br><span class="line"></span><br><span class="line">     <span class="comment">// uint32_t FieldOffsetVectorOffset;</span></span><br><span class="line">     <span class="type">B</span>.addInt32(getFieldVectorOffset() <span class="operator">/</span> <span class="type">IGM</span>.getPointerSize());</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   void addObjCResilientClassStubInfo() &#123;</span><br><span class="line">     <span class="keyword">if</span> (<span class="type">IGM</span>.getClassMetadataStrategy(getType()) <span class="operator">!=</span></span><br><span class="line">           ClassMetadataStrategy::<span class="type">Resilient</span>)</span><br><span class="line">       <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span> (<span class="operator">!</span><span class="type">IGM</span>.hasObjCResilientClassStub(getType()))</span><br><span class="line">       <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">     <span class="type">B</span>.addRelativeAddress(</span><br><span class="line">       <span class="type">IGM</span>.getAddrOfObjCResilientClassStub(</span><br><span class="line">         getType(), <span class="type">NotForDefinition</span>,</span><br><span class="line">         TypeMetadataAddress::<span class="type">AddressPoint</span>));</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   void addCanonicalMetadataPrespecializations() &#123;</span><br><span class="line">     <span class="keyword">super</span>::addCanonicalMetadataPrespecializations();</span><br><span class="line">     auto specializations <span class="operator">=</span> <span class="type">IGM</span>.<span class="type">IRGen</span>.metadataPrespecializationsForType(<span class="type">Type</span>);</span><br><span class="line">     <span class="keyword">for</span> (auto pair : specializations) &#123;</span><br><span class="line">       <span class="keyword">if</span> (pair.second <span class="operator">!=</span> TypeMetadataCanonicality::<span class="type">Canonical</span>) &#123;</span><br><span class="line">         <span class="keyword">continue</span>;</span><br><span class="line">       &#125;</span><br><span class="line">       auto specialization <span class="operator">=</span> pair.first;</span><br><span class="line">       auto <span class="operator">*</span>function <span class="operator">=</span> <span class="type">IGM</span>.getAddrOfCanonicalSpecializedGenericTypeMetadataAccessFunction(specialization, <span class="type">NotForDefinition</span>);</span><br><span class="line">       <span class="type">B</span>.addCompactFunctionReference(function);</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;;</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+
+
+
+<p>在进行内存布局的赋值操作时, 会调用父类的方法，然后就去调用 <code>addVTable()</code> 方法添加<code>vtable</code>。 再结合继承连，可以分析出 <code>TargetClassDescriptor</code> 的内存结构：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">TargetClassDescriptor</span> &#123; </span><br><span class="line">      var flags: UInt32 </span><br><span class="line">      var parent: UInt32 </span><br><span class="line">      var name: Int32 <span class="comment">// 类/结构体/枚举 的名称</span></span><br><span class="line">      var accessFunctionPointer: Int32 </span><br><span class="line">      var fieldDescriptor: FieldDescriptor <span class="comment">// 属性的描述，属性信息存在这里</span></span><br><span class="line">      var superClassType: Int32 </span><br><span class="line">      var metadataNegativeSizeInWords: UInt32 </span><br><span class="line">      var metadataPositiveSizeInWords: UInt32 </span><br><span class="line">      var numImmediateMembers: UInt32 </span><br><span class="line">      var numFields: UInt32 </span><br><span class="line">      var fieldOffsetVectorOffset: UInt32 </span><br><span class="line">      var Offset: UInt32 <span class="comment">// 偏移量</span></span><br><span class="line">      var size: UInt32   <span class="comment">// V-Table的size大小</span></span><br><span class="line">      var vtable: Array  <span class="comment">// 数组V-Table, 函数表</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="方法的描述"><a href="#方法的描述" class="headerlink" title="方法的描述"></a>方法的描述</h3><p>函数表 vtable 中存储着的是方法描述 <code>TargetMethodDescriptor</code>。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">TargetMethodDescriptor</span> &#123;</span><br><span class="line">  <span class="comment">// 4字节, 标识方法的种类, 初始化/getter/setter等等</span></span><br><span class="line">  MethodDescriptorFlags Flags; </span><br><span class="line"></span><br><span class="line">  <span class="comment">/// Impl方法实现.</span></span><br><span class="line">  <span class="keyword">union</span> &#123;</span><br><span class="line">    TargetCompactFunctionPointer&lt;Runtime, <span class="type">void</span>&gt; Impl;</span><br><span class="line">    TargetRelativeDirectPointer&lt;Runtime, <span class="type">void</span>&gt; AsyncImpl;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><code>TargetMethodDescriptor</code> 是对方法的描述；</p>
+<p>Flags 表示方法的种类，占据 4 个字节；</p>
+<p>Impl 里面并不是真正的方法imp，而是一个相对偏移量；</p>
+<h3 id="VTableSize"><a href="#VTableSize" class="headerlink" title="VTableSize"></a>VTableSize</h3><p><img src="https://pic.imgdb.cn/item/6283c4a10947543129953d1b.jpg"></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a target="_blank" rel="noopener" href="https://github.dev/apple/swift">Swift 源码</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.dev/apple/swift/stdlib/public/runtime/Heap.cpp">Swift 源码Heap.cpp</a></p>
+
+    </article>
+    <!-- license -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://mingriweiji-github.github.io">KM</a>
+            <p>原文链接：<a href="https://mingriweiji-github.github.io/2022/04/15/Swift%20Class%20%E5%86%85%E5%AD%98%E7%AA%A5%E6%8E%A2/">https://mingriweiji-github.github.io/2022/04/15/Swift%20Class%20%E5%86%85%E5%AD%98%E7%AA%A5%E6%8E%A2/</a>
+            <p>发表日期：<a href="https://mingriweiji-github.github.io/2022/04/15/Swift%20Class%20%E5%86%85%E5%AD%98%E7%AA%A5%E6%8E%A2/">四月 15日 2022, 11:13:45 上午</a>
+            <p>更新日期：<a href="https://mingriweiji-github.github.io/2022/04/15/Swift%20Class%20%E5%86%85%E5%AD%98%E7%AA%A5%E6%8E%A2/">七月 1日 2022, 7:30:22 早上</a>
+            <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href="/2022/05/12/Flutter%E6%AD%A3%E5%BC%8F%E5%8F%91%E5%B8%833.0/" title="Flutter正式发布3.0">
+                    <div class="nextTitle">Flutter正式发布3.0</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/2022/03/30/Swift%E5%80%BC%E7%B1%BB%E5%9E%8B%E5%86%85%E5%AD%98%E6%8E%A2%E7%A9%B6/" title="Swift值类型内存探究">
+                    <div class="prevTitle">Swift值类型内存探究</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- comment -->
+    
+        <div class="post-comment">
+            <!-- 来必力 City 版安装代码 -->
+
+
+            
+
+            
+
+            
+
+            <!-- utteranc评论 -->
+
+
+            <!-- partial('_partial/comment/changyan') -->
+            <!--PC版-->
+
+
+            
+            
+
+            
+
+        </div>
+    
+    <!-- timeliness note -->
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    
+    <!-- Mathjax -->
+    
+        
+
+    
+</main>
+
+                <!-- profile -->
+                
+            </div>
+            <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+        <div class="social">
+            
+    
+        
+    
+        
+            
+                <a href="https://github.com/Mingriweiji-github" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+
+        </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- website approve for Chinese user -->
+    
+    <!-- 不蒜子  -->
+    
+        <div class="busuanzi-container">
+            
+             
+                <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+            
+        </div>
+    	
+</footer>
+
+        </div>
+        <!-- toc -->
+        
+            <div class="toc-wrapper toc-wrapper-loding" style=
+
+
+
+
+
+
+
+    top:50vh;
+
+>
+                <div class="toc-catalog">
+                    <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A6%96%E5%85%88%E7%9C%8B%E4%B8%80%E4%B8%AA%E9%97%AE%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">首先看一个问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#malloc%E5%86%85%E5%AD%98%E5%AF%B9%E9%BD%90%E5%8E%9F%E5%88%99"><span class="toc-number">2.</span> <span class="toc-text">malloc内存对齐原则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Class%E5%88%9D%E5%A7%8B%E5%8C%96%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90"><span class="toc-number">3.</span> <span class="toc-text">Class初始化过程分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Class%E7%9A%84%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84"><span class="toc-number">4.</span> <span class="toc-text">Class的内存结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E7%9A%84%E6%8F%8F%E8%BF%B0"><span class="toc-number">5.</span> <span class="toc-text">类的描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E7%9A%84%E6%8F%8F%E8%BF%B0"><span class="toc-number">6.</span> <span class="toc-text">方法的描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VTableSize"><span class="toc-number">7.</span> <span class="toc-text">VTableSize</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">8.</span> <span class="toc-text">参考</span></a></li></ol>
+            </div>
+        
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 35
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+        
+            
+            
+            <div class="archive-year"> 2022 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/12</span>
+            <a class="archive-post-title" href="/2022/05/12/Flutter%E6%AD%A3%E5%BC%8F%E5%8F%91%E5%B8%833.0/">Flutter正式发布3.0</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/15</span>
+            <a class="archive-post-title" href="/2022/04/15/Swift%20Class%20%E5%86%85%E5%AD%98%E7%AA%A5%E6%8E%A2/">Swift Class 内存窥探</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/30</span>
+            <a class="archive-post-title" href="/2022/03/30/Swift%E5%80%BC%E7%B1%BB%E5%9E%8B%E5%86%85%E5%AD%98%E6%8E%A2%E7%A9%B6/">Swift值类型内存探究</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/25</span>
+            <a class="archive-post-title" href="/2022/03/25/Swift%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80%E5%88%9D%E6%8E%A2/">Swift内存布局初探</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/10</span>
+            <a class="archive-post-title" href="/2022/03/10/%E8%B0%B7%E6%AD%8C%E7%9A%84%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/">谷歌的软件工程</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/10</span>
+            <a class="archive-post-title" href="/2022/01/10/%E5%A6%82%E4%BD%95%E8%BF%9B%E8%A1%8C%E4%BB%A3%E7%A0%81%E8%AF%84%E5%AE%A1/">如何进行代码评审</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2021 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/15</span>
+            <a class="archive-post-title" href="/2021/10/15/Flutter%20%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86/">Flutter 核心原理</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/20</span>
+            <a class="archive-post-title" href="/2021/09/20/Flutter%20%E5%AE%9E%E6%88%98%E8%AE%B0%E5%BD%95/">Flutter 实战记录</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/15</span>
+            <a class="archive-post-title" href="/2021/06/15/Flutter%20%E8%B5%84%E6%BA%90/">Flutter 资源</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/15</span>
+            <a class="archive-post-title" href="/2021/03/15/Flutter%20Widget/">Flutter Widget</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/2021/01/15/Flutter%20Dart%E5%9F%BA%E7%A1%80/">Flutter Dar基础</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2020 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span>
+            <a class="archive-post-title" href="/2020/06/30/URLProtocol%E6%BA%90%E7%A0%81/">URLProtocol源码</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span>
+            <a class="archive-post-title" href="/2020/06/30/Alamfire%E6%BA%90%E7%A0%81/">Alamfire源码</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/30</span>
+            <a class="archive-post-title" href="/2020/06/30/Kingfisher%E6%BA%90%E7%A0%81/">Kingfisher源码</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/20</span>
+            <a class="archive-post-title" href="/2020/06/20/Swift%E5%AD%97%E7%AC%A6%E4%B8%B2/">Swift字符串</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span>
+            <a class="archive-post-title" href="/2020/04/18/Swift%E6%A0%87%E5%87%86%E5%BA%93%E6%BA%90%E7%A0%81/">Swift标准库源码</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span>
+            <a class="archive-post-title" href="/2020/04/18/Swift%E9%9B%86%E5%90%88%E6%BA%90%E7%A0%81/">Swift集合源码</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/20</span>
+            <a class="archive-post-title" href="/2020/02/20/Swift%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/">Swift函数式编程</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/20</span>
+            <a class="archive-post-title" href="/2020/01/20/LookinLoader%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8/">LookinLoader安装使用</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/2020/01/15/Dyld%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB/">Dyld源码阅读</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/15</span>
+            <a class="archive-post-title" href="/2020/01/15/iOS%E8%B6%8A%E7%8B%B1%E5%88%9D%E4%BD%93%E9%AA%8C/">iOS越狱初体验</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2019 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/22</span>
+            <a class="archive-post-title" href="/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%AE%9E%E6%88%98100%E9%81%93/">算法实战</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/22</span>
+            <a class="archive-post-title" href="/2019/06/22/2020%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/">算法基础</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/22</span>
+            <a class="archive-post-title" href="/2019/06/22/2020%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构思想</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/08</span>
+            <a class="archive-post-title" href="/2019/06/08/%E7%BA%A2%E9%BB%91%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">红黑树前世今生</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/06</span>
+            <a class="archive-post-title" href="/2019/06/06/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E4%B8%96%E4%BB%8A%E7%94%9F/">二叉树今生</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2018 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/02</span>
+            <a class="archive-post-title" href="/2018/12/02/iOS%E6%B1%87%E7%BC%96%E5%9F%BA%E7%A1%80/">iOS汇编基础</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/01</span>
+            <a class="archive-post-title" href="/2018/12/01/iOS%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">iOS图像优化技巧</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/02</span>
+            <a class="archive-post-title" href="/2018/06/02/Hexo%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">Hexo使用指南</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/01</span>
+            <a class="archive-post-title" href="/2018/06/01/iOS%E5%A4%9A%E7%BA%BF%E7%A8%8B/">iOS多线程</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/01</span>
+            <a class="archive-post-title" href="/2018/06/01/Runloop/">Runloop</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/18</span>
+            <a class="archive-post-title" href="/2018/02/18/Swift%E5%A4%87%E5%BF%98%E5%BD%95/">Swift备忘录</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span>
+            <a class="archive-post-title" href="/2018/01/01/%E6%8E%92%E5%BA%8F%E9%97%AE%E9%A2%98/">排序问题</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span>
+            <a class="archive-post-title" href="/2018/01/01/%E5%8F%8D%E8%BD%AC%E9%97%AE%E9%A2%98/">反转问题</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/01</span>
+            <a class="archive-post-title" href="/2018/01/01/%E8%80%81%E9%BC%A0%E6%AF%92%E8%8D%AF%E9%97%AE%E9%A2%98/">老鼠毒药问题</a>
+        </li>
+    
+    </div>
+</div>
+
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+        
+            <span class="sidebar-tag-name" data-tags="java">
+                <span class="iconfont-archer">&#xe606;</span>
+                java
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="算法">
+                <span class="iconfont-archer">&#xe606;</span>
+                算法
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="iOS">
+                <span class="iconfont-archer">&#xe606;</span>
+                iOS
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Swift专题">
+                <span class="iconfont-archer">&#xe606;</span>
+                Swift专题
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Flutter">
+                <span class="iconfont-archer">&#xe606;</span>
+                Flutter
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="开发工具">
+                <span class="iconfont-archer">&#xe606;</span>
+                开发工具
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="Swift">
+                <span class="iconfont-archer">&#xe606;</span>
+                Swift
+            </span>
+        
+            <span class="sidebar-tag-name" data-tags="book">
+                <span class="iconfont-archer">&#xe606;</span>
+                book
+            </span>
+        
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+        <span class="sidebar-category-name" data-categories="算法">
+            <span class="iconfont-archer">&#xe60a;</span>
+            算法
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="源码">
+            <span class="iconfont-archer">&#xe60a;</span>
+            源码
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="Flutter">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Flutter
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="指南">
+            <span class="iconfont-archer">&#xe60a;</span>
+            指南
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="Swift">
+            <span class="iconfont-archer">&#xe60a;</span>
+            Swift
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="图像">
+            <span class="iconfont-archer">&#xe60a;</span>
+            图像
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="逆向">
+            <span class="iconfont-archer">&#xe60a;</span>
+            逆向
+        </span>
+    
+        <span class="sidebar-category-name" data-categories="book">
+            <span class="iconfont-archer">&#xe60a;</span>
+            book
+        </span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+
+    </div>
+</div>
+
+        <!-- site-meta -->
+        <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
+    }
+    var siteMeta = {
+        url: "https://mingriweiji-github.github.io",
+        root: siteMetaRoot,
+        author: "KM"
+    }
+</script>
+
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
+
+
+        <!-- main func -->
+        <script src="/scripts/main.js?v=20211217"></script>
+        <!-- dark mode -->
+        <script src="/scripts/dark.js?v=20211217"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <!-- algolia -->
+        
+        <!-- busuanzi -->
+        
+            <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+        
+        <!-- CNZZ -->
+        
+        <!-- async load share.js -->
+        
+            <script src="/scripts/share.js?v=20211217" async></script>
+        
+        <!-- mermaid -->
+        
+    </body>
+</html>
